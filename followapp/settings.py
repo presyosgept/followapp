@@ -27,7 +27,7 @@ SECRET_KEY = '7*nv+#e#^$qoa4gpu(w(*_9$fx*k8(_gv$l757q9d3@#r4y2so'
 DEBUG = False
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['followapp-server.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['followapp-server.herokuapp.com']
 
 # Application definition
 
