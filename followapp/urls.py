@@ -84,6 +84,7 @@ from counselling.views import(
 
     studentsList,
     CounselorList,
+    specificCounselor,
 )
 
 
@@ -91,6 +92,8 @@ urlpatterns = [
 
     path('student_api/', studentsList.as_view()),
     path('counselor_api/', CounselorList.as_view()),
+    path('specificcounselor_api/<str:name>', specificCounselor.as_view()),
+    
 
 
 
