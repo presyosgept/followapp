@@ -41,8 +41,8 @@ class studentsList(APIView):
         return Response({'students':serializer.data})
 
 class CounselorList(APIView):
-    def get(self, request):
-        couns = Counselor.objects.all()
+    def get(self, request, name):
+        couns = Counselor.objects.filter(lastname = name)
         serializer=counselorSerializers(couns, many=True)
         return Response({'counselors':serializer.data})
 
