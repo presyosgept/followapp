@@ -1,0 +1,34 @@
+{% extends "student/student_home.html" %}
+{% block title %} 
+Notifications
+{% endblock %} 
+{% block content %}
+    <div >
+        <h1 >Notifications</h1>
+
+        {% if not notifications %}
+            No notifications yet!
+        {% endif %}
+
+        {% for notification in notifications reversed %}
+   
+            <div class = 'notifCard'>
+                
+                <p>
+                    {% if notification.notification_type == 'automatic_referral' %}
+                        <a href="{% url 'student_notif_detail' notification.extra_id %}">
+                            <strong>{{ notification.created_by.username }}</strong> automatik referral<br>
+                            <small>{{ notification.created_at|timesince }} ago</small>
+                             </a>
+                       
+                    {% elif notification.notification_type == 'manual_referral' %}
+                        <a href="{% url 'student_notif_detail' notification.extra_id %}">
+                             manual referral<br>
+                            <small>{{ notification.created_at|timesince }} ago</small>
+                        </a>
+                    {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

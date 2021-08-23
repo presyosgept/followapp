@@ -1,0 +1,34 @@
+{% extends "teacher/teacher_home.html" %}
+{% block title %} Refer Student {% endblock %}
+{% block content %}
+
+<form class="Referal" method="POST" action="new">
+    {% csrf_token %}
+    <!-- SEARCH BAR NI -->
+    <div class="input">
+      <h1 style="font-weight: bold;">REFFER A STUDENT</h1>
+      <form action="/action_page.php">
+        
+<label>Input Student ID:</label> 
+<input type="text" name="studnumber" maxlength="30" value=""/>
+<br>
+<label>First Name:</label>
+<input type="text" name="firstname" maxlength="30" value="" />
+<br>
+<label>Last name:</label> 
+<input type="text" name="lastname" maxlength="30" value="" />
+<br>
+<label>Input Degree Program:</label> 
+<input type="text" name="degree_program" maxlength="30" value="" />
+<br>
+<label>Input Subject Referred:</label> 
+<input type="text" name="subject_referred" maxlength="30" value="" />
+<br>
+<label>Reasons for Referral:</label> 
+<textarea id="" name="reasons"></textarea>
+<br> 
+</form>
+      <button class="btn success" style="font-weight: bold;">Submit</button>
+ <br>
+      
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "student/student_home.html" %}
+
+{% block title %} 
+Notification_Detail
+{% endblock %} 
+
+{% block content %} 
+
+
+    {% for object in object %}
+        <br>
+   
+      
+        <caption><h3><b>Full Details</b></h3><caption></caption>
+        <div class="detailsCard">
+  <br>
+    <table style="width:90%">
+  <tr>
+    <th style="width:50%">Subject</th>
+    <td>{{object.subject_referred}}</td>
+  </tr>
+   <tr>
+    <th style="width:50%">Reasons</th>
+    <td>{{object.reasons}}</td>
+  </tr>
+    <tr>
+    <th style="width:50%">Date</th>
+    <td>{{object.date}}</td>
+  </tr>
+</table>
+</div>
+
+
+    {% endfor %} 
+{% endblock %}
+
+    

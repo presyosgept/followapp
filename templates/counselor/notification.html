@@ -1,0 +1,32 @@
+{% extends 'counselor/counselor_home.html' %}
+{% block title %} Notification {% endblock %}
+{% block content %}
+    <div >
+        <h1 >Notifications</h1>
+
+        {% if not notifications %}
+            No notifications yet!
+        {% endif %}
+
+        {% for notification in notifications reversed %}
+        
+            <div class="CNotifCard"> 
+                <p>
+                    <br>
+                    {% if notification.notification_type == 'automatic_referral' %}
+                        <a href="#">
+                            <strong>{{ notification.created_by}}</strong> <b>Automatic Referral</b><br>
+                            <small>{{ notification.created_at|timesince }} ago</small>
+                             </a>
+                       
+                    {% elif notification.notification_type == 'manual_referral' %}
+                        <a href="{% url 'manual_detail' notification.extra_id  notification.created_by%}">
+                            <strong>{{ notification.created_by.username }}</strong>  <b>Manual Referral</b><br>
+                            <small>{{ notification.created_at|timesince }} ago</small>
+                        </a>
+                    {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "director/director_home.html" %}
+
+{% block title %} 
+Assign Counselor
+{% endblock %} 
+
+{% block content %} 
+
+ <section id="assignedC">
+
+     <div class="card1">
+          <br>
+                  {% for object in object_list %}
+
+                </a>
+                <div class="studRow">
+              <div class="studColumn">
+                <a href="{% url 'director_fillinForm' object.employeeid %}"> 
+                <div class="studlistCard"> 
+                    <h1> {{object.employeeid}}</h1>
+                    <p>{{object.firstname}}</p>
+                      <p>{{object.firstname}}</p>
+                        <p>{{object.lastname}}</p>
+                    
+                </div>
+              </div>
+            </a>
+                {% endfor %} 
+         </div>
+    
+  </div>
+</div>
+     </div>
+ </section>
+
+{% endblock %}

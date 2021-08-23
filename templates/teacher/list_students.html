@@ -1,0 +1,35 @@
+{% extends "teacher/teacher_home.html" %}
+
+{% block title %} 
+   Students List
+{% endblock %} 
+
+{% block content %} 
+        <div class="header__search">
+         <input type="search" placeholder="Search" class="header__input">
+         <i class='bx bx-search header__icon'></i>
+     </div>
+
+     <div class="header__toggle">
+         <i class='bx bx-menu' id="header-toggle"></i>
+     </div>
+   <br>
+
+                  {% for object in object_list %}
+
+                </a>
+                <div class="studRow">
+              <div class="studColumn">
+                <a href="{% url 'new' %}"> 
+                <div class="studlistCard"> 
+                    <h1> {{object.studnumber}}</h1>
+                    <p>{{object.firstname}}</p>
+                      <p>{{object.lastname}}</p>
+                    
+                </div>
+              </div>
+            </a>
+                {% endfor %} 
+         </div>
+
+{% endblock %}

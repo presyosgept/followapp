@@ -1,0 +1,49 @@
+{% extends "counselor/counselor_home.html" %}
+
+{% block title %} 
+Referred Students
+{% endblock %} 
+
+{% block content %} 
+
+    {% for object in object_list %}
+    <div class="refCard">
+<br>
+    <table style="width:90%">
+  <tr >
+    <th style="width:30%">Student Number:</th>
+    <td>{{object.studnumber}}</td>
+  </tr>
+  <tr >
+    <th style="width:30%">Degree Program:</th>
+    <td >{{object.degree_program}}</td>
+  </tr>
+  <tr >
+    <th style="width:30%">Subject Offered:</th>
+    <td>{{object.subject_referred}}</td>
+  </tr>
+   <tr >
+    <th style="width:30%">Reasons:</th>
+    <td><p>{{object.reasons}}</p></td>
+  </tr>
+</table>
+</div>
+
+
+    {% endfor %} 
+
+
+{% endblock %}
+
+
+
+
+       <!-- <b style="text-align: left"> Student Number:</b> {{object.studnumber}} <br>
+        <br>
+        <b>Student Name:</b> {{object.firstname}} {{object.lastname}}<br>
+        <br>
+        <b>Degree Program:</b> {{object.degree_program}}<br>
+        <br>
+        <b>Subject Offered:</b> {{object.subject_referred}}<br>
+        <br>
+        <b>Reasons:</b> {{object.reasons}}<br> -->

@@ -1,0 +1,27 @@
+{%extends "base.html"%} 
+
+<h1>hellooo jay</h1>
+
+{% block title %} 
+   Students List {{ block.super }} 
+{% endblock %} 
+
+{% block content %} 
+
+    {% for object in object_list %}
+        <div class="info">
+          <br>
+          <h1 id="about">  {{object.studnumber}} </h1>
+        <p>{{object.firstname}}</p>
+        <p>{{object.lastname}}</p>
+        <p>{{object.email}}</p>
+        <p>{{object.role}}</p>
+        </div>
+      
+    {% endfor %} 
+
+    <h1> chaar</h1>
+    
+
+{% endblock %}
+

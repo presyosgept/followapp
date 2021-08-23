@@ -1,0 +1,40 @@
+{% extends "counselor/counselor_home.html" %}
+
+{% block title %} 
+Schedule
+{% endblock %} 
+
+{% block content %} 
+
+
+
+
+<div class="table-cont">
+  <h1 class="heading">SCHEDULE</h1>
+<table class="table">
+   <thead>
+       <tr>
+           <th>Time</th>
+           <th>Service</th>
+           <th>Description</th>
+           <th>Schedule</th>
+       </tr>
+   </thead>
+   {% for obj in object %}
+   <tbody>
+       <tr>
+           <td data-label="Time"> {{obj.time1}} - {{obj.time2}} - {{obj.id}}</td>
+           <td data-label="Service">{{obj.service_offered}}</td>
+           <td data-label="Description"> {{obj.description}} </td>
+           <td> <a href="{% url 'counselor_setSchedule' obj.time1  %}">
+            <button class="btn" id="btn2">Set Schedule</button>
+            </a></td>
+       </tr>
+   </tbody>
+   {%endfor %}    
+</table>
+</div>
+
+
+
+{% endblock %}

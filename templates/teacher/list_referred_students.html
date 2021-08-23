@@ -1,0 +1,47 @@
+{% extends "teacher/teacher_home.html" %}
+
+{% block title %} 
+   Referred Students
+{% endblock %} 
+
+{% block content %} 
+
+    {% for object in object_list %}
+              <div class="listRefStudCard">
+  <br>
+    <table style="width:90%">
+  <tr>
+    <th style="width:30%">Student Number:</th>
+    <td>{{object.studnumber}}</td>
+  </tr>
+   <tr>
+    <th style="width:30%">First Name:</th>
+    <td>{{object.firstname}}</td>
+  </tr>
+    <tr>
+    <th style="width:30%">Last Name:</th>
+    <td>{{object.lastname}}</td>
+  </tr>
+      <tr>
+    <th style="width:30%">Degree Program:</th>
+    <td>{{object.degree_program }}</td>
+  </tr>
+      <tr>
+    <th style="width:30%">Reasons:</th>
+    <td>{{object.subject_referred }}</td>
+  </tr>
+      <tr>
+    <th style="width:40%">Reasons:</th>
+    <td> {{object.reasons }}</td> 
+    <!-- MAG DEPENDE SA REASONS MAUSAB ANG LINE AS IS SANI -->
+  </tr>
+</table>
+</div>
+      
+    {% endfor %} 
+
+{% endblock %}
+
+
+
+

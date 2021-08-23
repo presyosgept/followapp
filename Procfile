@@ -1,0 +1,1 @@
+web: gunicorn followapp.wsgi --log-file -

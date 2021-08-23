@@ -1,0 +1,49 @@
+{% extends "counselor/counselor_home.html" %}
+
+{% block title %} 
+Notification_Detail
+{% endblock %} 
+
+{% block content %} 
+
+
+    {% for object in object %}
+<br>
+<br>
+<div class="manualCard">
+    <br> 
+    <br>
+    <table style="width:50%">
+  <tr>
+    <th style="width:30%" >Student Number:</th>
+    <td valign="left">{{object.studnumber}}</td>
+  </tr>
+    <tr>
+    <th style="width:30%">Student Name:</th>
+    <td valign="left"> {{object.firstname}} {{object.lastname}}</td>
+  </tr>
+  <tr >
+    <th style="width:30%">Degree Program:</th>
+    <td >{{object.degree_program}}</td>
+  </tr>
+  <tr >
+    <th style="width:30%">Subject Offered:</th>
+    <td>{{object.subject_referred}}</td>
+  </tr>
+   <tr >
+    <th style="width:30%">Reasons:</th>
+    <td>{{object.reasons}}</td>
+  </tr>
+     <tr >
+    <th style="width:30%">Date:</th>
+    <td><p> {{object.date}}</p></td>
+  </tr>
+</table>
+</div>
+
+
+    {% endfor %} 
+    
+    <!-- <a href="{% url 'approval' object.studnumber %}">approve</a> -->
+
+{% endblock %}

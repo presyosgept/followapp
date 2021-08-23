@@ -1,0 +1,18 @@
+{% extends "counselor/counselor_home.html" %}
+
+{% block title %} 
+Set Schedule
+{% endblock %} 
+
+{% block content %} 
+    <form  method = "POST" action="">
+
+         {% csrf_token %}
+         {{form.as_p}}
+         
+        <input type="submit" value="Submit"/>
+    </form>
+
+
+{% endblock %}
+

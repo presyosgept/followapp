@@ -1,0 +1,26 @@
+{% extends "director/director_home.html" %}
+
+
+
+{% block content %} 
+ <section id="assignedC">
+
+     <div class="card1">
+          <br>
+    <form  method = "POST" action="">
+
+         {% csrf_token %}
+         {{form.as_p}}
+        <input type="submit" value="Submit"/>
+    </form>
+    
+  </div>
+</div>
+     </div>
+ </section>
+
+
+{% endblock %}
+
+
+
