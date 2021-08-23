@@ -83,12 +83,15 @@ from counselling.views import(
     student_notif_detail,
 
     studentsList,
+    CounselorList,
 )
 
 
 urlpatterns = [
 
-    path('api/', studentsList.as_view()),
+    path('student_api/', studentsList.as_view()),
+    path('counselor_api/', CounselorList.as_view()),
+
 
 
 

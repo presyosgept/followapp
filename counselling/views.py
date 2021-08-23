@@ -18,7 +18,7 @@ from django.utils import timezone
 from datetime import date,datetime,timedelta
 
 from .forms import StudentScheduleForm,CounselorScheduleForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, TeachersloadForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import  Notification,StudentSchedule,CounselorSchedule,Counselor,TeachersReferral, Students, Teachersload, SubjectOffered, Facultyload, Studentsload
+from .models import  Counselor,Notification,StudentSchedule,CounselorSchedule,Counselor,TeachersReferral, Students, Teachersload, SubjectOffered, Facultyload, Studentsload
 
 from .resources import  StudentScheduleResource,CounselorScheduleResource,CounselorResource,TeachersReferralResource, StudentsResource,TeachersloadResource,SubjectOfferedResource,FacultyloadResource, StudentsloadResource
 from tablib import Dataset
@@ -30,7 +30,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from . serializers import studentsSerializers
+from . serializers import studentsSerializers,counselorSerializers
 
 # Create your views here.
 
@@ -39,6 +39,12 @@ class studentsList(APIView):
         stud = Students.objects.all()
         serializer=studentsSerializers(stud, many=True)
         return Response({'students':serializer.data})
+
+class CounselorList(APIView):
+    def get(self, request):
+        couns = Counselor.objects.all()
+        serializer=counselorSerializers(couns, many=True)
+        return Response({'counselors':serializer.data})
 
 
 
