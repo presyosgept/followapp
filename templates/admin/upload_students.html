@@ -9,4 +9,10 @@
     <button type="submit">Upload</button>
   </form>
 
+    {% for message in messages %}
+				<br>
+                    <center> <p>{{message}}</p> </center>
+                {% endfor %}
+                
+
   {% endblock %}

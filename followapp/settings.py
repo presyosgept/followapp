@@ -88,16 +88,16 @@ WSGI_APPLICATION = 'followapp.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES={
-    'default':{
-      'ENGINE': 'django.db.backends.postgresql_psycopg2',
-      'NAME': 'dflc80jv8pm65l',
-      'USER': 'hcjcbvaujfooxq',
-      'PASSWORD': 'f74e9962db890467560dfa7f3b51d7fb4058c62d3ba32530cf53650a1af5794b',
-      'HOST': 'ec2-44-195-247-84.compute-1.amazonaws.com',
-      'PORT': '5432',
-  }
-}
+# DATABASES={
+#     'default':{
+#       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#       'NAME': 'dflc80jv8pm65l',
+#       'USER': 'hcjcbvaujfooxq',
+#       'PASSWORD': 'f74e9962db890467560dfa7f3b51d7fb4058c62d3ba32530cf53650a1af5794b',
+#       'HOST': 'ec2-44-195-247-84.compute-1.amazonaws.com',
+#       'PORT': '5432',
+#   }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -108,6 +108,19 @@ DATABASES={
 #         'PASSWORD': '1234',
 #     }
 # }
+
+DATABASES={
+    'default':{
+      'ENGINE': 'django.db.backends.postgresql_psycopg2',
+      'NAME': 'followappdb',
+      'USER': 'postgres',
+      'PASSWORD': '1234',
+      'HOST': 'localhost',
+      'PORT': '5432',
+      
+  }
+  
+}
 
 
 # Password validation
@@ -151,4 +164,12 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 django_heroku.settings(locals())
+
+
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = 'followapp2021@gmail.com'
+EMAIL_HOST_PASSWORD = 'preciousgift'
+EMAIT_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

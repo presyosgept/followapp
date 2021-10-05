@@ -1,32 +1,170 @@
 {% extends 'counselor/counselor_home.html' %}
 {% block title %} Notification {% endblock %}
 {% block content %}
-    <div >
-        <h1 >Notifications</h1>
+<style>
+       .card{
+      display: flex;
+      padding: 20px;
+      max-width: 408px;
+   padding-left: 5px;
+      height: 210px;
+      margin: 20px;
+      border-radius: 10px;
+      background-color: #98adb4;
+      box-shadow:
+        0 9px 33px rgba(0, 0, 0, 0.07);
+      overflow-y: scroll;
+      float: left;
+      flex-wrap: row;
+      margin-left: 140px;
+      align-items: stretch;
+     
+      
+      
+      
+    }
+.txtFont{
+  font-family: Arial, Helvetica, sans-serif;
+  color: black;
+  text-align:left; margin-right: 30px; 
+  display: flex;
+  font-size: 17px;
+  text-overflow: ellipsis;
+  align-items: start;
+}
+.txtFonty{
+  font-family: Arial, Helvetica, sans-serif;
+  color: black;
+  text-align:left; 
+  display: flex;
+  font-size: 17px; margin-left: 10px;
+  text-overflow: ellipsis;
+  margin-top: 8px;
+  align-items: center;
+  /* justify-content: center; */
+}
+/* === TABLE ==== */
+.table-box
+{
+    margin: 50px auto;
+}
 
-        {% if not notifications %}
-            No notifications yet!
-        {% endif %}
+.table-row{
+    display: table;
+    width: 40%;
+    margin: 10px auto;
+    font-family: sans-serif;
+    background: transparent;
+    padding: 4px 0;
+    color: #555;
+    font-size: 13px;
+    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+    height: 0.1%;
+    border-radius: 20px;
+    
+}
+.table-head{
+  
+    background: #E5E4E2;
+    box-shadow: none;
+    color: #fff;
+    font-weight: 600;
+    height: 20px;
+    line-height: 5px;
+    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+    justify-content: left;
+ 
+}
+.table-head .table-cell{
+    border-right: none;
+}
+.table-cell{
+    display: table-cell;
+    width: 3.33%;
+    text-align: center;
+    padding: 4px 0;
+    border-right: 1px solid #d8c090;
+    vertical-align: middle;
+    
+}
+.first-cell{
+    text-align: left;
+    padding-left: 10px;
+    width: 10%;
+}
 
-        {% for notification in notifications reversed %}
+.last-cell{
+    border-right: none;
+    width: 10%;
+}
+/* a{
+    text-decoration: none;
+    color: #555;
+} */
+p{
+  font-size: 17px;
+  color: black;
+}
+.listTitle{
+  font-size: 20px;
+  text-align: center;
+}
+@media only screen and (max-width: 600px) {
+  .table-row {
+    font-size: 11px;
+  }
+}
+.trow-list{
+      display: table;
+    width: 85%;
+    margin: 10px auto;
+    font-family: sans-serif;
+    background: #E3E4FA;
+    padding: 4px 0;
+    color: #d8c090;
+    font-size: 15px;
+    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+    line-height: 5px;
+}
+
+</style>
+
+
         
-            <div class="CNotifCard"> 
-                <p>
-                    <br>
-                    {% if notification.notification_type == 'automatic_referral' %}
-                        <a href="#">
-                            <strong>{{ notification.created_by}}</strong> <b>Automatic Referral</b><br>
-                            <small>{{ notification.created_at|timesince }} ago</small>
-                             </a>
-                       
-                    {% elif notification.notification_type == 'manual_referral' %}
-                        <a href="{% url 'manual_detail' notification.extra_id  notification.created_by%}">
-                            <strong>{{ notification.created_by.username }}</strong>  <b>Manual Referral</b><br>
-                            <small>{{ notification.created_at|timesince }} ago</small>
-                        </a>
-                    {% endif %}
-                </p>
-            </div>
-        {% endfor %}
+<div class="table-row table-head">
+  <div class="table-cell first-cell">
+      <p class="listTitle">Notifications</p>
+  </div>
+</div>
+
+
+
+    {% if not notifications %}
+        No Notifications Yet!
+    {% endif %}
+
+ 
+
+<div class="table-box">
+  {% for notification in notifications reversed %}
+  <div class="trow-list">
+    {% if notification.notification_type == 'automatic_referral' %}
+    <a href="#">
+      <strong>{{ notification.created_by}}</strong> <b>Automatic Referral</b><br>
+      <small>{{ notification.created_at|timesince }} ago</small>
+       </a> {% elif notification.notification_type == 'manual_referral' %}
+       <a href="{% url 'counselor_view_detail_referred_students' notification.id %}">
+    <div class="table-cell first-cell">
+        <p style="text-align: center;"><b><strong>{{ notification.created_by.username }}</strong>  <b style="color: black;">Manual Referral</b></b></p>
     </div>
+    <div class="table-cell" >
+        <p style="text-align: left; margin-left: 90px;"> {{ notification.created_at|timesince }} ago</p>
+    </div>  
+       </a>
+       {% endif %} 
+</div>
+{% endfor %}
+</div>
+ 
+   
 {% endblock %}

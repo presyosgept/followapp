@@ -1,17 +1,38 @@
-from .models import Counselor, CounselorSchedule, StudentSchedule
+from .models import Accounts, Counselor, CounselorSchedule,AccountCreated,TeachersReferral,AllStudents
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
 
 from django import forms
 
-class TeachersReferralForm(forms.Form):
-    studnumber = forms.CharField()
-    firstname = forms.CharField()
-    lastname =  forms.CharField()
-    degree_program = forms.CharField()
-    subject_referred =  forms.CharField()
+class CreateUserForm(UserCreationForm):
+	class Meta:
+		model = User
+		fields = ['username', 'password1', 'password2']
+
+class AccountsForm(forms.Form):
+    password = forms.CharField()
+
+class VerificationForm(forms.Form):
+    code = forms.CharField()
+
+class AccountCreatedForm(forms.Form):
+    id_number = forms.CharField()
+    email = forms.CharField()
+    password = forms.CharField()
+
+
+class TeachersReferralForm(forms.ModelForm):
     reasons = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        super(TeachersReferralForm, self).__init__(*args, **kwargs)
+        self.fields['studnumber'].disabled = True
+        self.fields['firstname'].disabled = True
+        self.fields['lastname'].disabled = True
+    class Meta:
+        model = TeachersReferral
+        fields = ['studnumber', 'firstname', 'lastname', 'behavior_problem','subject_referred','reasons']
 
 class StudentsForm(forms.Form):
     studnumber = forms.CharField()
@@ -29,10 +50,7 @@ class TeachersloadForm(forms.Form):
     external_email = forms.CharField()
     role = forms.CharField()
 
-class CreateUserForm(UserCreationForm):
-	class Meta:
-		model = User
-		fields = ['username', 'email', 'password1', 'password2']
+
 
 class SubjectOfferedForm(forms.Form):
     offer_no = forms.CharField()
@@ -51,6 +69,8 @@ class StudentsloadForm(forms.Form):
     id = forms.CharField()
     offer_no = forms.CharField()
     studnumber = forms.CharField()
+
+
 
 # class CounselorForm(forms.Form):
 #     employeeid = forms.CharField()
@@ -81,11 +101,6 @@ class CounselorScheduleForm(ModelForm):
     class Meta:
 	    model = CounselorSchedule
 	    fields = ['schedid','time1','time2', 'service_offered', 'description']
-
-class StudentScheduleForm(ModelForm):
-    class Meta:
-	    model = StudentSchedule
-	    fields = ['schedid','time1','time2', 'schedule', 'description']
 
 from django.forms import ModelForm, widgets, DateTimeField, DateField, DateInput
 

@@ -16,15 +16,19 @@
   --nav-width: 250px;
 
   /*========== Colors ==========*/
-  --first-color: #6923D0;
+ --first-color: #d8c090;
   --first-color-light: #F4F0FA;
   --title-color: #19181B;
   --text-color: #58555E;
+  --navtext-color: #FFFFFF;
   --text-color-light: #A5A1AA;
   --body-color: #E5E4E2;
-  --nav-color: #F9F6FD;
+  --nav-color: #4863A0;
   --container-color: #FFFFFF;
   --card-color: #F9F6FD;
+  --main1-color: #d8c090;
+  --dropdown: #4863A0;
+  --header-color: #FFFFFF;
 
 
   /*========== Font and typography ==========*/
@@ -61,8 +65,7 @@ body {
   font-size: var(--normal-font-size);
   background-color: var(--body-color);
   color: var(--text-color);
-  overflow-y: hidden;
-  overflow-x: hidden;
+ overflow-y: auto;
 }
 
 h3 {
@@ -84,7 +87,7 @@ img {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--nav-color);
+  background-color: var(--header-color);
   box-shadow: 0 1px 0 rgba(22, 8, 43, 0.1);
   padding: 0 1rem;
   z-index: var(--z-fixed);
@@ -112,15 +115,16 @@ img {
 .header__search {
   display: flex;
   padding: .40rem .75rem;
-  background-color: var(--first-color-light);
+  background-color: var(--body-color);
   border-radius: .25rem;
+  margin-left: 15px;
 }
 
 .header__input {
   width: 100%;
   border: none;
   outline: none;
-  background-color: var(--first-color-light);
+  background-color: var(--body-color);
 }
 
 .header__input::placeholder {
@@ -130,7 +134,7 @@ img {
 
 .header__icon, 
 .header__toggle {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .header__toggle {
@@ -145,7 +149,7 @@ img {
   left: -100%;
   height: 100vh;
   padding: 1rem 1rem 0;
-  background-color: var(--container-color);
+  background-color: var(--nav-color);
   box-shadow: 1px 0 0 rgba(22, 8, 43, 0.1);
   z-index: var(--z-fixed);
   transition: .4s;
@@ -194,7 +198,7 @@ img {
 .nav__link {
   display: flex;
   align-items: center;
-  color: var(--text-color);
+  color: var(--navtext-color);
 }
 
 .nav__link:hover {
@@ -224,33 +228,31 @@ img {
 }
 
 .nav__dropdown-collapse {
-  background-color: var(--first-color-light);
+  background-color: var(--main1-color);
   border-radius: .25rem;
   margin-top: 1rem;
 }
 
 .nav__dropdown-content {
-  font-size: var(--font-semi-bold);
   display: grid;
   row-gap: .5rem;
-  padding: .75rem 0.1rem .75rem 1.8rem;
+  padding: .75rem 2.5rem .75rem 1.8rem;
 }
 
 .nav__dropdown-item {
   font-size: var(--smaller-font-size);
   font-weight: var(--font-medium);
-  color: var(--text-color);
+  color: var(--navtext-color);
 }
 
 .nav__dropdown-item:hover {
-  color: var(--first-color);
+  color: var(--dropdown);
 }
 
 .nav__dropdown-icon {
   margin-left: auto;
   transition: .4s;
 }
-
 /* Show dropdown collapse */
 .nav__dropdown:hover {
   max-height: 100rem;
@@ -356,31 +358,34 @@ img {
 }
 /*===== CARD CARD CARD =====*/
 .card1 {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 98%;
-  height: 500px;
+  width: 102%;
+  height: 800px;
   border-radius: 5px;
-  background-color: var(--container-color); 
+  background-color: var(--card-color); 
   float: center;
   margin-top: 10px;
   margin-bottom: 35px;
-  margin-right: 90px;
-  margin-left: 25px;
+  margin-right: 500px;
+  /* margin-left: 80px;  */
   text-align: center;
-  overflow-y: scroll;
+  overflow-x: scroll;
 }
 .CNotifCard {
   transition: 0.3s;
-  height: 65px;
+  height: 60px;
+  width: 750px;
   border-radius: 5px;
-  background-color: var(--body-color); 
+  background-color: transparent; 
   float: center;
   /* margin-top: 10px;
   margin-bottom: 35px; */
   margin-right: 25px;
-  margin-left: 25px;
+  margin-left: 250px;
   text-align: center;
+  box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+  
 }
 
 .manualCard {
@@ -540,12 +545,16 @@ th, td {
         <!--========== HEADER ==========-->
         <header class="header">
             <div class="header__container">
-                <img src="assets/img/logo3.png" alt="" class="header__img">
+                <!-- <img src="assets/img/logo3.png" alt="" class="header__img"> -->
+               
 
                 <a href="{% url 'counselor_home_view' %}" class="header__logo">FOLLOW APP</a>
-                <div class="header__toggle">
-                    <i class='bx bx-menu' id="header-toggle"></i>
-                </div>
+                 <div>
+                        {% for object in form %} 
+                              <p> {{object.firstname }} {{object.lastname }} </p>
+                                   {% endfor %} 
+                                   </div>
+               
             </div>
         </header>
 
@@ -557,11 +566,7 @@ th, td {
                         <i class='bx bx-user nav__icon' ></i>
                         <span class="nav__logo-name">COUNCELOR</span>
                     </a> 
-                    <div>
-                        {% for object in object_list %} 
-                              <p> {{object.firstname }} {{object.lastname }} </p>
-                                   {% endfor %} 
-                                   </div>
+                 
                     <div class="nav__list">
                         <div class="nav__items">
                              <a href="{% url 'counselor_home_view' %}"><h3 class="nav__subtitle">{{request.session.username}}</h3> </a>
