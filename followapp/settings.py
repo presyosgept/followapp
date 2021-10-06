@@ -88,16 +88,16 @@ WSGI_APPLICATION = 'followapp.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-# DATABASES={
-#     'default':{
-#       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#       'NAME': 'dflc80jv8pm65l',
-#       'USER': 'hcjcbvaujfooxq',
-#       'PASSWORD': 'f74e9962db890467560dfa7f3b51d7fb4058c62d3ba32530cf53650a1af5794b',
-#       'HOST': 'ec2-44-195-247-84.compute-1.amazonaws.com',
-#       'PORT': '5432',
-#   }
-# }
+DATABASES={
+    'default':{
+      'ENGINE': 'django.db.backends.postgresql_psycopg2',
+      'NAME': 'deces3ogdhib1f',
+      'USER': 'gnrwmmkteizgbn',
+      'PASSWORD': '5479624cfe511782363676e40fe5a67aa7e25113f549873d278dffd2e2f62fb9',
+      'HOST': 'ec2-52-7-228-45.compute-1.amazonaws.com',
+      'PORT': '5432',
+  }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -109,18 +109,18 @@ WSGI_APPLICATION = 'followapp.wsgi.application'
 #     }
 # }
 
-DATABASES={
-    'default':{
-      'ENGINE': 'django.db.backends.postgresql_psycopg2',
-      'NAME': 'followappdb',
-      'USER': 'postgres',
-      'PASSWORD': '1234',
-      'HOST': 'localhost',
-      'PORT': '5432',
+# DATABASES={
+#     'default':{
+#       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#       'NAME': 'followappdb',
+#       'USER': 'postgres',
+#       'PASSWORD': '1234',
+#       'HOST': 'localhost',
+#       'PORT': '5432',
       
-  }
+#   }
   
-}
+# }
 
 
 # Password validation
