@@ -76,7 +76,7 @@ class SignUpFirst(APIView):
                 host='smtp.gmail.com', 
                 port=587,
                 username='followapp2021@gmail.com', 
-                password='preciousgift')
+                password='followapp#123')
                 EmailMessage(
                     "verification", 
                     "mao ni ang code nga imong iinput " + code, 
@@ -121,7 +121,7 @@ class SendFormEmail(View):
         host='smtp.gmail.com', 
         port=587,
         username='followapp2021@gmail.com', 
-        password='preciousgift')
+        password='followapp#123')
         EmailMessage(
             name, 
             message, 
@@ -181,20 +181,18 @@ def firstPage(request):
         qs_acc = AccountCreated.objects.all()
 
         if username == 'followapp':
-            connection = get_connection(use_tls=1, 
+            connection = get_connection(use_tls=True,
             host='smtp.gmail.com', 
             port=587,
             username='followapp2021@gmail.com', 
-            password='jbynzgpkebpqhcza')
+            password='followapp#123')
             EmailMessage(
                 "verification", 
-                "mao ni ang code nga imong iinput " + code,  
+                "mao ni ang code nga imong iinput " + code, 
                 'followapp2021@gmail.com', 
-                [
-                    email,
-                    'preciousgift.canovas.20@usjr.edu.ph'
-                    ], connection=connection).send()
-
+            [
+                email,
+            ], connection=connection).send()
             value = AccountCreated(id_number=username,email=email, password=code)
             value.save()
             # messages.success(request, "check gmail for code")
@@ -219,7 +217,7 @@ def firstPage(request):
                 host='smtp.gmail.com', 
                 port=587,
                 username='followapp2021@gmail.com', 
-                password='preciousgift')
+                password='followapp#123')
                 EmailMessage(
                     "verification", 
                     "mao ni ang code nga imong iinput " + code, 
@@ -765,7 +763,6 @@ def new(request,stud):
         form = TeachersReferralForm(request.POST, instance=studentReferred)
         print("chuchu tv")
         if form.is_valid():
-            print("sean baho baba")
             form.save()
             qs = Counselor.objects.get(program_designation = degree.program_code)
             studentInfo = TeachersReferral(firstname=studentReferred.firstname, 
@@ -802,52 +799,52 @@ def new(request,stud):
 #        if form.is_valid():
 #             form.save()
 #             return render(request, "teacher/teacher_home.html")
-#     #    firstname= request.POST['firstname']
-#     #    name = firstname
-#     #    lastname= request.POST['lastname']
-#     #    studnumber= request.POST['studnumber']
-#     #    stdnum= studnumber
-#     #    degree_program= request.POST['degree_program']
-#     #    subject_referred= request.POST['subject_referred']
-#     #    sub = subject_referred
-#     #    reasons= request.POST['reasons']
-#     #    print("baaaaa")
-#     #    qs = Counselor.objects.get(program_designation = degree_program)
-#     #    couns = qs.employeeid
-#     #    print("precious giffftt")
-#     #    print(couns)
-#     #    studentInfo = TeachersReferral(firstname=firstname, 
-#     #    lastname=lastname,studnumber=studnumber,
-#     #    degree_program = degree_program,subject_referred=subject_referred,
-#     #    reasons=reasons,counselor=qs.employeeid,employeeid=user)
-#     #    studentInfo.save()
-#     #    ihap = ihap + 1
-#     #    ihap1 = ihap1 + 1
-#     #    create_notification(couns, user, 'manual_referral', extra_id=int(stdnum))
+#        firstname= request.POST['firstname']
+#        name = firstname
+#        lastname= request.POST['lastname']
+#        studnumber= request.POST['studnumber']
+#        stdnum= studnumber
+#        degree_program= request.POST['degree_program']
+#        subject_referred= request.POST['subject_referred']
+#        sub = subject_referred
+#        reasons= request.POST['reasons']
+#        print("baaaaa")
+#        qs = Counselor.objects.get(program_designation = degree_program)
+#        couns = qs.employeeid
+#        print("precious giffftt")
+#        print(couns)
+#        studentInfo = TeachersReferral(firstname=firstname, 
+#        lastname=lastname,studnumber=studnumber,
+#        degree_program = degree_program,subject_referred=subject_referred,
+#        reasons=reasons,counselor=qs.employeeid,employeeid=user)
+#        studentInfo.save()
+#        ihap = ihap + 1
+#        ihap1 = ihap1 + 1
+#        create_notification(couns, user, 'manual_referral', extra_id=int(stdnum))
 #     else:
 #         TeachersReferralForm()
-#     # studentSched=StudentSchedule.objects.all()
+#     studentSched=StudentSchedule.objects.all()
 #     counselorSched= CounselorSchedule.objects.all()
-#     # for index, objectstud in enumerate(studentSched):
-#     #     if studentSched[index].schedule==None and studentSched[index+1].schedule==None:
-#     #         for index, object in enumerate(counselorSched):
-#     #             if counselorSched[index].service_offered==None and counselorSched[index+1].service_offered==None:
-#     #                 CounselorSchedule.objects.filter(schedid=counselorSched[index].schedid).update(
-#     #                     service_offered='COUNSELING',description=name)
-#     #                 CounselorSchedule.objects.filter(schedid=counselorSched[index+1].schedid).update(
-#     #                     service_offered='COUNSELING',description=name)
-#     #                 studentNumber= stdnum
-#     #                 subject= sub
-#     #                 teacher_referred= user
-#     #                 print(studentNumber,subject,teacher_referred)
-#     #                 getReferralNotDone= TeachersReferral.objects.filter(status = None, employeeid=user)
-#     #                 for object1 in getReferralNotDone:
-#     #                     if object1.studnumber==studentNumber and object1.subject_referred==subject and object1.employeeid==user:
-#     #                         print(object1.id)
-#     #                         TeachersReferral.objects.filter(id=object1.id).update(
-#     #                             start_time=counselorSched[index].time1,end_time=counselorSched[index+1].time2)
+#     for index, objectstud in enumerate(studentSched):
+#         if studentSched[index].schedule==None and studentSched[index+1].schedule==None:
+#             for index, object in enumerate(counselorSched):
+#                 if counselorSched[index].service_offered==None and counselorSched[index+1].service_offered==None:
+#                     CounselorSchedule.objects.filter(schedid=counselorSched[index].schedid).update(
+#                         service_offered='COUNSELING',description=name)
+#                     CounselorSchedule.objects.filter(schedid=counselorSched[index+1].schedid).update(
+#                         service_offered='COUNSELING',description=name)
+#                     studentNumber= stdnum
+#                     subject= sub
+#                     teacher_referred= user
+#                     print(studentNumber,subject,teacher_referred)
+#                     getReferralNotDone= TeachersReferral.objects.filter(status = None, employeeid=user)
+#                     for object1 in getReferralNotDone:
+#                         if object1.studnumber==studentNumber and object1.subject_referred==subject and object1.employeeid==user:
+#                             print(object1.id)
+#                             TeachersReferral.objects.filter(id=object1.id).update(
+#                                 start_time=counselorSched[index].time1,end_time=counselorSched[index+1].time2)
                             
-#     #                 break
+#                     break
 #     user_name = Faculty.objects.filter(employee_id = user)
 #     return render(request, "teacher/new.html",{"form": user_name,"form1": form})
 
