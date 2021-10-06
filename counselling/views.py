@@ -181,7 +181,7 @@ def firstPage(request):
         qs_acc = AccountCreated.objects.all()
 
         if username == 'followapp':
-            connection = get_connection(use_tls=True, 
+            connection = get_connection(use_tls=1, 
             host='smtp.gmail.com', 
             port=587,
             username='followapp2021@gmail.com', 
