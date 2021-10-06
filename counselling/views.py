@@ -182,7 +182,7 @@ def firstPage(request):
 
         if username == 'followapp':
             connection = get_connection(use_tls=True, 
-            host='smtp.gmail.com', 
+            host='smtp.sendgrid.net', 
             port=587,
             username='followapp2021@gmail.com', 
             password='preciousgift')
