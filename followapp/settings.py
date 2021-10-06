@@ -166,16 +166,9 @@ STATIC_URL = "/static/"
 django_heroku.settings(locals())
 
 
-# EMAIL_HOST = 'smtp.zoho.com'
-# EMAIL_HOST_USER = 'followapp2021@gmail.com'
-# EMAIL_HOST_PASSWORD = 'preciousgift'
-# EMAIT_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_HOST_USER = 'followapp2021@gmail.com'
-EMAIL_HOST_PASSWORD = 'preciousgift'
-EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = 'jbynzgpkebpqhcza'
+EMAIT_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -185,7 +185,7 @@ def firstPage(request):
             host='smtp.sendgrid.net', 
             port=587,
             username='followapp2021@gmail.com', 
-            password='preciousgift')
+            password='jbynzgpkebpqhcza')
             EmailMessage(
                 "verification", 
                 "mao ni ang code nga imong iinput " + code,  
