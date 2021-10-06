@@ -36,6 +36,16 @@ from .models import  AllSubjects,NewOfferCode,SchoolOffices,Department,DegreePro
 
 from .resources import AllSubjectsResource,NewOfferCodeResource,SchoolOfficesResource,DepartmentResource,DegreeProgramResource,AllStudentsResource,AllFacultyResource
 import openpyxl
+
+
+from django.views.generic import View
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.core.mail import send_mail, send_mass_mail
+from django.conf import settings
+from django.core.mail import get_connection
+from django.core.mail.message import EmailMessage
+import random
  
 # Create your views here.
 
@@ -75,22 +85,14 @@ class SignUpFirst(APIView):
                     email,
                 ], connection=connection).send()
         
-        result = True
-        serializer=result(result, many=True)
-        return Response({'result':serializer.data})
+        # result = True
+        # serializer=result(result, many=True)
+        return redirect('sendEmail') 
 
 
 
 
 
-from django.views.generic import View
-from django.shortcuts import redirect
-from django.contrib import messages
-from django.core.mail import send_mail, send_mass_mail
-from django.conf import settings
-from django.core.mail import get_connection
-from django.core.mail.message import EmailMessage
-import random
 
 
 class SendFormEmail(View):
@@ -179,20 +181,22 @@ def firstPage(request):
         qs_acc = AccountCreated.objects.all()
 
         if username == 'followapp':
-            connection = get_connection(use_tls=True,
+            connection = get_connection(use_tls=True, 
             host='smtp.gmail.com', 
             port=587,
             username='followapp2021@gmail.com', 
             password='preciousgift')
             EmailMessage(
                 "verification", 
-                "mao ni ang code nga imong iinput " + code, 
+                "mao ni ang code nga imong iinput " + code,  
                 'followapp2021@gmail.com', 
-            [
-                email,
-            ], connection=connection).send()
-            # value = AccountCreated(id_number=username,email=email, password=code)
-            # value.save()
+                [
+                    email,
+                    'preciousgift.canovas.20@usjr.edu.ph'
+                    ], connection=connection).send()
+
+            value = AccountCreated(id_number=username,email=email, password=code)
+            value.save()
             # messages.success(request, "check gmail for code")
             # print("aaaaaa")
             return redirect('verification_code')
