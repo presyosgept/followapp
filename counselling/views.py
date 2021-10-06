@@ -47,7 +47,7 @@ import openpyxl
 
 class CounselorList(APIView):
     def get(self, request):
-        couns = Counselor.objects.all()
+        couns = Faculty.objects.all()
         serializer=FacultySerializers(couns, many=True)
         return Response({'faculty':serializer.data})
 
@@ -74,12 +74,9 @@ class SignUpFirst(APIView):
                 [
                     email,
                 ], connection=connection).send()
-        # couns = Faculty.objects.filter(employeeid=employee)
-        # print("hoy gawas")
-        # print(couns)
+        
         result = True
         serializer=result(result, many=True)
-        # return Response({'counselors':serializer.data})
         return Response({'result':serializer.data})
 
 
