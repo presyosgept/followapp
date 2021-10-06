@@ -30,7 +30,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from . serializers import counselorSerializers
+from . serializers import FacultySerializers
 
 from .models import  AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
 
@@ -48,16 +48,39 @@ import openpyxl
 class CounselorList(APIView):
     def get(self, request):
         couns = Counselor.objects.all()
-        serializer=counselorSerializers(couns, many=True)
-        return Response({'counselors':serializer.data})
+        serializer=FacultySerializers(couns, many=True)
+        return Response({'faculty':serializer.data})
 
-class specificCounselor(APIView):
-    def get(self, request, name):
-        couns = Counselor.objects.filter(employeeid=name)
-        print("hoy gawas")
-        print(couns)
-        serializer=counselorSerializers(couns, many=True)
-        return Response({'counselors':serializer.data})
+class SignUpFirst(APIView):
+    def get(self, request, employee, email):
+        char = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+        for x in range(0,1):
+            code=''
+            for x in range(0,8):
+                code_char = random.choice(char)
+                code = code + code_char
+        qs_faculty = Faculty.objects.all()
+        for check in qs_faculty:
+            if(check.employee_id == employee):
+                connection = get_connection(use_tls=True,
+                host='smtp.gmail.com', 
+                port=587,
+                username='followapp2021@gmail.com', 
+                password='preciousgift')
+                EmailMessage(
+                    "verification", 
+                    "mao ni ang code nga imong iinput " + code, 
+                    'followapp2021@gmail.com', 
+                [
+                    email,
+                ], connection=connection).send()
+        # couns = Faculty.objects.filter(employeeid=employee)
+        # print("hoy gawas")
+        # print(couns)
+        result = True
+        serializer=result(result, many=True)
+        # return Response({'counselors':serializer.data})
+        return Response({'result':serializer.data})
 
 
 

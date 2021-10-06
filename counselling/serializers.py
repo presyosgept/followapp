@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import Counselor
+from .models import Counselor, Faculty
 
-class counselorSerializers(serializers.ModelSerializer):
+class FacultySerializers(serializers.ModelSerializer):
     class Meta:
-        model = Counselor
+        model = Faculty
         fields = '__all__'
