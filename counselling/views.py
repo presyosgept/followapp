@@ -87,9 +87,9 @@ class SignUpFirst(APIView):
                 [
                     email,
                 ], connection=connection).send()
-                obj = Result(bool1 = True)
-            else:
                 obj = Result(bool1 = False)
+            else:
+                obj = Result(bool1 = True)
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
 
