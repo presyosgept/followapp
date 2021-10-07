@@ -30,7 +30,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from . serializers import FacultySerializers
+from . serializers import FacultySerializers,ResultSerializer, Result
 
 from .models import  AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
 
@@ -46,6 +46,7 @@ from django.conf import settings
 from django.core.mail import get_connection
 from django.core.mail.message import EmailMessage
 import random
+
  
 # Create your views here.
 
@@ -57,9 +58,11 @@ import random
 
 class CounselorList(APIView):
     def get(self, request):
-        couns = Faculty.objects.all()
-        serializer=FacultySerializers(couns, many=True)
-        return Response({'faculty':serializer.data})
+        # couns = Faculty.objects.all()
+        # serializer=FacultySerializers(couns, many=True)
+        obj = Result(bool1 = True)
+        serializer = ResultSerializer(obj)
+        return Response(serializer.data)
 
 class SignUpFirst(APIView):
     def get(self, request, employee, email):
@@ -84,10 +87,11 @@ class SignUpFirst(APIView):
                 [
                     email,
                 ], connection=connection).send()
-        
-        # result = True
-        # serializer=result(result, many=True)
-        return redirect('sendEmail') 
+                obj = Result(bool1 = True)
+            else:
+                obj = Result(bool1 = False)
+        serializer = ResultSerializer(obj)
+        return Response(serializer.data)
 
 
 
@@ -136,6 +140,7 @@ class SendFormEmail(View):
         # send_mass_mail((message1, message2), fail_silently=False) hakdddoooog
 
         # Redirect to same page after form submit
+        
         messages.success(request, ('Email sent successfully.'))
 
 
