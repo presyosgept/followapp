@@ -113,7 +113,7 @@ class SendFormEmail(View):
         #         email,
         #     ],
         #     fail_silently=False,
-        # ) 
+        # ) diri ka taman mag ctrl z
 
         
 
@@ -127,14 +127,13 @@ class SendFormEmail(View):
             message, 
             'followapp2021@gmail.com', 
             [
-                email,
-                'preciousgift.canovas.20@usjr.edu.ph'
+                email
                 ], connection=connection).send()
 
         # message1 = ('Subject here', 'Here is the message', 'from@example.com', ['first@example.com', 'other@example.com'])
         # message2 = ('Another Subject', 'Here is another message', 'from@example.com', ['second@test.com'])
 
-        # send_mass_mail((message1, message2), fail_silently=False)
+        # send_mass_mail((message1, message2), fail_silently=False) hakdddoooog
 
         # Redirect to same page after form submit
         messages.success(request, ('Email sent successfully.'))
