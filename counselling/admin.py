@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from .models import AccountCreatedApi,NewFacultyload,Accounts,Faculty,Student,Notification,CounselorSchedule,TeachersReferral, Teachersload, SubjectOffered, NewStudentsload, Counselor
+from .models import AccountsApi,NewFacultyload,Accounts,Faculty,Student,Notification,CounselorSchedule,TeachersReferral, Teachersload, SubjectOffered, NewStudentsload, Counselor
 from .models import OfferCode,MyTable,SubjectWithSem,Semester,AllSubjects,NewOfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
 
 
@@ -78,9 +78,10 @@ admin.site.register(AccountCreated)
 class AccountCreatedAdmin(ImportExportModelAdmin):
     list_display = ('id_number','password')
 
-admin.site.register(AccountCreated)
-class AccountCreatedApiAdmin(ImportExportModelAdmin):
+admin.site.register(AccountsApi)
+class AccountsApiAdmin(ImportExportModelAdmin):
     list_display = ('id_number','code')
+
 
 
 

@@ -68,7 +68,7 @@ class AccountCreated(models.Model):
     email = models.CharField(max_length=220)
     password = models.CharField(max_length=220,blank=True,null=True)
 
-class AccountCreatedApi(models.Model):
+class AccountsApi(models.Model):
     id_number = models.CharField(max_length=15,primary_key=True)
     email = models.CharField(max_length=220)
     code = models.CharField(max_length=220,blank=True,null=True)
