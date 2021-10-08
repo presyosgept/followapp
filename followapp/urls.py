@@ -91,7 +91,6 @@ from counselling.views import(
     # studentsList,
     CounselorList,
     SignUpFirstApi,
-    VerificationApi,
 )
 
 
@@ -100,7 +99,7 @@ urlpatterns = [
     # path('student_api/', studentsList.as_view()),
     path('counselor_api/', CounselorList.as_view()),
     path('singupfirst_api/<str:employee>/<str:email>', SignUpFirstApi.as_view()),
-    path('verification_api/<str:id>/<str:code>', VerificationApi.as_view()),
+   
     path('email/', TemplateView.as_view(template_name="sendEmail.html"), name='sendEmail'),
     path('send-form-email',SendFormEmail.as_view(),name='send_email'),
 

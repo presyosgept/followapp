@@ -32,7 +32,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from . serializers import FacultySerializers,ResultSerializer, Result
 
-from .models import  AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
+from .models import  AccountCreatedApi,AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
 
 from .resources import AllSubjectsResource,NewOfferCodeResource,SchoolOfficesResource,DepartmentResource,DegreeProgramResource,AllStudentsResource,AllFacultyResource
 import openpyxl
@@ -89,11 +89,12 @@ class SignUpFirstApi(APIView):
                     email,
                 ], connection=connection).send()
                 obj = Result(bool1 = True)
-                
+              
                 
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
         
+
 
 
 
