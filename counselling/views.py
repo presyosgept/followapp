@@ -89,22 +89,11 @@ class SignUpFirstApi(APIView):
                     email,
                 ], connection=connection).send()
                 obj = Result(bool1 = True)
-                value = AccountCreated(id_number=id,email=email, password=code)
-                value.save()
+                
                 
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
         
-class VerificationApi(APIView):
-    def get(self, request, id, code):
-        accs = AccountCreated.objects.all()
-        obj = Result(bool1 = False)
-        for check in accs:
-            if(check.id_number==id and check.password==code):
-                obj = Result(bool1 = True)
-
-        serializer = ResultSerializer(obj)
-        return Response(serializer.data)
 
 
 
