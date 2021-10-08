@@ -63,10 +63,9 @@ class CounselorList(APIView):
         obj = Result(bool1 = True)
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
-import logging
-logger = logging.getLogger(__name__)
-class SignUpFirst(APIView):
-    def get(self, request, employee, email):
+
+class SignUpFirstApi(APIView):
+    def get(self, request, id, email):
         char = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
         for x in range(0,1):
             code=''
@@ -76,8 +75,7 @@ class SignUpFirst(APIView):
         qs_faculty = Faculty.objects.all()
         obj = Result(bool1 = False)
         for check in qs_faculty:
-            if(check.employee_id == employee):
-                logger.info('Information incoming!')
+            if(check.employee_id == id):
                 connection = get_connection(use_tls=True,
                 host='smtp.gmail.com', 
                 port=587,
@@ -91,10 +89,22 @@ class SignUpFirst(APIView):
                     email,
                 ], connection=connection).send()
                 obj = Result(bool1 = True)
+                value = AccountCreated(id_number=id,email=email, password=code)
+                value.save()
                 
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
+        
+class VerificationApi(APIView):
+    def get(self, request, id, code):
+        accs = AccountCreated.objects.all()
+        obj = Result(bool1 = False)
+        for check in accs:
+            if(check.id_number==id and check.password==code):
+                obj = Result(bool1 = True)
 
+        serializer = ResultSerializer(obj)
+        return Response(serializer.data)
 
 
 
