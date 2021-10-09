@@ -76,11 +76,11 @@ class AccountsAdmin(ImportExportModelAdmin):
 
 admin.site.register(AccountCreated)
 class AccountCreatedAdmin(ImportExportModelAdmin):
-    list_display = ('id_number','password')
+    list_display = ('id_number','email','password')
 
 admin.site.register(AccountsApi)
 class AccountsApiAdmin(ImportExportModelAdmin):
-    list_display = ('id_number','code')
+    list_display = ('id_number','email','code')
 
 
 

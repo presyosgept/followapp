@@ -89,7 +89,7 @@ class SignUpFirstApi(APIView):
                     email,
                 ], connection=connection).send()
                 obj = Result(bool1 = True)
-                value = AccountsApi(id_number=id,email=email, code=code)
+                value = AccountsApi(id_number=id, email=email, code=code)
                 value.save()
                 
         serializer = ResultSerializer(obj)
@@ -106,6 +106,17 @@ class VerificationApi(APIView):
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
 
+# class RegisterApi(APIView):
+#     def get(request, id, password):
+#         obj = Result(bool1 = False)
+#         accs = AccountsApi.objects.all()
+#         for check in accs:
+#             if(check.id_number == id):
+#                 user = authenticate(request, username=id, password=password)
+#                 obj = Result(bool1 = True)
+
+#         serializer = ResultSerializer(obj)
+#         return Response(serializer.data)
 
 
 
