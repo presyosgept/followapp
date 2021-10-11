@@ -28,7 +28,7 @@ from counselling.views import(
     # about_view,
    
  
-    export_studentslist,
+    # export_studentslist,
     upload_studentslist,
     students_view,
     registerPage,
@@ -43,7 +43,7 @@ from counselling.views import(
     admin_home_view,
     upload_students,
     upload_faculty,
-    export_teachersload,
+    # export_teachersload,
     upload_subject_offered,
     export_subject_offered,
     export_facultyload,
@@ -52,8 +52,8 @@ from counselling.views import(
     upload_studentsload,
     # upload_StudentSchedule,
     # export_StudentSchedule,
-    upload_CounselorSchedule,
-    export_CounselorSchedule,
+    # upload_CounselorSchedule,
+    # export_CounselorSchedule,
     upload_counselor,
 
 
@@ -80,7 +80,7 @@ from counselling.views import(
     director_home_view,
     director_assign_counselor,
     director_fillinForm,
-    sample,
+    # sample,
 
     #student
     student_home_view,
@@ -92,15 +92,23 @@ from counselling.views import(
     CounselorList,
     SignUpFirstApi,
     VerificationApi,
+    RegisterApi,
+
+    #uploaddb
+    uploaddb_home_view,
 )
 
 
 urlpatterns = [
 
+    #uploaddb
+    path('uploaddb/', uploaddb_home_view, name="uploaddb_home_view"),
+
     # path('student_api/', studentsList.as_view()),
     path('counselor_api/', CounselorList.as_view()),
     path('singupfirst_api/<str:id>/<str:email>', SignUpFirstApi.as_view()),
     path('verification_api/<str:id>/<str:code>', VerificationApi.as_view()),
+    path('register_api/<str:id>/<str:password>', RegisterApi.as_view()),
     path('email/', TemplateView.as_view(template_name="sendEmail.html"), name='sendEmail'),
     path('send-form-email',SendFormEmail.as_view(),name='send_email'),
 
@@ -124,7 +132,7 @@ urlpatterns = [
     path('admin/uploadstudents', upload_students, name="upload_students"),
     # path('admin/exportstudents', export_students, name="export_students"),
     path('admin/uploadteachers', upload_faculty, name="upload_teachersload"),
-    path('admin/exportteachers', export_teachersload, name="export_teachersload"),
+    # path('admin/exportteachers', export_teachersload, name="export_teachersload"),
     path('admin/upload_subject_offered', upload_subject_offered, name="upload_subject_offered"),
     path('admin/export_subject_offered', export_subject_offered, name="export_subject_offered"),
     path('admin/upload_facultyload', upload_facultyload, name="upload_facultyload"),
@@ -134,8 +142,8 @@ urlpatterns = [
 
     # path('admin/upload_StudentSchedule', upload_StudentSchedule, name="upload_StudentSchedule"),
     # path('admin/export_StudentSchedule', export_StudentSchedule, name="export_StudentSchedule"),
-    path('admin/upload_CounselorSchedule', upload_CounselorSchedule, name="upload_CounselorSchedule"),
-    path('admin/export_CounselorSchedule', export_CounselorSchedule, name="export_CounselorSchedule"),
+    # path('admin/upload_CounselorSchedule', upload_CounselorSchedule, name="upload_CounselorSchedule"),
+    # path('admin/export_CounselorSchedule', export_CounselorSchedule, name="export_CounselorSchedule"),
     path('admin/upload_counselor', upload_counselor, name="upload_counselor"),
 
     #teacher
@@ -174,7 +182,7 @@ urlpatterns = [
 
     path('studentslist/studenthome', student_view, name="home_student"),
     path('studentslist/students', students_view),
-    path('studentslist/exportion', export_studentslist),
+    # path('studentslist/exportion', export_studentslist),
     # path('studentslist/upload_students', simple_upload_students),
     path('studentslist/upload', upload_studentslist),
     

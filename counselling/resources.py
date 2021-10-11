@@ -1,5 +1,5 @@
 from import_export import resources
-from .models import Faculty,Student,CounselorSchedule,TeachersReferral, Counselor, Teachersload,SubjectOffered,NewFacultyload,NewStudentsload
+from .models import Faculty,Student,TeachersReferral, Counselor, SubjectOffered,NewFacultyload,NewStudentsload
 from .models import OfferCode,AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
 
 class OfferCodeResource(resources.ModelResource):
@@ -49,9 +49,7 @@ class TeachersReferralResource(resources.ModelResource):
     class Meta:
         model = TeachersReferral
 
-class TeachersloadResource(resources.ModelResource):
-    class Meta:
-        model = Teachersload
+
 
 class SubjectOfferedResource(resources.ModelResource):
     class Meta:
@@ -69,8 +67,6 @@ class CounselorResource(resources.ModelResource):
     class Meta:
         model = Counselor    
 
-class CounselorScheduleResource(resources.ModelResource):
-    class Meta:
-        model = CounselorSchedule
+
 
 

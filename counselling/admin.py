@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from .models import AccountsApi,NewFacultyload,Accounts,Faculty,Student,Notification,CounselorSchedule,TeachersReferral, Teachersload, SubjectOffered, NewStudentsload, Counselor
+from .models import AccountsApi,NewFacultyload,Faculty,Student,Notification,TeachersReferral, SubjectOffered, NewStudentsload, Counselor
 from .models import OfferCode,MyTable,SubjectWithSem,Semester,AllSubjects,NewOfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
 
 
@@ -36,7 +36,7 @@ class AllSubjectsAdmin(ImportExportModelAdmin):
 admin.site.register(NewOfferCode)
 class NewOfferCodeAdmin(ImportExportModelAdmin):
     list_display = ('offer_code','days','start_time', 'end_time','room',
-    'subject_code','semd_id','academic_year')
+    'subject_code','sem_id','academic_year')
 
 admin.site.register(SchoolOffices)
 class SchoolOfficesAdmin(ImportExportModelAdmin):
@@ -70,9 +70,6 @@ admin.site.register(Faculty)
 class FacultyAdmin(ImportExportModelAdmin):
     list_display = ('employee_id','lastname','firstname','email','role')
 
-admin.site.register(Accounts)
-class AccountsAdmin(ImportExportModelAdmin):
-    list_display = ('id_number','lastname','firstname','email','password')
 
 admin.site.register(AccountCreated)
 class AccountCreatedAdmin(ImportExportModelAdmin):
@@ -93,9 +90,6 @@ class TeachersReferralAdmin(ImportExportModelAdmin):
     list_display = ('studnumber','firstname', 'lastname','degree_program','subject_referred', 'reasons','counselor','employeeid','start_time','end_time','date','status','behavior_problem')
 
 
-admin.site.register(Teachersload)
-class TeachersloadAdmin(ImportExportModelAdmin):
-    list_display = ('employeeid','firstname', 'lastname','external_email','role')
 
 admin.site.register(SubjectOffered)
 class SubjectOfferedAdmin(ImportExportModelAdmin):
@@ -110,9 +104,6 @@ admin.site.register(Counselor)
 class CounselorAdmin(ImportExportModelAdmin):
     list_display = ('employeeid', 'firstname', 'lastname','program_designation')
 
-admin.site.register(CounselorSchedule)
-class CounselorScheduleAdmin(ImportExportModelAdmin):
-    list_display = ('schedid','time1','time2', 'service_offered','description')
 
 
 admin.site.register(Notification) 

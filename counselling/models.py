@@ -55,13 +55,6 @@ class Faculty(models.Model):
     email = models.EmailField(max_length=254)
     role = models.CharField(max_length=220)
 
-class Accounts(models.Model):
-    id_number = models.CharField(max_length=15,primary_key=True)
-    username = models.CharField(max_length=15,blank=True, null=True)
-    lastname = models.CharField(max_length=220,blank=True, null=True)
-    firstname = models.CharField(max_length=220,blank=True, null=True)
-    email = models.EmailField(max_length=254,blank=True, null=True)
-    password = models.CharField(max_length=220,blank=True, null=True)
 
 class AccountCreated(models.Model):
     id_number = models.CharField(max_length=15,primary_key=True)
@@ -76,7 +69,7 @@ class AccountsApi(models.Model):
 
 class NewOfferCode (models.Model):
     class Meta:
-        unique_together = (('offer_code', 'semd_id','academic_year'))
+        unique_together = (('offer_code', 'sem_id','academic_year'))
 
     offer_code = models.CharField(max_length=225,default=None)
     days = ArrayField(models.CharField(max_length=220),default=list)
@@ -84,7 +77,7 @@ class NewOfferCode (models.Model):
     end_time = models.TimeField()
     room = models.CharField(max_length=225,default=None)
     subject_code = models.CharField(max_length=225,default=None)
-    semd_id = models.CharField(max_length=225,default=None)
+    sem_id = models.CharField(max_length=225,default=None)
     academic_year = models.CharField(max_length=225,default=None)    
 
 class OfferCode (models.Model):
@@ -138,14 +131,6 @@ class TeachersReferral(models.Model):
     behavior_problem = models.CharField(max_length=220, choices=BEHAVIOR_PROBLEM,null=True,blank=True)
 
 
-
-class Teachersload(models.Model):
-    employeeid = models.CharField(max_length=220,primary_key=True)
-    firstname = models.CharField(max_length=220)
-    lastname = models.CharField(max_length=220)
-    external_email = models.CharField(max_length=220)
-    role = models.CharField(max_length=220)
-
 class SubjectOffered(models.Model):
     offer_no = models.CharField(max_length=220,primary_key=True)
     subject_no = models.CharField(max_length=220)
@@ -155,10 +140,7 @@ class SubjectOffered(models.Model):
     end_time = models.TimeField(blank=True,null=True)
     units = models.CharField(max_length=220)
 
-class Studentsload(models.Model):
-    id = models.CharField(max_length=220,primary_key=True)
-    offer_no = models.CharField(max_length=220)
-    studnumber = models.CharField(max_length=220)
+
 
 class Counselor(models.Model):
     PROGRAM_DESIGNATION = (('BSIT','BSIT'),
@@ -168,16 +150,8 @@ class Counselor(models.Model):
     lastname = models.CharField(max_length=220)
     program_designation = models.CharField(max_length=220, choices=PROGRAM_DESIGNATION,null=True,blank=True)
 
-class CounselorSchedule(models.Model):
-    SERVICE_OFFERED = (('CLASS','CLASS'),
-                          ('COUNSELING','COUNSELING'),('OTHERS','OTHERS'))
-    schedid = models.CharField(max_length=220,primary_key=True)
-    time1 = models.TimeField(null=True,blank=True)
-    time2 = models.TimeField(null=True,blank=True)
-    service_offered = models.CharField(max_length=220,choices=SERVICE_OFFERED,null=True,blank=True)
-    description = models.CharField(max_length=220,null=True,blank=True)
 
- 
+
 class Notification(models.Model):
     AUTOMATIC_REFERRAL = 'automatic_referral'
     MANUAL_REFERRAL = 'manual_referral'

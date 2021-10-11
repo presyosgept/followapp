@@ -17,10 +17,10 @@ from django.views import generic
 from django.utils import timezone
 from datetime import date,datetime,timedelta
 
-from .forms import VerificationForm,AccountCreatedForm,AccountsForm,CounselorScheduleForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, TeachersloadForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import  NewStudentsload,OfferCode,AccountCreated,Accounts,Faculty,Student,Counselor,Notification,CounselorSchedule,Counselor,TeachersReferral, Teachersload, SubjectOffered, NewFacultyload, NewStudentsload
+from .forms import VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
+from .models import  NewStudentsload,OfferCode,AccountCreated,Faculty,Student,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, NewFacultyload, NewStudentsload
 
-from .resources import  NewStudentsloadResource,OfferCodeResource,FacultyResource,StudentResource,CounselorScheduleResource,CounselorResource,TeachersReferralResource,TeachersloadResource,SubjectOfferedResource,NewFacultyloadResource, NewStudentsloadResource
+from .resources import  NewStudentsloadResource,OfferCodeResource,FacultyResource,StudentResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,NewFacultyloadResource, NewStudentsloadResource
 from tablib import Dataset
 
 # Create your views here.
@@ -73,9 +73,15 @@ class SignUpFirstApi(APIView):
                 code_char = random.choice(char)
                 code = code + code_char
         qs_faculty = Faculty.objects.all()
+        accexist = AccountsApi.objects.all()
         obj = Result(bool1 = False)
+        exist = 0
+        for acc in accexist:
+            if(acc.id_number==id):
+                exist = 1
+
         for check in qs_faculty:
-            if(check.employee_id == id):
+            if(check.employee_id == id and exist == 0):
                 connection = get_connection(use_tls=True,
                 host='smtp.gmail.com', 
                 port=587,
@@ -106,17 +112,17 @@ class VerificationApi(APIView):
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
 
-# class RegisterApi(APIView):
-#     def get(request, id, password):
-#         obj = Result(bool1 = False)
-#         accs = AccountsApi.objects.all()
-#         for check in accs:
-#             if(check.id_number == id):
-#                 user = authenticate(request, username=id, password=password)
-#                 obj = Result(bool1 = True)
+class RegisterApi(APIView):
+    def get(request, id, password):
+        obj = Result(bool1 = False)
+        accs = AccountsApi.objects.all()
+        for check in accs:
+            if(check.id_number == id):
+                user = authenticate(request, username=id, password=password)
+                obj = Result(bool1 = True)
 
-#         serializer = ResultSerializer(obj)
-#         return Response(serializer.data)
+        serializer = ResultSerializer(obj)
+        return Response(serializer.data)
 
 
 
@@ -431,6 +437,9 @@ def director_fillinForm(request, pk):
 
 #director
 
+
+
+
 #admin
 @login_required(login_url='login')
 def admin_home_view(request, *args, **kwargs):
@@ -572,43 +581,43 @@ def upload_students(request):
 #         	value.save()     
 #     return render(request, "admin/upload_studentsched.html")
 
-@login_required(login_url='login')
-def export_CounselorSchedule(request):
-    CounselorSchedule_resource = CounselorScheduleResource()
-    dataset = CounselorSchedule_resource.export()
-    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="CounselorSchedule.xls"'
-    return response
+# @login_required(login_url='login')
+# def export_CounselorSchedule(request):
+#     CounselorSchedule_resource = CounselorScheduleResource()
+#     dataset = CounselorSchedule_resource.export()
+#     response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+#     response['Content-Disposition'] = 'attachment; filename="CounselorSchedule.xls"'
+#     return response
 
-@login_required(login_url='login')
-def upload_CounselorSchedule(request):
-    if request.method == 'POST':
-        CounselorScheduleResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+# @login_required(login_url='login')
+# def upload_CounselorSchedule(request):
+#     if request.method == 'POST':
+#         CounselorScheduleResource()
+#         dataset = Dataset()
+#         new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(),format='xlsx')
-        print(imported_data)
-        for data in imported_data:
+#         imported_data = dataset.load(new_students.read(),format='xlsx')
+#         print(imported_data)
+#         for data in imported_data:
            
-        	print(data[1])
-        	value = CounselorSchedule(
-                data[0],
-                data[1], 
-                data[2], 
-                data[3],  
-                data[4],  
-                )
-        	value.save()     
-    return render(request, "admin/upload_counselorsched.html")
+#         	print(data[1])
+#         	value = CounselorSchedule(
+#                 data[0],
+#                 data[1], 
+#                 data[2], 
+#                 data[3],  
+#                 data[4],  
+#                 )
+#         	value.save()     
+#     return render(request, "admin/upload_counselorsched.html")
 
-@login_required(login_url='login')
-def export_teachersload(request):
-    teachersload_resource = TeachersloadResource()
-    dataset = teachersload_resource.export()
-    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="teachersload.xls"'
-    return response
+# @login_required(login_url='login')
+# def export_teachersload(request):
+#     teachersload_resource = TeachersloadResource()
+#     dataset = teachersload_resource.export()
+#     response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+#     response['Content-Disposition'] = 'attachment; filename="teachersload.xls"'
+#     return response
 
 @login_required(login_url='login')
 def upload_faculty(request):
@@ -939,32 +948,32 @@ def teacher_coursecard(request, *args, **kwargs):
 #counselor
 @login_required(login_url='login')
 def counselor_home_view(request, *args, **kwargs):
-    today = date.today()
-    ugma = date.today() + timedelta(days=1)
-    now = datetime.now()
-    day_name=now.strftime("%a")
-    adlaw = [day_name]
-    days = SubjectOffered.objects.filter(dayofsub=adlaw)
-    print("test piiiff sa subject chuchuc")
-    print(days)
-    counselorSchedulelist = []
+    # today = date.today()
+    # ugma = date.today() + timedelta(days=1)
+    # now = datetime.now()
+    # day_name=now.strftime("%a")
+    # adlaw = [day_name]
+    # days = SubjectOffered.objects.filter(dayofsub=adlaw)
+    # print("test piiiff sa subject chuchuc")
+    # print(days)
+    # counselorSchedulelist = []
     user = request.session.get('username')
-    counselorSubject = NewFacultyload.objects.filter(employee_id = user)
-    allSubjects = SubjectOffered.objects.all()
-    counselorsss = CounselorSchedule.objects.order_by('schedid')
-    couns=CounselorSchedule.objects.all()
-    days = SubjectOffered.objects.filter(dayofsub=day_name)
-    for object in allSubjects:
-        for object1 in counselorSubject:
-            if object.offer_no == object1.offer_no and day_name in object.dayofsub:
-                print("charooottt")
-                counselorSchedulelist.append(SubjectOffered(object.offer_no, 
-                object.subject_no,object.subject_title,object.dayofsub,
-                object.start_time,object.end_time,object.units))
-    for object in counselorSchedulelist:
-        for object1 in couns:
-            if(object.start_time==object1.time1 or object.end_time==object1.time2):
-                CounselorSchedule.objects.filter(schedid=object1.schedid).update(service_offered='CLASS',description=object.offer_no)
+    # counselorSubject = NewFacultyload.objects.filter(employee_id = user)
+    # allSubjects = SubjectOffered.objects.all()
+    # counselorsss = CounselorSchedule.objects.order_by('schedid')
+    # couns=CounselorSchedule.objects.all()
+    # days = SubjectOffered.objects.filter(dayofsub=day_name)
+    # for object in allSubjects:
+    #     for object1 in counselorSubject:
+    #         if object.offer_no == object1.offer_no and day_name in object.dayofsub:
+    #             print("charooottt")
+    #             counselorSchedulelist.append(SubjectOffered(object.offer_no, 
+    #             object.subject_no,object.subject_title,object.dayofsub,
+    #             object.start_time,object.end_time,object.units))
+    # for object in counselorSchedulelist:
+    #     for object1 in couns:
+    #         if(object.start_time==object1.time1 or object.end_time==object1.time2):
+    #             CounselorSchedule.objects.filter(schedid=object1.schedid).update(service_offered='CLASS',description=object.offer_no)
     global ihap
     counselor_name = Faculty.objects.filter(employee_id = user)
     userName = {"object_list": counselor_name}
@@ -973,8 +982,8 @@ def counselor_home_view(request, *args, **kwargs):
 
 @login_required(login_url='login')
 def counselor_view_schedule(request, *args, **kwargs):
-    counselors=CounselorSchedule.objects.all()
-    context = {"object_list": counselors}
+    # counselors=CounselorSchedule.objects.all()
+    context = {}
     user = request.session.get('username')
     counselor_name = Faculty.objects.filter(employee_id = user)
     userName = {"object_list": counselor_name}
@@ -982,22 +991,22 @@ def counselor_view_schedule(request, *args, **kwargs):
 
 @login_required(login_url='login')
 def counselor_setSchedule(request, pk):
-    counselor = CounselorSchedule.objects.get(time1=pk)
-    form = CounselorScheduleForm(instance=counselor)
-    objectss= CounselorSchedule.objects.order_by('schedid')
+    # counselor = CounselorSchedule.objects.get(time1=pk)
+    # form = CounselorScheduleForm(instance=counselor)
+    # objectss= CounselorSchedule.objects.order_by('schedid')
     
-    if request.method == "POST":
-        print("chuchu")
-        form = CounselorScheduleForm(request.POST, instance=counselor)
-        if form.is_valid():
-            schedid = request.POST['schedid']
-            service_offered = request.POST['service_offered']
-            description= request.POST['description']
-            CounselorSchedule.objects.filter(time1=pk).update(service_offered=service_offered,description=description)
-            counselorsss = CounselorSchedule.objects.order_by('schedid')
-            context = {"object" : counselorsss}
-            return render(request, "counselor/schedule.html",context)
-    context = {"form": form}
+    # if request.method == "POST":
+    #     print("chuchu")
+    #     form = CounselorScheduleForm(request.POST, instance=counselor)
+    #     if form.is_valid():
+    #         schedid = request.POST['schedid']
+    #         service_offered = request.POST['service_offered']
+    #         description= request.POST['description']
+    #         CounselorSchedule.objects.filter(time1=pk).update(service_offered=service_offered,description=description)
+    #         counselorsss = CounselorSchedule.objects.order_by('schedid')
+    #         context = {"object" : counselorsss}
+    #         return render(request, "counselor/schedule.html",context)
+    context = {}
     user = request.session.get('username')
     counselor_name = Faculty.objects.filter(employee_id = user)
     userName = {"object_list": counselor_name}
@@ -1185,10 +1194,7 @@ def student_notif_detail(request, pk):
 
 
 
-def sample (request, pk):
-    counselors=CounselorSchedule.objects.filter(id=pk).update(service_offered='jesus')
-    context = {"object": counselors}
-    return render(request, "counselor/set_schedule.html",context)
+# CounselorSchedule
 
 
 #  counselor = CounselorSchedule.objects.get(id=pk)
@@ -1292,34 +1298,34 @@ def about_view(request, *args, **kwargs):
 #         print(TeachersReferralForm)
 #     return render(request, "students/new.html", {"form": form})
 
-@login_required(login_url='login')
-def export_studentslist(request):
-    students_resource = TeachersloadResource()
-    dataset = students_resource.export()
-    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="students.xls"'
-    return response
+# @login_required(login_url='login')
+# def export_studentslist(request):
+#     students_resource = TeachersloadResource()
+#     dataset = students_resource.export()
+#     response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+#     response['Content-Disposition'] = 'attachment; filename="students.xls"'
+#     return response
 
 @login_required(login_url='login')
 def upload_studentslist(request):
-    if request.method == 'POST':
-        student_resource = TeachersloadResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    # if request.method == 'POST':
+    #     student_resource = TeachersloadResource()
+    #     dataset = Dataset()
+    #     new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(),format='xlsx')
-        print(imported_data)
-        for data in imported_data:
+    #     imported_data = dataset.load(new_students.read(),format='xlsx')
+    #     print(imported_data)
+    #     for data in imported_data:
            
-        	print(data[1])
-        	value = Teachersload(
-                data[0],
-                data[1], 
-                data[2], 
-                data[3], 
-                data[4], 
-                )
-        	value.save()     
+    #     	print(data[1])
+    #     	value = Teachersload(
+    #             data[0],
+    #             data[1], 
+    #             data[2], 
+    #             data[3], 
+    #             data[4], 
+    #             )
+    #     	value.save()     
     return render(request, "students/upload.html")
 
 @login_required(login_url='login')
@@ -1413,3 +1419,10 @@ def students_view(request, *args, **kwargs):
 # 				messages.info(request, 'Username OR password is incorrect')
 
 # 		return render(request, 'login.html', {})
+
+
+#uploaddb
+@login_required(login_url='login')
+def uploaddb_home_view(request, *args, **kwargs):
+    return render(request, "uploaddb/uploaddb_home.html", {})
+#uploaddb

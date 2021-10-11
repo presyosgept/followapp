@@ -1,4 +1,4 @@
-from .models import Accounts, Counselor, CounselorSchedule,AccountCreated,TeachersReferral,AllStudents
+from .models import Counselor, AccountCreated,TeachersReferral,AllStudents
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
@@ -42,14 +42,6 @@ class StudentsForm(forms.Form):
     course = forms.CharField()
     year = forms.CharField()
     role = forms.CharField()
-
-class TeachersloadForm(forms.Form):
-    employeeid = forms.CharField()
-    firstname = forms.CharField()
-    lastname = forms.CharField()
-    external_email = forms.CharField()
-    role = forms.CharField()
-
 
 
 class SubjectOfferedForm(forms.Form):
@@ -97,10 +89,10 @@ class CounselorForm(forms.ModelForm):
        
 
 
-class CounselorScheduleForm(ModelForm):
-    class Meta:
-	    model = CounselorSchedule
-	    fields = ['schedid','time1','time2', 'service_offered', 'description']
+# class CounselorScheduleForm(ModelForm):
+#     class Meta:
+# 	    model = CounselorSchedule
+# 	    fields = ['schedid','time1','time2', 'service_offered', 'description']
 
 from django.forms import ModelForm, widgets, DateTimeField, DateField, DateInput
 
