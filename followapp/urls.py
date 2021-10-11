@@ -41,22 +41,11 @@ from counselling.views import(
 
     #admin
     admin_home_view,
-    upload_students,
     upload_faculty,
-    # export_teachersload,
-    upload_subject_offered,
-    export_subject_offered,
-    export_facultyload,
     upload_facultyload,
-    export_studentsload,
+    upload_students,
     upload_studentsload,
-    # upload_StudentSchedule,
-    # export_StudentSchedule,
-    # upload_CounselorSchedule,
-    # export_CounselorSchedule,
-    upload_counselor,
-
-
+  
 
     # teacher
     teacher_home_view,
@@ -96,6 +85,15 @@ from counselling.views import(
 
     #uploaddb
     uploaddb_home_view,
+    uploaddb_schooloffices,
+    uploaddb_department,
+    uploaddb_degreeprogram,
+    uploaddb_allstudents,
+    uploaddb_allfaculty,
+    uploaddb_allsubjects,
+    uploaddb_semester,
+    uploaddb_newoffercode,
+    uploaddb_offercode
 )
 
 
@@ -103,6 +101,17 @@ urlpatterns = [
 
     #uploaddb
     path('uploaddb/', uploaddb_home_view, name="uploaddb_home_view"),
+    path('uploaddb/schooloffices', uploaddb_schooloffices, name="uploaddb_schooloffices"),
+    path('uploaddb/department', uploaddb_department, name="uploaddb_department"),
+    path('uploaddb/degreeprogram', uploaddb_degreeprogram, name="uploaddb_degreeprogram"),
+    path('uploaddb/allstudents', uploaddb_allstudents, name="uploaddb_allstudents"),
+    path('uploaddb/allfaculty', uploaddb_allfaculty, name="uploaddb_allfaculty"),
+    path('uploaddb/allsubjects', uploaddb_allsubjects, name="uploaddb_allsubjects"),
+    path('uploaddb/semester', uploaddb_semester, name="uploaddb_semester"),
+    path('uploaddb/newoffercode', uploaddb_newoffercode, name="uploaddb_newoffercode"),
+    path('uploaddb/offercode', uploaddb_offercode, name="uploaddb_offercode"),
+
+
 
     # path('student_api/', studentsList.as_view()),
     path('counselor_api/', CounselorList.as_view()),
@@ -129,23 +138,12 @@ urlpatterns = [
 
     #admin
     path('head/', admin_home_view, name="admin_home_view"),
-    path('admin/uploadstudents', upload_students, name="upload_students"),
-    # path('admin/exportstudents', export_students, name="export_students"),
-    path('admin/uploadteachers', upload_faculty, name="upload_teachersload"),
-    # path('admin/exportteachers', export_teachersload, name="export_teachersload"),
-    path('admin/upload_subject_offered', upload_subject_offered, name="upload_subject_offered"),
-    path('admin/export_subject_offered', export_subject_offered, name="export_subject_offered"),
+    path('admin/upload_faculty', upload_faculty, name="upload_faculty"),
     path('admin/upload_facultyload', upload_facultyload, name="upload_facultyload"),
-    path('admin/export_facultyload', export_facultyload, name="export_facultyload"),
+    path('admin/upload_students', upload_students, name="upload_students"),
     path('admin/upload_studentsload', upload_studentsload, name="upload_studentsload"),
-    path('admin/export_studentsload', export_studentsload, name="export_studentsload"),
-
-    # path('admin/upload_StudentSchedule', upload_StudentSchedule, name="upload_StudentSchedule"),
-    # path('admin/export_StudentSchedule', export_StudentSchedule, name="export_StudentSchedule"),
-    # path('admin/upload_CounselorSchedule', upload_CounselorSchedule, name="upload_CounselorSchedule"),
-    # path('admin/export_CounselorSchedule', export_CounselorSchedule, name="export_CounselorSchedule"),
-    path('admin/upload_counselor', upload_counselor, name="upload_counselor"),
-
+ 
+    
     #teacher
     path('teacher/', teacher_home_view, name="teacher_home_view"),
     # path('teacher/referstudent',  refer_student, name="refer_student"),

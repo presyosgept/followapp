@@ -18,9 +18,9 @@ from django.utils import timezone
 from datetime import date,datetime,timedelta
 
 from .forms import VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import  NewStudentsload,OfferCode,AccountCreated,Faculty,Student,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, NewFacultyload, NewStudentsload
+from .models import  Semester,NewStudentsload,OfferCode,AccountCreated,Faculty,Student,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, NewFacultyload, NewStudentsload
 
-from .resources import  NewStudentsloadResource,OfferCodeResource,FacultyResource,StudentResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,NewFacultyloadResource, NewStudentsloadResource
+from .resources import  SemesterResource,NewStudentsloadResource,OfferCodeResource,FacultyResource,StudentResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,NewFacultyloadResource, NewStudentsloadResource
 from tablib import Dataset
 
 # Create your views here.
@@ -391,6 +391,8 @@ def loginPage(request):
                                         return redirect('director_home_view')
                                     if username == 'followapp':
                                         return redirect('admin_home_view')
+                                    if username == 'upload':
+                                        return redirect('uploaddb_home_view')
                                     
 			else:
 				messages.info(request, 'Username OR password is incorrect')
@@ -446,53 +448,7 @@ def admin_home_view(request, *args, **kwargs):
     return render(request, "admin/admin_home.html", {})
 
 #upload
-@login_required(login_url='login')
-def upload_counselor(request):
-    if request.method == 'POST':
-        NewStudentsloadResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(),format='xlsx')
-        for data in imported_data:
-        	value = NewStudentsload(
-                data[0],
-                data[1], 
-                data[2], 
-                )
-        	value.save()     
-    return render(request, "admin/upload_counselor.html")
-
-
-
-# @login_required(login_url='login')
-# def upload_counselor(request):
-#     if request.method == 'POST':
-#         CounselorResource()
-#         dataset = Dataset()
-#         new_students = request.FILES['myfile']
-
-#         imported_data = dataset.load(new_students.read(),format='xlsx')
-#         print(imported_data)
-#         for data in imported_data:
-           
-#         	print(data[1])
-#         	value = Counselor(
-#                 data[0],
-#                 data[1], 
-#                 data[2],   
-#                 data[3], 
-#                 )
-#         	value.save()     
-#     return render(request, "admin/upload_counselor.html")
-
-@login_required(login_url='login')
-def export_studentsload(request):
-    Studentsload_resource = NewStudentsloadResource()
-    dataset = Studentsload_resource.export()
-    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="NewStudentsload.xls"'
-    return response
 
 @login_required(login_url='login')
 def upload_studentsload(request):
@@ -551,73 +507,6 @@ def upload_students(request):
         messages.info(request, 'No data has been added Yet')  
     return render(request, "admin/upload_students.html")
 
-# @login_required(login_url='login')
-# def export_StudentSchedule(request):
-#     StudentSchedule_resource = StudentScheduleResource()
-#     dataset = StudentSchedule_resource.export()
-#     response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-#     response['Content-Disposition'] = 'attachment; filename="StudentSchedule.xls"'
-#     return response
-
-# @login_required(login_url='login')
-# def upload_StudentSchedule(request):
-#     if request.method == 'POST':
-#         StudentScheduleResource()
-#         dataset = Dataset()
-#         new_students = request.FILES['myfile']
-
-#         imported_data = dataset.load(new_students.read(),format='xlsx')
-#         print(imported_data)
-#         for data in imported_data:
-           
-#         	print(data[1])
-#         	value = StudentSchedule(
-#                 data[0],
-#                 data[1], 
-#                 data[2], 
-#                 data[3],  
-#                 data[4],  
-#                 )
-#         	value.save()     
-#     return render(request, "admin/upload_studentsched.html")
-
-# @login_required(login_url='login')
-# def export_CounselorSchedule(request):
-#     CounselorSchedule_resource = CounselorScheduleResource()
-#     dataset = CounselorSchedule_resource.export()
-#     response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-#     response['Content-Disposition'] = 'attachment; filename="CounselorSchedule.xls"'
-#     return response
-
-# @login_required(login_url='login')
-# def upload_CounselorSchedule(request):
-#     if request.method == 'POST':
-#         CounselorScheduleResource()
-#         dataset = Dataset()
-#         new_students = request.FILES['myfile']
-
-#         imported_data = dataset.load(new_students.read(),format='xlsx')
-#         print(imported_data)
-#         for data in imported_data:
-           
-#         	print(data[1])
-#         	value = CounselorSchedule(
-#                 data[0],
-#                 data[1], 
-#                 data[2], 
-#                 data[3],  
-#                 data[4],  
-#                 )
-#         	value.save()     
-#     return render(request, "admin/upload_counselorsched.html")
-
-# @login_required(login_url='login')
-# def export_teachersload(request):
-#     teachersload_resource = TeachersloadResource()
-#     dataset = teachersload_resource.export()
-#     response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-#     response['Content-Disposition'] = 'attachment; filename="teachersload.xls"'
-#     return response
 
 @login_required(login_url='login')
 def upload_faculty(request):
@@ -680,78 +569,6 @@ def upload_facultyload(request):
         messages.info(request, 'No data has been added Yet')     
     return render(request, "admin/upload_facultyload.html")
 
-
-@login_required(login_url='login')
-def export_facultyload(request):
-    facultyload_resource = NewFacultyloadResource()
-    dataset = facultyload_resource.export()
-    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="NewFacultyload.xls"'
-    return response
-
-@login_required(login_url='login')
-def export_subject_offered(request):
-    subject_offered_resource = SubjectOfferedResource()
-    dataset = subject_offered_resource.export()
-    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="subject_offered.xls"'
-    return response
-
-@login_required(login_url='login')
-def upload_subject_offered(request):
-    if request.method == 'POST':
-        SubjectOfferedResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
-
-        imported_data = dataset.load(new_students.read(),format='xlsx')
-        print(imported_data)
-        for data in imported_data:
-           
-        	print(data[1])
-        	value = SubjectOffered(
-                data[0],
-                data[1], 
-                data[2], 
-                data[3], 
-                data[4], 
-                data[5],
-                data[6],
-                )
-        	value.save()     
-    return render(request, "admin/upload_subject_offered.html")
-
-
-
-
-
-@login_required(login_url='login')
-def export_studentsload(request):
-    studentsload_resource = NewStudentsloadResource()
-    dataset = studentsload_resource.export()
-    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="NewStudentsload.xls"'
-    return response
-
-# @login_required(login_url='login')
-# def upload_studentsload(request):
-#     if request.method == 'POST':
-#         NewStudentsloadResource()
-#         dataset = Dataset()
-#         new_students = request.FILES['myfile']
-
-#         imported_data = dataset.load(new_students.read(),format='xlsx')
-#         print(imported_data)
-#         for data in imported_data:
-           
-#         	print(data[1])
-#         	value = NewStudentsload(
-#                 data[0],
-#                 data[1], 
-#                 data[2],   
-#                 )
-#         	value.save()     
-#     return render(request, "admin/upload_studentsload.html")
 
 
 #admin
@@ -1425,4 +1242,172 @@ def students_view(request, *args, **kwargs):
 @login_required(login_url='login')
 def uploaddb_home_view(request, *args, **kwargs):
     return render(request, "uploaddb/uploaddb_home.html", {})
+
+
+@login_required(login_url='login')
+def uploaddb_schooloffices(request):
+    if request.method == 'POST':
+        SchoolOfficesResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = SchoolOffices(
+                data[0],
+                data[1], 
+                data[2]
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_schooloffices.html")
+
+@login_required(login_url='login')
+def uploaddb_department(request):
+    if request.method == 'POST':
+        DepartmentResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = Department(
+                data[0],
+                data[1], 
+                data[2]
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_department.html")
+
+@login_required(login_url='login')
+def uploaddb_degreeprogram(request):
+    if request.method == 'POST':
+        DegreeProgramResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = DegreeProgram(
+                data[0],
+                data[1], 
+                data[2],
+                data[3]
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_degreeprogram.html")
+
+@login_required(login_url='login')
+def uploaddb_allstudents(request):
+    if request.method == 'POST':
+        AllStudentsResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = AllStudents(
+                data[0],
+                data[1], 
+                data[2],
+                data[3],
+                data[4], 
+                data[5],
+                data[6],
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_allstudents.html")
+
+@login_required(login_url='login')
+def uploaddb_allfaculty(request):
+    if request.method == 'POST':
+        AllFacultyResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = AllFaculty(
+                data[0],
+                data[1], 
+                data[2],
+                data[3],
+                data[4], 
+                data[5],
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_allfaculty.html")
+
+@login_required(login_url='login')
+def uploaddb_allsubjects(request):
+    if request.method == 'POST':
+        AllSubjectsResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = AllSubjects(
+                data[0],
+                data[1], 
+                data[2],
+                data[3],
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_allsubjects.html")
+
+@login_required(login_url='login')
+def uploaddb_semester(request):
+    if request.method == 'POST':
+        SemesterResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = Semester(
+                data[0],
+                data[1], 
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_semester.html")
+
+@login_required(login_url='login')
+def uploaddb_newoffercode(request):
+    if request.method == 'POST':
+        NewOfferCodeResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = NewOfferCode(
+                data[0],
+                data[1], 
+                data[2],
+                data[3],
+                data[4], 
+                data[5], 
+                data[6], 
+                data[7], 
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_newoffercode.html")
+
+@login_required(login_url='login')
+def uploaddb_offercode(request):
+    if request.method == 'POST':
+        OfferCodeResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = OfferCode(
+                data[0],
+                data[1], 
+                data[2],
+                data[3], 
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_offercode.html")
 #uploaddb
