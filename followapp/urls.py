@@ -81,7 +81,8 @@ from counselling.views import(
     CounselorList,
     SignUpFirstApi,
     VerificationApi,
-    RegisterApi,
+    # RegisterApi,
+    UserCreate,
 
     #uploaddb
     uploaddb_home_view,
@@ -98,6 +99,7 @@ from counselling.views import(
 
 
 urlpatterns = [
+
 
     #uploaddb
     path('uploaddb/', uploaddb_home_view, name="uploaddb_home_view"),
@@ -117,10 +119,10 @@ urlpatterns = [
     path('counselor_api/', CounselorList.as_view()),
     path('singupfirst_api/<str:id>/<str:email>', SignUpFirstApi.as_view()),
     path('verification_api/<str:id>/<str:code>', VerificationApi.as_view()),
-    path('register_api/<str:id>/<str:password>', RegisterApi.as_view()),
+    # path('register_api/<str:id>/<str:password>', RegisterApi.as_view()),
     path('email/', TemplateView.as_view(template_name="sendEmail.html"), name='sendEmail'),
     path('send-form-email',SendFormEmail.as_view(),name='send_email'),
-
+    path('account/register', UserCreate.as_view()),
 
 
 

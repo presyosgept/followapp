@@ -30,7 +30,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from . serializers import FacultySerializers,ResultSerializer, Result
+from . serializers import FacultySerializers,ResultSerializer, Result, UserSerializer
 
 from .models import  AccountsApi,AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
 
@@ -112,18 +112,45 @@ class VerificationApi(APIView):
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
 
-class RegisterApi(APIView):
-    def get(request, id, password):
-        obj = Result(bool1 = False)
-        accs = AccountsApi.objects.all()
-        for check in accs:
-            if(check.id_number == id):
-                user = authenticate(request, username=id, password=password)
-                obj = Result(bool1 = True)
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from django.contrib.auth.forms import User
 
-        serializer = ResultSerializer(obj)
-        return Response(serializer.data)
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (AllowAny, )
 
+
+
+
+
+
+
+# from django.contrib.auth.forms import User
+# class RegisterApi(APIView):
+#     def get(request, id, password):
+#         user = User.objects.create(
+#                 username=id,
+#                 password = password
+#             )
+#         user.save()
+#         return user
+#         # obj = Result(bool1 = False)
+#         # accs = AccountsApi.objects.all()
+#         # for check in accs:
+#         #     if(check.id_number == id):
+#         #         user = authenticate(request, username=id, password=password)
+#         #         obj = Result(bool1 = True)
+
+#         # serializer = ResultSerializer(obj)
+#         # return Response(serializer.data)
+
+#     # def create(self, validated_data):
+            
+
+            
+            
 
 
 
