@@ -81,7 +81,7 @@ class SignUpFirstApi(APIView):
                 exist = 1
 
         for check in qs_faculty:
-            if(check.employee_id == id and exist == 0):
+            if(check.employee_id == id):
                 connection = get_connection(use_tls=True,
                 host='smtp.gmail.com', 
                 port=587,
