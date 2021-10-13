@@ -103,7 +103,6 @@ class SignUpFirstApi(APIView):
         
 class VerificationApi(APIView):
     def get(self, request, id, code):
-        
         accs = AccountsApi.objects.all()
         obj = Result(bool1 = False)
         for check in accs:
@@ -113,20 +112,13 @@ class VerificationApi(APIView):
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
 
-    # def post(self, request):
-	#     print("siiiirrr " + request)
-    #     obj = Result(bool1 = False)
-    #     serializer = ResultSerializer(obj)
-    #     return Response(serializer.data)
 
-
-    
 
     
 
 
 	# //e process dri ang pag create sa account then if success ang account creation ky e return ang account data
-from .serializers import UserSerializer
+from .serializers import UserSerializer,LoginSerializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -153,9 +145,38 @@ def account(request):
         
         return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET', 'POST', 'DELETE'])
+def login_api(request):
+    if request.method == 'POST':
+        print("3afsd")
+        user_data = JSONParser().parse(request)
+        user_serializer = UserSerializer(data=user_data)
+        if user_serializer.is_valid():
+            print("valiiggg")
+
+        user = User.objects.filter(username='20186', password='canovas#123').first()
+        print("1")
+        
+        if user is not None:
+            print("2")
+            user_serializer = UserSerializer(data=user)
+            # obj = LoginSerializers(result = True, user=user)
+            print("3")
+            return JsonResponse(user_serializer.data, status=status.HTTP_201_CREATED) 
+        else:
+            print("4")
+            user_serializer = UserSerializer(data=user)
+            print("5")
+            return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        
 
 
-
+# class studentsList(APIView):
+#     def get(self, request):
+#         stud = Students.objects.all()
+#         serializer=studentsSerializers(stud, many=True)
+#         return Response({'students':serializer.data})
     
 
 

@@ -36,3 +36,11 @@ class Result(object):
 class ResultSerializer(serializers.Serializer):
     # intialize fields
     result = serializers.BooleanField()
+
+
+
+class LoginSerializers(serializers.ModelSerializer):
+    result = serializers.BooleanField()
+    class Meta:
+        model = User
+        fields = '__all__'

@@ -84,6 +84,7 @@ from counselling.views import(
     VerificationApi,
     # RegisterApi,
     account,
+    login_api,
 
     #uploaddb
     uploaddb_home_view,
@@ -122,6 +123,7 @@ urlpatterns = [
     path('email/', TemplateView.as_view(template_name="sendEmail.html"), name='sendEmail'),
     path('send-form-email',SendFormEmail.as_view(),name='send_email'),
     path('register', account),
+    path('login_api', login_api),
     # path('account/register', create_auth),
 
     path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
