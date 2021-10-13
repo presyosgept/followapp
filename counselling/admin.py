@@ -2,8 +2,8 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from .models import AccountsApi,NewFacultyload,Faculty,Student,Notification,TeachersReferral, SubjectOffered, NewStudentsload, Counselor
-from .models import OfferCode,MyTable,SubjectWithSem,Semester,AllSubjects,NewOfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
+from .models import AccountsApi,NewFacultyload,Faculty,Notification,TeachersReferral, SubjectOffered, Studentsload, Counselor
+from .models import OfferCode,MyTable,SubjectWithSem,Semester,AllSubjects,NewOfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
 
 
 admin.site.register(OfferCode)
@@ -50,10 +50,10 @@ admin.site.register(DegreeProgram)
 class DegreeProgramAdmin(ImportExportModelAdmin):
     list_display = ('program_id','program_code','program_name', 'school_id')
 
-admin.site.register(AllStudents)
-class AllStudentsAdmin(ImportExportModelAdmin):
+admin.site.register(AllStudent)
+class AllStudentAdmin(ImportExportModelAdmin):
     list_display = ('studnumber','lastname','firstname', 'middlename', 
-    'degree_program','year','email')
+    'degree_program','year','email','role')
 
 admin.site.register(AllFaculty)
 class AllFacultyAdmin(ImportExportModelAdmin):
@@ -62,9 +62,6 @@ class AllFacultyAdmin(ImportExportModelAdmin):
 
 
 #iupload
-admin.site.register(Student)
-class StudentAdmin(ImportExportModelAdmin):
-    list_display = ('studnumber','email','role')
 
 admin.site.register(Faculty)
 class FacultyAdmin(ImportExportModelAdmin):
@@ -96,8 +93,8 @@ class SubjectOfferedAdmin(ImportExportModelAdmin):
     list_display = ('offer_no','subject_no', 'subject_title','dayofsub','start_time','end_time','units')
     
    
-admin.site.register(NewStudentsload)
-class NewStudentsload(ImportExportModelAdmin):
+admin.site.register(Studentsload)
+class Studentsload(ImportExportModelAdmin):
     list_display = ('id','offer_code','studnumber')
 
 admin.site.register(Counselor)

@@ -26,7 +26,7 @@ class DegreeProgram(models.Model):
     program_name = models.CharField(max_length=220)
     school_id = models.ForeignKey(SchoolOffices,on_delete=models.CASCADE)
 
-class AllStudents(models.Model):
+class AllStudent(models.Model):
     studnumber = models.CharField(max_length=15,primary_key=True)
     lastname = models.CharField(max_length=220)
     firstname = models.CharField(max_length=220)
@@ -34,11 +34,8 @@ class AllStudents(models.Model):
     degree_program = models.ForeignKey(DegreeProgram,on_delete=models.CASCADE)
     year = models.IntegerField()
     email =  models.EmailField(max_length=254)
+    role = models.CharField(max_length=220,blank=True,null=True)
 
-class Student(models.Model):
-    studnumber = models.CharField(max_length=15,primary_key=True)
-    email = models.EmailField(max_length=254)
-    role = models.CharField(max_length=220)
 
 class AllFaculty(models.Model):
     employee_id = models.CharField(max_length=15,primary_key=True)
@@ -106,10 +103,10 @@ class NewFacultyload(models.Model):
     offer_code = models.ForeignKey(OfferCode,on_delete=models.CASCADE,primary_key=True,related_name='organization')
     employee_id = models.ForeignKey(Faculty,on_delete=models.CASCADE,null=True)
 
-class NewStudentsload(models.Model):
+class Studentsload(models.Model):
     id = models.CharField(max_length=220,primary_key=True)
     offer_code = models.ForeignKey(OfferCode,on_delete=models.CASCADE,null=True)
-    studnumber = models.ForeignKey(Student,on_delete=models.CASCADE,null=True)
+    studnumber = models.ForeignKey(AllStudent,on_delete=models.CASCADE,null=True)
 
 class TeachersReferral(models.Model):
     studnumber= models.CharField(max_length=220)

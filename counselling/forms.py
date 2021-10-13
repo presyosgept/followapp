@@ -1,4 +1,4 @@
-from .models import Counselor, AccountCreated,TeachersReferral,AllStudents
+from .models import Counselor, AccountCreated,TeachersReferral,AllStudent
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User

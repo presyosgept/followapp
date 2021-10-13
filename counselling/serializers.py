@@ -1,19 +1,27 @@
 from rest_framework import serializers
 from .models import Counselor, Faculty
 from django.contrib.auth.forms import User
+from rest_framework.validators import UniqueTogetherValidator
+
 
 class UserSerializer(serializers.ModelSerializer):
+
+    # def create(self, validated_data):
+    #     user = User.objects.create_user(**validated_data)
+    #     return user
+
     class Meta:
         model = User
-        fields = ('username', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        password = validated_data.pop('password')
-        user = User(**validated_data)
-        user.set_password(password)
-        user.save()
-        return user
+        fields = (
+            'username',
+            'password',
+        )
+        # validators = [
+        #     UniqueTogetherValidator(
+        #         queryset=User.objects.all(),
+        #         fields=['username']
+        #     )
+        # ]
 
 class FacultySerializers(serializers.ModelSerializer):
     class Meta:

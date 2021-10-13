@@ -1,6 +1,6 @@
 from import_export import resources
-from .models import Semester,Faculty,Student,TeachersReferral, Counselor, SubjectOffered,NewFacultyload,NewStudentsload
-from .models import OfferCode,AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
+from .models import Semester,Faculty,TeachersReferral, Counselor, SubjectOffered,NewFacultyload,Studentsload
+from .models import OfferCode,AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
 
 class SemesterResource(resources.ModelResource):
     class Meta:
@@ -30,18 +30,15 @@ class DegreeProgramResource(resources.ModelResource):
     class Meta:
         model = DegreeProgram
 
-class AllStudentsResource(resources.ModelResource):
+class AllStudentResource(resources.ModelResource):
     class Meta:
-        model = AllStudents
+        model = AllStudent
 
 class AllFacultyResource(resources.ModelResource):
     class Meta:
         model = AllFaculty
 
 #iupload
-class StudentResource(resources.ModelResource):
-    class Meta:
-        model = Student
 
 class FacultyResource(resources.ModelResource):
     class Meta:
@@ -63,9 +60,9 @@ class NewFacultyloadResource(resources.ModelResource):
     class Meta:
         model = NewFacultyload
 
-class NewStudentsloadResource(resources.ModelResource):
+class StudentsloadResource(resources.ModelResource):
     class Meta:
-        model = NewStudentsload
+        model = Studentsload
 
 class CounselorResource(resources.ModelResource):
     class Meta:

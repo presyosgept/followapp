@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.views.generic import TemplateView
+from rest_framework.authtoken import views
 
 from counselling.views import(
     SendFormEmail,
@@ -82,14 +83,13 @@ from counselling.views import(
     SignUpFirstApi,
     VerificationApi,
     # RegisterApi,
-    UserCreate,
+    account,
 
     #uploaddb
     uploaddb_home_view,
     uploaddb_schooloffices,
     uploaddb_department,
     uploaddb_degreeprogram,
-    uploaddb_allstudents,
     uploaddb_allfaculty,
     uploaddb_allsubjects,
     uploaddb_semester,
@@ -106,7 +106,6 @@ urlpatterns = [
     path('uploaddb/schooloffices', uploaddb_schooloffices, name="uploaddb_schooloffices"),
     path('uploaddb/department', uploaddb_department, name="uploaddb_department"),
     path('uploaddb/degreeprogram', uploaddb_degreeprogram, name="uploaddb_degreeprogram"),
-    path('uploaddb/allstudents', uploaddb_allstudents, name="uploaddb_allstudents"),
     path('uploaddb/allfaculty', uploaddb_allfaculty, name="uploaddb_allfaculty"),
     path('uploaddb/allsubjects', uploaddb_allsubjects, name="uploaddb_allsubjects"),
     path('uploaddb/semester', uploaddb_semester, name="uploaddb_semester"),
@@ -122,7 +121,10 @@ urlpatterns = [
     # path('register_api/<str:id>/<str:password>', RegisterApi.as_view()),
     path('email/', TemplateView.as_view(template_name="sendEmail.html"), name='sendEmail'),
     path('send-form-email',SendFormEmail.as_view(),name='send_email'),
-    path('account/register', UserCreate.as_view()),
+    path('register', account),
+    # path('account/register', create_auth),
+
+    path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
 
 
 

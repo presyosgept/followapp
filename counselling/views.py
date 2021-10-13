@@ -1,6 +1,6 @@
 from typing import Counter
 from django.db.models.fields import TimeField
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from django.http.response import Http404
 from django.shortcuts import render, redirect 
 from django.forms import inlineformset_factory
@@ -18,9 +18,9 @@ from django.utils import timezone
 from datetime import date,datetime,timedelta
 
 from .forms import VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import  Semester,NewStudentsload,OfferCode,AccountCreated,Faculty,Student,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, NewFacultyload, NewStudentsload
+from .models import  Semester,OfferCode,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, NewFacultyload, Studentsload
 
-from .resources import  SemesterResource,NewStudentsloadResource,OfferCodeResource,FacultyResource,StudentResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,NewFacultyloadResource, NewStudentsloadResource
+from .resources import  SemesterResource,StudentsloadResource,OfferCodeResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,NewFacultyloadResource
 from tablib import Dataset
 
 # Create your views here.
@@ -32,9 +32,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from . serializers import FacultySerializers,ResultSerializer, Result, UserSerializer
 
-from .models import  AccountsApi,AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudents,AllFaculty
+from .models import  AccountsApi,AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
 
-from .resources import AllSubjectsResource,NewOfferCodeResource,SchoolOfficesResource,DepartmentResource,DegreeProgramResource,AllStudentsResource,AllFacultyResource
+from .resources import AllSubjectsResource,NewOfferCodeResource,SchoolOfficesResource,DepartmentResource,DegreeProgramResource,AllStudentResource,AllFacultyResource
 import openpyxl
 
 
@@ -103,6 +103,7 @@ class SignUpFirstApi(APIView):
         
 class VerificationApi(APIView):
     def get(self, request, id, code):
+        
         accs = AccountsApi.objects.all()
         obj = Result(bool1 = False)
         for check in accs:
@@ -112,17 +113,50 @@ class VerificationApi(APIView):
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
 
+    # def post(self, request):
+	#     print("siiiirrr " + request)
+    #     obj = Result(bool1 = False)
+    #     serializer = ResultSerializer(obj)
+    #     return Response(serializer.data)
+
+
+    
+
+    
+
+
+	# //e process dri ang pag create sa account then if success ang account creation ky e return ang account data
+from .serializers import UserSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser
+from django.contrib.auth.models import User
+from django.shortcuts import render
+
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser 
+from rest_framework import status
 from rest_framework import generics
-from rest_framework.permissions import AllowAny
-from django.contrib.auth.forms import User
+from rest_framework.decorators import api_view
+ 
 
-class UserCreate(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (AllowAny, )
+@api_view(['GET', 'POST', 'DELETE'])
+def account(request):
+        if request.method == 'POST':
+            user_data = JSONParser().parse(request)
+            user_serializer = UserSerializer(data=user_data)
+
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return JsonResponse(user_serializer.data, status=status.HTTP_201_CREATED) 
+        
+        return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
+
+    
 
 
 
@@ -237,7 +271,7 @@ def firstPage(request):
         username = request.POST.get('id_number')
         email = request.POST.get('email')
         qs_faculty = Faculty.objects.all()
-        qs_student = Student.objects.all()
+        qs_student = AllStudent.objects.all()
         qs_acc = AccountCreated.objects.all()
 
         if username == 'followapp':
@@ -339,7 +373,7 @@ def registerPage(request):
                             exist =1
                     if (exist == 1):
                         flag = 0
-                        qs = Student.objects.all()
+                        qs = AllStudent.objects.all()
                         for student in qs:
                             if student.studnumber ==username:
                                 flag = 1
@@ -389,7 +423,7 @@ def loginPage(request):
 				if request.method == 'POST':
                                     flag = 0
                                     username = request.POST.get('username')
-                                    qs = Student.objects.all()
+                                    qs = AllStudent.objects.all()
                                     for student in qs:
                                         if student.studnumber == username:
                                             if student.role == 'learner':
@@ -480,7 +514,7 @@ def admin_home_view(request, *args, **kwargs):
 @login_required(login_url='login')
 def upload_studentsload(request):
     if request.method == 'POST':
-        NewStudentsloadResource()
+        StudentsloadResource()
         dataset = Dataset()
         new_students = request.FILES['myfile']
 
@@ -492,7 +526,7 @@ def upload_studentsload(request):
 
         if(col == 3):
             for data in imported_data:
-                value = NewStudentsload(
+                value = Studentsload(
                     data[0],
                     data[1], 
                     data[2],   
@@ -509,7 +543,7 @@ def upload_studentsload(request):
 @login_required(login_url='login')
 def upload_students(request):
     if request.method == 'POST':
-        StudentResource()
+        AllStudentResource()
         dataset = Dataset()
         new_students = request.FILES['myfile']
 
@@ -519,12 +553,17 @@ def upload_students(request):
         col = sheet_obj.max_column
         row = sheet_obj.max_row
 
-        if(col == 3):
+        if(col == 8):
                 for data in imported_data:
-                        value = Student(
+                        value = AllStudent(
                             data[0],
                             data[1], 
-                            data[2], 
+                            data[2],
+                            data[3],
+                            data[4], 
+                            data[5],
+                            data[6],
+                            data[7],
                             )
                         value.save()  
                 messages.info(request, 'Successfully Added')
@@ -608,10 +647,10 @@ def teacher_home_view(request, *args, **kwargs):
     qs = NewFacultyload.objects.filter(employee_id = user)
     if request.method == "POST" :
         search = request.POST['search']
-        stud = AllStudents.objects.all()
+        stud = AllStudent.objects.all()
         for student in stud:
             if student.lastname == search.title():
-                studentReferred = AllStudents.objects.get(lastname=search.title())
+                studentReferred = AllStudent.objects.get(lastname=search.title())
                 form = TeachersReferralForm(instance=studentReferred)
                 qs = NewFacultyload.objects.filter(employee_id = user)
                 context = {"form1": form,"form":user_name}
@@ -630,7 +669,7 @@ def new(request,stud):
     global ihap1
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
-    studentReferred = AllStudents.objects.get(studnumber=stud)
+    studentReferred = AllStudent.objects.get(studnumber=stud)
     form = TeachersReferralForm(instance=studentReferred)
     qs = NewFacultyload.objects.filter(employee_id = user)
     context = {"object_list": qs}
@@ -666,7 +705,7 @@ def new(request,stud):
 # @login_required(login_url='login')
 # def new(request,stud):
 #     user = request.session.get('username')
-#     allstud = AllStudents.objects.get(student_id=stud)
+#     allstud = AllStudent.objects.get(student_id=stud)
 #     form = ReferralForm(instance=allstud)
 #     name = ''
 #     stdnum= ''
@@ -735,21 +774,21 @@ def teacher_view_students(request, id):
     chuchu  = []
     studentslist = []
     finalstudentlist=[]
-    qs = NewStudentsload.objects.filter(offer_code = id)
+    qs = Studentsload.objects.filter(offer_code = id)
     for std in qs:
-        chuchu.append(Student(std.studnumber_id))
+        chuchu.append(AllStudent(std.studnumber_id))
 
-    qs_student = Student.objects.all()
+    qs_student = AllStudent.objects.all()
     for stud in qs_student:
         for chu in chuchu:
             if stud.studnumber == chu.studnumber:
-               studentslist.append(Student(stud.studnumber,stud.email))
+               studentslist.append(AllStudent(stud.studnumber,stud.email))
    
-    allstud = AllStudents.objects.all()
+    allstud = AllStudent.objects.all()
     for allstud in allstud:
         for stud in studentslist:
             if allstud.studnumber == stud.studnumber:
-                finalstudentlist.append(AllStudents(allstud.studnumber,allstud.firstname,allstud.lastname))
+                finalstudentlist.append(AllStudent(allstud.studnumber,allstud.firstname,allstud.lastname))
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
     return render(request, "teacher/list_students.html", {"object_list": finalstudentlist,"form": user_name})
@@ -928,7 +967,7 @@ def student_home_view(request, *args, **kwargs):
 def student_schedule(request, *args, **kwargs):
     # studentSchedulelist = []
     # user = request.session.get('username')
-    # studentSubject = NewStudentsload.objects.filter(studnumber = user)
+    # studentSubject = Studentsload.objects.filter(studnumber = user)
     # allSubjects = SubjectOffered.objects.all()
     # studentssss = StudentSchedule.objects.order_by('schedid')
     # stud=StudentSchedule.objects.all()
@@ -1323,26 +1362,6 @@ def uploaddb_degreeprogram(request):
         	value.save()     
     return render(request, "uploaddb/uploaddb_degreeprogram.html")
 
-@login_required(login_url='login')
-def uploaddb_allstudents(request):
-    if request.method == 'POST':
-        AllStudentsResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
-
-        imported_data = dataset.load(new_students.read(),format='xlsx')
-        for data in imported_data:
-        	value = AllStudents(
-                data[0],
-                data[1], 
-                data[2],
-                data[3],
-                data[4], 
-                data[5],
-                data[6],
-                )
-        	value.save()     
-    return render(request, "uploaddb/uploaddb_allstudents.html")
 
 @login_required(login_url='login')
 def uploaddb_allfaculty(request):
