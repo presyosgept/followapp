@@ -30,7 +30,7 @@ from counselling.views import(
    
  
     # export_studentslist,
-    upload_studentslist,
+    # upload_studentslist,
     students_view,
     registerPage,
     loginPage,
@@ -92,9 +92,8 @@ from counselling.views import(
     uploaddb_department,
     uploaddb_degreeprogram,
     uploaddb_allfaculty,
-    uploaddb_allsubjects,
+    uploaddb_allsubject,
     uploaddb_semester,
-    uploaddb_newoffercode,
     uploaddb_offercode
 )
 
@@ -108,9 +107,8 @@ urlpatterns = [
     path('uploaddb/department', uploaddb_department, name="uploaddb_department"),
     path('uploaddb/degreeprogram', uploaddb_degreeprogram, name="uploaddb_degreeprogram"),
     path('uploaddb/allfaculty', uploaddb_allfaculty, name="uploaddb_allfaculty"),
-    path('uploaddb/allsubjects', uploaddb_allsubjects, name="uploaddb_allsubjects"),
+    path('uploaddb/allsubjects', uploaddb_allsubject, name="uploaddb_allsubjects"),
     path('uploaddb/semester', uploaddb_semester, name="uploaddb_semester"),
-    path('uploaddb/newoffercode', uploaddb_newoffercode, name="uploaddb_newoffercode"),
     path('uploaddb/offercode', uploaddb_offercode, name="uploaddb_offercode"),
 
 
@@ -188,7 +186,7 @@ urlpatterns = [
     path('studentslist/students', students_view),
     # path('studentslist/exportion', export_studentslist),
     # path('studentslist/upload_students', simple_upload_students),
-    path('studentslist/upload', upload_studentslist),
+    # path('studentslist/upload', upload_studentslist),
     
    
     path('studentslist/', student_list_view, name='index'),

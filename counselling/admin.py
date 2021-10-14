@@ -2,13 +2,9 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from .models import AccountsApi,NewFacultyload,Faculty,Notification,TeachersReferral, SubjectOffered, Studentsload, Counselor
-from .models import OfferCode,MyTable,SubjectWithSem,Semester,AllSubjects,NewOfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
+from .models import AccountsApi,Facultyload,Faculty,Notification,TeachersReferral, SubjectOffered, Studentsload, Counselor
+from .models import MyTable,SubjectWithSem,Semester,AllSubject,OfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
 
-
-admin.site.register(OfferCode)
-class OfferCodeAdmin(ImportExportModelAdmin):
-    list_display = ('offer_code','days','start_time','end_time')
 
 
 admin.site.register(MyTable)
@@ -16,8 +12,8 @@ class MyTableAdmin(ImportExportModelAdmin):
     list_display = ('key1','key2','key3')
 
 
-admin.site.register(NewFacultyload)
-class NewFacultyloadAdmin(ImportExportModelAdmin):
+admin.site.register(Facultyload)
+class FacultyloadAdmin(ImportExportModelAdmin):
     list_display = ('offer_code','employee_id')
 
 
@@ -29,12 +25,12 @@ admin.site.register(Semester)
 class SemesterAdmin(ImportExportModelAdmin):
     list_display = ('sem_id','semester')
 
-admin.site.register(AllSubjects)
-class AllSubjectsAdmin(ImportExportModelAdmin):
+admin.site.register(AllSubject)
+class AllSubjectAdmin(ImportExportModelAdmin):
     list_display = ('subject_code','subject_title','units', 'department_id')
 
-admin.site.register(NewOfferCode)
-class NewOfferCodeAdmin(ImportExportModelAdmin):
+admin.site.register(OfferCode)
+class OfferCodeAdmin(ImportExportModelAdmin):
     list_display = ('offer_code','days','start_time', 'end_time','room',
     'subject_code','sem_id','academic_year')
 

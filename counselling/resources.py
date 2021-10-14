@@ -1,22 +1,18 @@
 from import_export import resources
-from .models import Semester,Faculty,TeachersReferral, Counselor, SubjectOffered,NewFacultyload,Studentsload
-from .models import OfferCode,AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
+from .models import Semester,Faculty,TeachersReferral, Counselor, SubjectOffered,Facultyload,Studentsload
+from .models import AllSubject,OfferCode,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
 
 class SemesterResource(resources.ModelResource):
     class Meta:
         model = Semester
 
+class AllSubjectResource(resources.ModelResource):
+    class Meta:
+        model = AllSubject
+
 class OfferCodeResource(resources.ModelResource):
     class Meta:
         model = OfferCode
-
-class AllSubjectsResource(resources.ModelResource):
-    class Meta:
-        model = AllSubjects
-
-class NewOfferCodeResource(resources.ModelResource):
-    class Meta:
-        model = NewOfferCode
 
 class SchoolOfficesResource(resources.ModelResource):
     class Meta:
@@ -56,9 +52,9 @@ class SubjectOfferedResource(resources.ModelResource):
     class Meta:
         model = SubjectOffered
 
-class NewFacultyloadResource(resources.ModelResource):
+class FacultyloadResource(resources.ModelResource):
     class Meta:
-        model = NewFacultyload
+        model = Facultyload
 
 class StudentsloadResource(resources.ModelResource):
     class Meta:

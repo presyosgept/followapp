@@ -18,9 +18,9 @@ from django.utils import timezone
 from datetime import date,datetime,timedelta
 
 from .forms import VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import  Semester,OfferCode,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, NewFacultyload, Studentsload
+from .models import  Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
-from .resources import  SemesterResource,StudentsloadResource,OfferCodeResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,NewFacultyloadResource
+from .resources import  SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
 from tablib import Dataset
 
 # Create your views here.
@@ -32,9 +32,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from . serializers import FacultySerializers,ResultSerializer, Result, UserSerializer
 
-from .models import  AccountsApi,AllSubjects,NewOfferCode,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
+from .models import  AccountsApi,AllSubject,OfferCode,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
 
-from .resources import AllSubjectsResource,NewOfferCodeResource,SchoolOfficesResource,DepartmentResource,DegreeProgramResource,AllStudentResource,AllFacultyResource
+from .resources import AllSubjectResource,OfferCodeResource,SchoolOfficesResource,DepartmentResource,DegreeProgramResource,AllStudentResource,AllFacultyResource
 import openpyxl
 
 
@@ -624,12 +624,12 @@ def upload_faculty(request):
             messages.info(request, 'Fail to Add the Data')
     else:
         messages.info(request, 'No data has been added Yet')     
-    return render(request, "admin/upload_teachers.html")
+    return render(request, "admin/upload_faculty.html")
 
 @login_required(login_url='login')
 def upload_facultyload(request):
     if request.method == 'POST':
-        NewFacultyloadResource()
+        FacultyloadResource()
         dataset = Dataset()
         new_students = request.FILES['myfile']
 
@@ -639,12 +639,9 @@ def upload_facultyload(request):
         col = sheet_obj.max_column
         row = sheet_obj.max_row
 
-        print("pila diaaayy?")
-        print(col)
         if(col == 2):
-            print("abubububububububub")
             for data in imported_data:
-                value = NewFacultyload(
+                value = Facultyload(
                     data[0],
                     data[1], 
                     )
@@ -665,7 +662,7 @@ def upload_facultyload(request):
 def teacher_home_view(request, *args, **kwargs):
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
-    qs = NewFacultyload.objects.filter(employee_id = user)
+    qs = Facultyload.objects.filter(employee_id = user)
     if request.method == "POST" :
         search = request.POST['search']
         stud = AllStudent.objects.all()
@@ -673,7 +670,7 @@ def teacher_home_view(request, *args, **kwargs):
             if student.lastname == search.title():
                 studentReferred = AllStudent.objects.get(lastname=search.title())
                 form = TeachersReferralForm(instance=studentReferred)
-                qs = NewFacultyload.objects.filter(employee_id = user)
+                qs = Facultyload.objects.filter(employee_id = user)
                 context = {"form1": form,"form":user_name}
                 degree = DegreeProgram.objects.get(program_id = studentReferred.degree_program_id)
                 return render(request, "teacher/new.html", context)
@@ -692,7 +689,7 @@ def new(request,stud):
     user_name = Faculty.objects.filter(employee_id = user)
     studentReferred = AllStudent.objects.get(studnumber=stud)
     form = TeachersReferralForm(instance=studentReferred)
-    qs = NewFacultyload.objects.filter(employee_id = user)
+    qs = Facultyload.objects.filter(employee_id = user)
     context = {"object_list": qs}
     degree = DegreeProgram.objects.get(program_id = studentReferred.degree_program_id)
     if request.method == "POST":
@@ -843,7 +840,7 @@ def teacher_view_detail_referred_students(request, id):
 @login_required(login_url='login')
 def teacher_coursecard(request, *args, **kwargs):
     user = request.session.get('username')
-    qs = NewFacultyload.objects.filter(employee_id = user)
+    qs = Facultyload.objects.filter(employee_id = user)
     context = {"object_list": qs}
     return render(request, "teacher/about.html",)
 
@@ -862,12 +859,12 @@ def counselor_home_view(request, *args, **kwargs):
     # print(days)
     # counselorSchedulelist = []
     user = request.session.get('username')
-    # counselorSubject = NewFacultyload.objects.filter(employee_id = user)
-    # allSubjects = SubjectOffered.objects.all()
+    # counselorSubject = Facultyload.objects.filter(employee_id = user)
+    # allSubject = SubjectOffered.objects.all()
     # counselorsss = CounselorSchedule.objects.order_by('schedid')
     # couns=CounselorSchedule.objects.all()
     # days = SubjectOffered.objects.filter(dayofsub=day_name)
-    # for object in allSubjects:
+    # for object in allSubject:
     #     for object1 in counselorSubject:
     #         if object.offer_no == object1.offer_no and day_name in object.dayofsub:
     #             print("charooottt")
@@ -989,10 +986,10 @@ def student_schedule(request, *args, **kwargs):
     # studentSchedulelist = []
     # user = request.session.get('username')
     # studentSubject = Studentsload.objects.filter(studnumber = user)
-    # allSubjects = SubjectOffered.objects.all()
+    # allSubject = SubjectOffered.objects.all()
     # studentssss = StudentSchedule.objects.order_by('schedid')
     # stud=StudentSchedule.objects.all()
-    # for object in allSubjects:
+    # for object in allSubject:
     #     for object1 in studentSubject:
     #         if object.offer_no == object1.offer_no:
     #             studentSchedulelist.append(SubjectOffered(object.offer_no, 
@@ -1178,29 +1175,6 @@ def about_view(request, *args, **kwargs):
 
 
 
-# def new(request):
-#     if request.method=="POST":
-#        print("this is it")
-#        firstname= request.POST['firstname']
-#        lastname= request.POST['lastname']
-#        studid= request.POST['studid']
-#        degree_program= request.POST['degree_program']
-#        subject_referred= request.POST['subject_referred']
-#        reasons= request.POST['reasons']
-#        print(firstname,lastname,studid,degree_program,subject_referred,reasons)
-#        studentInfo = Teachers(firstname=firstname, lastname=lastname,studid=studid,degree_program = degree_program,subject_referred=subject_referred,reasons=reasons)
-#        studentInfo.save()
-#     return render(request, "students/new.html")
-# @login_required(login_url='login')
-# def new(request, *args, **kwargs):
-#     form = TeachersReferralForm(request.POST or None)
-#     if form.is_valid():
-#         print(form.cleaned_data)
-#         data = form.cleaned_data
-#         TeachersReferral.objects.create(**data)
-#         form = TeachersReferralForm
-#         print(TeachersReferralForm)
-#     return render(request, "students/new.html", {"form": form})
 
 # @login_required(login_url='login')
 # def export_studentslist(request):
@@ -1210,8 +1184,8 @@ def about_view(request, *args, **kwargs):
 #     response['Content-Disposition'] = 'attachment; filename="students.xls"'
 #     return response
 
-@login_required(login_url='login')
-def upload_studentslist(request):
+# @login_required(login_url='login')
+# def upload_studentslist(request):
     # if request.method == 'POST':
     #     student_resource = TeachersloadResource()
     #     dataset = Dataset()
@@ -1229,8 +1203,8 @@ def upload_studentslist(request):
     #             data[3], 
     #             data[4], 
     #             )
-    #     	value.save()     
-    return render(request, "students/upload.html")
+    # #     	value.save()     
+    # return render(request, "students/upload.html")
 
 @login_required(login_url='login')
 def students_view(request, *args, **kwargs):
@@ -1405,22 +1379,22 @@ def uploaddb_allfaculty(request):
     return render(request, "uploaddb/uploaddb_allfaculty.html")
 
 @login_required(login_url='login')
-def uploaddb_allsubjects(request):
+def uploaddb_allsubject(request):
     if request.method == 'POST':
-        AllSubjectsResource()
+        AllSubjectResource()
         dataset = Dataset()
         new_students = request.FILES['myfile']
 
         imported_data = dataset.load(new_students.read(),format='xlsx')
         for data in imported_data:
-        	value = AllSubjects(
+        	value = AllSubject(
                 data[0],
                 data[1], 
                 data[2],
                 data[3],
                 )
         	value.save()     
-    return render(request, "uploaddb/uploaddb_allsubjects.html")
+    return render(request, "uploaddb/uploaddb_allsubject.html")
 
 @login_required(login_url='login')
 def uploaddb_semester(request):
@@ -1439,28 +1413,6 @@ def uploaddb_semester(request):
     return render(request, "uploaddb/uploaddb_semester.html")
 
 @login_required(login_url='login')
-def uploaddb_newoffercode(request):
-    if request.method == 'POST':
-        NewOfferCodeResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
-
-        imported_data = dataset.load(new_students.read(),format='xlsx')
-        for data in imported_data:
-        	value = NewOfferCode(
-                data[0],
-                data[1], 
-                data[2],
-                data[3],
-                data[4], 
-                data[5], 
-                data[6], 
-                data[7], 
-                )
-        	value.save()     
-    return render(request, "uploaddb/uploaddb_newoffercode.html")
-
-@login_required(login_url='login')
 def uploaddb_offercode(request):
     if request.method == 'POST':
         OfferCodeResource()
@@ -1473,8 +1425,12 @@ def uploaddb_offercode(request):
                 data[0],
                 data[1], 
                 data[2],
-                data[3], 
+                data[3],
+                data[4], 
+                data[5], 
+                data[6], 
+                data[7], 
                 )
         	value.save()     
-    return render(request, "uploaddb/uploaddb_offercode.html")
+    return render(request, "uploaddb/uploaddb_offerCode.html")
 #uploaddb

@@ -64,11 +64,11 @@ class AccountsApi(models.Model):
     code = models.CharField(max_length=220,blank=True,null=True)
 
 
-class NewOfferCode (models.Model):
+class OfferCode(models.Model):
     class Meta:
         unique_together = (('offer_code', 'sem_id','academic_year'))
 
-    offer_code = models.CharField(max_length=225,default=None)
+    offer_code = models.CharField(max_length=225,primary_key=True)
     days = ArrayField(models.CharField(max_length=220),default=list)
     start_time = models.TimeField()
     end_time = models.TimeField()
@@ -77,13 +77,8 @@ class NewOfferCode (models.Model):
     sem_id = models.CharField(max_length=225,default=None)
     academic_year = models.CharField(max_length=225,default=None)    
 
-class OfferCode (models.Model):
-    offer_code = models.CharField(max_length=15,primary_key=True)
-    days = ArrayField(models.CharField(max_length=220),default=list)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
 
-class AllSubjects(models.Model):
+class AllSubject(models.Model):
     subject_code = models.CharField(max_length=225,primary_key=True)
     subject_title  = models.CharField(max_length=220) 
     units  = models.CharField(max_length=220)
@@ -97,9 +92,9 @@ class SubjectWithSem(models.Model):
     id = models.CharField(max_length=225,primary_key=True)
     offer_code = models.CharField(max_length=225)
     sem_id = models.ForeignKey(Semester,on_delete=models.CASCADE)
-    subject_code = models.ForeignKey(AllSubjects,on_delete=models.CASCADE)
+    subject_code = models.ForeignKey(AllSubject,on_delete=models.CASCADE)
 
-class NewFacultyload(models.Model):
+class Facultyload(models.Model):
     offer_code = models.ForeignKey(OfferCode,on_delete=models.CASCADE,primary_key=True,related_name='organization')
     employee_id = models.ForeignKey(Faculty,on_delete=models.CASCADE,null=True)
 
