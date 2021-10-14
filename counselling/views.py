@@ -132,11 +132,13 @@ def signup_api(request):
         if request.method == 'POST':
             user_data = JSONParser().parse(request)
             user_serializer = UserSerializer(data=user_data)
-
+         
+        username = str(user_data["username"])
+        user = AccountsApi.objects.filter(id_number=username).first()
         if user_serializer.is_valid():
-            user_serializer.save()
-            return JsonResponse(user_serializer.data, status=status.HTTP_200_OK) 
-        
+            if user is not None:
+                user_serializer.save()
+                return JsonResponse(user_serializer.data, status=status.HTTP_200_OK) 
         return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST', 'DELETE'])
