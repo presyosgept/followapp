@@ -31,16 +31,9 @@ class FacultySerializers(serializers.ModelSerializer):
 class Result(object):
     def __init__(self, bool1):
         self.result = bool1
-  
-# create a serializer
 class ResultSerializer(serializers.Serializer):
-    # intialize fields
     result = serializers.BooleanField()
 
 
-
-class LoginSerializers(serializers.ModelSerializer):
-    result = serializers.BooleanField()
-    class Meta:
-        model = User
-        fields = '__all__'
+class ActorSerializer(serializers.Serializer):
+    actor = serializers.CharField(max_length=200)

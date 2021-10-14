@@ -47,6 +47,20 @@ from django.core.mail import get_connection
 from django.core.mail.message import EmailMessage
 import random
 
+from .serializers import UserSerializer,ActorSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser
+from django.contrib.auth.models import User
+from django.shortcuts import render
+
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser 
+from rest_framework import status
+from rest_framework import generics
+from rest_framework.decorators import api_view
+
  
 # Create your views here.
 
@@ -64,7 +78,7 @@ class CounselorList(APIView):
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
 
-class SignUpFirstApi(APIView):
+class RegisterApi(APIView):
     def get(self, request, id, email):
         char = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
         for x in range(0,1):
@@ -72,115 +86,83 @@ class SignUpFirstApi(APIView):
             for x in range(0,8):
                 code_char = random.choice(char)
                 code = code + code_char
-        qs_faculty = Faculty.objects.all()
-        accexist = AccountsApi.objects.all()
-        obj = Result(bool1 = False)
-        exist = 0
-        for acc in accexist:
-            if(acc.id_number==id):
-                exist = 1
 
-        for check in qs_faculty:
-            if(check.employee_id == id):
-                connection = get_connection(use_tls=True,
-                host='smtp.gmail.com', 
-                port=587,
-                username='followapp2021@gmail.com', 
-                password='followapp#123')
-                EmailMessage(
-                    "verification", 
-                    "mao ni ang code nga imong iinput " + code, 
+        userTeacher = Faculty.objects.filter(employee_id=id).first()
+        userStudent = AllStudent.objects.filter(studnumber=id).first()
+        obj = Result(bool1 = False)
+        if userTeacher is not None or userStudent is not None:
+            connection = get_connection(use_tls=True,
+            host='smtp.gmail.com', 
+            port=587,
+            username='followapp2021@gmail.com', 
+            password='followapp#123')
+            EmailMessage(
+                    "Verification Cod", 
+                    "This is your verification code " + code, 
                     'followapp2021@gmail.com', 
-                [
-                    email,
-                ], connection=connection).send()
-                obj = Result(bool1 = True)
-                value = AccountsApi(id_number=id, email=email, code=code)
-                value.save()
-                
+            [
+                email,
+            ], connection=connection).send()
+            value = AccountsApi(id_number=id, email=email, code=code)
+            value.save()
+            obj = Result(bool1 = True)
+            serializer = ResultSerializer(obj)
+            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+
         serializer = ResultSerializer(obj)
-        return Response(serializer.data)
+        return JsonResponse(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+
         
 class VerificationApi(APIView):
     def get(self, request, id, code):
-        accs = AccountsApi.objects.all()
+        user = AccountsApi.objects.filter(id_number=id, code=code).first()
         obj = Result(bool1 = False)
-        for check in accs:
-            if(check.id_number==id and check.code==code):
-                obj = Result(bool1 = True)
-
-        serializer = ResultSerializer(obj)
-        return Response(serializer.data)
-
-
-
-    
+        if user is not None:
+            obj = Result(bool1 = True)
+            serializer = ResultSerializer(obj)
+            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+        else:
+            serializer = ResultSerializer(obj)
+            return JsonResponse(serializer.data,status=status.HTTP_400_BAD_REQUEST)
 
 
-	# //e process dri ang pag create sa account then if success ang account creation ky e return ang account data
-from .serializers import UserSerializer,LoginSerializers
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import IsAdminUser
-from django.contrib.auth.models import User
-from django.shortcuts import render
-
-from django.http.response import JsonResponse
-from rest_framework.parsers import JSONParser 
-from rest_framework import status
-from rest_framework import generics
-from rest_framework.decorators import api_view
- 
 
 @api_view(['GET', 'POST', 'DELETE'])
-def account(request):
+def signup_api(request):
         if request.method == 'POST':
             user_data = JSONParser().parse(request)
             user_serializer = UserSerializer(data=user_data)
 
         if user_serializer.is_valid():
             user_serializer.save()
-            return JsonResponse(user_serializer.data, status=status.HTTP_201_CREATED) 
+            return JsonResponse(user_serializer.data, status=status.HTTP_200_OK) 
         
         return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST', 'DELETE'])
 def login_api(request):
-    if request.method == 'POST':
-        print("3afsd")
-        user_data = JSONParser().parse(request)
-        user_serializer = UserSerializer(data=user_data)
-        if user_serializer.is_valid():
-            print("valiiggg")
+        if request.method == 'POST':
+            user_data = JSONParser().parse(request)
 
-        user = User.objects.filter(username='20186', password='canovas#123').first()
-        print("1")
+        username = str(user_data["username"])
+        password = str(user_data["password"])
+        user = User.objects.filter(username=username, password=password).first()
+        userTeacher = Faculty.objects.filter(employee_id=username).first()
+        userStudent = AllStudent.objects.filter(studnumber=username).first()
         
         if user is not None:
-            print("2")
-            user_serializer = UserSerializer(data=user)
-            # obj = LoginSerializers(result = True, user=user)
-            print("3")
-            return JsonResponse(user_serializer.data, status=status.HTTP_201_CREATED) 
+            if userTeacher is not None:
+                return JsonResponse({'actor':"teacher"}, status=status.HTTP_200_OK)
+            if userStudent is not None:
+                return JsonResponse({'actor':"student"}, status=status.HTTP_200_OK)
         else:
-            print("4")
-            user_serializer = UserSerializer(data=user)
-            print("5")
-            return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        
-
-
-# class studentsList(APIView):
-#     def get(self, request):
-#         stud = Students.objects.all()
-#         serializer=studentsSerializers(stud, many=True)
-#         return Response({'students':serializer.data})
-    
+            return JsonResponse({'students':"error"},status=status.HTTP_400_BAD_REQUEST)
 
 
 
+# couns = Faculty.objects.all()
+        # serializer=FacultySerializers(couns, many=True)
+# ({'students':serializer.data})
 
 # from django.contrib.auth.forms import User
 # class RegisterApi(APIView):
