@@ -14,7 +14,7 @@ class MyTableAdmin(ImportExportModelAdmin):
 
 admin.site.register(Facultyload)
 class FacultyloadAdmin(ImportExportModelAdmin):
-    list_display = ('offer_code','employee_id')
+    list_display = ('id','offer_code','employee_id')
 
 
 admin.site.register(SubjectWithSem)

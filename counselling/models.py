@@ -94,8 +94,10 @@ class SubjectWithSem(models.Model):
     sem_id = models.ForeignKey(Semester,on_delete=models.CASCADE)
     subject_code = models.ForeignKey(AllSubject,on_delete=models.CASCADE)
 
+
 class Facultyload(models.Model):
-    offer_code = models.ForeignKey(OfferCode,on_delete=models.CASCADE,primary_key=True,related_name='organization')
+    id = models.CharField(max_length=220,primary_key=True)
+    offer_code = models.ForeignKey(OfferCode,on_delete=models.CASCADE,null=True)
     employee_id = models.ForeignKey(Faculty,on_delete=models.CASCADE,null=True)
 
 class Studentsload(models.Model):

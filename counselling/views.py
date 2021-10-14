@@ -47,7 +47,7 @@ from django.core.mail import get_connection
 from django.core.mail.message import EmailMessage
 import random
 
-from .serializers import UserSerializer,ActorSerializer
+from .serializers import UserSerializer,ActorSerializer,Actor
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -152,11 +152,15 @@ def login_api(request):
         
         if user is not None:
             if userTeacher is not None:
-                return JsonResponse({'actor':"teacher"}, status=status.HTTP_200_OK)
+                obj = Actor(actor = "teacher")
+                serializer = ActorSerializer(obj)
+                return JsonResponse(serializer.data, status=status.HTTP_200_OK)
             if userStudent is not None:
-                return JsonResponse({'actor':"student"}, status=status.HTTP_200_OK)
+                obj = Actor(actor = "learner")
+                serializer = ActorSerializer(obj)
+                return JsonResponse(serializer.data, status=status.HTTP_200_OK)
         else:
-            return JsonResponse({'students':"error"},status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({'actor':"no account"},status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -226,13 +230,6 @@ class SendFormEmail(View):
             [
                 email
                 ], connection=connection).send()
-
-        # message1 = ('Subject here', 'Here is the message', 'from@example.com', ['first@example.com', 'other@example.com'])
-        # message2 = ('Another Subject', 'Here is another message', 'from@example.com', ['second@test.com'])
-
-        # send_mass_mail((message1, message2), fail_silently=False) hakdddoooog
-
-        # Redirect to same page after form submit
         
         messages.success(request, ('Email sent successfully.'))
 
@@ -509,6 +506,14 @@ def director_fillinForm(request, pk):
 #admin
 @login_required(login_url='login')
 def admin_home_view(request, *args, **kwargs):
+    today = date.today()
+    # dateNow= date.now()
+    now = datetime.now()
+    day_name=now.strftime("%a")
+    print("today " + str(today))
+    # print("datenow " + str(dateNow))
+    print("now " + str(now))
+    print("day name "+ str(day_name))
     return render(request, "admin/admin_home.html", {})
 
 #upload
@@ -546,18 +551,26 @@ def upload_studentsload(request):
 @login_required(login_url='login')
 def upload_students(request):
     if request.method == 'POST':
+        print("1")
         AllStudentResource()
+        print("2")
         dataset = Dataset()
+        print("3")
         new_students = request.FILES['myfile']
-
+        print("4")
         imported_data = dataset.load(new_students.read(),format='xlsx')
+        print("5")
         wb_obj = openpyxl.load_workbook(new_students)
+        print("6")
         sheet_obj = wb_obj.active
+        print("7")
         col = sheet_obj.max_column
         row = sheet_obj.max_row
-
+        print("8")
         if(col == 8):
+                print("9")
                 for data in imported_data:
+                        print("10")
                         value = AllStudent(
                             data[0],
                             data[1], 
@@ -570,10 +583,14 @@ def upload_students(request):
                             )
                         value.save()  
                 messages.info(request, 'Successfully Added')
+                print("4asdfd")
         else:
+            print("4bbbb")
             messages.info(request, 'Fail to Add the Data')
     else:
+        print("aaaa")
         messages.info(request, 'No data has been added Yet')  
+    print("aaaaaaaaaaaaaaaaaaasfasfa")
     return render(request, "admin/upload_students.html")
 
 
@@ -626,6 +643,7 @@ def upload_facultyload(request):
                 value = Facultyload(
                     data[0],
                     data[1], 
+                    data[2],
                     )
                 value.save()
             messages.info(request, 'Successfully Added')
@@ -642,6 +660,7 @@ def upload_facultyload(request):
 #teacher
 @login_required(login_url='login')
 def teacher_home_view(request, *args, **kwargs):
+    
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
     qs = Facultyload.objects.filter(employee_id = user)
