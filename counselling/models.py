@@ -124,6 +124,11 @@ class TeachersReferral(models.Model):
                           ('GRUBBING','GRUBBING'))
     behavior_problem = models.CharField(max_length=220, choices=BEHAVIOR_PROBLEM,null=True,blank=True)
 
+class Time(models.Model):
+    id = models.CharField(max_length=220,primary_key=True)
+    time1 = models.TimeField(null=True,blank=True)
+    time2 = models.TimeField(null=True,blank=True)
+
 
 class SubjectOffered(models.Model):
     offer_no = models.CharField(max_length=220,primary_key=True)

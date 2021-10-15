@@ -3,7 +3,7 @@ from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 from .models import AccountsApi,Facultyload,Faculty,Notification,TeachersReferral, SubjectOffered, Studentsload, Counselor
-from .models import MyTable,SubjectWithSem,Semester,AllSubject,OfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
+from .models import Time,MyTable,SubjectWithSem,Semester,AllSubject,OfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
 
 
 
@@ -11,6 +11,9 @@ admin.site.register(MyTable)
 class MyTableAdmin(ImportExportModelAdmin):
     list_display = ('key1','key2','key3')
 
+admin.site.register(Time)
+class TimeAdmin(ImportExportModelAdmin):
+    list_display = ('id','time1','time2')
 
 admin.site.register(Facultyload)
 class FacultyloadAdmin(ImportExportModelAdmin):

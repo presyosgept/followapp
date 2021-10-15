@@ -18,9 +18,9 @@ from django.utils import timezone
 from datetime import date,datetime,timedelta
 
 from .forms import VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import  Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
+from .models import  Time,Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
-from .resources import  SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
+from .resources import  TimeResource,SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
 from tablib import Dataset
 
 # Create your views here.
@@ -1436,4 +1436,21 @@ def uploaddb_offercode(request):
                 )
         	value.save()     
     return render(request, "uploaddb/uploaddb_offerCode.html")
+
+@login_required(login_url='login')
+def uploaddb_time(request):
+    if request.method == 'POST':
+        TimeResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = Time(
+                data[0],
+                data[1], 
+                data[2],
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_time.html")
 #uploaddb

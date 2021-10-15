@@ -1,6 +1,10 @@
 from import_export import resources
 from .models import Semester,Faculty,TeachersReferral, Counselor, SubjectOffered,Facultyload,Studentsload
-from .models import AllSubject,OfferCode,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
+from .models import Time,AllSubject,OfferCode,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
+
+class TimeResource(resources.ModelResource):
+    class Meta:
+        model = Time
 
 class SemesterResource(resources.ModelResource):
     class Meta:

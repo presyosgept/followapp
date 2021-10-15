@@ -94,7 +94,8 @@ from counselling.views import(
     uploaddb_allfaculty,
     uploaddb_allsubject,
     uploaddb_semester,
-    uploaddb_offercode
+    uploaddb_offercode,
+    uploaddb_time
 )
 
 
@@ -110,6 +111,7 @@ urlpatterns = [
     path('uploaddb/allsubjects', uploaddb_allsubject, name="uploaddb_allsubjects"),
     path('uploaddb/semester', uploaddb_semester, name="uploaddb_semester"),
     path('uploaddb/offercode', uploaddb_offercode, name="uploaddb_offercode"),
+    path('uploaddb/time', uploaddb_time, name="uploaddb_time"),
 
 
 
