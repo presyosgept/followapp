@@ -139,6 +139,8 @@ def signup_api(request):
             if user is not None:
                 user_serializer.save()
                 return JsonResponse(user_serializer.data, status=status.HTTP_200_OK) 
+            else:
+                return JsonResponse({"username": "Username Not Valid"}, status=status.HTTP_400_BAD_REQUEST) 
         return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST', 'DELETE'])
