@@ -18,9 +18,9 @@ from django.utils import timezone
 from datetime import date,datetime,timedelta
 
 from .forms import VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import  Time,Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
+from .models import  SubjectWithSem,Time,Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
-from .resources import  TimeResource,SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
+from .resources import  SubjectWithSemResource,TimeResource,SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
 from tablib import Dataset
 
 # Create your views here.
@@ -325,14 +325,14 @@ def firstPage(request):
                 ], connection=connection).send()
                 value = AccountCreated(id_number=username,email=email, password=code)
                 value.save()
-                messages.info(request, "check gmail for code")
+                messages.info(request, "Check Gmail for Code")
                 print("aaaaaa")
                 return redirect('verification_code')
             else:
                 print("bbbbbbbbbbbbbbb")
-                messages.info(request, "di man ka pwede mo sud goooorl")
+                messages.info(request, "Account Not Valid")
         else:
-            messages.info(request, "account already existing")
+            messages.info(request, "Account Already Existing")
     else:
         print("ccccccccccccccccccc")
         AccountsForm()
@@ -489,7 +489,7 @@ def director_assign_counselor(request, *args, **kwargs):
 
 @login_required(login_url='login')
 def director_fillinForm(request, pk):
-    counselor = Counselor.objects.get(employeeid=pk)
+    counselor = Counselor.objects.get(employee_id=pk)
     form = CounselorForm(instance=counselor)
     qs = Faculty.objects.filter(role='counselor')
     context = {"object_list": qs}
@@ -642,7 +642,7 @@ def upload_facultyload(request):
         col = sheet_obj.max_column
         row = sheet_obj.max_row
 
-        if(col == 2):
+        if(col == 3):
             for data in imported_data:
                 value = Facultyload(
                     data[0],
@@ -664,25 +664,56 @@ def upload_facultyload(request):
 #teacher
 @login_required(login_url='login')
 def teacher_home_view(request, *args, **kwargs):
-    
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
-    qs = Facultyload.objects.filter(employee_id = user)
-    if request.method == "POST" :
-        search = request.POST['search']
-        stud = AllStudent.objects.all()
-        for student in stud:
-            if student.lastname == search.title():
-                studentReferred = AllStudent.objects.get(lastname=search.title())
-                form = TeachersReferralForm(instance=studentReferred)
-                qs = Facultyload.objects.filter(employee_id = user)
-                context = {"form1": form,"form":user_name}
-                degree = DegreeProgram.objects.get(program_id = studentReferred.degree_program_id)
-                return render(request, "teacher/new.html", context)
+    fload = Facultyload.objects.filter(employee_id = user)
+
+    today = date.today()
+    now = datetime.now()
+    day_name=now.strftime("%a")
+    SubjectofStudentReferred=[]
+    ClassesofCounselor=[]
+
+    OfferCodeStudentReferred= Studentsload.objects.filter(studnumber=2018012810)
+    OfferCodeCounselor= Facultyload.objects.filter(employee_id= user)
+    offercode = OfferCode.objects.all()
+    for object in OfferCodeStudentReferred:
+        for object1 in offercode:
+            if object.offer_code_id == object1.offer_code:
+                Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
+                SubjectofStudentReferred.append(Subject)
+
+    print("dayname " + day_name)   
+    SubjectofStudentReferredToday = SubjectofStudentReferred[7]
+    print("SubjectofStudentReferredToday ")
+    print(SubjectofStudentReferredToday)
+
+    for object in OfferCodeCounselor:
+         for object1 in offercode:
+            if object.offer_code_id == object1.offer_code:
+                Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
+                ClassesofCounselor.append(Subject)
+
+    ClassesofCounselor=ClassesofCounselor[0]
+    print("ClassesofCounselor")
+    print(ClassesofCounselor)
+    
+    
+    # if request.method == "POST" :
+    #     search = request.POST['search']
+    #     stud = AllStudent.objects.all()
+    #     for student in stud:
+    #         if student.lastname == search.title():
+    #             studentReferred = AllStudent.objects.get(lastname=search.title())
+    #             form = TeachersReferralForm(instance=studentReferred)
+    #             qs = Facultyload.objects.filter(employee_id = user)
+    #             context = {"form1": form,"form":user_name}
+    #             degree = DegreeProgram.objects.get(program_id = studentReferred.degree_program_id)
+    #             return render(request, "teacher/new.html", context)
             
-        messages.success(request, 'Student Does Not Exist')
+    #     messages.success(request, 'Student Does Not Exist')
   
-    return render(request, "teacher/teacher_home.html",  {"object_list": qs,"form": user_name} )
+    return render(request, "teacher/teacher_home.html",  {"object_list": fload,"form": user_name} )
 
 
 
@@ -710,13 +741,13 @@ def new(request,stud):
             studentInfo = TeachersReferral(firstname=studentReferred.firstname, 
             lastname=studentReferred.lastname,studnumber=studentReferred.studnumber,
             degree_program = degree.program_code,subject_referred=subject_referred,
-            reasons=reasons,counselor=qs.employeeid,employeeid=user,behavior_problem = behavior)
+            reasons=reasons,counselor=qs.employee_id,employeeid=user,behavior_problem = behavior)
             studentInfo.save()
             form = TeachersReferralForm(instance=studentReferred)
             context = {"form1": form,"form":user_name}
             ihap = ihap + 1
             ihap1 = ihap1 + 1
-            create_notification(qs.employeeid, user, 'manual_referral', extra_id=int(stud))
+            create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud))
             messages.info(request, 'Successfully Referred the Student')
             return render(request, "teacher/new.html", context)
     context = {"form1": form,"form":user_name}
@@ -1439,6 +1470,7 @@ def uploaddb_offercode(request):
         	value.save()     
     return render(request, "uploaddb/uploaddb_offerCode.html")
 
+
 @login_required(login_url='login')
 def uploaddb_time(request):
     if request.method == 'POST':
@@ -1455,4 +1487,22 @@ def uploaddb_time(request):
                 )
         	value.save()     
     return render(request, "uploaddb/uploaddb_time.html")
+
+@login_required(login_url='login')
+def uploaddb_counselor(request):
+    if request.method == 'POST':
+        CounselorResource()
+        dataset = Dataset()
+        new_students = request.FILES['myfile']
+
+        imported_data = dataset.load(new_students.read(),format='xlsx')
+        for data in imported_data:
+        	value = Counselor(
+                data[0],
+                data[1], 
+                data[2],
+                data[3],
+                )
+        	value.save()     
+    return render(request, "uploaddb/uploaddb_counselor.html")
 #uploaddb

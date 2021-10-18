@@ -77,13 +77,13 @@ class CounselorForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CounselorForm, self).__init__(*args, **kwargs)
-        self.fields['employeeid'].disabled = True
+        self.fields['employee_id'].disabled = True
         self.fields['firstname'].disabled = True
         self.fields['lastname'].disabled = True
 
     class Meta:
         model = Counselor
-        fields = ['employeeid', 'firstname', 'lastname', 'program_designation']
+        fields = ['employee_id', 'firstname', 'lastname', 'program_designation']
     
 		
        

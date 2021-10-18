@@ -98,7 +98,7 @@ class Studentsload(ImportExportModelAdmin):
 
 admin.site.register(Counselor)
 class CounselorAdmin(ImportExportModelAdmin):
-    list_display = ('employeeid', 'firstname', 'lastname','program_designation')
+    list_display = ('employee_id', 'firstname', 'lastname','program_designation')
 
 
 

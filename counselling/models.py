@@ -144,7 +144,7 @@ class SubjectOffered(models.Model):
 class Counselor(models.Model):
     PROGRAM_DESIGNATION = (('BSIT','BSIT'),
                           ('BSPT','BSPT'),('BSMT','BSMT'))
-    employeeid = models.CharField(max_length=220,primary_key=True)
+    employee_id = models.CharField(max_length=220,primary_key=True)
     firstname = models.CharField(max_length=220)
     lastname = models.CharField(max_length=220)
     program_designation = models.CharField(max_length=220, choices=PROGRAM_DESIGNATION,null=True,blank=True)
