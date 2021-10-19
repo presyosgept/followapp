@@ -25,6 +25,7 @@ from counselling.views import(
     SendFormEmail,
     # studentRefer_detail_view,
     SendFormEmail,
+    loginPage,
     student_list_view,
     # about_view,
    
@@ -32,11 +33,10 @@ from counselling.views import(
     # export_studentslist,
     # upload_studentslist,
     students_view,
-    registerPage,
-    loginPage,
+    signup,
     logoutUser,
     student_view,
-    firstPage,
+    register,
     verification_code,
     home,
 
@@ -139,8 +139,8 @@ urlpatterns = [
     path('login/', loginPage, name='login'),
     path('', home, name='home'),
     path('logout/', logoutUser, name='logout'),
-    path('register/', registerPage, name='register'),
-    path('firstpage/', firstPage, name='firstpage'),
+    path('signup/', signup, name='signup'),
+    path('register/', register, name='register'),
     path('verification_code/',verification_code, name ="verification_code"),
     
 
@@ -177,7 +177,7 @@ urlpatterns = [
     path('student/', student_home_view, name="student_home_view"),
     path('student/schedule', student_schedule, name="student_schedule"),
     path('student/notifications_student', notifications_student, name="notifications_student"),
-    path('student/student_notif_detail/<str:pk>', student_notif_detail, name="student_notif_detail"),
+    path('student/student_notif_detail/?P:<int:id>', student_notif_detail, name="student_notif_detail"),
 
 
     #director

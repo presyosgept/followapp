@@ -199,6 +199,10 @@ p{
                 <p class="listTitle">List of Students</p>
             </div>
         </div>
+            {% if not object_list %}
+            <br>
+            No Enrolled Students Yet!
+        {% endif %}
                        <div class="table-box">
                             {% for object in object_list %}
            

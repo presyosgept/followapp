@@ -259,11 +259,11 @@ class SendFormEmail(View):
 
 
 
-ihap = 0
-ihap1 =0
+notif = 0
+notif1 =0
 formm = AccountsForm()
 
-def firstPage(request):
+def register(request):
     form = AccountCreatedForm()
     if request.method == 'POST':
         char = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
@@ -293,8 +293,6 @@ def firstPage(request):
             ], connection=connection).send()
             value = AccountCreated(id_number=username,email=email, password=code)
             value.save()
-            # messages.success(request, "check gmail for code")
-            # print("aaaaaa")
             return redirect('verification_code')
 
         exist = 0
@@ -326,19 +324,16 @@ def firstPage(request):
                 value = AccountCreated(id_number=username,email=email, password=code)
                 value.save()
                 messages.info(request, "Check Gmail for Code")
-                print("aaaaaa")
                 return redirect('verification_code')
             else:
-                print("bbbbbbbbbbbbbbb")
                 messages.info(request, "Account Not Valid")
         else:
             messages.info(request, "Account Already Existing")
     else:
-        print("ccccccccccccccccccc")
         AccountsForm()
         
 
-    return render(request,'firstpage.html',{'form':form})
+    return render(request,'register.html',{'form':form})
 
 def verification_code(request):
     form = VerificationForm()
@@ -351,21 +346,19 @@ def verification_code(request):
                 flag=1
         
         if(flag==1):
-            # messages.info(request, 'sign up na diri')
-            return redirect('register')
+            return redirect('signup')
         else:
             VerificationForm()
-            messages.info(request, 'sayop imong code')
+            messages.info(request, 'Invalid Code')
     else:
         VerificationForm()
-
 
     return render(request, 'verification.html', {'form':form})
 
 
-def registerPage(request):
+def signup(request):
 	if request.user.is_authenticated:
-		return redirect('sendEmail')
+		return redirect('login')
 	else:
 		form = CreateUserForm()
 		if request.method == 'POST':
@@ -396,7 +389,7 @@ def registerPage(request):
                                     if form.is_valid():
                                         form.save()
                                         user = form.cleaned_data.get('username')
-                                        messages.info(request, '  Account was created for ' + user)
+                                        messages.info(request, 'Account was created for ' + user)
                                         return redirect('login')
                             
                         if username == 'followapp':
@@ -404,17 +397,19 @@ def registerPage(request):
                             if form.is_valid():
                                 form.save()
                                 user = form.cleaned_data.get('username')
-                                messages.info(request, ' Admin Account was created for ' + user)
+                                messages.info(request, 'Admin Account was created for ' + user)
                                 return redirect('login')
+
+                        messages.info(request, 'Incorrect Password')
                     
                     else:
                         messages.info(request, 'Check Credentials Account Not Created')  
     
-	return render(request, 'register.html', {'form':form})
+	return render(request, 'signup.html', {'form':form})
 
 def loginPage(request):
 	if request.user.is_authenticated:
-            return redirect('sendEmail')    
+            return redirect('login')    
 	else:
 		if request.method == 'POST':
 			username = request.POST.get('username')
@@ -460,7 +455,7 @@ def loginPage(request):
                                         return redirect('uploaddb_home_view')
                                     
 			else:
-				messages.info(request, 'Username OR password is incorrect')
+				messages.info(request, 'Username or Password is Incorrect')
 
 		return render(request, 'login.html', {})
 
@@ -494,7 +489,6 @@ def director_fillinForm(request, pk):
     qs = Faculty.objects.filter(role='counselor')
     context = {"object_list": qs}
     if request.method == "POST":
-        print("chuchu")
         form = CounselorForm(request.POST, instance=counselor)
         if form.is_valid():
             form.save()
@@ -546,7 +540,7 @@ def upload_studentsload(request):
                 value.save()   
             messages.info(request, 'Successfully Added')
         else:
-            messages.info(request, 'Fail to Add the Data')
+            messages.info(request, 'Failed to Add the Data')
     else:
         messages.info(request, 'No data has been added Yet')    
     return render(request, "admin/upload_studentsload.html")
@@ -555,26 +549,17 @@ def upload_studentsload(request):
 @login_required(login_url='login')
 def upload_students(request):
     if request.method == 'POST':
-        print("1")
+
         AllStudentResource()
-        print("2")
         dataset = Dataset()
-        print("3")
         new_students = request.FILES['myfile']
-        print("4")
         imported_data = dataset.load(new_students.read(),format='xlsx')
-        print("5")
         wb_obj = openpyxl.load_workbook(new_students)
-        print("6")
         sheet_obj = wb_obj.active
-        print("7")
         col = sheet_obj.max_column
         row = sheet_obj.max_row
-        print("8")
         if(col == 8):
-                print("9")
                 for data in imported_data:
-                        print("10")
                         value = AllStudent(
                             data[0],
                             data[1], 
@@ -587,14 +572,10 @@ def upload_students(request):
                             )
                         value.save()  
                 messages.info(request, 'Successfully Added')
-                print("4asdfd")
         else:
-            print("4bbbb")
-            messages.info(request, 'Fail to Add the Data')
+            messages.info(request, 'Failed to Add the Data')
     else:
-        print("aaaa")
         messages.info(request, 'No data has been added Yet')  
-    print("aaaaaaaaaaaaaaaaaaasfasfa")
     return render(request, "admin/upload_students.html")
 
 
@@ -624,7 +605,7 @@ def upload_faculty(request):
                 value.save()
             messages.info(request, 'Successfully Added')
         else:
-            messages.info(request, 'Fail to Add the Data')
+            messages.info(request, 'Failed to Add the Data')
     else:
         messages.info(request, 'No data has been added Yet')     
     return render(request, "admin/upload_faculty.html")
@@ -652,7 +633,7 @@ def upload_facultyload(request):
                 value.save()
             messages.info(request, 'Successfully Added')
         else:
-            messages.info(request, 'Fail to Add the Data')
+            messages.info(request, 'Failed to Add the Data')
     else:
         messages.info(request, 'No data has been added Yet')     
     return render(request, "admin/upload_facultyload.html")
@@ -668,35 +649,35 @@ def teacher_home_view(request, *args, **kwargs):
     user_name = Faculty.objects.filter(employee_id = user)
     fload = Facultyload.objects.filter(employee_id = user)
 
-    today = date.today()
-    now = datetime.now()
-    day_name=now.strftime("%a")
-    SubjectofStudentReferred=[]
-    ClassesofCounselor=[]
+    # today = date.today()
+    # now = datetime.now()
+    # day_name=now.strftime("%a")
+    # SubjectofStudentReferred=[]
+    # ClassesofCounselor=[]
 
-    OfferCodeStudentReferred= Studentsload.objects.filter(studnumber=2018012810)
-    OfferCodeCounselor= Facultyload.objects.filter(employee_id= user)
-    offercode = OfferCode.objects.all()
-    for object in OfferCodeStudentReferred:
-        for object1 in offercode:
-            if object.offer_code_id == object1.offer_code:
-                Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
-                SubjectofStudentReferred.append(Subject)
+    # OfferCodeStudentReferred= Studentsload.objects.filter(studnumber=2018012810)
+    # OfferCodeCounselor= Facultyload.objects.filter(employee_id= user)
+    # offercode = OfferCode.objects.all()
+    # for object in OfferCodeStudentReferred:
+    #     for object1 in offercode:
+    #         if object.offer_code_id == object1.offer_code:
+    #             Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
+    #             SubjectofStudentReferred.append(Subject)
 
-    print("dayname " + day_name)   
-    SubjectofStudentReferredToday = SubjectofStudentReferred[7]
-    print("SubjectofStudentReferredToday ")
-    print(SubjectofStudentReferredToday)
+    # print("dayname " + day_name)   
+    # SubjectofStudentReferredToday = SubjectofStudentReferred[7]
+    # print("SubjectofStudentReferredToday ")
+    # print(SubjectofStudentReferredToday)
 
-    for object in OfferCodeCounselor:
-         for object1 in offercode:
-            if object.offer_code_id == object1.offer_code:
-                Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
-                ClassesofCounselor.append(Subject)
+    # for object in OfferCodeCounselor:
+    #      for object1 in offercode:
+    #         if object.offer_code_id == object1.offer_code:
+    #             Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
+    #             ClassesofCounselor.append(Subject)
 
-    ClassesofCounselor=ClassesofCounselor[0]
-    print("ClassesofCounselor")
-    print(ClassesofCounselor)
+    # ClassesofCounselor=ClassesofCounselor[0]
+    # print("ClassesofCounselor")
+    # print(ClassesofCounselor)
     
     
     # if request.method == "POST" :
@@ -719,8 +700,8 @@ def teacher_home_view(request, *args, **kwargs):
 
 @login_required(login_url='login')
 def new(request,stud):
-    global ihap
-    global ihap1
+    global notif
+    global notif1
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
     studentReferred = AllStudent.objects.get(studnumber=stud)
@@ -745,8 +726,8 @@ def new(request,stud):
             studentInfo.save()
             form = TeachersReferralForm(instance=studentReferred)
             context = {"form1": form,"form":user_name}
-            ihap = ihap + 1
-            ihap1 = ihap1 + 1
+            notif = notif + 1
+            notif1 = notif1 + 1
             create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud))
             messages.info(request, 'Successfully Referred the Student')
             return render(request, "teacher/new.html", context)
@@ -765,8 +746,8 @@ def new(request,stud):
 #     stdnum= ''
 #     sub= ''
 #     couns =''
-#     global ihap
-#     global ihap1
+#     global notif
+#     global notif1
 #     if request.method=="POST":
 #        form = ReferralForm(request.POST, instance=allstud)
 #        if form.is_valid():
@@ -791,8 +772,8 @@ def new(request,stud):
 #        degree_program = degree_program,subject_referred=subject_referred,
 #        reasons=reasons,counselor=qs.employeeid,employeeid=user)
 #        studentInfo.save()
-#        ihap = ihap + 1
-#        ihap1 = ihap1 + 1
+#        notif = notif + 1
+#        notif1 = notif1 + 1
 #        create_notification(couns, user, 'manual_referral', extra_id=int(stdnum))
 #     else:
 #         TeachersReferralForm()
@@ -871,8 +852,6 @@ def teacher_view_detail_referred_students(request, id):
     return render(request, "teacher/modal.html", {"object_list": detail,"form": user_name})
 
 
-
-
 @login_required(login_url='login')
 def teacher_coursecard(request, *args, **kwargs):
     user = request.session.get('username')
@@ -911,10 +890,10 @@ def counselor_home_view(request, *args, **kwargs):
     #     for object1 in couns:
     #         if(object.start_time==object1.time1 or object.end_time==object1.time2):
     #             CounselorSchedule.objects.filter(schedid=object1.schedid).update(service_offered='CLASS',description=object.offer_no)
-    global ihap
+    global notif
     counselor_name = Faculty.objects.filter(employee_id = user)
     userName = {"object_list": counselor_name}
-    return render(request, "counselor/counselor_home.html", {"ihap":ihap} and userName)
+    return render(request, "counselor/counselor_home.html", {"notif":notif} and userName)
 
 
 @login_required(login_url='login')
@@ -951,7 +930,7 @@ def counselor_setSchedule(request, pk):
 
 @login_required(login_url='login')
 def counselor_view_detail_referred_students(request, id):
-    print(id)
+    global notif
     user = request.session.get('username')
     detail=[]
     qs = TeachersReferral.objects.filter(counselor = user)
@@ -964,6 +943,8 @@ def counselor_view_detail_referred_students(request, id):
             reasons=referedStud.reasons,behavior_problem = referedStud.behavior_problem))
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
+    if notif != 0:
+        notif = notif - 1
     return render(request, "counselor/modalC.html", {"object_list": detail,"form": user_name})
 
 
@@ -999,14 +980,16 @@ def notifications(request):
     # userName = {"object_list": counselor_name}
     return render(request, 'counselor/notification.html', {"notifications":notif,"form": counselor_name} )
 
+
+
 # @login_required
 # def manual_detail(request, pk, created_by, id):
-#     global ihap
+#     global notif
 #     user = request.session.get('username')
 #     counselor_name = Faculty.objects.filter(employee_id = user)
 #     student = TeachersReferral.objects.filter(studnumber=pk, employeeid=created_by, id=id)
-#     if ihap != 0 and ihap > 0:
-#         ihap-=1
+#     if notif != 0 and notif > 0:
+#         notif-=1
 #     return render(request, 'counselor/manual_detail.html', {"object":student,"object_list": counselor_name})
 
 
@@ -1014,8 +997,8 @@ def notifications(request):
 # student
 @login_required(login_url='login')
 def student_home_view(request, *args, **kwargs):
-    global ihap1
-    return render(request, "student/student_home.html", {"ihap1":ihap1})
+    global notif1
+    return render(request, "student/student_home.html", {"notif1":notif1})
 
 @login_required(login_url='login')
 def student_schedule(request, *args, **kwargs):
@@ -1060,12 +1043,20 @@ def notifications_student(request):
     return render(request, 'student/notification.html', {"notifications":notif})
 
 @login_required
-def student_notif_detail(request, pk):
-    global ihap1
-    student = TeachersReferral.objects.filter(studnumber=pk)
-    if ihap1 != 0 and ihap1 > 0:
-        ihap1-=1
-    return render(request, 'student/notif_detail.html', {"object":student})
+def student_notif_detail(request, id):
+    global notif1
+    detail = []
+    student = TeachersReferral.objects.all()
+    for referedStud in student:
+        print(referedStud.id)
+        if referedStud.id == id:
+            detail.append(TeachersReferral(firstname=referedStud.firstname, 
+            lastname=referedStud.lastname,studnumber=referedStud.studnumber,
+            degree_program = referedStud.degree_program,subject_referred=referedStud.subject_referred,
+            reasons=referedStud.reasons,behavior_problem = referedStud.behavior_problem))
+    if notif1 != 0:
+        notif1 = notif1 - 1
+    return render(request, 'student/notif_detail.html', {"object_list":detail})
 #student
 
 

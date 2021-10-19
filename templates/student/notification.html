@@ -22,7 +22,7 @@ Notifications
                              </a>
                        
                     {% elif notification.notification_type == 'manual_referral' %}
-                        <a href="{% url 'student_notif_detail' notification.extra_id %}">
+                        <a href="{% url 'student_notif_detail' notification.id %}">
                              manual referral<br>
                             <small>{{ notification.created_at|timesince }} ago</small>
                         </a>

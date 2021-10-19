@@ -55,7 +55,7 @@ class Faculty(models.Model):
 
 class AccountCreated(models.Model):
     id_number = models.CharField(max_length=15,primary_key=True)
-    email = models.CharField(max_length=220)
+    email = models.EmailField()
     password = models.CharField(max_length=220,blank=True,null=True)
 
 class AccountsApi(models.Model):
