@@ -458,10 +458,11 @@ img {
                 <img style="height:50px; " src="https://1.bp.blogspot.com/-zssvz_H77as/YSdIaUUbIbI/AAAAAAAAAf0/xhPKHM0G8dczMa5vP7MPCZvNVeZQkpKgACLcBGAsYHQ/w945-h600-p-k-no-nu/logo3.png"></img>
                 <a style="font-weight: bold; margin-right: 1040px;"href="{% url 'teacher_home_view' %}" class="header__logo">FOLLOW APP</a>
     
-    
-                <div class="header__toggle">
-                    <i class='bx bx-menu' id="header-toggle"></i>
-                </div>
+      <div>
+                        {% for object in form %} 
+                              <p style="font-weight: bold;"> {{object.firstname }} {{object.lastname }} </p>
+                                   {% endfor %} 
+                                   </div>
             </div>
         </header>
 

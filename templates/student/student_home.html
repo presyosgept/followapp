@@ -544,6 +544,9 @@ th, td {
                 <div class="header__toggle">
                     <i class='bx bx-menu' id="header-toggle"></i>
                 </div>
+                {% for object in form %} 
+                              <p style="font-weight: bold;"> {{object.firstname }} {{object.lastname }} </p>
+                                   {% endfor %} 
             </div>
         </header>
 

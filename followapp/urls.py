@@ -22,20 +22,9 @@ from django.views.generic import TemplateView
 from rest_framework.authtoken import views
 
 from counselling.views import(
-    SendFormEmail,
-    # studentRefer_detail_view,
-    SendFormEmail,
     loginPage,
-    student_list_view,
-    # about_view,
-   
- 
-    # export_studentslist,
-    # upload_studentslist,
-    students_view,
     signup,
     logoutUser,
-    student_view,
     register,
     verification_code,
     home,
@@ -70,7 +59,6 @@ from counselling.views import(
     director_home_view,
     director_assign_counselor,
     director_fillinForm,
-    # sample,
 
     #student
     student_home_view,
@@ -78,11 +66,10 @@ from counselling.views import(
     notifications_student,
     student_notif_detail,
 
-    # studentsList,
+    #api
     CounselorList,
     RegisterApi,
     VerificationApi,
-    # RegisterApi,
     signup_api,
     login_api,
 
@@ -122,22 +109,17 @@ urlpatterns = [
     path('register_api/<str:id>/<str:email>', RegisterApi.as_view()),
     path('verification_api/<str:id>/<str:code>', VerificationApi.as_view()),
     # path('register_api/<str:id>/<str:password>', RegisterApi.as_view()),
-    path('email/', TemplateView.as_view(template_name="sendEmail.html"), name='sendEmail'),
-    path('send-form-email',SendFormEmail.as_view(),name='send_email'),
     path('signup_api', signup_api),
     path('login_api', login_api),
     # path('account/register', create_auth),
-
     path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
 
 
 
 
-
-    # path('firstpage/', firstPage, name='firstpage'),
     
-    path('login/', loginPage, name='login'),
     path('', home, name='home'),
+    path('login/', loginPage, name='login'),
     path('logout/', logoutUser, name='logout'),
     path('signup/', signup, name='signup'),
     path('register/', register, name='register'),
@@ -186,16 +168,5 @@ urlpatterns = [
     path('director/form/<str:pk>', director_fillinForm, name="director_fillinForm"),
 
 
-    path('studentslist/studenthome', student_view, name="home_student"),
-    path('studentslist/students', students_view),
-    # path('studentslist/exportion', export_studentslist),
-    # path('studentslist/upload_students', simple_upload_students),
-    # path('studentslist/upload', upload_studentslist),
-    
-   
-    path('studentslist/', student_list_view, name='index'),
-    # path('studentslist/about', about_view, name='about'),
-    # path('students/<int:pk>/', studentRefer_detail_view),
-    # path('products/<int:pk>/', product_detail_view),
     path('admin/', admin.site.urls),
 ]

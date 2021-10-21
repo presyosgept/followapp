@@ -2,7 +2,7 @@ from .models import Counselor, AccountCreated,TeachersReferral,AllStudent
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
-
+from django.forms import ModelForm, widgets, DateTimeField, DateField, DateInput
 from django import forms
 
 class CreateUserForm(UserCreationForm):
@@ -20,7 +20,6 @@ class AccountCreatedForm(forms.Form):
     id_number = forms.CharField()
     email = forms.EmailField()
     password = forms.CharField()
-
 
 class TeachersReferralForm(forms.ModelForm):
     reasons = forms.CharField(widget=forms.Textarea)
@@ -63,16 +62,6 @@ class StudentsloadForm(forms.Form):
     studnumber = forms.CharField()
 
 
-
-# class CounselorForm(forms.Form):
-#     employeeid = forms.CharField()
-#     firstname = forms.CharField()
-#     lastname = forms.CharField()
-#     program_designation = forms.CharField()
-# class CounselorForm(forms.ModelForm):
-# 	class Meta:
-# 		model = Counselor
-# 		fields = ['employeeid', 'firstname',  'lastname', 'program_designation']
 class CounselorForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -94,6 +83,6 @@ class CounselorForm(forms.ModelForm):
 # 	    model = CounselorSchedule
 # 	    fields = ['schedid','time1','time2', 'service_offered', 'description']
 
-from django.forms import ModelForm, widgets, DateTimeField, DateField, DateInput
+
 
 

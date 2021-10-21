@@ -78,6 +78,8 @@ class CounselorList(APIView):
         serializer = ResultSerializer(obj)
         return Response(serializer.data)
 
+#api
+
 class RegisterApi(APIView):
     def get(self, request, id, email):
         char = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
@@ -89,28 +91,37 @@ class RegisterApi(APIView):
 
         userTeacher = Faculty.objects.filter(employee_id=id).first()
         userStudent = AllStudent.objects.filter(studnumber=id).first()
+        exist = AccountsApi.objects.filter(id_number=id).first()
+        flag=0
+        if exist is not None:
+            flag = 1
         obj = Result(bool1 = False)
         if userTeacher is not None or userStudent is not None:
-            connection = get_connection(use_tls=True,
-            host='smtp.gmail.com', 
-            port=587,
-            username='followapp2021@gmail.com', 
-            password='followapp#123')
-            EmailMessage(
-                    "Verification Cod", 
-                    "This is your verification code " + code, 
-                    'followapp2021@gmail.com', 
-            [
-                email,
-            ], connection=connection).send()
-            value = AccountsApi(id_number=id, email=email, code=code)
-            value.save()
-            obj = Result(bool1 = True)
-            serializer = ResultSerializer(obj)
-            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+            if flag == 0:
+                connection = get_connection(use_tls=True,
+                host='smtp.gmail.com', 
+                port=587,
+                username='followapp2021@gmail.com', 
+                password='followapp#123')
+                EmailMessage(
+                        "Verification Code", 
+                        "This is your verification code: " + code, 
+                        'followapp2021@gmail.com', 
+                [
+                    email,
+                ], connection=connection).send()
+                value = AccountsApi(id_number=id, email=email, code=code)
+                value.save()
+                obj = Result(bool1 = True)
+                serializer = ResultSerializer(obj)
+                return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return JsonResponse({"username": "Username is Existing"},status=status.HTTP_400_BAD_REQUEST)
+
 
         serializer = ResultSerializer(obj)
         return JsonResponse(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+
 
         
 class VerificationApi(APIView):
@@ -193,64 +204,7 @@ def login_api(request):
 
 #     # def create(self, validated_data):
             
-
-            
-            
-
-
-
-
-class SendFormEmail(View):
-
-    def  get(self, request):
-
-        # Get the form data 
-        name = request.GET.get('name', None)
-        email = request.GET.get('email', None)
-        message = request.GET.get('message', None)
-
-        # # Send Email
-        # send_mail(
-        #     "Contact form",
-        #     message, 
-        #     settings.EMAIL_HOST_USER,
-        #     [
-        #         email,
-        #     ],
-        #     fail_silently=False,
-        # ) diri ka taman mag ctrl z
-
-        
-
-        connection = get_connection(use_tls=True, 
-        host='smtp.gmail.com', 
-        port=587,
-        username='followapp2021@gmail.com', 
-        password='followapp#123')
-        EmailMessage(
-            name, 
-            message, 
-            'followapp2021@gmail.com', 
-            [
-                email
-                ], connection=connection).send()
-        
-        messages.success(request, ('Email sent successfully.'))
-
-
-        char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-        for x in range(0,10):
-            password=""
-            for x in range(0,8):
-                password_char = random.choice(char)
-                password = password + password_char
-            print(password)
-        return redirect('sendEmail') 
-
-
-
-
-
+#api
 
 
 
@@ -285,8 +239,8 @@ def register(request):
             username='followapp2021@gmail.com', 
             password='followapp#123')
             EmailMessage(
-                "verification", 
-                "mao ni ang code nga imong iinput " + code, 
+                "Verification Code", 
+                "This is your verification code: " + code, 
                 'followapp2021@gmail.com', 
             [
                 email,
@@ -315,8 +269,8 @@ def register(request):
                 username='followapp2021@gmail.com', 
                 password='followapp#123')
                 EmailMessage(
-                    "verification", 
-                    "mao ni ang code nga imong iinput " + code, 
+                    "Verification Code", 
+                    "This is your verification code: " + code, 
                     'followapp2021@gmail.com', 
                 [
                     email,
@@ -368,6 +322,8 @@ def signup(request):
                     for user in qs_account:
                         if user.id_number == username:
                             exist =1
+                    print("yeeeeeee")
+                    print(exist)
                     if (exist == 1):
                         flag = 0
                         qs = AllStudent.objects.all()
@@ -400,7 +356,7 @@ def signup(request):
                                 messages.info(request, 'Admin Account was created for ' + user)
                                 return redirect('login')
 
-                        messages.info(request, 'Incorrect Password')
+                        messages.info(request, 'Check Credentials Account Not Created')
                     
                     else:
                         messages.info(request, 'Check Credentials Account Not Created')  
@@ -474,13 +430,16 @@ def home(request, *args, **kwargs):
 #director
 @login_required(login_url='login')
 def director_home_view(request, *args, **kwargs):
-    return render(request, "director/director_home.html", {})
+    user = request.session.get('username')
+    director_name = Faculty.objects.filter(employee_id = user)
+    return render(request, "director/director_home.html", {"form" :director_name})
 
 @login_required(login_url='login')
 def director_assign_counselor(request, *args, **kwargs):
+    user = request.session.get('username')
+    director_name = Faculty.objects.filter(employee_id = user)
     qs = Faculty.objects.filter(role='counselor')
-    context = {"object_list": qs}
-    return render(request, "director/assign_counselor.html", context)
+    return render(request, "director/assign_counselor.html", {"object_list": qs,"form" :director_name})
 
 @login_required(login_url='login')
 def director_fillinForm(request, pk):
@@ -494,28 +453,22 @@ def director_fillinForm(request, pk):
             form.save()
             return render(request, "director/assign_counselor.html", context)
     context = {"form": form}
-    return render(request, "director/form.html", context )
+    user = request.session.get('username')
+    director_name = Faculty.objects.filter(employee_id = user)
+    return render(request, "director/form.html",{"form": form,"form" :director_name})
 
 #director
 
 
 
-
+from django import template
+from datetime import datetime,date,timedelta
 #admin
 @login_required(login_url='login')
 def admin_home_view(request, *args, **kwargs):
-    today = date.today()
-    # dateNow= date.now()
-    now = datetime.now()
-    day_name=now.strftime("%a")
-    print("today " + str(today))
-    # print("datenow " + str(dateNow))
-    print("now " + str(now))
-    print("day name "+ str(day_name))
+    tomorrow = date.today() + timedelta(days=1)
+    print(str(tomorrow))
     return render(request, "admin/admin_home.html", {})
-
-#upload
-
 
 @login_required(login_url='login')
 def upload_studentsload(request):
@@ -726,7 +679,7 @@ def new(request,stud):
             studentInfo.save()
             form = TeachersReferralForm(instance=studentReferred)
             context = {"form1": form,"form":user_name}
-            notif = notif + 1
+            notif = notif + 1 
             notif1 = notif1 + 1
             create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud))
             messages.info(request, 'Successfully Referred the Student')
@@ -737,70 +690,6 @@ def new(request,stud):
 
 
 
-# @login_required(login_url='login')
-# def new(request,stud):
-#     user = request.session.get('username')
-#     allstud = AllStudent.objects.get(student_id=stud)
-#     form = ReferralForm(instance=allstud)
-#     name = ''
-#     stdnum= ''
-#     sub= ''
-#     couns =''
-#     global notif
-#     global notif1
-#     if request.method=="POST":
-#        form = ReferralForm(request.POST, instance=allstud)
-#        if form.is_valid():
-#             form.save()
-#             return render(request, "teacher/teacher_home.html")
-#        firstname= request.POST['firstname']
-#        name = firstname
-#        lastname= request.POST['lastname']
-#        studnumber= request.POST['studnumber']
-#        stdnum= studnumber
-#        degree_program= request.POST['degree_program']
-#        subject_referred= request.POST['subject_referred']
-#        sub = subject_referred
-#        reasons= request.POST['reasons']
-#        print("baaaaa")
-#        qs = Counselor.objects.get(program_designation = degree_program)
-#        couns = qs.employeeid
-#        print("precious giffftt")
-#        print(couns)
-#        studentInfo = TeachersReferral(firstname=firstname, 
-#        lastname=lastname,studnumber=studnumber,
-#        degree_program = degree_program,subject_referred=subject_referred,
-#        reasons=reasons,counselor=qs.employeeid,employeeid=user)
-#        studentInfo.save()
-#        notif = notif + 1
-#        notif1 = notif1 + 1
-#        create_notification(couns, user, 'manual_referral', extra_id=int(stdnum))
-#     else:
-#         TeachersReferralForm()
-#     studentSched=StudentSchedule.objects.all()
-#     counselorSched= CounselorSchedule.objects.all()
-#     for index, objectstud in enumerate(studentSched):
-#         if studentSched[index].schedule==None and studentSched[index+1].schedule==None:
-#             for index, object in enumerate(counselorSched):
-#                 if counselorSched[index].service_offered==None and counselorSched[index+1].service_offered==None:
-#                     CounselorSchedule.objects.filter(schedid=counselorSched[index].schedid).update(
-#                         service_offered='COUNSELING',description=name)
-#                     CounselorSchedule.objects.filter(schedid=counselorSched[index+1].schedid).update(
-#                         service_offered='COUNSELING',description=name)
-#                     studentNumber= stdnum
-#                     subject= sub
-#                     teacher_referred= user
-#                     print(studentNumber,subject,teacher_referred)
-#                     getReferralNotDone= TeachersReferral.objects.filter(status = None, employeeid=user)
-#                     for object1 in getReferralNotDone:
-#                         if object1.studnumber==studentNumber and object1.subject_referred==subject and object1.employeeid==user:
-#                             print(object1.id)
-#                             TeachersReferral.objects.filter(id=object1.id).update(
-#                                 start_time=counselorSched[index].time1,end_time=counselorSched[index+1].time2)
-                            
-#                     break
-#     user_name = Faculty.objects.filter(employee_id = user)
-#     return render(request, "teacher/new.html",{"form": user_name,"form1": form})
 
 
 @login_required(login_url='login')
@@ -892,41 +781,20 @@ def counselor_home_view(request, *args, **kwargs):
     #             CounselorSchedule.objects.filter(schedid=object1.schedid).update(service_offered='CLASS',description=object.offer_no)
     global notif
     counselor_name = Faculty.objects.filter(employee_id = user)
-    userName = {"object_list": counselor_name}
-    return render(request, "counselor/counselor_home.html", {"notif":notif} and userName)
+    return render(request, "counselor/counselor_home.html", {"notif":notif,"form": counselor_name})
 
 
 @login_required(login_url='login')
 def counselor_view_schedule(request, *args, **kwargs):
-    # counselors=CounselorSchedule.objects.all()
-    context = {}
     user = request.session.get('username')
     counselor_name = Faculty.objects.filter(employee_id = user)
-    userName = {"object_list": counselor_name}
-    return render(request, "counselor/schedule.html", context and userName)
+    return render(request, "counselor/schedule.html", {"form": counselor_name})
 
 @login_required(login_url='login')
 def counselor_setSchedule(request, pk):
-    # counselor = CounselorSchedule.objects.get(time1=pk)
-    # form = CounselorScheduleForm(instance=counselor)
-    # objectss= CounselorSchedule.objects.order_by('schedid')
-    
-    # if request.method == "POST":
-    #     print("chuchu")
-    #     form = CounselorScheduleForm(request.POST, instance=counselor)
-    #     if form.is_valid():
-    #         schedid = request.POST['schedid']
-    #         service_offered = request.POST['service_offered']
-    #         description= request.POST['description']
-    #         CounselorSchedule.objects.filter(time1=pk).update(service_offered=service_offered,description=description)
-    #         counselorsss = CounselorSchedule.objects.order_by('schedid')
-    #         context = {"object" : counselorsss}
-    #         return render(request, "counselor/schedule.html",context)
-    context = {}
     user = request.session.get('username')
     counselor_name = Faculty.objects.filter(employee_id = user)
-    userName = {"object_list": counselor_name}
-    return render(request, "counselor/set_schedule.html", context and userName )
+    return render(request, "counselor/set_schedule.html",{"form": counselor_name})
 
 @login_required(login_url='login')
 def counselor_view_detail_referred_students(request, id):
@@ -952,10 +820,8 @@ def counselor_view_detail_referred_students(request, id):
 def counselor_view_referred_students(request, *args, **kwargs):
     user = request.session.get('username')
     qs = TeachersReferral.objects.filter(counselor = user)
-    context = {"objects": qs}
     counselor_name = Faculty.objects.filter(employee_id = user)
-    userName = {"object_list": counselor_name}
-    return render(request, "counselor/referred_students.html", {"objects": qs,"object_list": counselor_name})
+    return render(request, "counselor/referred_students.html", {"objects": qs,"form": counselor_name})
  
 
 @login_required
@@ -977,50 +843,21 @@ def notifications(request):
 
     notif = Notification.objects.filter(to_user= user)
     counselor_name = Faculty.objects.filter(employee_id = user)
-    # userName = {"object_list": counselor_name}
     return render(request, 'counselor/notification.html', {"notifications":notif,"form": counselor_name} )
-
-
-
-# @login_required
-# def manual_detail(request, pk, created_by, id):
-#     global notif
-#     user = request.session.get('username')
-#     counselor_name = Faculty.objects.filter(employee_id = user)
-#     student = TeachersReferral.objects.filter(studnumber=pk, employeeid=created_by, id=id)
-#     if notif != 0 and notif > 0:
-#         notif-=1
-#     return render(request, 'counselor/manual_detail.html', {"object":student,"object_list": counselor_name})
-
 
 
 # student
 @login_required(login_url='login')
 def student_home_view(request, *args, **kwargs):
     global notif1
-    return render(request, "student/student_home.html", {"notif1":notif1})
+    
+    user = request.session.get('username')
+    student_name = AllStudent.objects.filter(studnumber = user)
+    return render(request, "student/student_home.html", {"notif1":notif1,"form": student_name})
 
 @login_required(login_url='login')
 def student_schedule(request, *args, **kwargs):
-    # studentSchedulelist = []
-    # user = request.session.get('username')
-    # studentSubject = Studentsload.objects.filter(studnumber = user)
-    # allSubject = SubjectOffered.objects.all()
-    # studentssss = StudentSchedule.objects.order_by('schedid')
-    # stud=StudentSchedule.objects.all()
-    # for object in allSubject:
-    #     for object1 in studentSubject:
-    #         if object.offer_no == object1.offer_no:
-    #             studentSchedulelist.append(SubjectOffered(object.offer_no, 
-    #             object.subject_no,object.subject_title,object.dayofsub,
-    #             object.start_time,object.end_time,object.units))
-    # for object in studentSchedulelist:
-    #     for object1 in stud:
-    #         if(object.start_time==object1.time1 or object.end_time==object1.time2):
-    #             StudentSchedule.objects.filter(schedid=object1.schedid).update(schedule='CLASS',description=object.offer_no)
-    context = {"object" : studentssss}
-  
-    return render(request, "student/schedule.html", context )
+    return render(request, "student/schedule.html")
 
 @login_required
 def notifications_student(request):
@@ -1040,7 +877,8 @@ def notifications_student(request):
             return render(request, "student/student_home", {})
 
     notif = Notification.objects.filter(extra_id=user)
-    return render(request, 'student/notification.html', {"notifications":notif})
+    student_name = AllStudent.objects.filter(studnumber = user)
+    return render(request, 'student/notification.html', {"notifications":notif,"form": student_name})
 
 @login_required
 def student_notif_detail(request, id):
@@ -1056,7 +894,9 @@ def student_notif_detail(request, id):
             reasons=referedStud.reasons,behavior_problem = referedStud.behavior_problem))
     if notif1 != 0:
         notif1 = notif1 - 1
-    return render(request, 'student/notif_detail.html', {"object_list":detail})
+    user = request.session.get('username')
+    student_name = AllStudent.objects.filter(studnumber = user)
+    return render(request, 'student/notif_detail.html', {"object_list":detail, "form": student_name})
 #student
 
 
@@ -1104,27 +944,132 @@ def student_notif_detail(request, id):
 
 
 
+# @login_required(login_url='login')
+# def counselor_setSchedule(request, pk):
+    # counselor = CounselorSchedule.objects.get(time1=pk)
+    # form = CounselorScheduleForm(instance=counselor)
+    # objectss= CounselorSchedule.objects.order_by('schedid')
+    
+    # if request.method == "POST":
+    #     print("chuchu")
+    #     form = CounselorScheduleForm(request.POST, instance=counselor)
+    #     if form.is_valid():
+    #         schedid = request.POST['schedid']
+    #         service_offered = request.POST['service_offered']
+    #         description= request.POST['description']
+    #         CounselorSchedule.objects.filter(time1=pk).update(service_offered=service_offered,description=description)
+    #         counselorsss = CounselorSchedule.objects.order_by('schedid')
+    #         context = {"object" : counselorsss}
+    #         return render(request, "counselor/schedule.html",context)
+    # user = request.session.get('username')
+    # counselor_name = Faculty.objects.filter(employee_id = user)
+    # return render(request, "counselor/set_schedule.html",{"form": counselor_name})
+
+
+# @login_required
+# def manual_detail(request, pk, created_by, id):
+#     global notif
+#     user = request.session.get('username')
+#     counselor_name = Faculty.objects.filter(employee_id = user)
+#     student = TeachersReferral.objects.filter(studnumber=pk, employeeid=created_by, id=id)
+#     if notif != 0 and notif > 0:
+#         notif-=1
+#     return render(request, 'counselor/manual_detail.html', {"object":student,"object_list": counselor_name})
 
 
 
+# @login_required(login_url='login')
+# def student_schedule(request, *args, **kwargs):
+    # studentSchedulelist = []
+    # user = request.session.get('username')
+    # studentSubject = Studentsload.objects.filter(studnumber = user)
+    # allSubject = SubjectOffered.objects.all()
+    # studentssss = StudentSchedule.objects.order_by('schedid')
+    # stud=StudentSchedule.objects.all()
+    # for object in allSubject:
+    #     for object1 in studentSubject:
+    #         if object.offer_no == object1.offer_no:
+    #             studentSchedulelist.append(SubjectOffered(object.offer_no, 
+    #             object.subject_no,object.subject_title,object.dayofsub,
+    #             object.start_time,object.end_time,object.units))
+    # for object in studentSchedulelist:
+    #     for object1 in stud:
+    #         if(object.start_time==object1.time1 or object.end_time==object1.time2):
+    #             StudentSchedule.objects.filter(schedid=object1.schedid).update(schedule='CLASS',description=object.offer_no)
+    # context = {"object" : studentssss}
+  
+    # return render(request, "student/schedule.html", context )
 
 
-
-
-
-
-
-
-
-
-
+# @login_required(login_url='login')
+# def new(request,stud):
+#     user = request.session.get('username')
+#     allstud = AllStudent.objects.get(student_id=stud)
+#     form = ReferralForm(instance=allstud)
+#     name = ''
+#     stdnum= ''
+#     sub= ''
+#     couns =''
+#     global notif
+#     global notif1
+#     if request.method=="POST":
+#        form = ReferralForm(request.POST, instance=allstud)
+#        if form.is_valid():
+#             form.save()
+#             return render(request, "teacher/teacher_home.html")
+#        firstname= request.POST['firstname']
+#        name = firstname
+#        lastname= request.POST['lastname']
+#        studnumber= request.POST['studnumber']
+#        stdnum= studnumber
+#        degree_program= request.POST['degree_program']
+#        subject_referred= request.POST['subject_referred']
+#        sub = subject_referred
+#        reasons= request.POST['reasons']
+#        print("baaaaa")
+#        qs = Counselor.objects.get(program_designation = degree_program)
+#        couns = qs.employeeid
+#        print("precious giffftt")
+#        print(couns)
+#        studentInfo = TeachersReferral(firstname=firstname, 
+#        lastname=lastname,studnumber=studnumber,
+#        degree_program = degree_program,subject_referred=subject_referred,
+#        reasons=reasons,counselor=qs.employeeid,employeeid=user)
+#        studentInfo.save()
+#        notif = notif + 1
+#        notif1 = notif1 + 1
+#        create_notification(couns, user, 'manual_referral', extra_id=int(stdnum))
+#     else:
+#         TeachersReferralForm()
+#     studentSched=StudentSchedule.objects.all()
+#     counselorSched= CounselorSchedule.objects.all()
+#     for index, objectstud in enumerate(studentSched):
+#         if studentSched[index].schedule==None and studentSched[index+1].schedule==None:
+#             for index, object in enumerate(counselorSched):
+#                 if counselorSched[index].service_offered==None and counselorSched[index+1].service_offered==None:
+#                     CounselorSchedule.objects.filter(schedid=counselorSched[index].schedid).update(
+#                         service_offered='COUNSELING',description=name)
+#                     CounselorSchedule.objects.filter(schedid=counselorSched[index+1].schedid).update(
+#                         service_offered='COUNSELING',description=name)
+#                     studentNumber= stdnum
+#                     subject= sub
+#                     teacher_referred= user
+#                     print(studentNumber,subject,teacher_referred)
+#                     getReferralNotDone= TeachersReferral.objects.filter(status = None, employeeid=user)
+#                     for object1 in getReferralNotDone:
+#                         if object1.studnumber==studentNumber and object1.subject_referred==subject and object1.employeeid==user:
+#                             print(object1.id)
+#                             TeachersReferral.objects.filter(id=object1.id).update(
+#                                 start_time=counselorSched[index].time1,end_time=counselorSched[index+1].time2)
+                            
+#                     break
+#     user_name = Faculty.objects.filter(employee_id = user)
+#     return render(request, "teacher/new.html",{"form": user_name,"form1": form})
 
 
 
 
 # CounselorSchedule
-
-
 #  counselor = CounselorSchedule.objects.get(id=pk)
 #     form = CounselorScheduleForm(instance=counselor)
 #     form = CounselorScheduleForm(request.POST, instance=counselor)
@@ -1142,67 +1087,6 @@ def student_notif_detail(request, id):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@login_required(login_url='login')
-def student_view(request, *args, **kwargs):
-    return render(request, "students/student.html", {})
-
-@login_required(login_url='login')
-def studentRefer_detail_view(request, pk):
-    try:
-        object = TeachersReferral.objects.get(pk=pk)
-    except TeachersReferral.DoesNotExist:
-        raise Http404
-    # return HttpResponse(f"Product id{obj.pk}")
-    return render(request, "students/detail_student.html", {"object": object})
-
-@login_required(login_url='login')
-def student_list_view(request, *args, **kwargs):
-    return render(request, "students/student_list.html", {})
-
-@login_required(login_url='login')
-def about_view(request, *args, **kwargs):
-    qs = TeachersReferral.objects.all()
-    context = {"object_list": qs}
-    return render(request, "students/about.html", context)
-
-
-
-
 # @login_required(login_url='login')
 # def export_studentslist(request):
 #     students_resource = TeachersloadResource()
@@ -1211,119 +1095,6 @@ def about_view(request, *args, **kwargs):
 #     response['Content-Disposition'] = 'attachment; filename="students.xls"'
 #     return response
 
-# @login_required(login_url='login')
-# def upload_studentslist(request):
-    # if request.method == 'POST':
-    #     student_resource = TeachersloadResource()
-    #     dataset = Dataset()
-    #     new_students = request.FILES['myfile']
-
-    #     imported_data = dataset.load(new_students.read(),format='xlsx')
-    #     print(imported_data)
-    #     for data in imported_data:
-           
-    #     	print(data[1])
-    #     	value = Teachersload(
-    #             data[0],
-    #             data[1], 
-    #             data[2], 
-    #             data[3], 
-    #             data[4], 
-    #             )
-    # #     	value.save()     
-    # return render(request, "students/upload.html")
-
-@login_required(login_url='login')
-def students_view(request, *args, **kwargs):
-    # qs = Students.objects.all()
-    # context = {"object_list": qs}
-    return render(request, "students/students_view.html")
-
-
-# def export(request):
-#     teacher_resource = TeachersResource()
-#     dataset = teacher_resource.export()
-#     response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-#     response['Content-Disposition'] = 'attachment; filename="persons.xls"'
-#     return response
-
-# def simple_upload(request):
-#     if request.method == 'POST':
-#         teacher_resource = TeachersResource()
-#         dataset = Dataset()
-#         new_students = request.FILES['myfile']
-
-#         imported_data = dataset.load(new_students.read(),format='xlsx')
-#         print(imported_data)
-#         for data in imported_data:
-           
-#         	print(data[1])
-#         	value = Teachers(
-#                 data[0],
-#                 data[1], 
-#                 data[2], 
-#                 data[3], 
-#                 data[4], 
-#                 data[5], 
-#                 )
-#         	value.save()     
-#     return render(request, "students/upload.html")
-
-
-# def firstPage(request):
-#     print("hhh")
-#     if request.method == 'POST':
-#         print("a")
-#         flag=0
-#         usernamee = request.POST.get('usernamee')
-#         passwordd = request.POST.get('passwordd')
-#         qs = Students.objects.all()
-#         print("b")
-#         for student in qs:
-#             print("c")
-#             print(student.studnumber)
-#             if student.studnumber == usernamee:
-#                 flag = 1
-#         print("d")
-#         if flag == 1:
-#             print("one")
-#             return redirect('register')
-#         else:
-#            print("two")
-#            return render(request, 'firstpage.html',)
-#     return render(request, 'firstpage.html',)
-
-# def registerPage(request):
-# 	if request.user.is_authenticated:
-# 		return redirect('home')
-# 	else:
-# 		form = CreateUserForm()
-# 		if request.method == 'POST':
-# 			form = CreateUserForm(request.POST)
-# 			if form.is_valid():
-# 				form.save()
-# 				user = form.cleaned_data.get('username')
-# 				messages.success(request, 'Account was created for ' + user)
-# 			return redirect('login')
-# 	return render(request, 'register.html', {'form':form})
-
-# def loginPage(request):
-# 	if request.user.is_authenticated:
-# 		return redirect('home')
-# 	else:
-# 		if request.method == 'POST':
-# 			username = request.POST.get('username')
-# 			password = request.POST.get('password')
-
-# 			user = authenticate(request, username=username, password=password)
-
-# 			if user is not None:
-# 				login(request, user)
-# 				return redirect('home')
-# 			else:
-# 				messages.info(request, 'Username OR password is incorrect')
-
-# 		return render(request, 'login.html', {})
 
 
 #uploaddb

@@ -43,18 +43,15 @@ class AllFacultyResource(resources.ModelResource):
     class Meta:
         model = AllFaculty
 
-#iupload
 
 class FacultyResource(resources.ModelResource):
     class Meta:
         model = Faculty
 
 
-
 class TeachersReferralResource(resources.ModelResource):
     class Meta:
         model = TeachersReferral
-
 
 
 class SubjectOfferedResource(resources.ModelResource):
