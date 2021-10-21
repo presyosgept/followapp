@@ -114,13 +114,13 @@ class RegisterApi(APIView):
                 value.save()
                 obj = Result(bool1 = True)
                 serializer = ResultSerializer(obj)
-                return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+                return JsonResponse({"result": "Account Created"}, status=status.HTTP_200_OK)
             else:
-                return JsonResponse({"username": "Username is Existing"},status=status.HTTP_400_BAD_REQUEST)
+                return JsonResponse({"result": "Account is Existing"},status=status.HTTP_400_BAD_REQUEST)
 
 
         serializer = ResultSerializer(obj)
-        return JsonResponse(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({"result": "Invalid Account"},status=status.HTTP_400_BAD_REQUEST)
 
 
         
