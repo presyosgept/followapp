@@ -373,7 +373,7 @@ img {
   margin-right: 90px;
   margin-left: 25px;
   text-align: center;
-  overflow-x: scroll;
+
 }
 
 .card1:hover {
@@ -447,6 +447,30 @@ img {
   width: 960px;
   margin: 0 auto;
 }
+
+       .dHome{
+      display: flex;
+      padding: 20px;
+      width: 1200px;
+   padding-left: 5px;
+      min-height: 500px;
+     
+      border-radius: 10px;
+      background-color: #FFFFFF;
+      box-shadow:
+        0 9px 33px rgba(0, 0, 0, 0.07);
+    
+      float: center;
+      flex-wrap: row;
+      margin-left: auto;
+ float: center;
+     
+      
+     
+      
+      
+      
+    }
     </style>
 
         <title>Responsive sidebar submenus</title>
@@ -456,7 +480,7 @@ img {
         <header class="header">
             <div class="header__container">
                 <img style="height:50px; " src="https://1.bp.blogspot.com/-zssvz_H77as/YSdIaUUbIbI/AAAAAAAAAf0/xhPKHM0G8dczMa5vP7MPCZvNVeZQkpKgACLcBGAsYHQ/w945-h600-p-k-no-nu/logo3.png"></img>
-                <a style="font-weight: bold; margin-right: 1040px;"href="{% url 'teacher_home_view' %}" class="header__logo">FOLLOW APP</a>
+                <a style="font-weight: bold; margin-right:  900px;"href="{% url 'teacher_home_view' %}" class="header__logo">FOLLOW APP</a>
     
       <div>
                         {% for object in form %} 
@@ -484,7 +508,7 @@ img {
                             </a>
 
                             <a href="{% url 'director_assign_counselor' %}" class="nav__link">
-                                <i class='bx bx-bell nav__icon' ></i>
+                                <i class='bx bx-label nav__icon' ></i>
                                 <span class="nav__name">Assigned Councilor</span>
                             </a>
 
@@ -507,8 +531,14 @@ img {
             <section id="homie" >
               <br>
            {% block content %} 
-           
-           
+            <!-- E TRY CAROSEL NGANHI -->
+<div class="dHome">
+<img style="max-width: 700px;
+  height: 480px; margin: auto;" 
+  src="https://static.e-counseling.com/wp-content/uploads/2020/04/online-counseling-illustration-750.png"  
+ >
+</div>
+
            {% endblock %}  
          </div>
                </section>

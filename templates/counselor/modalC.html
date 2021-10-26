@@ -119,7 +119,7 @@
     line-height: 5px;
       box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
       width: 500px;
-      margin-left: 355px;
+      margin: auto;
       border-radius: 20px;
 }
 .table-head .table-cell{
@@ -157,6 +157,7 @@ p{
 @media only screen and (max-width: 600px) {
   .table-row {
     font-size: 11px;
+    margin: auto;
   }
 }
 .trow-list{
@@ -178,6 +179,7 @@ p{
 }
 .modal{
   font-size: 19px;
+  text-align: left;
 }
 .container{
   border-radius: 10px;
@@ -187,7 +189,7 @@ p{
   width: 1200px;
   height: 400px;
   float: center;
-  margin-left: 15px;
+  margin: auto;
 }
     
 </style>
@@ -209,20 +211,20 @@ p{
   <div class="trow-list">
   
       <div  class="table-cell ">
-           <p class="modal" style="text-align: left;">{{object.studnumber}} &nbsp;</p>
-<p class="modal" style="text-align: left;">Degree Program: &nbsp; &nbsp;</p>
-<p class="modal" style="text-align: left;">Behavior Problem: &nbsp; &nbsp;</p>
-<p class="modal" style="text-align: left;">Subject: &nbsp; &nbsp;</p>
-<p class="modal"style="text-align:left;">Reasons: &nbsp; &nbsp;</p>
+           <p class="modal">{{object.studnumber}} &nbsp;</p>
+<p class="modal" >Degree Program: &nbsp; &nbsp;</p>
+<p class="modal" >Behavior Problem: &nbsp; &nbsp;</p>
+<p class="modal" >Subject: &nbsp; &nbsp;</p>
+<p class="modal">Reasons: &nbsp; &nbsp;</p>
       </div> 
           <div class="table-cell last-cell">
           <div class="table-cell">
-<p class="modal"style="text-align: left;"> &nbsp; &nbsp; {{object.lastname}}, &nbsp; {{object.firstname}}</p>
-<p class="modal"style="text-align: left;"> &nbsp; &nbsp; {{object.degree_program}}</p>
-<p class="modal"style="text-align: left;"> &nbsp; &nbsp; {{object.behavior_problem | title}}</p>
-<p class="modal" style="text-align: left;"> &nbsp; &nbsp; {{object.subject_referred}}</p>
+<p class="modal"> &nbsp; &nbsp; {{object.lastname}}, &nbsp; {{object.firstname}}</p>
+<p class="modal"> &nbsp; &nbsp; {{object.degree_program}}</p>
+<p class="modal"> &nbsp; &nbsp; {{object.behavior_problem | title}}</p>
+<p class="modal" > &nbsp; &nbsp; {{object.subject_referred}}</p>
 
-<p class="modal"style="text-align: left;"> &nbsp; &nbsp; {{object.reasons}}</p>
+<p class="modal"> &nbsp; &nbsp; {{object.reasons}}</p>
 </div> 
       </div>    
   </div>

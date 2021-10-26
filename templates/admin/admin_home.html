@@ -363,17 +363,19 @@ img {
 .card1 {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 98%;
-  height: 500px;
+  width: 102%;
+  height: 550px;
   border-radius: 5px;
-  background-color: var(--container-color); 
+  background-color: var(--card-color); 
   float: center;
   margin-top: 10px;
   margin-bottom: 35px;
-  margin-right: 90px;
-  margin-left: 25px;
+  margin-right: 500px;
+  /* margin-left: 80px;  */
   text-align: center;
-  overflow-x: scroll;
+ 
+
+ 
 }
 
 .card1:hover {
@@ -413,8 +415,18 @@ img {
   margin: 0 auto;
 }
 
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
 
-
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
 
         </style>
 
@@ -425,7 +437,7 @@ img {
         <header class="header">
             <div class="header__container">
                 <img style="height:50px; " src="https://1.bp.blogspot.com/-zssvz_H77as/YSdIaUUbIbI/AAAAAAAAAf0/xhPKHM0G8dczMa5vP7MPCZvNVeZQkpKgACLcBGAsYHQ/w945-h600-p-k-no-nu/logo3.png"></img>
-                <a style="font-weight: bold; margin-right: 1030px;"href="{% url 'teacher_home_view' %}" class="header__logo">FOLLOW APP</a>
+                <a style="font-weight: bold; margin-right:  auto;" href="{% url 'teacher_home_view' %}" class="header__logo">FOLLOW APP</a>
     
                 <div class="header__toggle">
                     <i class='bx bx-menu' id="header-toggle"></i>
@@ -479,10 +491,20 @@ img {
             <section id="notif" >
                 <br>
                 <div class="card1">
-           <br>
+  <!-- KUHAA ANG CARD1 ESAME NYA SA DIRECTOR -->
          {% block content %} 
-      
-           
+
+           <!-- <h1 style="font-weight: bold; text-align: left; margin-left: 10px;font-size: 30px" class="txtColor">Admin</h1> -->
+         
+      <br>
+
+    <img style="max-width: 700px;
+  height: 495px; " 
+  src="https://images.squarespace-cdn.com/content/v1/569398c29cadb61a0a1c632c/1586731980917-OHOK7LERGVCG99ZJUFRL/TWC_Online-Therapy_couples.png?format=750w"  
+ >
+
+
+
            {% endblock %}  
          </div>
                </section>

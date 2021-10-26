@@ -81,10 +81,12 @@
 .table-cell{
     display: table-cell;
     width: 3.33%;
-    text-align: center;
+
     padding: 4px 0;
-    border-right: 1px solid #d8c090;
+    /* border-right: 1px solid #d8c090; */
+     border-collapse: collapse;
     vertical-align: middle;
+ 
     
 }
 .first-cell{
@@ -124,13 +126,37 @@ p{
     color: #d8c090;
     font-size: 15px;
     box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-    line-height: 5px;
+    line-height: 10px;
 }
-
+.table-box
+{
+    margin: 16px auto;
+    
+}
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 97%;
+    }
+    
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 20px;
+    }
+    
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #customers tr:hover {background-color: #ddd;}
+    
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #E3E4FA;
+      color: white;
+    }
 </style>
 
-
-        
 <div class="table-row table-head">
   <div class="table-cell first-cell">
       <p class="listTitle">Notifications</p>
@@ -138,33 +164,41 @@ p{
 </div>
 
 
-
+<br>
     {% if not notifications %}
         No Notifications Yet!
     {% endif %}
 
- 
+<table id="customers">
+      <tr>
+      <th style="text-align:center; color: black;">Referral</th>
+      <th style="text-align:center; color: black;">Time</th>
+   
+    </tr>
+{% for notification in notifications reversed %}
 
-<div class="table-box">
-  {% for notification in notifications reversed %}
-  <div class="trow-list">
     {% if notification.notification_type == 'automatic_referral' %}
     <a href="#">
-      <strong>{{ notification.created_by}}</strong> <b>Automatic Referral</b><br>
-      <small>{{ notification.created_at|timesince }} ago</small>
-       </a> {% elif notification.notification_type == 'manual_referral' %}
-       <a href="{% url 'counselor_view_detail_referred_students' notification.id %}">
-    <div class="table-cell first-cell">
-        <p style="text-align: center;"><b><strong>{{ notification.created_by.username }}</strong>  <b style="color: black;">Manual Referral</b></b></p>
-    </div>
-    <div class="table-cell" >
-        <p style="text-align: left; margin-left: 90px;"> {{ notification.created_at|timesince }} ago</p>
-    </div>  
-       </a>
-       {% endif %} 
-</div>
-{% endfor %}
-</div>
+    <tr>
+      
+      <td> <strong>{{ notification.created_by}}</strong> <b>Automatic Referral</b></td>
+      <td> <small>{{ notification.created_at|timesince }} ago</small></td>
+      
+    </tr>
+     </a> {% elif notification.notification_type == 'manual_referral' %}
+
+
+    <tr>
+      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id %}"><strong>{{ notification.created_by.username }}</strong>  <b style="color: black;">Manual Referral</b></a></td>
+      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
+    </tr>
+
+ 
+    {% endif %}  
+  {% endfor %}
+  </table>
+
+
  
    
 {% endblock %}
