@@ -543,37 +543,30 @@ img {
 
 
 .cards {
-  display: flex;
- margin:0 10px 10px 0;
-  padding: 1px;
+display: flex;
+ 
   
-      margin-left: 35px;
-         flex-direction:column;
+      margin-left: auto;
+         flex-direction:row;
        flex-wrap:wrap;
-         height: 100vh;
-
-  
-         
-      
-
         
 }
 
 .cards_item {
-  display: flex;
+  display: block;
   padding: 1rem;
   
 }
 
 @media (min-width: 40rem) {
   .cards_item {
-    width: 50%;
+    width: 20%;
   }
 }
 
 @media (min-width: 56rem) {
   .cards_item {
-    width: 50%;
+    width: 20%;
   }
 }
 
@@ -790,20 +783,19 @@ p{
 
                   {% for object in object_list%}
                 
-            <a href="{% url 'teacher_view_students' object.offer_code_id %}"> 
+<div class="cards_item">
+  <a href="{% url 'teacher_view_students' object.offer_code_id %}"> 
+  <div class="card">
+    <div class="card_image"><img src="https://picsum.photos/500/300/?image=2"></div>
+    <div class="card_content">
+      <h2 class="card_title">{{object.offer_code_id }}</h2>
+       <!-- <h2 class="card_title">{{object.subject_code_id }}</h2> -->
+   
+    </div> 
+  </div>
   
-    <div class="cards_item">
-      <div class="card">
-        <div class="card_image"><img src="https://picsum.photos/500/300/?image=2"></div>
-        <div class="card_content">
-          <h2 class="card_title">{{object.offer_code_id }}</h2>
-           <!-- <h2 class="card_title">{{object.subject_code_id }}</h2> -->
-       
-        </div> 
-      </div>
-    </div>
-  
-            </a>
+</a>
+</div>
 
             
                 {% endfor %} 
