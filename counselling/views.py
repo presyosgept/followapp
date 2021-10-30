@@ -602,59 +602,18 @@ def teacher_home_view(request, *args, **kwargs):
     user_name = Faculty.objects.filter(employee_id = user)
     fload = Facultyload.objects.filter(employee_id = user)
 
-    # today = date.today()
-    # now = datetime.now()
-    # day_name=now.strftime("%a")
-    # SubjectofStudentReferred=[]
-    # ClassesofCounselor=[]
-
-    # OfferCodeStudentReferred= Studentsload.objects.filter(studnumber=2018012810)
-    # OfferCodeCounselor= Facultyload.objects.filter(employee_id= user)
-    # offercode = OfferCode.objects.all()
-    # for object in OfferCodeStudentReferred:
-    #     for object1 in offercode:
-    #         if object.offer_code_id == object1.offer_code:
-    #             Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
-    #             SubjectofStudentReferred.append(Subject)
-
-    # print("dayname " + day_name)   
-    # SubjectofStudentReferredToday = SubjectofStudentReferred[7]
-    # print("SubjectofStudentReferredToday ")
-    # print(SubjectofStudentReferredToday)
-
-    # for object in OfferCodeCounselor:
-    #      for object1 in offercode:
-    #         if object.offer_code_id == object1.offer_code:
-    #             Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
-    #             ClassesofCounselor.append(Subject)
-
-    # ClassesofCounselor=ClassesofCounselor[0]
-    # print("ClassesofCounselor")
-    # print(ClassesofCounselor)
+    # studentReferred //student id of t the student referred
     
-    
-    # if request.method == "POST" :
-    #     search = request.POST['search']
-    #     stud = AllStudent.objects.all()
-    #     for student in stud:
-    #         if student.lastname == search.title():
-    #             studentReferred = AllStudent.objects.get(lastname=search.title())
-    #             form = TeachersReferralForm(instance=studentReferred)
-    #             qs = Facultyload.objects.filter(employee_id = user)
-    #             context = {"form1": form,"form":user_name}
-    #             degree = DegreeProgram.objects.get(program_id = studentReferred.degree_program_id)
-    #             return render(request, "teacher/new.html", context)
-            
-    #     messages.success(request, 'Student Does Not Exist')
   
     return render(request, "teacher/teacher_home.html",  {"object_list": fload,"form": user_name} )
-
 
 
 @login_required(login_url='login')
 def new(request,stud):
     global notif
     global notif1
+    time1 = ""
+    time2 = ""
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
     studentReferred = AllStudent.objects.get(studnumber=stud)
@@ -663,27 +622,101 @@ def new(request,stud):
     context = {"object_list": qs}
     degree = DegreeProgram.objects.get(program_id = studentReferred.degree_program_id)
     if request.method == "POST":
-        print("chuchu")
         subject_referred= request.POST['subject_referred']
         reasons= request.POST['reasons']
         behavior= request.POST['behavior_problem']
         form = TeachersReferralForm(request.POST, instance=studentReferred)
-        print("chuchu tv")
         if form.is_valid():
-            form.save()
-            qs = Counselor.objects.get(program_designation = degree.program_code)
-            studentInfo = TeachersReferral(firstname=studentReferred.firstname, 
-            lastname=studentReferred.lastname,studnumber=studentReferred.studnumber,
-            degree_program = degree.program_code,subject_referred=subject_referred,
-            reasons=reasons,counselor=qs.employee_id,employeeid=user,behavior_problem = behavior)
-            studentInfo.save()
-            form = TeachersReferralForm(instance=studentReferred)
-            context = {"form1": form,"form":user_name}
-            notif = notif + 1 
-            notif1 = notif1 + 1
-            create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud))
-            messages.info(request, 'Successfully Referred the Student')
-            return render(request, "teacher/new.html", context)
+            
+            today = date.today()
+            now = datetime.now()
+            day_name=now.strftime("%a")
+            SubjectofStudentReferred=[]
+            ClassesofCounselor=[]
+            ClassesCounselor = []
+
+
+            OfferCodeStudentReferred= Studentsload.objects.filter(studnumber=studentReferred.studnumber)
+            counselor = Counselor.objects.get(program_designation = degree.program_code)
+            OfferCodeCounselor = Facultyload.objects.filter(employee_id = counselor.employee_id)
+            for object in OfferCodeStudentReferred:
+                Subject=OfferCode.objects.get(offer_code = object.offer_code_id)
+                SubjectofStudentReferred.append(Subject)
+            # SubjectofStudentReferredToday = SubjectofStudentReferred.objects.filter(days=[day_name])
+
+            for object in OfferCodeCounselor:
+                Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
+                ClassesofCounselor.append(Subject)
+            
+            for object in ClassesofCounselor:
+                if object.days == day_name:
+                    ClassesCounselor.append(offer_code = object.offer_code,days = object.days,
+                    start_time= object.start_time,end_time= object.start_time,room = object.room,
+                    subject_code = object.subject_code,sem_id=object.sem_id, academic_year = object.academic_year,)
+
+        
+            tomorrow=date.today()+timedelta(days=1)
+
+            ScheduledReferralbyDay= TeachersReferral.objects.filter(date=tomorrow).order_by('start_time')
+            length = 0
+            if ScheduledReferralbyDay is not None:
+                length = 1
+            time=Time.objects.all()
+            counter=0
+            flag=0
+            start = datetime.strptime('8:00:00', '%H:%M:%S').time()
+            end = datetime.strptime('17:00:00', '%H:%M:%S').time()
+            b = start + timedelta(0,3) # days, seconds, then other fields.
+            print (b.time())
+
+            if(length!=0):
+                for object1 in time:
+                    if(object1.time1 > start or object1.time1 < end):
+                        for object2 in ScheduledReferralbyDay:
+                            print("b")
+                            for object3 in ClassesofCounselor:
+                                print("c")
+                                if(object2.start_time != object1.time1 and object3.start_time != object1.time1):
+                                    counter+=1
+                                    print("d")
+                                    if(counter==1):
+                                        time1=object1.time1
+                                        print("e")
+                                        break
+                                    if(counter==2):
+                                        print("f")
+                                        time2=object1.time2
+                                        form.save()
+                                        qs = Counselor.objects.get(program_designation = degree.program_code)
+                                        studentInfo = TeachersReferral(firstname=studentReferred.firstname, 
+                                        lastname=studentReferred.lastname,studnumber=studentReferred.studnumber,
+                                        degree_program = degree.program_code,subject_referred=subject_referred,
+                                        reasons=reasons,counselor=qs.employee_id,employeeid=user,behavior_problem = behavior,start_time = time1 , end_time = time2,date = tomorrow )
+                                        studentInfo.save()
+                                        form = TeachersReferralForm(instance=studentReferred)
+                                        context = {"form1": form,"form":user_name}
+                                        notif = notif + 1 
+                                        notif1 = notif1 + 1
+                                        create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud))
+                                        messages.info(request, 'Successfully Referred the Student')
+
+                                        flag=1
+                                        return render(request, "teacher/new.html", context)
+                                            
+                                else:
+                                    print("g")
+                                    time1=''
+                                    counter=0
+                        if(counter<2):
+                            print("h")
+                            continue
+                    else:
+                        counter=0
+
+            
+            
+
+    print("z")
     context = {"form1": form,"form":user_name}
     return render(request, "teacher/new.html", context )
 
