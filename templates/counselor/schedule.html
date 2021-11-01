@@ -208,20 +208,31 @@ p{
            <th>Schedule</th>
        </tr>
    </thead>
+   Klase ni
    {% for obj in object %}
    <tbody>
        <tr>
-           <td data-label="Time"> {{obj.time1}} - {{obj.time2}} - {{obj.id}}</td>
-           <td data-label="Service">{{obj.service_offered}}</td>
-           <td data-label="Description"> {{obj.description}} </td>
-           <td> <a href="{% url 'counselor_setSchedule' obj.time1  %}">
-            <button class="btn" id="btn2">Set Schedule</button>
-            </a></td>
+           <td data-label="Time"> {{obj.offer_code}} </td>
+           <td data-label="Service">{{obj.start_time}}</td>
+           <td data-label="Description"> {{obj.end_time}} </td>
        </tr>
    </tbody>
    {%endfor %}    
 </table>
 </div>
+Session ni sya
+  {% for object in object_list %}
+{{object.lastname}}
+{{object.firstname}}
+{{object.degree_program}}
+{{object.behavior_problem | title}}
+{{object.subject_referred}}
+
+{{object.reasons}}
+{{object.date}}
+{{object.start_time}}
+{{object.end_time}}
+   {%endfor %}   
 
 
 

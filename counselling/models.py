@@ -167,5 +167,8 @@ class Notification(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=220,null=True,blank=True)
+    schedDay = models.DateTimeField(blank=True,null=True)
+    schedStartTime = models.TimeField(blank=True,null=True)
+    schedEndTime = models.TimeField(blank=True,null=True)
     # class Meta:
     #     ordering = ['-created_at']

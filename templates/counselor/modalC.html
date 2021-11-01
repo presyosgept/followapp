@@ -195,7 +195,7 @@ p{
 </style>
 
 
-{% for object in object_list %}
+{% for object in objects %}
      
                                         <div class="table-row table-head">
       <div class="table-cell first-cell">
@@ -216,6 +216,9 @@ p{
 <p class="modal" >Behavior Problem: &nbsp; &nbsp;</p>
 <p class="modal" >Subject: &nbsp; &nbsp;</p>
 <p class="modal">Reasons: &nbsp; &nbsp;</p>
+<p class="modal">Date: &nbsp; &nbsp;</p>
+<p class="modal">Start Session: &nbsp; &nbsp;</p>
+<p class="modal">End Session: &nbsp; &nbsp;</p>
       </div> 
           <div class="table-cell last-cell">
           <div class="table-cell">
@@ -225,6 +228,9 @@ p{
 <p class="modal" > &nbsp; &nbsp; {{object.subject_referred}}</p>
 
 <p class="modal"> &nbsp; &nbsp; {{object.reasons}}</p>
+<p class="modal"> &nbsp; &nbsp; {{object.date}}</p>
+<p class="modal"> &nbsp; &nbsp; {{object.start_time}}</p>
+<p class="modal"> &nbsp; &nbsp; {{object.end_time}}</p>
 </div> 
       </div>    
   </div>

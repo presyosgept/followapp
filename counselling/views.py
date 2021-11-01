@@ -460,9 +460,6 @@ def director_fillinForm(request, pk):
 #director
 
 
-
-from django import template
-from datetime import datetime,date,timedelta
 #admin
 @login_required(login_url='login')
 def admin_home_view(request, *args, **kwargs):
@@ -607,7 +604,7 @@ def teacher_home_view(request, *args, **kwargs):
   
     return render(request, "teacher/teacher_home.html",  {"object_list": fload,"form": user_name} )
 
-
+import datetime as dt
 @login_required(login_url='login')
 def new(request,stud):
     global notif
@@ -629,7 +626,7 @@ def new(request,stud):
         if form.is_valid():
             
             today = date.today()
-            now = datetime.now()
+            now = dt.datetime.now()
             day_name=now.strftime("%a")
             SubjectofStudentReferred=[]
             ClassesofCounselor=[]
@@ -664,27 +661,24 @@ def new(request,stud):
             time=Time.objects.all()
             counter=0
             flag=0
-            start = datetime.strptime('8:00:00', '%H:%M:%S').time()
-            end = datetime.strptime('17:00:00', '%H:%M:%S').time()
-            b = start + timedelta(0,3) # days, seconds, then other fields.
-            print (b.time())
+            start = dt.datetime.strptime('8:00:00', '%H:%M:%S')
+            end = dt.datetime.strptime('17:00:00', '%H:%M:%S')
+            add = dt.datetime.strptime('00:30:00', '%H:%M:%S')
+            time_zero = dt.datetime.strptime('00:00:00', '%H:%M:%S')
+            result = (start - time_zero + add).time()
 
             if(length!=0):
                 for object1 in time:
-                    if(object1.time1 > start or object1.time1 < end):
+                        print("a")
                         for object2 in ScheduledReferralbyDay:
                             print("b")
                             for object3 in ClassesofCounselor:
-                                print("c")
                                 if(object2.start_time != object1.time1 and object3.start_time != object1.time1):
                                     counter+=1
-                                    print("d")
                                     if(counter==1):
                                         time1=object1.time1
-                                        print("e")
                                         break
                                     if(counter==2):
-                                        print("f")
                                         time2=object1.time2
                                         form.save()
                                         qs = Counselor.objects.get(program_designation = degree.program_code)
@@ -697,7 +691,7 @@ def new(request,stud):
                                         context = {"form1": form,"form":user_name}
                                         notif = notif + 1 
                                         notif1 = notif1 + 1
-                                        create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud))
+                                        create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud),schedDay = tomorrow , schedStartTime = time1 , schedEndTime = time2)
                                         messages.info(request, 'Successfully Referred the Student')
 
                                         flag=1
@@ -710,8 +704,7 @@ def new(request,stud):
                         if(counter<2):
                             print("h")
                             continue
-                    else:
-                        counter=0
+                    
 
             
             
@@ -820,8 +813,29 @@ def counselor_home_view(request, *args, **kwargs):
 @login_required(login_url='login')
 def counselor_view_schedule(request, *args, **kwargs):
     user = request.session.get('username')
+    today = date.today()
+    now = dt.datetime.now()
+    day_name=now.strftime("%a")
+    getsched = []
+    classForToday = []
+    getScheduleToday = TeachersReferral.objects.filter(date=today)
+    getFacultyload = Facultyload.objects.filter(employee_id = user)  
+    getOffercode = OfferCode.objects.all() 
+    for fl in getFacultyload: 
+        for oc in getOffercode: 
+            if fl.offer_code_id == oc.offer_code:
+                getsched.append(OfferCode(offer_code = oc.offer_code,days = oc.days,
+                start_time= oc.start_time,end_time= oc.start_time,room = oc.room,
+                subject_code = oc.subject_code,sem_id=oc.sem_id, academic_year = oc.academic_year))
+
+    for sched in getsched:
+        for i in range(len(sched.days)):
+            if (day_name == sched.days[i]):
+                classForToday.append(OfferCode(offer_code = sched.offer_code,days = sched.days,start_time= sched.start_time,end_time= sched.start_time,room = sched.room,
+                subject_code = sched.subject_code,sem_id=sched.sem_id, academic_year = sched.academic_year))
+
     counselor_name = Faculty.objects.filter(employee_id = user)
-    return render(request, "counselor/schedule.html", {"form": counselor_name})
+    return render(request, "counselor/schedule.html", {"object":classForToday,"object_list":getScheduleToday,"form": counselor_name})
 
 @login_required(login_url='login')
 def counselor_setSchedule(request, pk):
@@ -836,17 +850,18 @@ def counselor_view_detail_referred_students(request, id):
     detail=[]
     qs = TeachersReferral.objects.filter(counselor = user)
     for referedStud in qs:
-        if(referedStud.id == id):
+        if(referedStud.id == id+1):
             print("sulod")
             detail.append(TeachersReferral(firstname=referedStud.firstname, 
             lastname=referedStud.lastname,studnumber=referedStud.studnumber,
             degree_program = referedStud.degree_program,subject_referred=referedStud.subject_referred,
-            reasons=referedStud.reasons,behavior_problem = referedStud.behavior_problem))
+            reasons=referedStud.reasons,behavior_problem = referedStud.behavior_problem, date =referedStud.date, 
+            start_time =referedStud.start_time, end_time =referedStud.end_time))
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
     if notif != 0:
         notif = notif - 1
-    return render(request, "counselor/modalC.html", {"object_list": detail,"form": user_name})
+    return render(request, "counselor/modalC.html", {"objects": detail,"form": user_name})
 
 
 @login_required(login_url='login')
@@ -920,11 +935,12 @@ def student_notif_detail(request, id):
     student = TeachersReferral.objects.all()
     for referedStud in student:
         print(referedStud.id)
-        if referedStud.id == id:
+        if (referedStud.id == id+1):
             detail.append(TeachersReferral(firstname=referedStud.firstname, 
             lastname=referedStud.lastname,studnumber=referedStud.studnumber,
             degree_program = referedStud.degree_program,subject_referred=referedStud.subject_referred,
-            reasons=referedStud.reasons,behavior_problem = referedStud.behavior_problem))
+            reasons=referedStud.reasons,behavior_problem = referedStud.behavior_problem,date =referedStud.date, 
+            start_time =referedStud.start_time, end_time =referedStud.end_time))
     if notif1 != 0:
         notif1 = notif1 - 1
     user = request.session.get('username')
