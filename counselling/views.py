@@ -18,9 +18,9 @@ from django.utils import timezone
 from datetime import date,datetime,timedelta
 
 from .forms import VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import  SubjectWithSem,Time,Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
+from .models import  CompareTime,SubjectWithSem,NewTime,Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
-from .resources import  SubjectWithSemResource,TimeResource,SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
+from .resources import  SubjectWithSemResource,NewTimeResource,SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
 from tablib import Dataset
 
 # Create your views here.
@@ -604,6 +604,10 @@ def teacher_home_view(request, *args, **kwargs):
   
     return render(request, "teacher/teacher_home.html",  {"object_list": fload,"form": user_name} )
 
+
+
+
+
 import datetime as dt
 @login_required(login_url='login')
 def new(request,stud):
@@ -644,12 +648,27 @@ def new(request,stud):
             for object in OfferCodeCounselor:
                 Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
                 ClassesofCounselor.append(Subject)
-            
+
+            # for a in ClassesofCounselor:
+            #     print(a.offer_code)
+            #     print(a.start_time)
+            #     print(a.end_time)
+            #     print(a.subject_code)
+            # SubjectofStudentReferredToday = SubjectofStudentReferred.objects.filter(days__containe=[day_name])
+            # for object in SubjectofStudentReferredToday:
+            #     print(object.offer_code)
+            #     print(object.start_time)
+            #     print(object.end_time)
+            #     print(object.subject_code)
+
+
             for object in ClassesofCounselor:
-                if object.days == day_name:
-                    ClassesCounselor.append(offer_code = object.offer_code,days = object.days,
-                    start_time= object.start_time,end_time= object.start_time,room = object.room,
-                    subject_code = object.subject_code,sem_id=object.sem_id, academic_year = object.academic_year,)
+                for d in object.days:
+                    if d == day_name:
+                        print("present")
+                        ClassesCounselor.append(OfferCode(offer_code = object.offer_code,days = object.days,
+                        start_time= object.start_time,end_time= object.start_time,room = object.room,
+                        subject_code = object.subject_code,sem_id=object.sem_id, academic_year = object.academic_year,))
 
         
             tomorrow=date.today()+timedelta(days=1)
@@ -658,58 +677,138 @@ def new(request,stud):
             length = 0
             if ScheduledReferralbyDay is not None:
                 length = 1
-            time=Time.objects.all()
+            time=NewTime.objects.all()
+            ctime = CompareTime.objects.all()
             counter=0
             flag=0
-            start = dt.datetime.strptime('8:00:00', '%H:%M:%S')
-            end = dt.datetime.strptime('17:00:00', '%H:%M:%S')
-            add = dt.datetime.strptime('00:30:00', '%H:%M:%S')
-            time_zero = dt.datetime.strptime('00:00:00', '%H:%M:%S')
-            result = (start - time_zero + add).time()
+            start = datetime.strptime('8:00:00', '%H:%M:%S').time()
+            end = datetime.strptime('17:00:00', '%H:%M:%S').time()
+            # add = datetime.strptime('00:30:00', '%H:%M:%S')
+            # time_zero = datetime.strptime('00:00:00', '%H:%M:%S')
+            # result = (start - time_zero + add).time()
+            # print("ressuukkkkktttt")
+            # print(result)
+          
+            
+            timeArray = [] # array sa mga time
+            counter = 0 # hour counter
+
+            newTime = str(counter)+':00:00'
+
+            # generate time and append in timeArray
+            for x in range(24):
+                timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
+                newTime = str(counter)+':30:00'
+                timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
+                counter = counter + 1
+                newTime = str(counter)+':00:00'
+
+            for time in timeArray:
+                print(time)
+            
+            # comparison
+            # for x in range(len(timeArray)):
+            #     if(timeArray[x] >= start and timeArray[x] <= end): 
+            #         print(str(timeArray[x]) + ' true')
+            #     else: print('false')  
 
             if(length!=0):
-                for object1 in time:
-                        print("a")
+                print("a")
+                for x in range(len(timeArray)):
+                    print("b")
+                    if(timeArray[x] >= start and timeArray[x] <= end):
+                        print("c") 
                         for object2 in ScheduledReferralbyDay:
-                            print("b")
-                            for object3 in ClassesofCounselor:
-                                if(object2.start_time != object1.time1 and object3.start_time != object1.time1):
-                                    counter+=1
-                                    if(counter==1):
-                                        time1=object1.time1
-                                        break
-                                    if(counter==2):
-                                        time2=object1.time2
-                                        form.save()
-                                        qs = Counselor.objects.get(program_designation = degree.program_code)
-                                        studentInfo = TeachersReferral(firstname=studentReferred.firstname, 
-                                        lastname=studentReferred.lastname,studnumber=studentReferred.studnumber,
-                                        degree_program = degree.program_code,subject_referred=subject_referred,
-                                        reasons=reasons,counselor=qs.employee_id,employeeid=user,behavior_problem = behavior,start_time = time1 , end_time = time2,date = tomorrow )
-                                        studentInfo.save()
-                                        form = TeachersReferralForm(instance=studentReferred)
-                                        context = {"form1": form,"form":user_name}
-                                        notif = notif + 1 
-                                        notif1 = notif1 + 1
-                                        create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud),schedDay = tomorrow , schedStartTime = time1 , schedEndTime = time2)
-                                        messages.info(request, 'Successfully Referred the Student')
+                            print("d")
+                            for object3 in ClassesCounselor:
+                                print("e")
+                                if(object2.start_time != timeArray[x] and object3.start_time != timeArray[x] and object3.end_time!=timeArray[x+1] and object2.end_time!=timeArray[x+1]):
+                                        print("agi ka dirirrr")
+                                        counter+=1
+                                        if(counter==1):
+                                            time1=timeArray[x]
+                                            break
+                                        if(counter==2):
+                                            time2=timeArray[x+1]
+                                            form.save()
+                                            qs = Counselor.objects.get(program_designation = degree.program_code)
+                                            studentInfo = TeachersReferral(firstname=studentReferred.firstname, 
+                                            lastname=studentReferred.lastname,studnumber=studentReferred.studnumber,
+                                            degree_program = degree.program_code,subject_referred=subject_referred,
+                                            reasons=reasons,counselor=qs.employee_id,employeeid=user,behavior_problem = behavior,start_time = time1 , end_time = time2,date = tomorrow )
+                                            studentInfo.save()
+                                            form = TeachersReferralForm(instance=studentReferred)
+                                            context = {"form1": form,"form":user_name}
+                                            notif = notif + 1 
+                                            notif1 = notif1 + 1
+                                            create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud),schedDay = tomorrow , schedStartTime = time1 , schedEndTime = time2)
+                                            messages.info(request, 'Successfully Referred the Student')
 
-                                        flag=1
-                                        return render(request, "teacher/new.html", context)
-                                            
+                                            flag=1
+                                            return render(request, "teacher/new.html", context)
+                                                
                                 else:
                                     print("g")
                                     time1=''
                                     counter=0
-                        if(counter<2):
-                            print("h")
-                            continue
+                            if(counter<2):
+                                print("h")
+                                continue
+            
+            # if(length!=0):
+            #     for object1 in time:
+            #             print("a")
+            #             if(object1.time1 >= start and object1.time1 <= end):
+            #                 print(object1.time1)
+            #                 print(start)
+            #                 print(end)
+            #                 print("nisud")
+            #                 print("ngano di sya mo sud diri")
+            #                 for object2 in ScheduledReferralbyDay:
+            #                     print("gawas na abaaa")
+            #                     print("b")
+            #                     for object3 in ClassesofCounselor:
+            #                         print("c")
+            #                         if(object2.start_time != object1.time1 and object3.start_time != object1.time1 and object3.end_time!=object1.time2 and object2.end_time!=object1.time2):
+            #                             print("agi ka dirirrr")
+            #                             counter+=1
+            #                             if(counter==1):
+            #                                 time1=object1.time1
+            #                                 break
+            #                             if(counter==2):
+            #                                 time2=object1.time2
+            #                                 form.save()
+            #                                 qs = Counselor.objects.get(program_designation = degree.program_code)
+            #                                 studentInfo = TeachersReferral(firstname=studentReferred.firstname, 
+            #                                 lastname=studentReferred.lastname,studnumber=studentReferred.studnumber,
+            #                                 degree_program = degree.program_code,subject_referred=subject_referred,
+            #                                 reasons=reasons,counselor=qs.employee_id,employeeid=user,behavior_problem = behavior,start_time = time1 , end_time = time2,date = tomorrow )
+            #                                 studentInfo.save()
+            #                                 form = TeachersReferralForm(instance=studentReferred)
+            #                                 context = {"form1": form,"form":user_name}
+            #                                 notif = notif + 1 
+            #                                 notif1 = notif1 + 1
+            #                                 create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud),schedDay = tomorrow , schedStartTime = time1 , schedEndTime = time2)
+            #                                 messages.info(request, 'Successfully Referred the Student')
+
+            #                                 flag=1
+            #                                 return render(request, "teacher/new.html", context)
+                                                
+            #                         else:
+            #                             print("g")
+            #                             time1=''
+            #                             counter=0
+            #                 if(counter<2):
+            #                     print("h")
+            #                     continue
+            #             else:
+            #                 print("keeey")
+            #                 counter=0
                     
 
             
             
 
-    print("z")
     context = {"form1": form,"form":user_name}
     return render(request, "teacher/new.html", context )
 
@@ -1285,13 +1384,13 @@ def uploaddb_offercode(request):
 @login_required(login_url='login')
 def uploaddb_time(request):
     if request.method == 'POST':
-        TimeResource()
+        NewTimeResource()
         dataset = Dataset()
         new_students = request.FILES['myfile']
 
         imported_data = dataset.load(new_students.read(),format='xlsx')
         for data in imported_data:
-        	value = Time(
+        	value = NewTime(
                 data[0],
                 data[1], 
                 data[2],
@@ -1317,3 +1416,14 @@ def uploaddb_counselor(request):
         	value.save()     
     return render(request, "uploaddb/uploaddb_counselor.html")
 #uploaddb
+
+
+
+
+
+
+
+
+
+
+
