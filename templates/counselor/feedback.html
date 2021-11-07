@@ -1,0 +1,25 @@
+{% extends "counselor/modalC.html" %}
+
+
+
+{% block content %} 
+
+
+<form  method="POST" action="">
+  {% csrf_token %}
+    {{object.studnumber}}
+  {{object.feedback}}
+
+<br>
+<button class="btn success" style="font-weight: bold;">Submit</button>
+</form>
+ {% for message in messages %}
+                    <center> <p>{{message}}</p> </center>
+                {% endfor %}
+
+
+
+{% endblock %}
+
+
+

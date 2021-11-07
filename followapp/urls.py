@@ -44,6 +44,8 @@ from counselling.views import(
     teacher_view_referred_students,
     teacher_coursecard,
     teacher_view_detail_referred_students,
+    teacher_view_notif_detail,
+    notifications_teacher,
 
     #counselor
     counselor_home_view,
@@ -52,9 +54,11 @@ from counselling.views import(
     counselor_view_referred_students,
     counselor_detail_schedule_counseling,
     counselor_detail_schedule_class,
+    counselor_feedback,
     notifications,
     # manual_detail,
     counselor_view_detail_referred_students,
+    counselor_view_pending_students,
     
 
     #director
@@ -143,7 +147,9 @@ urlpatterns = [
     path('teacher/list_referred_students', teacher_view_referred_students, name="teacher_view_referred_students"),
     path('studentslist/new/?P:<int:stud>', new, name='new'), 
     path('teacher/teacher_coursecard', teacher_coursecard, name='teacher_coursecard'),
-    path('studentslist/view_detail/?P:<int:id>', teacher_view_detail_referred_students, name='teacher_view_detail_referred_students'), 
+    path('teacher/view_detail/?P:<int:id>', teacher_view_detail_referred_students, name='teacher_view_detail_referred_students'), 
+    path('teacher/teacher_view_notif_detail/?P:<int:id>', teacher_view_notif_detail, name='teacher_view_notif_detail'), 
+    path('teacher/notifications', notifications_teacher, name="notifications_teacher"),
 
 
     #counselor 
@@ -156,7 +162,8 @@ urlpatterns = [
     path('counselor/view_detail/?P:<int:id>', counselor_view_detail_referred_students, name='counselor_view_detail_referred_students'), 
     path('counselor/counselor_detail_schedule_counseling/?P:<int:id>', counselor_detail_schedule_counseling, name="counselor_detail_schedule_counseling"),
     path('counselor/counselor_detail_schedule_class/<str:offer_code>/<str:sem_id>/<str:year>', counselor_detail_schedule_class, name="counselor_detail_schedule_class"),
-   
+    path('counselor/counselor_feedback/?P:<int:id>', counselor_feedback, name='counselor_feedback'), 
+    path('counselor/pendingstudents', counselor_view_pending_students, name="counselor_view_pending_students"),
 
     #student
     path('student/', student_home_view, name="student_home_view"),

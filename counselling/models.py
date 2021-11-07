@@ -117,8 +117,8 @@ class TeachersReferral(models.Model):
     start_time = models.TimeField(blank=True,null=True)
     end_time = models.TimeField(blank=True,null=True)
     date = models.DateField(blank=True,null=True)
-    STATUS= (('PENDING','PENDING'),('DONE','DONE'))
-    status = models.CharField(max_length=220, choices=STATUS, default=STATUS,blank=True)
+    
+    status = models.CharField(max_length=220,blank=True, null=True, default='pending')
     BEHAVIOR_PROBLEM= (('CHEATING','CHEATING'),
                           ('TARDINESS','TARDINESS'),('DISRESPECTFUL','DISRESPECTFUL'),
                           ('ATTITUDE','ATTITUDE'),('USING GADGETS IN CLASS','USING GADGETS IN CLASS'),
@@ -126,6 +126,9 @@ class TeachersReferral(models.Model):
     behavior_problem = models.CharField(max_length=220, choices=BEHAVIOR_PROBLEM,null=True,blank=True)
     feedback = models.CharField(max_length=10000,blank=True, null=True)
 
+class CounselorFeedback(models.Model): 
+    feedback = models.CharField(max_length=10000)
+    
 class Time(models.Model):
     id = models.CharField(max_length=220,primary_key=True)
     time1 = models.TimeField(null=True,blank=True)
@@ -182,5 +185,20 @@ class Notification(models.Model):
     schedDay = models.DateTimeField(blank=True,null=True)
     schedStartTime = models.TimeField(blank=True,null=True)
     schedEndTime = models.TimeField(blank=True,null=True)
-    # class Meta:
-    #     ordering = ['-created_at']
+
+class NotificationFeedback(models.Model):
+    AUTOMATIC_REFERRAL = 'automatic_referral'
+    MANUAL_REFERRAL = 'manual_referral'
+
+    CHOICES = (
+        (AUTOMATIC_REFERRAL,'automatic_referral'),
+        (MANUAL_REFERRAL, 'manual_referral')
+    )
+
+    to_user = models.CharField(max_length=220,null=True,blank=True)
+    notification_type = models.CharField(max_length=100, choices=CHOICES)
+    is_read = models.BooleanField(default=False)
+    extra_id = models.IntegerField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.CharField(max_length=220,null=True,blank=True)

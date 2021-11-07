@@ -2,10 +2,12 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from .models import AccountsApi,Facultyload,Faculty,Notification,TeachersReferral, SubjectOffered, Studentsload, Counselor
-from .models import CompareTime,NewTime,MyTable,SubjectWithSem,Semester,AllSubject,OfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
+from .models import AccountsApi,Facultyload,Faculty,NotificationFeedback,Notification,TeachersReferral, SubjectOffered, Studentsload, Counselor
+from .models import CounselorFeedback,CompareTime,NewTime,MyTable,SubjectWithSem,Semester,AllSubject,OfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
 
-
+admin.site.register(CounselorFeedback)
+class CounselorFeedbackAdmin(ImportExportModelAdmin):
+    list_display = ('feedback')
 
 admin.site.register(MyTable)
 class MyTableAdmin(ImportExportModelAdmin):
@@ -87,7 +89,7 @@ class AccountsApiAdmin(ImportExportModelAdmin):
 
 admin.site.register(TeachersReferral)
 class TeachersReferralAdmin(ImportExportModelAdmin):
-    list_display = ('studnumber','firstname', 'lastname','degree_program','subject_referred', 'reasons','counselor','employeeid','start_time','end_time','date','status','behavior_problem')
+    list_display = ('studnumber','firstname', 'lastname','degree_program','subject_referred', 'reasons','counselor','employeeid','start_time','end_time','date','status','behavior_problem', 'feedback' )
 
 
 
@@ -106,4 +108,5 @@ class CounselorAdmin(ImportExportModelAdmin):
 
 
 
-admin.site.register(Notification) 
+admin.site.register(Notification)
+admin.site.register(NotificationFeedback) 

@@ -1,0 +1,32 @@
+{% extends "teacher/teacher_home.html" %}
+
+{% block title %} 
+ Faculty load
+{% endblock %} 
+
+{% block content %} 
+
+  {% for notification in notifications reversed %}
+
+    {% if notification.notification_type == 'automatic_referral' %}
+    <a href="#">
+    <tr>
+      
+      <td> <strong>{{ notification.created_by}}</strong> <b>Automatic Referral</b></td>
+      <td> <small>{{ notification.created_at|timesince }} ago</small></td>
+      
+    </tr>
+     </a> {% elif notification.notification_type == 'manual_referral' %}
+
+
+    <tr>
+      <td><a style="color: black;" href="{% url 'teacher_view_notif_detail' notification.id %}"><strong>{{ notification.created_by.username }}</strong>  <b style="color: black;">Manual Referral</b></a></td>
+      <td><a style="color: black;" href="{% url 'teacher_view_notif_detail' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
+    </tr>
+
+ 
+    {% endif %}  
+  {% endfor %}
+
+{% endblock %}
+

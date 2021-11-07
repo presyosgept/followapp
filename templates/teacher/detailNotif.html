@@ -1,4 +1,4 @@
-{% extends "counselor/referred_students.html" %}
+{% extends "teacher/teacher_home.html" %}
 
 {% block title %} 
    Referred Students
@@ -199,7 +199,7 @@ p{
      
                                         <div class="table-row table-head">
       <div class="table-cell first-cell">
-          <p class="listTitle">Students Referral Information</p>
+          <p class="listTitle">feedback Students Referral Information</p>
       </div>
   </div>  
   <br> <br>
@@ -213,24 +213,14 @@ p{
       <div  class="table-cell ">
            <p class="modal">{{object.studnumber}} &nbsp;</p>
 <p class="modal" >Degree Program: &nbsp; &nbsp;</p>
-<p class="modal" >Behavior Problem: &nbsp; &nbsp;</p>
-<p class="modal" >Subject: &nbsp; &nbsp;</p>
-<p class="modal">Reasons: &nbsp; &nbsp;</p>
-<p class="modal">Date: &nbsp; &nbsp;</p>
-<p class="modal">Start Session: &nbsp; &nbsp;</p>
-<p class="modal">End Session: &nbsp; &nbsp;</p>
+<p class="modal">feedback: &nbsp; &nbsp;</p>
       </div> 
           <div class="table-cell last-cell">
           <div class="table-cell">
 <p class="modal"> &nbsp; &nbsp; {{object.lastname}}, &nbsp; {{object.firstname}}</p>
 <p class="modal"> &nbsp; &nbsp; {{object.degree_program}}</p>
-<p class="modal"> &nbsp; &nbsp; {{object.behavior_problem | title}}</p>
-<p class="modal" > &nbsp; &nbsp; {{object.subject_referred}}</p>
+<p class="modal"> &nbsp; &nbsp;  {{object.feedback}} </p>
 
-<p class="modal"> &nbsp; &nbsp; {{object.reasons}}</p>
-<p class="modal"> &nbsp; &nbsp; {{object.date}}</p>
-<p class="modal"> &nbsp; &nbsp; {{object.start_time}}</p>
-<p class="modal"> &nbsp; &nbsp; {{object.end_time}} </p>
 </div> 
       </div>    
   </div>
@@ -239,7 +229,6 @@ p{
          
    </div>
    </div>
-<a href="{% url 'counselor_feedback' object.id %}">Feedback</a>
 
            {% endfor %}
 
