@@ -117,12 +117,14 @@ class TeachersReferral(models.Model):
     start_time = models.TimeField(blank=True,null=True)
     end_time = models.TimeField(blank=True,null=True)
     date = models.DateField(blank=True,null=True)
-    status = models.CharField(max_length=220,blank=True, null=True)
+    STATUS= (('PENDING','PENDING'),('DONE','DONE'))
+    status = models.CharField(max_length=220, choices=STATUS, default=STATUS,blank=True)
     BEHAVIOR_PROBLEM= (('CHEATING','CHEATING'),
                           ('TARDINESS','TARDINESS'),('DISRESPECTFUL','DISRESPECTFUL'),
                           ('ATTITUDE','ATTITUDE'),('USING GADGETS IN CLASS','USING GADGETS IN CLASS'),
-                          ('GRUBBING','GRUBBING'))
+                          ('GRUBBING','GRUBBING'),('OTHERS','OTHERS'))
     behavior_problem = models.CharField(max_length=220, choices=BEHAVIOR_PROBLEM,null=True,blank=True)
+    feedback = models.CharField(max_length=10000,blank=True, null=True)
 
 class Time(models.Model):
     id = models.CharField(max_length=220,primary_key=True)

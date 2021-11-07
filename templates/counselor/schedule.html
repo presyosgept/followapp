@@ -202,80 +202,42 @@ p{
 <table class="table">
    <thead>
        <tr>
-           <th>Subject</th>
-           <th>Offer Code</th>
-           <th>Start Time</th>
-           <th>End Time</th>
+           <th>Time</th>
+           <th>Service</th>
+           <th>Information</th>
+
    
 
        </tr>
    </thead>
    <br>
-   <h3 style="font-weight: bold; text-align: center;" class="txtColor">Class Schedule</h3>
+
    {% for obj in object %}
+
    <tbody>
        <tr>
-          <td data-label="Description"> {{obj.subject_code}} </td>
-           <td data-label="Time"> {{obj.offer_code}} </td>
-           <td data-label="Service">{{obj.start_time}}</td>
-           <td data-label="Description"> {{obj.end_time}} </td>
-           
-
+        <td data-label="Service">{{obj.start_time}} - {{obj.end_time}}</td>
+        <td data-label="Description"> Class</td>
+        <td><a style="color: black;"href="{% url 'counselor_detail_schedule_class' obj.offer_code obj.sem_id obj.academic_year %}"><b>View More Information</b></a></td>
+        
        </tr>
    </tbody>
-   {%endfor %}    
+
+   {%endfor %}
+
+   {% for object in object_list %}
+
+   <tbody>
+       <tr>
+        <td data-label="Service"> {{object.start_time}} - {{object.end_time}}</td>
+        <td data-label="Description"> Counseling </td>
+        <td><a style="color: black;"href="{% url 'counselor_detail_schedule_counseling' object.id %}"><b>View More Information</b></a></td>
+       </tr>
+   </tbody>
+ 
+   {%endfor %}
 </table>
 </div>
-
-<table class="table">
-  <thead>
-      <tr>
-          <th>Student's Name</th>
-          <th>Degree Program</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Date</th>
-          <th>Subject Referred</th>
-          <th>Behavior</th>
-          <th>Reasons</th>
-          <!-- <th>Information</th> -->
-
-      </tr>
-  </thead>
-  <h3 style="font-weight: bold; text-align: center;" class="txtColor">Counseling Schedule</h3>
- 
-  {% for object in object_list %}
-  <tbody>
-      <tr>
-          <td data-label="Name"> {{object.lastname}}, {{object.firstname}}</td>
-          <td data-label="Degree"> {{object.degree_program}}</td>
-          <td data-label="Service"> {{object.start_time}}</td>
-          <td data-label="Service">{{object.end_time}} </td>
-          <td data-label="Date"> {{object.date}}</td>
-          <td data-label="Subject Referred"> {{object.subject_referred}}</td>
-          <td data-label="Behavior"> {{object.behavior_problem | title}}</td>
-          <td data-label="Reasons"> {{object.reasons}}</td>
-          <!-- <td><a style="color: black;"href="{% url 'teacher_view_detail_referred_students' object.id %}"><b>View More Information</b></a></td> -->
-
-      </tr>
-  </tbody>
-  {%endfor %}    
-</table>
-
-<!-- Session ni sya
-  {% for object in object_list %}
-{{object.lastname}}
-{{object.firstname}}
-{{object.degree_program}}
-{{object.behavior_problem | title}} // aw pani
-{{object.subject_referred}} // kani sad
-
-{{object.reasons}} // kani sad
-{{object.date}}
-{{object.start_time}}
-{{object.end_time}}
-   {%endfor %}    -->
-
 
 
 {% endblock %}

@@ -50,6 +50,8 @@ from counselling.views import(
     counselor_view_schedule,
     counselor_setSchedule,
     counselor_view_referred_students,
+    counselor_detail_schedule_counseling,
+    counselor_detail_schedule_class,
     notifications,
     # manual_detail,
     counselor_view_detail_referred_students,
@@ -152,7 +154,8 @@ urlpatterns = [
     path('counselor/notifications', notifications, name="notifications"),
     # path('counselor/manual_detail/<str:pk>/<str:created_by>/?P:<int:id>', manual_detail, name="manual_detail"),
     path('counselor/view_detail/?P:<int:id>', counselor_view_detail_referred_students, name='counselor_view_detail_referred_students'), 
-
+    path('counselor/counselor_detail_schedule_counseling/?P:<int:id>', counselor_detail_schedule_counseling, name="counselor_detail_schedule_counseling"),
+    path('counselor/counselor_detail_schedule_class/<str:offer_code>/<str:sem_id>/<str:year>', counselor_detail_schedule_class, name="counselor_detail_schedule_class"),
    
 
     #student

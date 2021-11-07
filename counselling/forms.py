@@ -31,7 +31,7 @@ class TeachersReferralForm(forms.ModelForm):
         self.fields['lastname'].disabled = True
     class Meta:
         model = TeachersReferral
-        fields = ['studnumber', 'firstname', 'lastname', 'behavior_problem','subject_referred','reasons']
+        fields = ['studnumber', 'firstname', 'lastname', 'behavior_problem','subject_referred','reasons','feedback']
 
 class StudentsForm(forms.Form):
     studnumber = forms.CharField()
