@@ -36,7 +36,7 @@
   /*========== Font and typography ==========*/
   --body-font: 'Poppins', sans-serif;
   --normal-font-size: .938rem;
-  --small-font-size: .75rem;
+  --small-font-size: 30px;
   --smaller-font-size: .75rem;
 
   /*========== Font weight ==========*/
@@ -180,6 +180,7 @@ img {
 .nav__list, 
 .nav__items {
   display: grid;
+  line-height: 20px;
 }
 
 .nav__list {
@@ -194,7 +195,7 @@ img {
   font-size: var(--normal-font-size);
   text-transform: uppercase;
   letter-spacing: .1rem;
-  color: var(--text-color-light);
+  color: var(--main1-color); 
 }
 
 .nav__link {
@@ -213,7 +214,7 @@ img {
 }
 
 .nav__name {
-  font-size: var(--small-font-size);
+  font-size: 15px;
   font-weight: var(--font-medium);
   white-space: nowrap;
 }
@@ -711,36 +712,23 @@ p{
                         <div class="nav__items">
                             <h3 class="nav__subtitle">{{request.session.username}}</h3>
 
+                            <a href="{% url 'notifications_teacher' %}" class="nav__link">
+                              <i class='bx bx-bell nav__icon' ></i>
+                              <span class="nav__name">Notifications {{notif2}}</span>
+                          </a>
+                          
+
                             <a href="{% url 'teacher_home_view' %}" class="nav__link">
                                 <i class='bx bx-home nav__icon' ></i>
                                 <span class="nav__name">Home</span>
                             </a>
-
-                            <a href="{% url 'notifications_teacher' %}" class="nav__link">
-                                <i class='bx bx-bell nav__icon' ></i>
-                                <span class="nav__name">Notifications {{notif2}}</span>
-                            </a>
                             
-                            
-                                  
-                            <div class="nav__dropdown">
-                              <a href="#refer" class="nav__link">
+                              <a href="{% url 'teacher_view_referred_students' %}" class="nav__link">
                                   <i class='bx bx-navigation nav__icon' ></i>
-                                  <span class="nav__name">Referral</span>
+                                  <span class="nav__name">View Referred Student</span>
                                   <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
                               </a>
 
-                              <div class="nav__dropdown-collapse">
-                                  <div class="nav__dropdown-content">
-                                      <a href="{% url 'teacher_view_referred_students' %}" class="nav__dropdown-item">View Referred Student</a>
-                                  </div>
-                              </div>
-                          </div>
-
-                            <a href="#profile" class="nav__link">
-                                <i class='bx bx-user nav__icon' ></i>
-                                <span class="nav__name">Profile</span>
-                            </a>
                             
                         </div>
 
@@ -789,6 +777,7 @@ p{
     <div class="card_image"><img src="https://picsum.photos/500/300/?image=2"></div>
     <div class="card_content">
       <h2 class="card_title">{{object.offer_code_id }}</h2>
+      
        <!-- <h2 class="card_title">{{object.subject_code_id }}</h2> -->
    
     </div> 
@@ -796,8 +785,7 @@ p{
   
 </a>
 </div>
-
-            
+   
                 {% endfor %} 
                   {% endblock %}
                   </div>

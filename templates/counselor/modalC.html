@@ -4,195 +4,217 @@
    Referred Students
 {% endblock %} 
 
+
 {% block content %} 
-
 <style>
-   
-          .center {
-            margin-left: auto;
-            margin-right: auto;
-          }
-          .txtFont{
-            font-family: Arial, Helvetica, sans-serif;
-            color: black;
-            text-align:left; margin-right: 100px; font-size: 20px;
-          }
-          .txtFonty{
-            font-family: Arial, Helvetica, sans-serif;
-            color: black;
-            text-align:left; margin-right: 100px; font-size: 17px;
-          }
-          .last{
-             font-size: 25px;
-          }
-   
-
-
-    .card-text{
-        display: inline;
-        flex-direction: row;
-        justify-content: start;
-        width: 600px;
-        /* margin-right: 600px; */
-        
-    }
-
-
-    .card-img{
-        width: 160px;
-        height: 160px;
-        border-radius: 50%;
-        float: left;
-        margin-left: 80px;
-        margin-top: 20px;
-       
-    }
-
-
-    .card-description{
-        margin: 10px 0;
-    }
-
-
-    .card-link{
-        margin-top: 20px;
-    }
-    .card-img{
-        background-color: transparent;
-    
-        float: left;
-    }
-
-    .card-title{
-        font-size: 20px;
-        color: #334155;
-        margin-right: 800px;
-        margin-left: 160px;
-        margin-bottom: 40px;
-        padding: auto;
-    }
-    .card-stud{
-        font-size: 23px;
-        color: #334155;
-        margin-right: 90px; line-height: 5%;
-        font-weight: 600;
-    } 
-    .card-description{
-        font-size: 12px;
-        color: #64748B;
-    }
-
-    .card-link{
-        font-size: 12px;
-        color: #4F46E5;
-    }
-/* === TABLE ==== */
-.table-box
-{
-    
-    margin-bottom: 40px;
-    margin-left: 150px;
-    vertical-align:top;
-}
-
-/* .table-row{
-    display: table;
-    width: 40%;
-    margin: 10px auto;
-    font-family: sans-serif;
-    background: transparent;
-    padding: 4px 0;
-    color: #555;
-    font-size: 13px;
-    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-    height: 0.1%;
-    border-radius: 20px;
-    margin-top: 50px;
-     
-} */
-.table-head{
+  #wrapper {
   
-    background: #E5E4E2;
+    display: flex;
+    padding: 20px;
+  }
+  
+  #square {
+    min-width: 300px;
+    height: 350px;
+    border-radius: 20px;
+  
+    border: 1px solid black;
+    border-radius: 10px;
+        background-color: #B4CFEC;
+        box-shadow:
+          0 9px 33px rgba(0, 0, 0, 0.07);
+    margin: auto;
+    overflow-wrap: break-word;
+  }
+  
+  #box {
+    /* border: 1px solid red;
+    background-color: honeydew;
+    border: 1px solid black;
+    box-shadow:
+          0 9px 33px rgba(0, 0, 0, 0.07);
+    height: 350px;
+    min-width: 20px;
+    margin: auto; */
+    border: 1px solid black;
+    border-radius: 10px;
+        background-color: #B4CFEC;
+        box-shadow:
+          0 9px 33px rgba(0, 0, 0, 0.07);
+          min-width: 800px;
+    height: 350px;
+    float: center;
+    margin: auto;
+  }
+  /* === TABLE ==== */
+  
+  /* .table-row{
+      display: table;
+      width: 40%;
+      margin: 10px auto;
+      font-family: sans-serif;
+      background: transparent;
+      padding: 4px 0;
+      color: #555;
+      font-size: 13px;
+      box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+      height: 0.1%;
+      border-radius: 20px;
+      margin-top: 50px;
+       
+  } */
+  .table-head{
+    
+      background: #E5E4E2;
+      box-shadow: none;
+      color: #fff;
+      font-weight: 600;
+      line-height: 5px;
+        box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+        width: 500px;
+        margin: auto;
+        border-radius: 20px;
+  }
+  .table-head .table-cell{
+      border-right: none;
+  }
+  .table-cell{
+      display: table-cell;
+      width: 20%;
+      text-align: center;
+      padding: 4px 0;
+      border-right: 1px solid #838996;
+      vertical-align: middle;
+  }
+  .first-cell{
+      text-align: left;
+      padding-left: 10px;
+      width: 8%;
+  }
+  .last-cell{
+      border-right: none;
+      width: 15px;
+  }
+  /* a{
+      textdecoration: none;
+      color: #555;
+  } */
+  p{
+    font-size: 17px;
+    color: black;
+  }
+  .listTitle{
+    font-size: 20px;
+    text-align: center;
+  }
+  @media only screen and (max-width: 600px) {
+    .table-row {
+      font-size: 11px;
+      margin: auto;
+    }
+  }
+  .trow-list{
+        display:inline-block;
+      width: 70%;
+     
+      font-family: sans-serif;
+      background: transparent;
+      padding: 10px 0;
+      margin: auto;
+   
+  
+  
+  }
+  .modal1{
+    font-size: 21px;
+    font-weight: 300;
+    text-align: left;
+ 
+  }
+  .modal2{
+    font-size: 20px;
+    text-align: left;
+    line-height: 25px;
+  }
+  div.item {
+  
+      vertical-align: auto;
+      display: inline-block;
+  
+      text-align: center;
+  
+      width: 120px;
+  }
+  
+  .caption {
+  
+      display: block;
+  }
+  .item{
+    width:200px;
+    text-align:center;
+    display:block;
+    background-color: transparent;
+    border: 1px solid transparent;
+    margin-right: 10px;
+    margin-bottom: 1px;
+    float:left;
+  }
+  
+  #index-gallery{
+    width:465px;
+  }
+
+	.form_container {
+		margin-top: 20px;
+	}
+
+	#form-title {
+		color: #fff;
+
+	}
+
+	.login_btn {
+		width: 100%;
+		background: #48444c!important;
+		color: white !important;
+	}
+
+	.login_btn:focus {
+		box-shadow: none !important;
+		outline: 0px !important;
+	}
+
+	.login_container {
+		padding: 0 2rem;
+	}
+
+  /* <--------- FOR BUTTON SA FEEDBAK ----->  */
+  .table-head1{
+    
+    background:  #d8c090;
     box-shadow: none;
     color: #fff;
     font-weight: 600;
-    line-height: 5px;
+    line-height: 1px;
       box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-      width: 500px;
-      margin: auto;
+      width: 300px;
+      margin-left: 20px;
       border-radius: 20px;
 }
-.table-head .table-cell{
+.table-head1 .table-cell1{
     border-right: none;
 }
-.table-cell{
+.table-cell1{
     display: table-cell;
-    width: 20%;
-    text-align: center;
-    padding: 4px 0;
-    border-right: 1px solid #838996;
-    vertical-align: middle;
+   
 }
-.first-cell{
+.first-cell1{
     text-align: left;
     padding-left: 10px;
     width: 8%;
 }
-.last-cell{
-    border-right: none;
-    width: 15px;
-}
-/* a{
-    textdecoration: none;
-    color: #555;
-} */
-p{
-  font-size: 17px;
-  color: black;
-}
-.listTitle{
-  font-size: 20px;
-  text-align: center;
-}
-@media only screen and (max-width: 600px) {
-  .table-row {
-    font-size: 11px;
-    margin: auto;
-  }
-}
-.trow-list{
-      display:inline-block;
-    width: 85%;
-   
-    font-family: sans-serif;
-    background: transparent;
-    padding: 4px 0;
-    color: #555;
-    font-size: 13px;
-    
-    height: 15px;
-    
-   
-     vertical-align:top;
-     margin-bottom: 100px;
-
-}
-.modal{
-  font-size: 19px;
-  text-align: left;
-}
-.container{
-  border-radius: 10px;
-      background-color: #B4CFEC;
-      box-shadow:
-        0 9px 33px rgba(0, 0, 0, 0.07);
-  width: 1200px;
-  height: 400px;
-  float: center;
-  margin: auto;
-}
-    
-</style>
+  </style>
 
 
 {% for object in objects %}
@@ -202,45 +224,60 @@ p{
           <p class="listTitle">Students Referral Information</p>
       </div>
   </div>  
-  <br> <br>
-          <div class="container">  
-            <br> <br> 
-        <img class="card-img" src='https://static.thenounproject.com/png/1743560-200.png'/>
-     <div class="table-box">
-                
-  <div class="trow-list">
+  <br>
+  <div id="wrapper">
+    <div id="square">
+      <br>
+    
+        
+          <img style="max-width: 200px;
+          height: 200px; margin: auto;" 
+          src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
+         >
+         <p style="padding: 10px; font-size: 17px; line-height: 25px;">
+          <b>Students Name:</b> {{object.lastname}}, {{object.firstname}}<br>
+          <b>Student Number:</b> {{object.studnumber}}<br>
+          <b>Degree Program:</b>  {{object.degree_program}}
+        </p>
+
+     
   
-      <div  class="table-cell ">
-           <p class="modal">{{object.studnumber}} &nbsp;</p>
-<p class="modal" >Degree Program: &nbsp; &nbsp;</p>
-<p class="modal" >Behavior Problem: &nbsp; &nbsp;</p>
-<p class="modal" >Subject: &nbsp; &nbsp;</p>
-<p class="modal">Reasons: &nbsp; &nbsp;</p>
-<p class="modal">Date: &nbsp; &nbsp;</p>
-<p class="modal">Start Session: &nbsp; &nbsp;</p>
-<p class="modal">End Session: &nbsp; &nbsp;</p>
+    </div>
+    &nbsp; &nbsp;
+  
+    <div id="box">
+  
+      <br>        
+      <div class="trow-list">
+        <div  class="table-cell">
+
+      <p class="modal1"><b>Behavior Problem:</b> &nbsp;</p>
+      <p class="modal1"><b>Subject:</b> &nbsp; &nbsp;</p>
+      <p class="modal1"><b>Reasons:</b> &nbsp; &nbsp;</p>
+      <p class="modal1"><b>Start Session:</b> &nbsp; &nbsp;</p>
+      <p class="modal1"><b>End Session:</b> &nbsp; &nbsp;</p>
+        </div> 
+  
+            <div class="table-cell">
+
+      <p class="modal2"> &nbsp; &nbsp; {{object.behavior_problem | title}}</p>
+      <p class="modal2" > &nbsp; &nbsp; {{object.subject_referred}}</p> 
+      <p class="modal2" > &nbsp; &nbsp; {{object.reasons}}</p>
+      <p class="modal2" > &nbsp; &nbsp; {{object.start_time}}</p>
+      <p class="modal2" > &nbsp; &nbsp; {{object.end_time}}</p>
       </div> 
-          <div class="table-cell last-cell">
-          <div class="table-cell">
-<p class="modal"> &nbsp; &nbsp; {{object.lastname}}, &nbsp; {{object.firstname}}</p>
-<p class="modal"> &nbsp; &nbsp; {{object.degree_program}}</p>
-<p class="modal"> &nbsp; &nbsp; {{object.behavior_problem | title}}</p>
-<p class="modal" > &nbsp; &nbsp; {{object.subject_referred}}</p>
-
-<p class="modal"> &nbsp; &nbsp; {{object.reasons}}</p>
-<p class="modal"> &nbsp; &nbsp; {{object.date}}</p>
-<p class="modal"> &nbsp; &nbsp; {{object.start_time}}</p>
-<p class="modal"> &nbsp; &nbsp; {{object.end_time}} </p>
-</div> 
-      </div>    
-  </div>
+      </div>
   
+  
+     </div>
+  </div>
 
-         
-   </div>
-   </div>
-<a href="{% url 'counselor_feedback' object.id %}">Feedback</a>
-
+<a href="{% url 'counselor_feedback' object.id %}">  <div class="table-head1">
+  <div class="table-cell1 first-cell1">
+      <p class="listTitle">Feedback</p>
+  </div>
+</div> </a>
+<br>
            {% endfor %}
 
       
@@ -249,6 +286,3 @@ p{
      
                
 {% endblock %}
-
-
-       

@@ -187,8 +187,8 @@ p{
 
 
   <tr>
-    <td><a style="color: black;" href="{% url 'student_notif_detail' notification.id %}"><strong>{{ notification.created_by.username }}</strong>  <b style="color: black;">Manual Referral</b></a></td>
-    <td><a style="color: black;" href="{% url 'student_notif_detail' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
+    <td><a style="color: black; font-size: 16px;" href="{% url 'student_notif_detail' notification.id %}"><strong>{{ notification.created_by.username }}</strong>  <b style="color: black;">Manual Referral</b></a></td>
+    <td><a style="color: black; font-size: 16px;" href="{% url 'student_notif_detail' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
   </tr>
 
 
@@ -196,5 +196,3 @@ p{
 {% endfor %}
 </table>
 {% endblock %}
-
-

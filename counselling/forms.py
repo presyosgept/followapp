@@ -7,11 +7,12 @@ from django import forms
 
 class CounselorFeedbackForm(forms.ModelForm):
     feedback = forms.CharField(widget=forms.Textarea)
+    remarks = forms.CharField(widget=forms.Textarea)
     def __init__(self, *args, **kwargs):
         super(CounselorFeedbackForm, self).__init__(*args, **kwargs)
     class Meta:
         model = CounselorFeedback
-        fields = ['feedback']
+        fields = '__all__'
 # # class FeedbackForm(forms.Form):
 # #     feedback = forms.CharField(widget=forms.Textarea)
 

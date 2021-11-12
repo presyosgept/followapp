@@ -127,7 +127,8 @@ class TeachersReferral(models.Model):
     feedback = models.CharField(max_length=10000,blank=True, null=True)
 
 class CounselorFeedback(models.Model): 
-    feedback = models.CharField(max_length=10000)
+    feedback = models.CharField(max_length=10000,null=True,blank=True)
+    remarks = models.CharField(max_length=10000,null=True,blank=True)
     
 class Time(models.Model):
     id = models.CharField(max_length=220,primary_key=True)

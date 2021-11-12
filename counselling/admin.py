@@ -7,7 +7,7 @@ from .models import CounselorFeedback,CompareTime,NewTime,MyTable,SubjectWithSem
 
 admin.site.register(CounselorFeedback)
 class CounselorFeedbackAdmin(ImportExportModelAdmin):
-    list_display = ('feedback')
+    list_display = ('feedback', 'remarks')
 
 admin.site.register(MyTable)
 class MyTableAdmin(ImportExportModelAdmin):
