@@ -6,7 +6,6 @@
 
         <!--========== BOX ICONS ==========-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
         <!--========== CSS ==========-->
         <link rel="stylesheet" href="assets/css/styles.css">
 
@@ -569,9 +568,9 @@ th, td {
              
 
                 <div>
-                {% for object in form %} 
-                              <p style="font-weight: bold;"> {{object.firstname }} {{object.lastname }} </p>
-                                   {% endfor %} 
+                
+                              <p style="font-weight: bold;"> {{form.firstname }} {{form.lastname }} </p>
+                                   
                                    </div>
               </div>
         </header>
@@ -597,13 +596,13 @@ th, td {
 
                             <a href="{% url 'student_schedule' %}" class="nav__link">
                                 <i class='bx bx-navigation nav__icon' ></i>
-                                <span class="nav__name">Schedule</span>
+                                <span class="nav__name">Set Schedule</span>
                             </a>
                            
 
-                            <a href="#homie" class="nav__link "> 
+                            <a href="{% url 'view_schedule_student' %}" class="nav__link "> 
                               <i class='bx bx-user nav__icon' ></i>
-                              <span class="nav__name">Profile</span>
+                              <span class="nav__name">View Schedule</span>
                               
                           </a>
                             
@@ -628,8 +627,7 @@ th, td {
 
     <img style="max-width: 700px;
   height: 480px; margin: auto;" 
-  src="https://static.e-counseling.com/wp-content/uploads/2020/04/online-counseling-illustration-750.png"  
- >
+  src="https://static.e-counseling.com/wp-content/uploads/2020/04/online-counseling-illustration-750.png">
            {% endblock %}
          </div>
                </section>

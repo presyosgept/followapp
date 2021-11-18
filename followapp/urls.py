@@ -59,6 +59,7 @@ from counselling.views import(
     # manual_detail,
     counselor_view_detail_referred_students,
     counselor_view_pending_students,
+    counselor_view_appointment,
     
 
     #director
@@ -71,6 +72,9 @@ from counselling.views import(
     student_schedule,
     notifications_student,
     student_notif_detail,
+    view_schedule_student,
+    view_class_students,
+    view_appointment_students,
 
     #api
     CounselorList,
@@ -145,7 +149,7 @@ urlpatterns = [
     # path('teacher/referstudent',  refer_student, name="refer_student"),
     path('teacher/teacher_view_student/?P:<int:id>', teacher_view_students, name="teacher_view_students"),
     path('teacher/list_referred_students', teacher_view_referred_students, name="teacher_view_referred_students"),
-    path('studentslist/new/?P:<int:stud>', new, name='new'), 
+    path('studentslist/new/?P:<int:stud>/?P:<int:id>', new, name='new'), 
     path('teacher/teacher_coursecard', teacher_coursecard, name='teacher_coursecard'),
     path('teacher/view_detail/?P:<int:id>', teacher_view_detail_referred_students, name='teacher_view_detail_referred_students'), 
     path('teacher/teacher_view_notif_detail/?P:<int:id>', teacher_view_notif_detail, name='teacher_view_notif_detail'), 
@@ -164,12 +168,19 @@ urlpatterns = [
     path('counselor/counselor_detail_schedule_class/<str:offer_code>/<str:sem_id>/<str:year>', counselor_detail_schedule_class, name="counselor_detail_schedule_class"),
     path('counselor/counselor_feedback/?P:<int:id>', counselor_feedback, name='counselor_feedback'), 
     path('counselor/pendingstudents', counselor_view_pending_students, name="counselor_view_pending_students"),
+    path('counselor/counselor_view_appointment/?P:<int:id>', counselor_view_appointment, name='counselor_view_appointment'), 
+
 
     #student
     path('student/', student_home_view, name="student_home_view"),
     path('student/schedule', student_schedule, name="student_schedule"),
+    path('student/view_schedule_student', view_schedule_student, name="view_schedule_student"),
     path('student/notifications_student', notifications_student, name="notifications_student"),
     path('student/student_notif_detail/?P:<int:id>', student_notif_detail, name="student_notif_detail"),
+    path('student/view_class_students/<str:offer_code>/<str:sem_id>/<str:year>', view_class_students, name="view_class_students"),
+    path('student/view_appointment_students/?P:<int:id>', view_appointment_students, name="view_appointment_students"),
+
+
 
 
     #director

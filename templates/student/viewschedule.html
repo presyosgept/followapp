@@ -1,0 +1,34 @@
+{% extends "student/student_home.html" %}
+
+{% block title %} 
+Schedule
+{% endblock %} 
+
+{% block content %} 
+
+
+  {% for obj in object %}
+
+   <tbody>
+       <tr>
+        <td data-label="Service">{{obj.start_time}} - {{obj.end_time}}</td>
+        <td data-label="Description"> Class</td>
+        <td><a style="color: black;"href="{% url 'view_class_students' obj.offer_code obj.sem_id obj.academic_year %}"><b>View More Information</b></a></td>
+        
+       </tr>
+   </tbody>
+
+   {%endfor %}
+
+   {% for object in object_list %}
+
+   <tbody>
+       <tr>
+        <td data-label="Service"> {{object.start_time}} - {{object.end_time}}</td>
+        <td data-label="Description"> Appointment/Counselling </td>
+        <td><a style="color: black;"href="{% url 'view_appointment_students' object.id %}"><b>View More Information</b></a></td>
+       </tr>
+   </tbody>
+ 
+   {%endfor %}
+{% endblock %}

@@ -6,30 +6,20 @@ Schedule
 
 {% block content %} 
 
-<div class="table-cont">
-  <h1 class="heading">SCHEDULE</h1>
-<table class="table">
-   <thead>
-       <tr>
-           <th>Time</th>
-           <th>Schedule</th>
-           <th>Description</th>
-           <th>Schedule</th>
-       </tr>
-   </thead>
-   {% for obj in object %}
-   <tbody>
-       <tr>
-           <td data-label="Time">{{obj.time1}} - {{obj.time2}}</td>
-           <td data-label="Service">{{obj.schedule}}</td>
-           <td data-label="Description"> {{obj.description}}</td>
-           <td> <a href=#></a>
-            <button class="btn" id="btn2">Set Schedule</button>
-            </a></td>
-       </tr>
-   </tbody>
-   {% endfor %}    
-</table>
-</div>
+<form method="POST" action="">
+    {% csrf_token %}
+    {{schedform.studnumber}}
+    {{schedform.firstname}}
+    {{schedform.lastname}}
+    {{schedform.reasons}}
+  
+<br>
+  <button class="btn success" style="font-weight: bold;">Submit</button>
+</form>
+
+{% for message in messages %}
+                    <center> <p>{{message}}</p> </center>
+                {% endfor %}
+    
 
 {% endblock %}

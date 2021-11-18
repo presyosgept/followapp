@@ -1,4 +1,4 @@
-from .models import Counselor, CounselorFeedback,AccountCreated,TeachersReferral,AllStudent
+from .models import Counselor, CounselorFeedback,AccountCreated,TeachersReferral,AllStudent,StudentSetSched
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
@@ -32,6 +32,18 @@ class AccountCreatedForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField()
 
+class StudentSetSchedForm(forms.ModelForm):
+    reasons = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        super(StudentSetSchedForm, self).__init__(*args, **kwargs)
+        self.fields['studnumber'].disabled = True
+        self.fields['firstname'].disabled = True
+        self.fields['lastname'].disabled = True
+    class Meta:
+        model = StudentSetSched
+        fields = ['studnumber', 'firstname', 'lastname',  'reasons']
+
 class TeachersReferralForm(forms.ModelForm):
     reasons = forms.CharField(widget=forms.Textarea)
 
@@ -40,6 +52,7 @@ class TeachersReferralForm(forms.ModelForm):
         self.fields['studnumber'].disabled = True
         self.fields['firstname'].disabled = True
         self.fields['lastname'].disabled = True
+        self.fields['subject_referred'].disabled = True
     class Meta:
         model = TeachersReferral
         fields = ['studnumber', 'firstname', 'lastname', 'behavior_problem','subject_referred','reasons','feedback']

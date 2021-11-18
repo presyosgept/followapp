@@ -237,6 +237,19 @@ p{
    </tbody>
  
    {%endfor %}
+
+
+    {% for object in obj %}
+
+   <tbody>
+       <tr>
+        <td data-label="Service"> {{object.start_time}} - {{object.end_time}}</td>
+        <td data-label="Description"> Appointment Counselling </td>
+        <td><a style="color: black;"href="{% url 'counselor_view_appointment' object.id %}"><b>View More Information</b></a></td>
+       </tr>
+   </tbody>
+ 
+   {%endfor %}
 </table>
 </div>
 

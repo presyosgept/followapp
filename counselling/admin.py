@@ -3,7 +3,9 @@ from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 from .models import AccountsApi,Facultyload,Faculty,NotificationFeedback,Notification,TeachersReferral, SubjectOffered, Studentsload, Counselor
-from .models import CounselorFeedback,CompareTime,NewTime,MyTable,SubjectWithSem,Semester,AllSubject,OfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
+from .models import StudentSetSched,CounselorFeedback,CompareTime,NewTime,MyTable,SubjectWithSem,Semester,AllSubject,OfferCode,AccountCreated,SchoolOffices,Department,DegreeProgram,AllStudent,AllFaculty
+
+admin.site.register(StudentSetSched)
 
 admin.site.register(CounselorFeedback)
 class CounselorFeedbackAdmin(ImportExportModelAdmin):

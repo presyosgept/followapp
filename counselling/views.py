@@ -18,10 +18,10 @@ from django.views import generic
 from django.utils import timezone
 from datetime import date,datetime,timedelta
 
-from .forms import CounselorFeedbackForm,VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import  NotificationFeedback,CounselorFeedback,CompareTime,SubjectWithSem,NewTime,Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
+from .forms import StudentSetSchedForm,CounselorFeedbackForm,VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
+from .models import  StudentSetSched,NotificationFeedback,CounselorFeedback,CompareTime,SubjectWithSem,NewTime,Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
-from .resources import  SubjectWithSemResource,NewTimeResource,SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
+from .resources import SubjectWithSemResource,NewTimeResource,SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
 from tablib import Dataset
 
 # Create your views here.
@@ -1043,7 +1043,7 @@ def teacher_view_students(request, id):
                 finalstudentlist.append(AllStudent(allstud.studnumber,allstud.firstname,allstud.lastname))
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
-    return render(request, "teacher/list_students.html", {"object_list": finalstudentlist,"form": user_name})
+    return render(request, "teacher/list_students.html", {"id": id,"object_list": finalstudentlist,"form": user_name})
 
 @login_required(login_url='login')
 def teacher_view_referred_students(request, *args, **kwargs):
@@ -1171,6 +1171,8 @@ def counselor_view_schedule(request, *args, **kwargs):
     getsched = []
     classForToday = []
     getScheduleToday = TeachersReferral.objects.filter(date=today)
+    getappointmentToday = StudentSetSched.objects.filter(date=today)
+    
     getFacultyload = Facultyload.objects.filter(employee_id = user)  
     getOffercode = OfferCode.objects.all() 
     for fl in getFacultyload: 
@@ -1179,21 +1181,28 @@ def counselor_view_schedule(request, *args, **kwargs):
                 getsched.append(OfferCode(offer_code = oc.offer_code,days = oc.days,
                 start_time= oc.start_time,end_time= oc.end_time,room = oc.room,
                 subject_code = oc.subject_code,sem_id=oc.sem_id, academic_year = oc.academic_year))
-
     for sched in getsched:
-        for i in range(len(sched.days)):
-            if (day_name == sched.days[i]):
+        for d in sched.days:
+            if d == day_name:
                 classForToday.append(OfferCode(offer_code = sched.offer_code,days = sched.days,start_time= sched.start_time,end_time= sched.end_time,room = sched.room,
                 subject_code = sched.subject_code,sem_id=sched.sem_id, academic_year = sched.academic_year))
-
+    print("schedduukkeee")
+    print(classForToday)
     counselor_name = Faculty.objects.filter(employee_id = user)
-    return render(request, "counselor/schedule.html", {"object":classForToday,"object_list":getScheduleToday,"form": counselor_name})
+    return render(request, "counselor/schedule.html", {"obj":getappointmentToday,"object":classForToday,"object_list":getScheduleToday,"form": counselor_name})
 
 @login_required(login_url='login')
 def counselor_setSchedule(request, pk):
     user = request.session.get('username')
     counselor_name = Faculty.objects.filter(employee_id = user)
     return render(request, "counselor/set_schedule.html",{"form": counselor_name})
+
+@login_required(login_url='login')
+def counselor_view_appointment(request, id):
+    user = request.session.get('username')
+    counselor_name = Faculty.objects.filter(employee_id = user)
+    getappointmentToday = StudentSetSched.objects.get(id = id)
+    return render(request, "counselor/appointment.html",{"object":getappointmentToday,"form": counselor_name})
 
 @login_required(login_url='login')
 def counselor_detail_schedule_counseling(request, id):
@@ -1305,7 +1314,240 @@ def student_home_view(request, *args, **kwargs):
 
 @login_required(login_url='login')
 def student_schedule(request, *args, **kwargs):
-    return render(request, "student/schedule.html")
+    global notif
+    global notif1
+    user = request.session.get('username')
+    student_name = AllStudent.objects.get(studnumber = user)
+    schedForm = StudentSetSchedForm(instance=student_name)
+    degree = DegreeProgram.objects.get(program_id = student_name.degree_program_id)
+    if request.method == "POST":
+        print("a")
+        reasons= request.POST['reasons']
+        schedForm = StudentSetSchedForm(request.POST, instance=student_name)
+        if schedForm.is_valid():
+            print("b")
+            today = date.today()
+            now = dt.datetime.now()
+            ClassesofCounselor=[]
+            ClassesCounselor = []
+            tomorrow=today
+            finder=0
+            
+            counselor = Counselor.objects.get(program_designation = degree.program_code)
+            OfferCodeCounselor = Facultyload.objects.filter(employee_id = counselor.employee_id)
+            timeArray = [] 
+            initialtime = 0
+
+            newTime = str(initialtime)+':00:00'
+
+            for x in range(24):
+                    timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
+                    newTime = str(initialtime)+':30:00'  
+                    timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
+                    initialtime = initialtime + 1   
+                    newTime = str(initialtime)+':00:00'
+
+            while(finder==0):
+                tomorrow=today+timedelta(days=1)
+                day_name=tomorrow.strftime("%a")
+                ScheduledReferralbyDay = TeachersReferral.objects.filter(date=tomorrow)
+                OfferCodeCounselorCheck=bool(OfferCodeCounselor)
+                if(OfferCodeCounselorCheck==True):
+                        for object in OfferCodeCounselor:
+                            Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
+                            ClassesofCounselor.append(Subject)
+                        for object in ClassesofCounselor:
+                            for d in object.days:
+                                if d == day_name:
+                                    ClassesCounselor.append(OfferCode(offer_code = object.offer_code,days = object.days,
+                                    start_time= object.start_time,end_time= object.end_time,room = object.room,
+                                    subject_code = object.subject_code,sem_id=object.sem_id, academic_year = object.academic_year,))
+                        ClassesCounselorCheck = bool(ClassesCounselor)    
+                else:
+                    ClassesCounselorCheck=False
+                ScheduledReferralbyDayCheck = bool(ScheduledReferralbyDay)
+                start = datetime.strptime('8:00:00', '%H:%M:%S').time()
+                end = datetime.strptime('17:00:00', '%H:%M:%S').time()
+                        
+                
+
+                TimeTaken=0
+                TimeTaken1=0
+                counter=0
+
+                print("smerlat2222")
+                print(str(ClassesCounselorCheck))
+                print(str(ScheduledReferralbyDayCheck))
+
+                if (ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==False):
+                        print("aaaaaaaaaaaaaa")
+                        startTime =dt.datetime.strptime('9:00:00', '%H:%M:%S')
+                        endTime =dt.datetime.strptime('10:00:00', '%H:%M:%S')
+                        time1=startTime
+                        time2=endTime
+                        finder=1
+                        print("aaaaaaaaaaaaaa")
+                elif(ClassesCounselorCheck==True and ScheduledReferralbyDayCheck ==False):
+                            print("bbbbbbbbbbbbbb")
+                            for x in range(len(timeArray)):
+                                if(timeArray[x] >= start and timeArray[x] <= end):
+                                    for object2 in ScheduledReferralbyDay:
+                                        if(timeArray[x+1]<=object2.start_time and timeArray[x]>=object2.end_time):
+                                            TimeTaken+=1
+                                    if(TimeTaken==0 and counter==0):
+                                        time1=timeArray[x]
+                                        counter=1
+                                        TimeTaken=0;	
+                                    elif(TimeTaken==0 and counter==1):
+                                        time2=timeArray[x+1]
+                                        counter=0
+                                        finder=1
+                                        break
+                                    elif(TimeTaken!=0):
+                                        time1=''
+                                        TimeTaken=0
+                                        TimeTaken1=0
+                                        #check ni
+                            print("bbbbbbbbbbbbbb")
+
+                elif(ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==True):
+                        print("cccccccccccccccccc")
+                        for x in range(len(timeArray)):
+                                if(timeArray[x] >= start and timeArray[x] <= end):
+                                    for object2 in ClassesCounselor:
+                                            if(timeArray[x+1]<=object2.start_time and timeArray[x]>=object2.end_time):
+                                                TimeTaken+=1
+                                    if(TimeTaken==0 and counter==0):
+                                        time1=timeArray[x]
+                                        counter=1
+                                        TimeTaken=0;	
+                                    elif(TimeTaken==0 and counter==1):
+                                        time2=timeArray[x+1]
+                                        counter=0
+                                        TimeTaken=0
+                                        finder=1
+                                        break
+                                    elif(TimeTaken!=0):
+                                        time1=''
+                                        TimeTaken=0
+                        print("cccccccccccccccccc")                
+                elif(ClassesCounselorCheck==True and ScheduledReferralbyDayCheck ==True):
+                        print("dddddddddddd")
+                        for x in range(len(timeArray)):
+                            if(timeArray[x] >= start and timeArray[x] <= end):
+                                for object2 in ScheduledReferralbyDay:
+                                    if(timeArray[x+1]<=object2.end_time and timeArray[x]>=object2.start_time):
+                                        TimeTaken+=1
+                                if(TimeTaken==0):
+                                    for object3 in ClassesCounselor:
+                                        if(timeArray[x+1]<=object3.end_time and timeArray[x]>=object3.start_time):
+                                            TimeTaken1+=1
+                                            print("timeee")
+                                            print(timeArray[x])
+                                    if(TimeTaken1==0 and counter==0):
+                                        time1=timeArray[x]
+                                        counter=1
+                                        TimeTaken=0	
+                                        TimeTaken1=0
+                                        print("counteerrr")
+                                        print(counter)
+                                    elif (TimeTaken1==0 and counter==1):
+                                        time2=timeArray[x+1]
+                                        finder=1
+                                        counter=0
+                                        TimeTaken=0	
+                                        TimeTaken1=0
+                                        print("counteerrr222222")
+                                        print(counter)
+                                        break
+                                    elif(TimeTaken1!=0):
+                                        time1=''
+                                        TimeTaken=0
+                                        TimeTaken1=0
+                                        counter=0
+                                            
+                                else:
+                                    counter=0
+                                    TimeTaken=0
+                                    time1=''
+                        print("dddddddddddd")     
+
+            print("piiiiffffff")    
+            print(time1) 
+            print(time2)
+            print(tomorrow)
+            if(time1!='' and time2!=''):
+                print("eeeeeeeee")
+                ScheduledReferralbyDay=''
+                ClassesCounselor=''
+                schedForm.save()
+                qs = Counselor.objects.get(program_designation = degree.program_code)
+                sched = StudentSetSched(studnumber=student_name.studnumber,
+                firstname=student_name.firstname,lastname=student_name.lastname,
+                degree_program = degree.program_code,
+                reasons=reasons,counselor=qs.employee_id, 
+                start_time = time1 , end_time = time2, date = tomorrow )
+                sched.save()
+                # studentInfo = TeachersReferral(studnumber=student_name.studnumber,
+                # firstname=student_name.firstname,lastname=student_name.lastname,
+                # degree_program = degree.program_code,
+                # reasons=reasons,counselor=qs.employee_id, 
+                # start_time = time1 , end_time = time2, date = tomorrow )
+                # studentInfo.save()
+                schedForm = StudentSetSchedForm(instance=student_name)
+                context = {"schedform": schedForm,"form": student_name}
+                notif = notif + 1 
+                notif1 = notif1 + 1
+                create_notification(qs.employee_id, user, 'appointment', extra_id=int(student_name.studnumber), schedDay = tomorrow , schedStartTime = time1 , schedEndTime = time2)
+                messages.info(request, 'Successfully Set Schedule')
+                print("eeeeeeeee")
+
+    context = {"schedform": schedForm,"form": student_name}
+    return render(request, "student/schedule.html",context)
+
+@login_required
+def view_schedule_student(request, *args, **kwargs):
+    user = request.session.get('username')
+    today = date.today()
+    now = datetime.now()
+    day_name=now.strftime("%a")
+    getsched = []
+    classForToday = []
+    getScheduleToday = StudentSetSched.objects.filter(date=today)
+    getStudentsload = Studentsload.objects.filter(studnumber = user)  
+    getOffercode = OfferCode.objects.all() 
+    for sl in getStudentsload: 
+        for oc in getOffercode: 
+            if sl.offer_code_id == oc.offer_code:
+                getsched.append(OfferCode(offer_code = oc.offer_code,days = oc.days,
+                start_time= oc.start_time,end_time= oc.end_time,room = oc.room,
+                subject_code = oc.subject_code,sem_id=oc.sem_id, academic_year = oc.academic_year))
+    for sched in getsched:
+        for d in sched.days:
+            if d == day_name:
+                classForToday.append(OfferCode(offer_code = sched.offer_code,days = sched.days,start_time= sched.start_time,end_time= sched.end_time,room = sched.room,
+                subject_code = sched.subject_code,sem_id=sched.sem_id, academic_year = sched.academic_year))
+
+    student_name = AllStudent.objects.filter(studnumber = user)
+    # {"object":classForToday,"object_list":getScheduleToday,"form": student_name}
+    return render(request, "student/viewschedule.html", {"object":classForToday,"object_list":getScheduleToday,"form": student_name})
+
+@login_required
+def view_class_students(request, offer_code, sem_id, year):
+    user = request.session.get('username')
+    student_name = AllStudent.objects.filter(studnumber = user)
+    session = OfferCode.objects.get(offer_code=offer_code, sem_id=sem_id, academic_year=year)
+    context = {"object":session,"form": student_name}
+    return render(request, "student/viewclass.html", context)
+
+@login_required
+def view_appointment_students(request, id):
+    user = request.session.get('username')
+    student_name = AllStudent.objects.filter(studnumber = user)
+    getStudentsSched = StudentSetSched.objects.get(id = id)  
+    context = {"object":getStudentsSched,"form": student_name}
+    return render(request, "student/viewappointment.html", context)
+
 
 @login_required
 def notifications_student(request):
@@ -1348,6 +1590,9 @@ def student_notif_detail(request, id):
     user = request.session.get('username')
     student_name = AllStudent.objects.filter(studnumber = user)
     return render(request, 'student/notif_detail.html', {"object_list":detail, "form": student_name})
+
+
+
 #student
 
 
@@ -1731,169 +1976,185 @@ def uploaddb_counselor(request):
 
 import datetime as dt
 @login_required(login_url='login')
-def new(request,stud):
+def new(request,stud,id):
     global notif
     global notif1
     time1 = ""
     time2 = ""
+    subj = OfferCode.objects.get(offer_code=id)
     user = request.session.get('username')
     user_name = Faculty.objects.filter(employee_id = user)
     studentReferred = AllStudent.objects.get(studnumber=stud)
-    form = TeachersReferralForm(instance=studentReferred)
+    subject_referred = subj.subject_code
+    print("orayt")
+    print(subject_referred)
+    form = TeachersReferralForm(instance=studentReferred, initial={'subject_referred': subject_referred })
+
     qs = Facultyload.objects.filter(employee_id = user)
     context = {"object_list": qs}
     degree = DegreeProgram.objects.get(program_id = studentReferred.degree_program_id)
     if request.method == "POST":
-        subject_referred= request.POST['subject_referred']
         reasons= request.POST['reasons']
         behavior= request.POST['behavior_problem']
-        form = TeachersReferralForm(request.POST, instance=studentReferred)
+        form = TeachersReferralForm(request.POST, instance=studentReferred,initial={'subject_referred': subject_referred })
         if form.is_valid():
-            
             today = date.today()
             now = dt.datetime.now()
-            day_name=now.strftime("%a")
-            SubjectofStudentReferred=[]
             ClassesofCounselor=[]
-            lengthofScheduledReferral=0
-            lengthofClassesofCounselor=0
+            ClassesCounselor = []
             tomorrow=today
             finder=0
             
             counselor = Counselor.objects.get(program_designation = degree.program_code)
             OfferCodeCounselor = Facultyload.objects.filter(employee_id = counselor.employee_id)
-            ScheduledReferralbyDay = TeachersReferral.objects.filter(date=tomorrow)
-            ClassesCounselor = []
-
-            tomorrow=tomorrow+timedelta(days=1)
-            OfferCodeCounselorCheck=bool(OfferCodeCounselor)
-            if(OfferCodeCounselorCheck==True):
-                    for object in OfferCodeCounselor:
-                        Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
-                        ClassesofCounselor.append(Subject)
-                    for object in ClassesofCounselor:
-                        for d in object.days:
-                            if d == day_name:
-                                print("kkk")
-                                ClassesCounselor.append(OfferCode(offer_code = object.offer_code,days = object.days,
-                                start_time= object.start_time,end_time= object.end_time,room = object.room,
-                                subject_code = object.subject_code,sem_id=object.sem_id, academic_year = object.academic_year,))
-                    ClassesCounselorCheck = bool(ClassesCounselor)         
-            else:
-                ClassesCounselorCheck=False
-            ScheduledReferralbyDayCheck = bool(ScheduledReferralbyDay)
-            start = datetime.strptime('8:00:00', '%H:%M:%S').time()
-            end = datetime.strptime('17:00:00', '%H:%M:%S').time()
-                    
+            
             timeArray = [] 
             initialtime = 0
 
             newTime = str(initialtime)+':00:00'
 
             for x in range(24):
-                timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
-                newTime = str(initialtime)+':30:00'  
-                timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
-                initialtime = initialtime + 1   
-                newTime = str(initialtime)+':00:00'
+                    timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
+                    newTime = str(initialtime)+':30:00'  
+                    timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
+                    initialtime = initialtime + 1   
+                    newTime = str(initialtime)+':00:00'
 
-            TimeTaken=0
-            TimeTaken1=0
-            counter=0
+            while(finder==0):
+                tomorrow=tomorrow+timedelta(days=1)
+                day_name=tomorrow.strftime("%a")
+                ScheduledReferralbyDay = TeachersReferral.objects.filter(date=tomorrow)
+                OfferCodeCounselorCheck=bool(OfferCodeCounselor)
+                if(OfferCodeCounselorCheck==True):
+                        for object in OfferCodeCounselor:
+                            Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
+                            ClassesofCounselor.append(Subject)
+                        for object in ClassesofCounselor:
+                            for d in object.days:
+                                if d == day_name:
+                                    ClassesCounselor.append(OfferCode(offer_code = object.offer_code,days = object.days,
+                                    start_time= object.start_time,end_time= object.end_time,room = object.room,
+                                    subject_code = object.subject_code,sem_id=object.sem_id, academic_year = object.academic_year,))
+                        ClassesCounselorCheck = bool(ClassesCounselor)    
+                else:
+                    ClassesCounselorCheck=False
+                ScheduledReferralbyDayCheck = bool(ScheduledReferralbyDay)
+                start = datetime.strptime('8:00:00', '%H:%M:%S').time()
+                end = datetime.strptime('17:00:00', '%H:%M:%S').time()
+                        
+                
 
-            print("smerlat2222")
-            print(lengthofClassesofCounselor)
-            print(lengthofScheduledReferral)
+                TimeTaken=0
+                TimeTaken1=0
+                counter=0
 
-            if (ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==False):
-                    print("aaaaaaaaaaaaaa")
-                    startTime =dt.datetime.strptime('9:00:00', '%H:%M:%S')
-                    endTime =dt.datetime.strptime('10:00:00', '%H:%M:%S')
-                    time1=startTime
-                    time2=endTime
-                    print("aaaaaaaaaaaaaa")
-            elif(ClassesCounselorCheck==True and ScheduledReferralbyDayCheck ==False):
-                        print("bbbbbbbbbbbbbb")
+                print("smerlat2222")
+                print("ClassesCounselorCheck " + str(ClassesCounselorCheck))
+                print("ScheduledReferralbyDayCheck " + str(ScheduledReferralbyDayCheck))
+
+                if (ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==False):
+                        print("aaaaaaaaaaaaaa")
+                        startTime =dt.datetime.strptime('9:00:00', '%H:%M:%S')
+                        endTime =dt.datetime.strptime('10:00:00', '%H:%M:%S')
+                        time1=startTime
+                        time2=endTime
+                        finder=1
+                        print("aaaaaaaaaaaaaa")           
+                elif(ClassesCounselorCheck==True and ScheduledReferralbyDayCheck ==False):
+                            print("bbbbbbbbbbbbbb")
+                            for x in range(len(timeArray)):
+                                if(timeArray[x] >= start and timeArray[x] <= end):
+                                    for object2 in ScheduledReferralbyDay:
+                                        if(timeArray[x+1]<=object2.start_time and timeArray[x]>=object2.end_time):
+                                            TimeTaken+=1
+                                    if(TimeTaken==0 and counter==0):
+                                        time1=timeArray[x]
+                                        counter=1
+                                        TimeTaken=0;	
+                                    elif(TimeTaken==0 and counter==1):
+                                        time2=timeArray[x+1]
+                                        counter=0
+                                        finder=1
+                                        break
+                                    elif(TimeTaken!=0):
+                                        time1=''
+                                        TimeTaken=0
+                                        TimeTaken1=0
+                                        #check ni
+                            print("bbbbbbbbbbbbbb")
+
+                elif(ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==True):
+                        print("cccccccccccccccccc")
+                        for x in range(len(timeArray)):
+                                if(timeArray[x] >= start and timeArray[x] <= end):
+                                    for object2 in ClassesCounselor:
+                                            if(timeArray[x+1]<=object2.start_time and timeArray[x]>=object2.end_time):
+                                                TimeTaken+=1
+                                    if(TimeTaken==0 and counter==0):
+                                        time1=timeArray[x]
+                                        counter=1
+                                        TimeTaken=0;	
+                                    elif(TimeTaken==0 and counter==1):
+                                        time2=timeArray[x+1]
+                                        counter=0
+                                        TimeTaken=0
+                                        finder=1
+                                        break
+                                    elif(TimeTaken!=0):
+                                        time1=''
+                                        TimeTaken=0
+                        print("cccccccccccccccccc") 
+                elif(ClassesCounselorCheck==True and ScheduledReferralbyDayCheck ==True):
+                        print("dddddddddddd")
+                        print("tomorrow " + str(tomorrow))
+                        print("ClassesCounselorCheck " + str(ClassesCounselorCheck))
+                        print("ScheduledReferralbyDayCheck " + str(ScheduledReferralbyDayCheck))
                         for x in range(len(timeArray)):
                             if(timeArray[x] >= start and timeArray[x] <= end):
                                 for object2 in ScheduledReferralbyDay:
-                                    if(timeArray[x+1]<=object2.start_time and timeArray[x]>=object2.end_time):
+                                    if(timeArray[x+1]<=object2.end_time and timeArray[x]>=object2.start_time):
                                         TimeTaken+=1
-
-                                if(TimeTaken==0 and counter==0):
-                                    time1=timeArray[x]
-                                    counter=1
-                                    TimeTaken=0;	
-                                elif(TimeTaken==0 and counter==1):
-                                    time2=timeArray[x+1]
-                                    counter=0
-                                    break
-                                elif(TimeTaken!=0):
-                                    time1=''
-                                    TimeTaken=0
-                                    TimeTaken=0
-                        print("bbbbbbbbbbbbbb")
-
-            elif(ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==True):
-                    print("cccccccccccccccccc")
-                    for x in range(len(timeArray)):
-                            if(timeArray[x] >= start and timeArray[x] <= end):
-                                for object2 in ClassesCounselor:
-                                        if(timeArray[x+1]<=object2.start_time and timeArray[x]>=object2.end_time):
-                                            TimeTaken+=1
-                                if(TimeTaken==0 and counter==0):
-                                    time1=timeArray[x]
-                                    counter=1
-                                    TimeTaken=0;	
-                                elif(TimeTaken==0 and counter==1):
-                                    time2=timeArray[x+1]
+                                if(TimeTaken==0):
+                                    for object3 in ClassesCounselor:
+                                        if(timeArray[x+1]<=object3.end_time and timeArray[x]>=object3.start_time):
+                                            TimeTaken1+=1
+                                            print("timeee " + str(timeArray[x]))
+                                    if(TimeTaken1==0 and counter==0):
+                                        time1=timeArray[x]
+                                        counter=1
+                                        TimeTaken=0	
+                                        TimeTaken1=0
+                                        print("counteerrr " + str(counter))
+                                    elif (TimeTaken1==0 and counter==1):
+                                        time2=timeArray[x+1]
+                                        finder=1
+                                        counter=0
+                                        TimeTaken=0	
+                                        TimeTaken1=0
+                                        print("counteerrr222222 " + str(counter))
+                                        break
+                                    elif(TimeTaken1!=0):
+                                        time1=''
+                                        TimeTaken=0
+                                        TimeTaken1=0
+                                        counter=0
+                                            
+                                else:
                                     counter=0
                                     TimeTaken=0
-                                    break
-                                elif(TimeTaken!=0):
                                     time1=''
-                                    TimeTaken=0
-                    print("cccccccccccccccccc")                
-            elif(ClassesCounselorCheck==True and ScheduledReferralbyDayCheck ==True):
-                    print("dddddddddddd")
-                    for x in range(len(timeArray)):
-                        if(timeArray[x] >= start and timeArray[x] <= end):
-                            for object2 in ScheduledReferralbyDay:
-                                if(timeArray[x+1]<=object2.end_time and timeArray[x]>=object2.start_time):
-                                    TimeTaken+=1
-
-                            if(TimeTaken==0):
-                                for object3 in ClassesCounselor:
-                                    if(timeArray[x+1]<=object3.end_time and timeArray[x]>=object3.start_time):
-                                        TimeTaken1+=1
-                                if(TimeTaken1==0 and counter==0):
-                                    time1=timeArray[x]
-                                    counter=1
-                                    TimeTaken=0	
-                                    TimeTaken1=0
-                                elif (TimeTaken1==0 and counter==1):
-                                    time2=timeArray[x+1]
-                                    counter=0
-                                    TimeTaken=0	
-                                    TimeTaken1=0
-                                    break
-                                elif(TimeTaken!=0):
-                                    time1=''
-                                    TimeTaken=0
-                                    TimeTaken=0
-                                        
                             else:
                                 counter=0
                                 TimeTaken=0
                                 time1=''
-                    print("dddddddddddd")     
+                        print("dddddddddddd")     
 
             print("piiiiffffff")    
-            print(time1) 
-            print(time2)
+            print("time1" + str (time1)) 
+            print("time2" + str(time2))
+            print("tomorrow " + str(tomorrow))
             if(time1!='' and time2!=''):
                 print("eeeeeeeee")
-                finder=1
                 ScheduledReferralbyDay=''
                 ClassesCounselor=''
                 form.save()
@@ -1903,7 +2164,7 @@ def new(request,stud):
                 degree_program = degree.program_code,subject_referred=subject_referred,
                 reasons=reasons,counselor=qs.employee_id,employeeid=user,behavior_problem = behavior, start_time = time1 , end_time = time2, date = tomorrow )
                 studentInfo.save()
-                form = TeachersReferralForm(instance=studentReferred)
+                form = TeachersReferralForm(instance=studentReferred,initial={'subject_referred': subject_referred })
                 context = {"form1": form,"form":user_name}
                 notif = notif + 1 
                 notif1 = notif1 + 1

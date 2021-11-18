@@ -126,6 +126,17 @@ class TeachersReferral(models.Model):
     behavior_problem = models.CharField(max_length=220, choices=BEHAVIOR_PROBLEM,null=True,blank=True)
     feedback = models.CharField(max_length=10000,blank=True, null=True)
 
+class StudentSetSched(models.Model):
+    studnumber= models.CharField(max_length=220)
+    firstname = models.CharField(max_length=220)
+    lastname = models.CharField(max_length=220)
+    degree_program = models.CharField(max_length=220)
+    reasons = models.CharField(max_length=10000)
+    counselor = models.CharField(max_length=220)
+    start_time = models.TimeField(blank=True,null=True)
+    end_time = models.TimeField(blank=True,null=True)
+    date = models.DateField(blank=True,null=True)
+
 class CounselorFeedback(models.Model): 
     feedback = models.CharField(max_length=10000,null=True,blank=True)
     remarks = models.CharField(max_length=10000,null=True,blank=True)
