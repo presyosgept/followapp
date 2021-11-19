@@ -2020,11 +2020,20 @@ def new(request,stud,id):
                     initialtime = initialtime + 1   
                     newTime = str(initialtime)+':00:00'
 
+            sud=0
             while(finder==0):
+                sud+=1
+                print("numbers of sulod " + str(sud))
                 tomorrow=tomorrow+timedelta(days=1)
                 day_name=tomorrow.strftime("%a")
                 ScheduledReferralbyDay = TeachersReferral.objects.filter(date=tomorrow)
                 OfferCodeCounselorCheck=bool(OfferCodeCounselor)
+                ScheduledReferralbyDayCheck = bool(ScheduledReferralbyDay)
+                if(ScheduledReferralbyDayCheck == True):
+                    ScheduledReferralbyDayCheck= True
+                else:
+                    ScheduledReferralbyDayCheck= False
+                    
                 if(OfferCodeCounselorCheck==True):
                         for object in OfferCodeCounselor:
                             Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
@@ -2038,7 +2047,7 @@ def new(request,stud,id):
                         ClassesCounselorCheck = bool(ClassesCounselor)    
                 else:
                     ClassesCounselorCheck=False
-                ScheduledReferralbyDayCheck = bool(ScheduledReferralbyDay)
+
                 start = datetime.strptime('8:00:00', '%H:%M:%S').time()
                 end = datetime.strptime('17:00:00', '%H:%M:%S').time()
                         
@@ -2051,11 +2060,10 @@ def new(request,stud,id):
                 print("smerlat2222")
                 print("ClassesCounselorCheck " + str(ClassesCounselorCheck))
                 print("ScheduledReferralbyDayCheck " + str(ScheduledReferralbyDayCheck))
-
                 if (ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==False):
                         print("aaaaaaaaaaaaaa")
-                        startTime =dt.datetime.strptime('9:00:00', '%H:%M:%S')
-                        endTime =dt.datetime.strptime('10:00:00', '%H:%M:%S')
+                        startTime =datetime.strptime('9:00:00', '%H:%M:%S').time()
+                        endTime =datetime.strptime('10:00:00', '%H:%M:%S').time()
                         time1=startTime
                         time2=endTime
                         finder=1
@@ -2148,10 +2156,9 @@ def new(request,stud,id):
                                 TimeTaken=0
                                 time1=''
                         print("dddddddddddd")     
-
-            print("piiiiffffff")    
-            print("time1" + str (time1)) 
-            print("time2" + str(time2))
+            print("pifffffffff")
+            print("time1 " + str(time1))
+            print("time2 " + str(time2))
             print("tomorrow " + str(tomorrow))
             if(time1!='' and time2!=''):
                 print("eeeeeeeee")
@@ -2174,4 +2181,3 @@ def new(request,stud,id):
 
     context = {"form1": form,"form":user_name}
     return render(request, "teacher/new.html", context )
-
