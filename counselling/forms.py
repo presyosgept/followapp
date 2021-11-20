@@ -1,9 +1,14 @@
-from .models import Counselor, CounselorFeedback,AccountCreated,TeachersReferral,AllStudent,StudentSetSched
+from .models import Counselor, CounselorFeedback,AccountCreated,TeachersReferral,AllStudent,StudentSetSched,Offering
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
 from django.forms import ModelForm, widgets, DateTimeField, DateField, DateInput
 from django import forms
+
+class OfferingForm(forms.ModelForm):
+	class Meta:
+		model = Offering
+		fields = '__all__'
 
 class CounselorFeedbackForm(forms.ModelForm):
     feedback = forms.CharField(widget=forms.Textarea)

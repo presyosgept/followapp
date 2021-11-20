@@ -1,0 +1,25 @@
+{% extends "admin/admin_home.html" %}
+
+{% block title %} 
+Schedule
+{% endblock %} 
+
+{% block content %} 
+
+    {% if not forms %}
+        No Data
+    {% endif %}
+{% for form in forms %}
+    {{form.offer_code}} <br>
+    {{form.days}}  <br>
+    {{form.start_time}} <br>
+    {{form.end_time}} <br>
+    {{form.room}} <br>
+    {{form.subject_code}} <br>
+    {{form.school_year}} <br>
+
+    {% endfor %}
+
+    
+
+{% endblock %}

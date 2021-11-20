@@ -77,6 +77,16 @@ class OfferCode(models.Model):
     sem_id = models.CharField(max_length=225,default=None)
     academic_year = models.CharField(max_length=225,default=None)    
 
+class Offering(models.Model):
+    SEMESTER = (('1ST SEM','1ST SEM'),
+                ('2ND SEM','2ND SEM'),
+                ('SUMMER','SUMMER'))
+    semester = models.CharField(max_length=220,choices=SEMESTER, null=True,blank=True)
+    SCHOOL_YEAR = (('2019-2020','2019-2020'),
+                ('2020-2021','2020-2021'),
+                ('2021-2022','2021-2022'))
+    school_year = models.CharField(max_length=220,choices=SCHOOL_YEAR, null=True,blank=True)
+
 
 class AllSubject(models.Model):
     subject_code = models.CharField(max_length=225,primary_key=True)
@@ -141,20 +151,7 @@ class CounselorFeedback(models.Model):
     feedback = models.CharField(max_length=10000,null=True,blank=True)
     remarks = models.CharField(max_length=10000,null=True,blank=True)
     
-class Time(models.Model):
-    id = models.CharField(max_length=220,primary_key=True)
-    time1 = models.TimeField(null=True,blank=True)
-    time2 = models.TimeField(null=True,blank=True)
 
-class NewTime(models.Model):
-    id = models.CharField(max_length=220,primary_key=True)
-    time1 = models.TimeField(null=True,blank=True)
-    time2 = models.TimeField(null=True,blank=True)
-
-class CompareTime(models.Model):
-    id = models.CharField(max_length=220,primary_key=True)
-    star_time = models.TimeField(null=True,blank=True)
-    end_time = models.TimeField(null=True,blank=True)
 
 
 class SubjectOffered(models.Model):

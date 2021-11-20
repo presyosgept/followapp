@@ -1,0 +1,22 @@
+{% extends "admin/admin_home.html" %}
+
+{% block title %} 
+Schedule
+{% endblock %} 
+
+{% block content %} 
+
+<form method="POST" action="">
+    {% csrf_token %}
+    {{form.as_table}} 
+  
+<br>
+  <button class="btn success" style="font-weight: bold;">Submit</button>
+</form>
+
+{% for message in messages %}
+                    <center> <p>{{message}}</p> </center>
+                {% endfor %}
+    
+
+{% endblock %}
