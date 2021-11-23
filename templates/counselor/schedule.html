@@ -193,6 +193,15 @@ p{
 
 
 
+
+
+
+
+
+
+
+
+
 <div class="table-cont">
                                          <div class="table-row table-head">
       <div class="table-cell first-cell">
@@ -212,8 +221,12 @@ p{
        </tr>
    </thead>
    <br>
+  {% for obj in sched %}
+   {{obj.time}}
+  
+   {%endfor %}
 
-   {% for obj in object %}
+   {% for obj in schedForToday %}
 
    <tbody>
        <tr>
@@ -226,30 +239,6 @@ p{
 
    {%endfor %}
 
-   {% for object in object_list %}
-
-   <tbody>
-       <tr>
-        <td data-label="Service"> {{object.start_time}} - {{object.end_time}}</td>
-        <td data-label="Description"> Counseling </td>
-        <td><a style="color: black;"href="{% url 'counselor_detail_schedule_counseling' object.id %}"><b>View More Information</b></a></td>
-       </tr>
-   </tbody>
- 
-   {%endfor %}
-
-
-    {% for object in obj %}
-
-   <tbody>
-       <tr>
-        <td data-label="Service"> {{object.start_time}} - {{object.end_time}}</td>
-        <td data-label="Description"> Appointment Counselling </td>
-        <td><a style="color: black;"href="{% url 'counselor_view_appointment' object.id %}"><b>View More Information</b></a></td>
-       </tr>
-   </tbody>
- 
-   {%endfor %}
 </table>
 </div>
 

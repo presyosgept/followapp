@@ -1,9 +1,14 @@
-from .models import Counselor, CounselorFeedback,AccountCreated,TeachersReferral,AllStudent,StudentSetSched,Offering
+from .models import Counselor, CounselorFeedback,AccountCreated,TeachersReferral,AllStudent,StudentSetSched,Offering,DepaChoice
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
 from django.forms import ModelForm, widgets, DateTimeField, DateField, DateInput
 from django import forms
+
+class DepaChoiceForm(forms.ModelForm):
+	class Meta:
+		model = DepaChoice
+		fields = '__all__'
 
 class OfferingForm(forms.ModelForm):
 	class Meta:

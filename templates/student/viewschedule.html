@@ -5,30 +5,235 @@ Schedule
 {% endblock %} 
 
 {% block content %} 
+<style>
+   
+    .center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .txtFont{
+      font-family: Arial, Helvetica, sans-serif;
+      color: black;
+      text-align:left; margin-right: 100px; font-size: 20px;
+    }
+    .txtFonty{
+      font-family: Arial, Helvetica, sans-serif;
+      color: black;
+      text-align:left; margin-right: 100px; font-size: 17px;
+    }
+    .last{
+       font-size: 25px;
+    }
+  
+  
+  
+  .card-text{
+  display: inline;
+  flex-direction: row;
+  justify-content: start;
+  width: 600px;
+  /* margin-right: 600px; */
+  
+  }
+  
+  
+  .card-img{
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  float: left;
+  margin-left: 80px;
+  margin-top: 20px;
+  
+  }
+  
+  
+  .card-description{
+  margin: 10px 0;
+  }
+  
+  
+  .card-link{
+  margin-top: 20px;
+  }
+  .card-img{
+  background-color: transparent;
+  
+  float: left;
+  }
+  
+  .card-title{
+  font-size: 20px;
+  color: #334155;
+  margin-right: 800px;
+  margin-left: 160px;
+  margin-bottom: 40px;
+  padding: auto;
+  }
+  .card-stud{
+  font-size: 23px;
+  color: #334155;
+  margin-right: 90px; line-height: 5%;
+  font-weight: 600;
+  } 
+  .card-description{
+  font-size: 12px;
+  color: #64748B;
+  }
+  
+  .card-link{
+  font-size: 12px;
+  color: #4F46E5;
+  }
+  /* === TABLE ==== */
+  .table-box
+  {
+  
+  margin-bottom: 40px;
+  margin-left: 150px;
+  vertical-align:top;
+  }
+  
+  /* .table-row{
+  display: table;
+  width: 40%;
+  margin: 10px auto;
+  font-family: sans-serif;
+  background: transparent;
+  padding: 4px 0;
+  color: #555;
+  font-size: 13px;
+  box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+  height: 0.1%;
+  border-radius: 20px;
+  margin-top: 50px;
+  
+  } */
+  .table-head{
+  
+  background: #E5E4E2;
+  box-shadow: none;
+  color: #fff;
+  font-weight: 600;
+  line-height: 5px;
+  box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+  width: 500px;
+  margin: 0 auto;
+  border-radius: 20px;
+  }
+  .table-head .table-cell{
+  border-right: none;
+  }
+  .table-cell{
+  display: table-cell;
+  width: 20%;
+  text-align: center;
+  padding: 4px 0;
+  border-right: 1px solid #838996;
+  vertical-align: middle;
+  }
+  .first-cell{
+  text-align: left;
+  padding-left: 10px;
+  width: 8%;
+  }
+  .last-cell{
+  border-right: none;
+  width: 15px;
+  }
+  /* a{
+  textdecoration: none;
+  color: #555;
+  } */
+  p{
+  font-size: 17px;
+  color: black;
+  }
+  .listTitle{
+  font-size: 20px;
+  text-align: center;
+  }
+  @media only screen and (max-width: 600px) {
+  .table-row {
+  font-size: 11px;
+  }
+  }
+  .trow-list{
+  display:inline-block;
+  width: 85%;
+  
+  font-family: sans-serif;
+  background: transparent;
+  padding: 4px 0;
+  color: #555;
+  font-size: 13px;
+  
+  height: 15px;
+  
+  
+  vertical-align:top;
+  margin-bottom: 100px;
+  
+  }
+  .modal{
+  font-size: 19px;
+  }
+  .container{
+  border-radius: 10px;
+  background-color: #B4CFEC;
+  box-shadow:
+  0 9px 33px rgba(0, 0, 0, 0.07);
+  width: 1200px;
+  height: 400px;
+  float: center;
+  margin-left: 15px;
+  }
+  
+  </style>
 
+<div class="table-cont">
+    <div class="table-row table-head">
+  <div class="table-cell first-cell">
+  <p class="listTitle">Schedules</p>
+  </div>
+  </div>  
 
+  <table class="table">
+  <thead>
+  <tr>
+  <th>Subject</th>
+  <th>Subject Code</th>
+  <th>Time</th>
+  <th>Status</th>
+  
+  
+  </tr>
+  </thead>
+  <br>
+  
   {% for obj in object %}
-
-   <tbody>
-       <tr>
-        <td data-label="Service">{{obj.start_time}} - {{obj.end_time}}</td>
-        <td data-label="Description"> Class</td>
-        <td><a style="color: black;"href="{% url 'view_class_students' obj.offer_code obj.sem_id obj.academic_year %}"><b>View More Information</b></a></td>
-        
-       </tr>
-   </tbody>
-
-   {%endfor %}
-
-   {% for object in object_list %}
-
-   <tbody>
-       <tr>
-        <td data-label="Service"> {{object.start_time}} - {{object.end_time}}</td>
-        <td data-label="Description"> Appointment/Counselling </td>
-        <td><a style="color: black;"href="{% url 'view_appointment_students' object.id %}"><b>View More Information</b></a></td>
-       </tr>
-   </tbody>
- 
-   {%endfor %}
+  
+  <tbody>
+  <tr>
+    <td data-label="Name"> {{obj.subject_code}}</td>
+  <td  data-label="ID Number">{{obj.offer_code}}</td>
+  <td data-label="Date"><a>{{obj.start_time}} - {{obj.end_time}}</a></td>
+  <td data-label="Status"><a>Class</a></td>
+  </tr>
+  </tbody>
+  
+  {%endfor %}
+  
+  {% for object in object_list %}
+  
+  <tbody>
+    <tr>
+     <td data-label="Service"> {{object.start_time}} - {{object.end_time}}</td>
+     <td data-label="Description"> Appointment/Counselling </td>
+     <td><a style="color: black;"href="{% url 'view_appointment_students' object.id %}"><b>View More Information</b></a></td>
+    </tr>
+  </tbody>
+  {%endfor %}
+  </table>
+  </div>
 {% endblock %}

@@ -5,21 +5,138 @@ Schedule
 {% endblock %} 
 
 {% block content %} 
+<style>
+  /* === TABLE ==== */
+  .table-box
+  {
+  
+  margin-bottom: 40px;
+  margin-left: 150px;
+  vertical-align:top;
+  }
+  
+  /* .table-row{
+  display: table;
+  width: 40%;
+  margin: 10px auto;
+  font-family: sans-serif;
+  background: transparent;
+  padding: 4px 0;
+  color: #555;
+  font-size: 13px;
+  box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+  height: 0.1%;
+  border-radius: 20px;
+  margin-top: 50px;
+  
+  } */
+  .table-head{
+  
+  background: greenyellow;
+  box-shadow: none;
+  color: #fff;
+  font-weight: 600;
+  line-height: 5px;
+  box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+  width: 500px;
+  margin-left: 355px;
+  border-radius: 20px;
+  }
+  .table-head .table-cell{
+  border-right: none;
+  }
+  .table-cell{
+  display: table-cell;
+  width: 20%;
+  text-align: center;
+  padding: 4px 0;
+  border-right: 1px solid #838996;
+  vertical-align: middle;
+  }
+  .first-cell{
+  text-align: left;
+  padding-left: 10px;
+  width: 8%;
+  }
+  .last-cell{
+  border-right: none;
+  width: 15px;
+  }
+  /* a{
+  textdecoration: none;
+  color: #555;
+  } */
+  p{
+  font-size: 17px;
+  color: black;
+  }
+  .listTitle{
+  font-size: 20px;
+  text-align: center;
+  }
+  @media only screen and (max-width: 600px) {
+  .table-row {
+  font-size: 11px;
+  }
+  }
+  .trow-list{
+  display:inline-block;
+  width: 85%;
+  
+  font-family: sans-serif;
+  background: transparent;
+  padding: 4px 0;
+  color: #555;
+  font-size: 13px;
+  
+  height: 15px;
+  
+  
+  vertical-align:top;
+  margin-bottom: 100px;
+  
+  }
+</style>
 
-    {% if not forms %}
-        No Data
-    {% endif %}
+<div class="table-cont">
+  <div class="table-row table-head">
+<div class="table-cell first-cell">
+<p class="listTitle">Schedules</p>
+</div>
+</div>  
+
+{% if not forms %}
+No Data
+{% endif %}
+<table class="table">
+<thead>
+<tr>
+<th>Offer Code</th>
+<th>Days</th>
+<th>Time</th>
+<th>Room</th>
+<th>Subject Code</th>
+<th>Academic Year</th>
+
+
+</tr>
+</thead>
+<br>
+
 {% for form in forms %}
-    {{form.offer_code}} <br>
-    {{form.days}}  <br>
-    {{form.start_time}} <br>
-    {{form.end_time}} <br>
-    {{form.room}} <br>
-    {{form.subject_code}} <br>
-    {{form.school_year}} <br>
 
-    {% endfor %}
+<tbody>
+<tr>
+  <td> {{form.offer_code}}</td>
+<td>{{form.days}}</td>
+<td><a>{{form.start_time}} - {{form.end_time}}</a></td>
+<td><a>{{form.room}}</a></td>
+<td><a>{{form.subject_code}}</a></td>
+<td><a>  {{form.school_year}}</a></td>
+</tr>
+</tbody>
 
-    
-
+{% endfor %}
+</table>
+</div>
 {% endblock %}

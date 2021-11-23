@@ -81,18 +81,34 @@ class Offering(models.Model):
     SEMESTER = (('1ST SEM','1ST SEM'),
                 ('2ND SEM','2ND SEM'),
                 ('SUMMER','SUMMER'))
-    semester = models.CharField(max_length=220,choices=SEMESTER, null=True,blank=True)
+    semester = models.CharField(max_length=220,choices=SEMESTER, default='1ST SEM', null=False,blank=False)
     SCHOOL_YEAR = (('2019-2020','2019-2020'),
                 ('2020-2021','2020-2021'),
                 ('2021-2022','2021-2022'))
-    school_year = models.CharField(max_length=220,choices=SCHOOL_YEAR, null=True,blank=True)
+    school_year = models.CharField(max_length=220,choices=SCHOOL_YEAR, default='2021-2022',  null=False,blank=False)
 
+class DepaChoice(models.Model):
+    DEPA_CHOICE = (('Department of Language and Literature','Department of Language and Literature'),
+                ('Department of Social Sciences and Philosophy','Department of Social Sciences and Philosophy'),
+                ('Department of Mathematics and Sciences','Department of Mathematics and Sciences'),
+                ('Department of Journalism and Communication','Department of Journalism and Communication'),
+                ('Department of Psychology and Library Information Science','Department of Psychology and Library Information Science'),
+                ('Department of Accountancy and Finance','Department of Accountancy and Finance'),
+                ('Department of Business and Entrepreneurship','Department of Business and Entrepreneurship'),
+                ('Department of Marketing and Human Resource Management','Department of Marketing and Human Resource Management'),
+                ('Department of Computer Science and Information Technology','Department of Computer Science and Information Technology'),
+                ('Student Development and Placement Center','Student Development and Placement Center'),
+                ('Center for Religious Education','Center for Religious Education'),
+                ('Safety and Security Department','Safety and Security Department'),
+                ('Department of Education','Department of Education'))
+    depa_choice = models.CharField(max_length=220,choices=DEPA_CHOICE,  default='Department of Language and Literature',null=False,blank=False)
 
 class AllSubject(models.Model):
     subject_code = models.CharField(max_length=225,primary_key=True)
     subject_title  = models.CharField(max_length=220) 
     units  = models.CharField(max_length=220)
     department_id = models.ForeignKey(Department,on_delete=models.CASCADE)
+
 
 class Semester(models.Model):
     sem_id = models.CharField(max_length=225,primary_key=True)

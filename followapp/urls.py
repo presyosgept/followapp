@@ -37,6 +37,7 @@ from counselling.views import(
     upload_studentsload,
     admin_offering,
     admin_view_offering,
+    admin_department_choice,
   
 
     # teacher
@@ -143,7 +144,9 @@ urlpatterns = [
     path('admin/upload_students', upload_students, name="upload_students"),
     path('admin/upload_studentsload', upload_studentsload, name="upload_studentsload"),
     path('admin/admin_offering', admin_offering, name="admin_offering"),
-    path('admin/admin_view_offering/<str:semester>/<str:schoolyear>/', admin_view_offering, name="admin_view_offering"),
+    path('admin/admin_view_offering', admin_view_offering, name="admin_view_offering"),
+    path('admin/admin_department_choice', admin_department_choice, name="admin_department_choice"),
+    
     
     
     #teacher
