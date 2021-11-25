@@ -75,7 +75,8 @@ class OfferCode(models.Model):
     room = models.CharField(max_length=225,default=None)
     subject_code = models.CharField(max_length=225,default=None)
     sem_id = models.CharField(max_length=225,default=None)
-    academic_year = models.CharField(max_length=225,default=None)    
+    academic_year = models.CharField(max_length=225,default=None)  
+    choice = models.CharField(max_length=220,blank=True,null=True)
 
 class Offering(models.Model):
     SEMESTER = (('1ST SEM','1ST SEM'),
@@ -151,6 +152,7 @@ class TeachersReferral(models.Model):
                           ('GRUBBING','GRUBBING'),('OTHERS','OTHERS'))
     behavior_problem = models.CharField(max_length=220, choices=BEHAVIOR_PROBLEM,null=True,blank=True)
     feedback = models.CharField(max_length=10000,blank=True, null=True)
+    choice = models.CharField(max_length=220,blank=True,null=True)
 
 class StudentSetSched(models.Model):
     studnumber= models.CharField(max_length=220)

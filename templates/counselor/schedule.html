@@ -221,24 +221,30 @@ p{
        </tr>
    </thead>
    <br>
-  {% for obj in sched %}
-   {{obj.time}}
+
+      {% for obj in time %}
+     
+        {{obj}} <br>
+         {% for object in schedForToday %}
+
+             {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
+
+
+
+          "Service"  <br>
+          "Description" {{object.choice}} <br>
+       
+     <a style="color: black;"href="#"><b>View More Information</b></a> <br>
+     
+  {% endif %} 
+
+   {%endfor %}
+
+
+
+   {%endfor %}
+
   
-   {%endfor %}
-
-   {% for obj in schedForToday %}
-
-   <tbody>
-       <tr>
-        <td data-label="Service">{{obj.start_time}} - {{obj.end_time}}</td>
-        <td data-label="Description"> Class</td>
-        <td><a style="color: black;"href="{% url 'counselor_detail_schedule_class' obj.offer_code obj.sem_id obj.academic_year %}"><b>View More Information</b></a></td>
-        
-       </tr>
-   </tbody>
-
-   {%endfor %}
-
 </table>
 </div>
 
