@@ -1081,8 +1081,7 @@ def counselor_view_schedule(request, *args, **kwargs):
     if(ClassesCounselorCheck==True and ScheduledReferralbyDayCheck ==True):
                 print("aaa")
                 for x in range(len(timeArray)):
-                    if( x % 2 == 0):
-                        if(timeArray[x] >= start and timeArray[x] < end):
+                    if(timeArray[x] >= start and timeArray[x] < end):
                             one.append(timeArray[x])
                             time = timeArray[x]
                     for object2 in ScheduledReferralbyDay:
@@ -1105,8 +1104,7 @@ def counselor_view_schedule(request, *args, **kwargs):
     elif(ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==True):
                 print("bbb")
                 for x in range(len(timeArray)):
-                    if( x % 2 == 0):
-                        if(timeArray[x] >= start and timeArray[x] < end):
+                    if(timeArray[x] >= start and timeArray[x] < end):
                             one.append(timeArray[x])
                             time = timeArray[x]
                     for object2 in ScheduledReferralbyDay:
@@ -1129,8 +1127,7 @@ def counselor_view_schedule(request, *args, **kwargs):
     elif(ClassesCounselorCheck==True and ScheduledReferralbyDayCheck ==False):
                 print("ccc")
                 for x in range(len(timeArray)):
-                    if( x % 2 == 0):
-                        if(timeArray[x] >= start and timeArray[x] < end):
+                    if(timeArray[x] >= start and timeArray[x] < end):
                             one.append(timeArray[x])
                             time = timeArray[x]
                     for object2 in ScheduledReferralbyDay:
@@ -1152,8 +1149,7 @@ def counselor_view_schedule(request, *args, **kwargs):
     elif(ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==False):
                 print("ddd")
                 for x in range(len(timeArray)):
-                    if( x % 2 == 0):
-                        if(timeArray[x] >= start and timeArray[x] < end):
+                    if(timeArray[x] >= start and timeArray[x] < end):
                             one.append(timeArray[x])
                             time = timeArray[x]
 
@@ -1225,7 +1221,7 @@ def counselor_view_pending_students(request, *args, **kwargs):
     qs = TeachersReferral.objects.filter(counselor = user, status = "pending")
     counselor_name = Faculty.objects.filter(employee_id = user)
     return render(request, "counselor/pending_students.html", {"objects": qs,"form": counselor_name})
- 
+
 
 @login_required(login_url='login')
 def counselor_feedback(request,id):
@@ -1241,19 +1237,37 @@ def counselor_feedback(request,id):
         form1 = CounselorFeedbackForm(request.POST)
         if form1.is_valid():
             form1.save()
-            form1 = CounselorFeedbackForm()
+            feedback = form1['feedback'].value()
             create_feedback(student.employeeid,'manual_referral', user, int(id))
             messages.info(request, 'Successfully Feedback')
             notif2 = notif2 + 1 
+            print("achuchhu")
+            print(feedback)
             t = TeachersReferral.objects.get(id=id)
             t.status = "done"
             t.save()
+            t.feedback = feedback
+            t.save()
+            print(t)
+            form1 = CounselorFeedbackForm()
             return render(request, "counselor/feedback.html", {"info": info,  "info1": referredby,"info2" : preparedby,   "student": student,"object": form1,"form": counselor_name})
                                     
             
     return render(request, "counselor/feedback.html", {"info": info, "info1": referredby,"info2" : preparedby,"student": student,"object": form1,"form": counselor_name})
  
+@login_required(login_url='login')
+def counselor_view_feedback(request):
+    user = request.session.get('username')
+    student = TeachersReferral.objects.filter(counselor=user)
+    counselor_name = Faculty.objects.filter(employee_id = user)
+    return render(request, 'counselor/view_feedback.html', {"student":student,"form": counselor_name})
 
+@login_required(login_url='login')
+def counselor_view_detail_feedback(request,id):
+    user = request.session.get('username')
+    student = TeachersReferral.objects.filter(id=id)
+    counselor_name = Faculty.objects.filter(employee_id = user)
+    return render(request, 'counselor/detail_feedback.html', {"student":student,"form": counselor_name})
 
 @login_required
 def notifications(request):

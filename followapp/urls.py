@@ -63,6 +63,8 @@ from counselling.views import(
     counselor_view_detail_referred_students,
     counselor_view_pending_students,
     counselor_view_appointment,
+    counselor_view_feedback,
+    counselor_view_detail_feedback,
     
 
     #director
@@ -174,6 +176,9 @@ urlpatterns = [
     path('counselor/counselor_feedback/?P:<int:id>', counselor_feedback, name='counselor_feedback'), 
     path('counselor/pendingstudents', counselor_view_pending_students, name="counselor_view_pending_students"),
     path('counselor/counselor_view_appointment/?P:<int:id>', counselor_view_appointment, name='counselor_view_appointment'), 
+    path('counselor/counselor_view_feedback', counselor_view_feedback, name="counselor_view_feedback"),
+    path('counselor/counselor_view_detail_feedback/?P:<int:id>', counselor_view_detail_feedback, name='counselor_view_detail_feedback'), 
+    
 
 
     #student

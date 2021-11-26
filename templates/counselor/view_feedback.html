@@ -1,7 +1,7 @@
 {% extends "counselor/counselor_home.html" %}
 
 {% block title %} 
-Referred Students
+View Feedback
 {% endblock %} 
 
 {% block content %} 
@@ -190,52 +190,41 @@ margin-left: 15px;
 }
 
 </style>
-
-
-
-<div class="table-cont">
-  <div class="table-row table-head">
-<div class="table-cell first-cell">
-<p class="listTitle">List of Referred Students</p>
-</div>
-</div>  
-{% if not objects %}
-  No Referrals Yet!
-{% endif %}
 <br>
-<table class="table">
-<thead>
-<tr>
-<th>ID Number</th>
-<th>Students Name</th>
-<th>Date</th>
-<th>Status</th>
-<th>Information</th>
-
-
-
-</tr>
-</thead>
-<br>
-
-{% for object in objects %}
-
-<tbody>
-<tr>
-<td  data-label="ID Number">{{object.studnumber}}</td>
-<td data-label="Name"> {{object.lastname}}, &nbsp; {{object.firstname}}</td>
-<td data-label="Date"><a>{{object.date}}</a></td>
-<td data-label="Status"><a>{{object.status|title}}</a></td>
-<td style="color: black;" ><a href="{% url 'counselor_view_detail_referred_students' object.id %}" style="font-weight: 550; color: black;">View More Information</a></td>
-
-</tr>
-</tbody>
-
-
-
-{%endfor %}
-</table>
-</div>
-
-
-{% endblock %}
+  <div class="table-cont">
+    <div class="table-row table-head">
+  <div class="table-cell first-cell">
+  <p class="listTitle">Feedbacks</p>
+  </div>
+  </div>  
+  <br>
+  <table class="table">
+  <thead>
+  <tr>
+  <th>ID Number</th>
+  <th>Students Name</th>
+  <th>Information</th>
+  
+  
+  
+  </tr>
+  </thead>
+  <br>
+  
+  {% for object in student reversed %}
+  
+  <tbody>
+  <tr>
+  <td  data-label="ID Number">{{object.studnumber}}</td>
+  <td data-label="Name"> {{object.lastname}}, &nbsp; {{object.firstname}}</td>
+  <td><a href="{% url 'counselor_view_detail_feedback' object.id %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
+  </tr>
+  </tbody>
+  
+  
+  
+  {%endfor %}
+  </table>
+  </div>
+  
+  {% endblock %}

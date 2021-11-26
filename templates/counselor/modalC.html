@@ -214,6 +214,50 @@
     padding-left: 10px;
     width: 8%;
 }
+.buttons{
+  width: 200px;
+  height: auto;
+  border: 5em;
+  cursor: pointer;
+  outline: none;
+  font-size: 16px;
+  -webkit-transform: translate(0);
+  transform: translate(0);
+  background-image: linear-gradient(45deg, #98b4ac, #4863A0);
+  padding: 0.7em 2em;
+  border-radius: 65px;
+  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
+  -webkit-transition: box-shadow 0.25s;
+  transition: box-shadow 0.25s;
+  color: white;
+}
+.buttons .text {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(45deg, #4863A0, #98b4ac);
+}
+
+.buttons:after {
+  content: "";
+  border-radius: 18px;
+  position: absolute;
+  margin: 4px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  background: #E5E4E2;
+}
+
+.buttons:hover {
+  background-image: linear-gradient(-45deg, #98b4ac, #4863A0);
+  box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
+}
+
+.buttons:hover .text {
+  background-image: linear-gradient(-45deg, #4863A0, #98b4ac);
+}
   </style>
 
 
@@ -272,11 +316,9 @@
      </div>
   </div>
 
-<a href="{% url 'counselor_feedback' object.id %}">  <div class="table-head1">
-  <div class="table-cell1 first-cell1">
-      <p class="listTitle">Feedback</p>
-  </div>
-</div> </a>
+<a href="{% url 'counselor_feedback' object.id %}">  
+  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
+<br>
 <br>
            {% endfor %}
 

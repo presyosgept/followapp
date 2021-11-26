@@ -118,7 +118,7 @@ Schedule
     line-height: 5px;
       box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
       width: 500px;
-      margin-left: 355px;
+      margin:auto;
       border-radius: 20px;
 }
 .table-head .table-cell{
@@ -191,62 +191,50 @@ p{
     
 </style>
 
-
-
-
-
-
-
-
-
-
-
-
-<div class="table-cont">
+<div class="table-cont" style="overflow-y: scroll;">
                                          <div class="table-row table-head">
       <div class="table-cell first-cell">
           <p class="listTitle">TODAY'S LIST SCHEDULES</p>
       </div>
   </div>  
 <table class="table">
-   <thead>
-       <tr>
-           <th>Time</th>
-           <th>Service</th>
-           <th>Information</th>
-           
+  <thead>
+  <tr>
+    <th>Time</th>
+    <th>Service</th>
+    <th>Information</th>
+  </tr>
+  </thead>
+  <br>
 
+  {% for obj in time %}
    
+    <tbody>
+  <tr>
+       {% if forloop.counter0|divisibleby:2 %}
+    <td  data-label="ID Number">{{obj}} 
+{% endif %} 
+    </td> 
+     {% if forloop.counter0|divisibleby:2 == 0 %}
+        <td  data-label="ID Number"> <br>
 
-       </tr>
-   </thead>
-   <br>
-
-      {% for obj in time %}
-     
-        {{obj}} <br>
-         {% for object in schedForToday %}
-
-             {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
-
-
-
-          "Service"  <br>
-          "Description" {{object.choice}} <br>
-       
-     <a style="color: black;"href="#"><b>View More Information</b></a> <br>
-     
+    </td> 
+          {% endif %} 
+    
+  {% for object in schedForToday %}
+  {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
+  <td data-label="Scheduling">{{object.choice}} </td>
+  <td data-label="Info"><a style="color: black;"href="#"><b>View More Information</b></a> <br></td>
+  </tr>
+  </tbody>
   {% endif %} 
-
-   {%endfor %}
-
-
-
-   {%endfor %}
-
-  
-</table>
+  {%endfor %}
+     {%endfor %}
+  </table>
 </div>
+
+<!-- dzai ingn ana jud ang output ana kay si IMO MAN GBUTNG DIHA NGA LOOP NGA DI MANA SYA DIHA IBUTANG ADTO RANA SYA SA GAWAS MAO BITAW 
+NAG IF KO DIHAA -->
 
 
 {% endblock %}
