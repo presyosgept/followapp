@@ -224,10 +224,16 @@ p{
   {% for object in schedForToday %}
   {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
   <td data-label="Scheduling">{{object.choice}} </td>
-  <td data-label="Info"><a style="color: black;"href="#"><b>View More Information</b></a> <br></td>
+
+   {% if object.choice|stringformat:"s" == "class" %} 
+  <td data-label="Info"><a style="color: black;"href="{% url 'counselor_detail_schedule_class' object.offer_code object.sem_id object.academic_year %}"><b>View More Information</b></a> <br></td>
+    {% else %} 
+     <td data-label="Info"><a style="color: black;"href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
+   
+  {% endif %} 
   </tr>
   </tbody>
-  {% endif %} 
+    {% endif %} 
   {%endfor %}
      {%endfor %}
   </table>

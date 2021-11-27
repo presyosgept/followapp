@@ -514,9 +514,6 @@ def admin_view_offering(request):
     global sem
     global sy
     global dep
-    print("semseter " + str(sem))
-    print("schoolyear " + str(sy))
-    print("depa " + str(dep))
     semester = ''
     if sem== "1ST SEM": 
         semester = "101"
@@ -524,22 +521,15 @@ def admin_view_offering(request):
         semester = "201"
 
     depa = Department.objects.get(department_name=dep)
-    print("chuchcu " + str(depa.department_id))
     allsubj = AllSubject.objects.filter (department_id_id = depa.department_id)
     qs = OfferCode.objects.filter(sem_id = semester , academic_year = sy)
     offering=[]
     for a in allsubj:
-        print("a")
-        print(a.subject_code)
         for b in qs:
-            print("b")
-            print(b.subject_code)
             if(a.subject_code == b.subject_code):
-                print("aaaaa")
                 offering.append(OfferCode(offer_code = b.offer_code,days = b.days,start_time= b.start_time,end_time= b.end_time,room = b.room,
                 subject_code = b.subject_code,sem_id=b.sem_id, academic_year = b.academic_year))
-                print(a.subject_code)
-                print(b.subject_code)
+            
 
     return render(request, "admin/viewoffering.html", {"forms" : offering})
 
@@ -971,47 +961,12 @@ def teacher_view_notif_detail(request, id):
         notif2 = notif2 - 1
     return render(request, "teacher/detailNotif.html", {"objects": detail,"form": user_name})
 
-
-
 #teacher
 
 #counselor
 @login_required(login_url='login')
 def counselor_home_view(request, *args, **kwargs):
-    # today = date.today()
-    # tomorrow=today
-    # i=0
-    # print("pifff")
-    # for i in range(3): 
-    #     tomorrow=tomorrow+timedelta(days=1)
-    #     print("pifff")
-    #     print(tomorrow)
-    # today = date.today()
-    # ugma = date.today() + timedelta(days=1)
-    # now = datetime.now()
-    # day_name=now.strftime("%a")
-    # adlaw = [day_name]
-    # days = SubjectOffered.objects.filter(dayofsub=adlaw)
-    # print("test piiiff sa subject chuchuc")
-    # print(days)
-    # counselorSchedulelist = []
     user = request.session.get('username')
-    # counselorSubject = Facultyload.objects.filter(employee_id = user)
-    # allSubject = SubjectOffered.objects.all()
-    # counselorsss = CounselorSchedule.objects.order_by('schedid')
-    # couns=CounselorSchedule.objects.all()
-    # days = SubjectOffered.objects.filter(dayofsub=day_name)
-    # for object in allSubject:
-    #     for object1 in counselorSubject:
-    #         if object.offer_no == object1.offer_no and day_name in object.dayofsub:
-    #             print("charooottt")
-    #             counselorSchedulelist.append(SubjectOffered(object.offer_no, 
-    #             object.subject_no,object.subject_title,object.dayofsub,
-    #             object.start_time,object.end_time,object.units))
-    # for object in counselorSchedulelist:
-    #     for object1 in couns:
-    #         if(object.start_time==object1.time1 or object.end_time==object1.time2):
-    #             CounselorSchedule.objects.filter(schedid=object1.schedid).update(service_offered='CLASS',description=object.offer_no)
     global notif
     counselor_name = Faculty.objects.filter(employee_id = user)
     return render(request, "counselor/counselor_home.html", {"notif":notif,"form": counselor_name})
@@ -1020,14 +975,13 @@ def counselor_home_view(request, *args, **kwargs):
 @login_required(login_url='login')
 def counselor_view_schedule(request, *args, **kwargs):
     user = request.session.get('username')
-
-    # counselor.employee_id= id number of the counselor
     today = date.today()
-    # //it depends on the buttton if unsay iclick as is sa nang today
     now = dt.datetime.now()
     day_name=now.strftime("%a")
     ClassesofCounselor= []
     ClassesCounselor = []
+    ClassesCounselorCheck=False
+    ScheduledReferralbyDayCheck=False
 
 
     OfferCodeCounselor = Facultyload.objects.filter(employee_id = user)
@@ -1040,6 +994,8 @@ def counselor_view_schedule(request, *args, **kwargs):
     else:
         OfferCodeCounselorChecker=False
 
+
+    
     if(OfferCodeCounselorChecker==True):
         for object in ClassesofCounselor:
             for d in object.days:
@@ -1097,7 +1053,7 @@ def counselor_view_schedule(request, *args, **kwargs):
                             if(timeArray[x]==object3.start_time):
                                 choice = 'class'
                                 classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
-                                start_time= time,end_time= object3.start_time,room = object3.room,
+                                start_time= time,end_time= object3.end_time,room = object3.room,
                                 subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
 
 
@@ -1120,7 +1076,7 @@ def counselor_view_schedule(request, *args, **kwargs):
                             if(timeArray[x]==object3.start_time):
                                 choice = 'class'
                                 classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
-                                start_time= time,end_time= object3.start_time,room = object3.room,
+                                start_time= time,end_time= object3.end_time,room = object3.room,
                                 subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
 
                                     
@@ -1143,20 +1099,14 @@ def counselor_view_schedule(request, *args, **kwargs):
                             if(timeArray[x]==object3.start_time):
                                 choice = 'class'
                                 classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
-                                start_time= time,end_time= object3.start_time,room = object3.room,
+                                start_time= time,end_time= object3.end_time,room = object3.room,
                                 subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
 
     elif(ClassesCounselorCheck==False and ScheduledReferralbyDayCheck ==False):
-                print("ddd")
                 for x in range(len(timeArray)):
                     if(timeArray[x] >= start and timeArray[x] < end):
                             one.append(timeArray[x])
                             time = timeArray[x]
-
-    print("abubu")
-    print(one)
-    print(two)
-    print(classForToday)
 
     counselor_name = Faculty.objects.filter(employee_id = user)
     return render(request, "counselor/schedule.html", {"schedForToday":classForToday, "time":one, "form": counselor_name})
@@ -1175,14 +1125,14 @@ def counselor_view_appointment(request, id):
     return render(request, "counselor/appointment.html",{"object":getappointmentToday,"form": counselor_name})
 
 @login_required(login_url='login')
-def counselor_detail_schedule_counseling(request, id):
+def counselor_detail_schedule_counseling(request, start, end, date):
     user = request.session.get('username')
     counselor_name = Faculty.objects.filter(employee_id = user)
-    session = TeachersReferral.objects.get(id=id)
+    session = TeachersReferral.objects.get(start_time=start, end_time=end, date=date)
     return render(request, "counselor/modalCounseling.html", {"object": session, "form": counselor_name})
 
 @login_required(login_url='login')
-def counselor_detail_schedule_class(request, offer_code, sem_id, year, ):
+def counselor_detail_schedule_class(request, offer_code, sem_id, year ):
     user = request.session.get('username')
     counselor_name = Faculty.objects.filter(employee_id = user)
     session = OfferCode.objects.get(offer_code=offer_code, sem_id=sem_id, academic_year=year)
