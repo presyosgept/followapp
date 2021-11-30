@@ -1437,28 +1437,141 @@ def student_schedule(request, *args, **kwargs):
 def view_schedule_student(request, *args, **kwargs):
     user = request.session.get('username')
     today = date.today()
-    now = datetime.now()
+    now = dt.datetime.now()
     day_name=now.strftime("%a")
+    ClassesofStudent= [] 
+    ClassesStudent = []
+    ClassesStudentCheck=False
+    ScheduledReferralbyDayCheck=False
+
+    OfferCodeStudent = Studentsload.objects.filter(studnumber = user)  
+    OfferCodeStudentChecker=bool(OfferCodeStudent)
+
+    
+    if(OfferCodeStudentChecker==True):            
+        for object in OfferCodeStudent:
+            Subject=OfferCode.objects.get(offer_code=object.offer_code_id)
+            ClassesofStudent.append(Subject)
+    else:
+        OfferCodeStudentChecker=False
+
+    if(OfferCodeStudentChecker==True):
+        for object in ClassesofStudent:
+            for d in object.days:
+                if d == day_name:
+                    ClassesStudent.append(OfferCode(offer_code = object.offer_code,days = object.days,
+                    start_time= object.start_time,end_time= object.start_time,room = object.room,
+                    subject_code = object.subject_code,sem_id=object.sem_id, academic_year = object.academic_year,))
+                    ClassesStudentCheck= True
+    else:
+        ClassesStudentCheck=False
+    
+    ScheduledReferralbyDay= TeachersReferral.objects.filter(date=today).order_by('start_time')
+    ScheduledReferralbyDayCheck=bool(ScheduledReferralbyDay)
+
+    timeArray = [] 
+    initialtime = 0
+
+    newTime = str(initialtime)+':00:00'
+    one = []
+    two = []
+    three= []
     getsched = []
     classForToday = []
-    getScheduleToday = StudentSetSched.objects.filter(date=today)
+
     getStudentsload = Studentsload.objects.filter(studnumber = user)  
     getOffercode = OfferCode.objects.all() 
-    for sl in getStudentsload: 
-        for oc in getOffercode: 
-            if sl.offer_code_id == oc.offer_code:
-                getsched.append(OfferCode(offer_code = oc.offer_code,days = oc.days,
-                start_time= oc.start_time,end_time= oc.end_time,room = oc.room,
-                subject_code = oc.subject_code,sem_id=oc.sem_id, academic_year = oc.academic_year))
-    for sched in getsched:
-        for d in sched.days:
-            if d == day_name:
-                classForToday.append(OfferCode(offer_code = sched.offer_code,days = sched.days,start_time= sched.start_time,end_time= sched.end_time,room = sched.room,
-                subject_code = sched.subject_code,sem_id=sched.sem_id, academic_year = sched.academic_year))
 
-    student_name = AllStudent.objects.filter(studnumber = user)
-    # {"object":classForToday,"object_list":getScheduleToday,"form": student_name}
-    return render(request, "student/viewschedule.html", {"object":classForToday,"object_list":getScheduleToday,"form": student_name})
+    for x in range(24):
+        timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
+        newTime = str(initialtime)+':30:00'  
+        timeArray.append(datetime.strptime(newTime, '%H:%M:%S').time())
+        initialtime = initialtime + 1   
+        newTime = str(initialtime)+':00:00'
+    
+    
+    start = datetime.strptime('8:00:00', '%H:%M:%S').time()
+    end = datetime.strptime('17:00:00', '%H:%M:%S').time()
+
+    if(ClassesStudentCheck==True and ScheduledReferralbyDayCheck ==True):
+                print("aaa")
+                for x in range(len(timeArray)):
+                    if(timeArray[x] >= start and timeArray[x] < end):
+                            one.append(timeArray[x])
+                            time = timeArray[x]
+                    for object2 in ScheduledReferralbyDay:
+                            if(timeArray[x]==object2.start_time):
+                                choice = 'counseling'
+                                classForToday.append(TeachersReferral(firstname=object2.firstname, 
+                                lastname=object2.lastname,studnumber=object2.studnumber,
+                                degree_program = object2.degree_program,subject_referred=object2.subject_referred,
+                                reasons=object2.reasons,behavior_problem = object2.behavior_problem, date =object2.date, 
+                                start_time =time, end_time =object2.end_time,choice = choice))
+                                
+                    for object3 in ClassesStudent:
+                            if(timeArray[x]==object3.start_time):
+                                choice = 'class'
+                                classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
+                                start_time= time,end_time= object3.end_time,room = object3.room,
+                                subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
+
+
+    elif(ClassesStudentCheck==False and ScheduledReferralbyDayCheck ==True):
+                print("bbb")
+                for x in range(len(timeArray)):
+                    if(timeArray[x] >= start and timeArray[x] < end):
+                            one.append(timeArray[x])
+                            time = timeArray[x]
+                    for object2 in ScheduledReferralbyDay:
+                            if(timeArray[x]==object2.start_time):
+                                choice = 'counseling'
+                                classForToday.append(TeachersReferral(firstname=object2.firstname, 
+                                lastname=object2.lastname,studnumber=object2.studnumber,
+                                degree_program = object2.degree_program,subject_referred=object2.subject_referred,
+                                reasons=object2.reasons,behavior_problem = object2.behavior_problem, date =object2.date, 
+                                start_time =time, end_time =object2.end_time,choice = choice))
+                                
+                    for object3 in ClassesStudent:
+                            if(timeArray[x]==object3.start_time):
+                                choice = 'class'
+                                classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
+                                start_time= time,end_time= object3.end_time,room = object3.room,
+                                subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
+
+                                    
+    elif(ClassesStudentCheck==True and ScheduledReferralbyDayCheck ==False):
+                print("ccc")
+                for x in range(len(timeArray)):
+                    if(timeArray[x] >= start and timeArray[x] < end):
+                            one.append(timeArray[x])
+                            time = timeArray[x]
+                    for object2 in ScheduledReferralbyDay:
+                            if(timeArray[x]==object2.start_time):
+                                choice = 'counseling'
+                                classForToday.append(TeachersReferral(firstname=object2.firstname, 
+                                lastname=object2.lastname,studnumber=object2.studnumber,
+                                degree_program = object2.degree_program,subject_referred=object2.subject_referred,
+                                reasons=object2.reasons,behavior_problem = object2.behavior_problem, date =object2.date, 
+                                start_time =time, end_time =object2.end_time,choice = choice))
+                                
+                    for object3 in ClassesStudent:
+                            if(timeArray[x]==object3.start_time):
+                                choice = 'class'
+                                classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
+                                start_time= time,end_time= object3.end_time,room = object3.room,
+                                subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
+
+    elif(ClassesStudentCheck==False and ScheduledReferralbyDayCheck ==False):
+                for x in range(len(timeArray)):
+                    if(timeArray[x] >= start and timeArray[x] < end):
+                            one.append(timeArray[x])
+                            time = timeArray[x]
+
+
+    student_name = AllStudent.objects.get(studnumber = user)
+    print("aaaaaaaaa")
+    print(one)
+    return render(request, "student/viewschedule.html", {"schedForToday":classForToday, "time":one,"form": student_name})
 
 @login_required
 def view_class_students(request, offer_code, sem_id, year):
@@ -1469,13 +1582,12 @@ def view_class_students(request, offer_code, sem_id, year):
     return render(request, "student/viewclass.html", context)
 
 @login_required
-def view_appointment_students(request, id):
+def view_appointment_students(request, start, end, date):
     user = request.session.get('username')
     student_name = AllStudent.objects.filter(studnumber = user)
-    getStudentsSched = StudentSetSched.objects.get(id = id)  
+    getStudentsSched =  TeachersReferral.objects.get(start_time=start, end_time=end, date=date)
     context = {"object":getStudentsSched,"form": student_name}
     return render(request, "student/viewappointment.html", context)
-
 
 @login_required
 def notifications_student(request):

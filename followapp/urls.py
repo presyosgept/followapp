@@ -188,7 +188,7 @@ urlpatterns = [
     path('student/notifications_student', notifications_student, name="notifications_student"),
     path('student/student_notif_detail/?P:<int:id>', student_notif_detail, name="student_notif_detail"),
     path('student/view_class_students/<str:offer_code>/<str:sem_id>/<str:year>', view_class_students, name="view_class_students"),
-    path('student/view_appointment_students/?P:<int:id>', view_appointment_students, name="view_appointment_students"),
+    path('student/view_appointment_students/<str:start>/<str:end>/<str:date>', view_appointment_students, name="view_appointment_students"),
 
 
 
