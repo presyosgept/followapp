@@ -190,17 +190,19 @@ margin-left: 15px;
 }
 
 </style>
-<br>
+
   <div class="table-cont">
     <div class="table-row table-head">
   <div class="table-cell first-cell">
   <p class="listTitle">Feedbacks</p>
   </div>
   </div>  
-  <br>
-  <table class="table">
+
+  <table class="table" style="color: #4863A0;">
   <thead>
   <tr>
+
+  <th>Date</th>
   <th>ID Number</th>
   <th>Students Name</th>
   <th>Information</th>
@@ -215,6 +217,7 @@ margin-left: 15px;
   
   <tbody>
   <tr>
+  <td  data-label="ID Number">{{object.date}}</td>
   <td  data-label="ID Number">{{object.studnumber}}</td>
   <td data-label="Name"> {{object.lastname}}, &nbsp; {{object.firstname}}</td>
   <td><a href="{% url 'counselor_view_detail_feedback' object.id %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>

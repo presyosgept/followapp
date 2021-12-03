@@ -110,8 +110,102 @@ margin-bottom:15px;
     height: 30px;
     color: #000;
 }
+.buttons{
+  width: 200px;
+  height: auto;
+  border: 5em;
+  cursor: pointer;
+  outline: none;
+  font-size: 16px;
+  -webkit-transform: translate(0);
+  transform: translate(0);
+  background-image: linear-gradient(45deg, #98b4ac, #4863A0);
+  padding: 0.7em 2em;
+  border-radius: 65px;
+  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
+  -webkit-transition: box-shadow 0.25s;
+  transition: box-shadow 0.25s;
+  color: white;
+}
+.buttons .text {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(45deg, #4863A0, #98b4ac);
+}
+
+.buttons:after {
+  content: "";
+  border-radius: 18px;
+  position: absolute;
+  margin: 4px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  background: #E5E4E2;
+}
+
+.buttons:hover {
+  background-image: linear-gradient(-45deg, #98b4ac, #4863A0);
+  box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
+}
+
+.buttons:hover .text {
+  background-image: linear-gradient(-45deg, #4863A0, #98b4ac);
+}
+.table-head{
+  
+    background: #E5E4E2;
+    box-shadow: none;
+    color: #fff;
+    font-weight: 600;
+    line-height: 5px;
+      box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+      width: 500px;
+      margin:auto;
+      border-radius: 20px;
+}
+.table-head .table-cell{
+    border-right: none;
+}
+.table-cell{
+    display: table-cell;
+    width: 20%;
+    text-align: center;
+    padding: 4px 0;
+    border-right: 1px solid #838996;
+    vertical-align: middle;
+}
+.first-cell{
+    text-align: left;
+    padding-left: 10px;
+    width: 8%;
+}
+.last-cell{
+    border-right: none;
+    width: 15px;
+}
+p{
+  font-size: 17px;
+  color: black;
+}
+.listTitle{
+  font-size: 20px;
+  text-align: center;
+}
+@media only screen and (max-width: 600px) {
+  .table-row {
+    font-size: 11px;
+  }
+}
   </style>
 
+                                           <div class="table-row table-head">
+      <div class="table-cell first-cell">
+          <p class="listTitle">SCHEDULE INFORMATION</p>
+      </div>
+  </div>  
 <form action="#" class="cleanForm" method="POST">
   {% for message in messages %}
   <center> <p style=" margin-left: auto;"><b>{{message}} !</b></p> </center>
@@ -128,14 +222,16 @@ margin-bottom:15px;
            <i><h4  class="bText" >Input Reasons below:</h4> </i>
            {{schedform.reasons}}
            <br> <br>
-          <button class="btn success" style="font-weight: bold;">Submit</button>
+          <button class="buttons" style="font-weight: bold; color: #454545;">Submit</button>
+          <!-- // E TUPONG ANG BUTTON OG TITLE IF EITHER LAPTOP OR MONITOR // -->
           </form>
 
         </div>
-     
+
 
       
   </form>
+     <br>  
 
    
 {% endblock %}

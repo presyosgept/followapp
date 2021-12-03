@@ -5,6 +5,14 @@ from django.contrib.auth.forms import User
 from django.forms import ModelForm, widgets, DateTimeField, DateField, DateInput
 from django import forms
 
+
+from functools import partial
+DateInput = partial(forms.DateInput, {'class': 'datepicker'})
+
+class DateForm(forms.Form):
+    start_date = forms.DateField(widget=DateInput())
+    end_date = forms.DateField(widget=DateInput())
+    
 class DepaChoiceForm(forms.ModelForm):
 	class Meta:
 		model = DepaChoice

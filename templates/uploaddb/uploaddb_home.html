@@ -364,7 +364,7 @@ img {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 98%;
-  height: 500px;
+  height: 520px;
   border-radius: 5px;
   background-color: var(--container-color); 
   float: center;
@@ -373,7 +373,8 @@ img {
   margin-right: 90px;
   margin-left: 25px;
   text-align: center;
-  overflow-x: scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .card1:hover {
@@ -500,9 +501,14 @@ img {
             <section id="notif" >
                 <br>
                 <div class="card1">
-           <br>
+       
          {% block content %} 
-      
+            <br>
+
+    <img style="max-width: 700px;
+  height: 495px; " 
+  src="https://images.squarespace-cdn.com/content/v1/569398c29cadb61a0a1c632c/1586731980917-OHOK7LERGVCG99ZJUFRL/TWC_Online-Therapy_couples.png?format=750w"  
+ >
            
            {% endblock %}  
          </div>

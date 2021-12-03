@@ -6,241 +6,184 @@ Schedule
 
 {% block content %} 
 <style>
-   
-          .center {
-            margin-left: auto;
-            margin-right: auto;
-          }
-          .txtFont{
-            font-family: Arial, Helvetica, sans-serif;
-            color: black;
-            text-align:left; margin-right: 100px; font-size: 20px;
-          }
-          .txtFonty{
-            font-family: Arial, Helvetica, sans-serif;
-            color: black;
-            text-align:left; margin-right: 100px; font-size: 17px;
-          }
-          .last{
-             font-size: 25px;
-          }
-   
 
+div.table-title {
+   display: block;
+  margin: auto;
 
-    .card-text{
-        display: inline;
-        flex-direction: row;
-        justify-content: start;
-        width: 600px;
-        /* margin-right: 600px; */
-        
-    }
-
-
-    .card-img{
-        width: 160px;
-        height: 160px;
-        border-radius: 50%;
-        float: left;
-        margin-left: 80px;
-        margin-top: 20px;
-       
-    }
-
-
-    .card-description{
-        margin: 10px 0;
-    }
-
-
-    .card-link{
-        margin-top: 20px;
-    }
-    .card-img{
-        background-color: transparent;
-    
-        float: left;
-    }
-
-    .card-title{
-        font-size: 20px;
-        color: #334155;
-        margin-right: 800px;
-        margin-left: 160px;
-        margin-bottom: 40px;
-        padding: auto;
-    }
-    .card-stud{
-        font-size: 23px;
-        color: #334155;
-        margin-right: 90px; line-height: 5%;
-        font-weight: 600;
-    } 
-    .card-description{
-        font-size: 12px;
-        color: #64748B;
-    }
-
-    .card-link{
-        font-size: 12px;
-        color: #4F46E5;
-    }
-/* === TABLE ==== */
-.table-box
-{
-    
-    margin-bottom: 40px;
-    margin-left: 150px;
-    vertical-align:top;
+  padding:5px;
+ 
 }
 
-/* .table-row{
-    display: table;
-    width: 40%;
-    margin: 10px auto;
-    font-family: sans-serif;
-    background: transparent;
-    padding: 4px 0;
-    color: #555;
-    font-size: 13px;
-    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-    height: 0.1%;
-    border-radius: 20px;
-    margin-top: 50px;
-     
-} */
-.table-head{
+.table-title h3 {
+   color: #fafafa;
+   font-size: 30px;
+   font-weight: 400;
+   font-style:normal;
+   font-family: "Roboto", helvetica, arial, sans-serif;
+   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+   text-transform:uppercase;
+
+}
+
+
+/*** Table Styles **/
+
+/* .table-fill {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 320px;
+  margin: auto;
+  max-width: 100px;
+  padding:5px;
+  width: 200%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+  */
+th {
+  color:#413839;
+  background:#C1C3D1;
+  border-bottom:4px solid #C1C3D1;
+  border-right: 1px solid  #C1C3D1;
+  font-size:23px;
+  font-weight: 100;
+  padding: 10px;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+  min-width: 355px;
+
+}
+
+th:first-child {
+  border-top-left-radius:3px;
+}
+ 
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+
+}
   
-    background: #E5E4E2;
-    box-shadow: none;
-    color: #fff;
-    font-weight: 600;
-    line-height: 5px;
-      box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-      width: 500px;
-      margin:auto;
-      border-radius: 20px;
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom: 1px solid #C1C3D1;
+  color:#504A4B;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+
 }
-.table-head .table-cell{
-    border-right: none;
+ 
+tr:hover td {
+  background:#4863A0;
+  color:#4863A0;
+  border-top: 1px solid #4863A0;
 }
-.table-cell{
-    display: table-cell;
-    width: 20%;
-    text-align: center;
-    padding: 4px 0;
-    border-right: 1px solid #838996;
-    vertical-align: middle;
+ 
+tr:first-child {
+  border-top:none;
 }
-.first-cell{
-    text-align: left;
-    padding-left: 10px;
-    width: 8%;
+
+tr:last-child {
+  border-bottom:none;
 }
-.last-cell{
-    border-right: none;
-    width: 15px;
+ 
+tr:nth-child(odd) td {
+  background:#EBEBEB;
 }
-/* a{
-    textdecoration: none;
-    color: #555;
-} */
-p{
-  font-size: 17px;
-  color: black;
+ 
+tr:nth-child(odd):hover td {
+  background:#C1C3D1;
 }
-.listTitle{
-  font-size: 20px;
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+td {
+  background:#FFFFFF;
+  padding: 10px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300;
+  font-size:18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+ 
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
   text-align: center;
 }
-@media only screen and (max-width: 600px) {
-  .table-row {
-    font-size: 11px;
-  }
-}
-.trow-list{
-      display:inline-block;
-    width: 85%;
-   
-    font-family: sans-serif;
-    background: transparent;
-    padding: 4px 0;
-    color: #555;
-    font-size: 13px;
-    
-    height: 15px;
-    
-   
-     vertical-align:top;
-     margin-bottom: 100px;
 
+th.text-right {
+  text-align: right;
 }
-.modal{
-  font-size: 19px;
-}
-.container{
-  border-radius: 10px;
-      background-color: #B4CFEC;
-      box-shadow:
-        0 9px 33px rgba(0, 0, 0, 0.07);
-  width: 1200px;
-  height: 400px;
-  float: center;
-  margin-left: 15px;
-}
-    
-</style>
 
-<div class="table-cont" style="overflow-y: scroll;">
-                                         <div class="table-row table-head">
-      <div class="table-cell first-cell">
-          <p class="listTitle">TODAY'S LIST SCHEDULES</p>
-      </div>
-  </div>  
-<table class="table">
-  <thead>
-  <tr>
-    <th>Time</th>
-    <th>Service</th>
-    <th>Information</th>
-  </tr>
-  </thead>
+td.text-left {
+  text-align: center;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+td.text-right {
+  text-align: right;
+}
+
+  </style>
   <br>
 
-  {% for obj in time %}
-   
-    <tbody>
-  <tr>
-       {% if forloop.counter0|divisibleby:2 %}
-    <td  data-label="ID Number">{{obj}} 
-{% endif %} 
-    </td> 
-     {% if forloop.counter0|divisibleby:2 == 0 %}
-        <td  data-label="ID Number"> <br>
-
-    </td> 
-          {% endif %} 
-    
-  {% for object in schedForToday %}
-  {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
-  <td data-label="Scheduling">{{object.choice}} </td>
-
-   {% if object.choice|stringformat:"s" == "class" %} 
-  <td data-label="Info"><a style="color: black;"href="{% url 'counselor_detail_schedule_class' object.offer_code object.sem_id object.academic_year %}"><b>View More Information</b></a> <br></td>
-    {% else %} 
-     <td data-label="Info"><a style="color: black;"href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
-   
+    <table class="table-fill">
+    <thead style="height: 20px;">
+    <tr>
+    <th class="text-left">Time</th>
+    <th class="text-left">Service</th>
+    <th class="text-left">Information</th>
+    </tr>
+    </thead>
+    {% for obj in time %}
+    <tbody class="table-hover">
+        <tr>
+            {% if forloop.counter0|divisibleby:2 %}
+            <td>{{obj}}
+                {% endif %}
+            </td>
+            {% if forloop.counter0|divisibleby:2 == 0 %}
+            <td>  </td>
+            {% endif %} 
+            {% for object in schedForToday %}
+            {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
+            <td>{{object.choice}}</td>
+            {% if object.choice|stringformat:"s" == "Class" %} 
+            <td data-label="Info"><a style="color: #504A4B"
+                href="{% url 'counselor_detail_schedule_class' object.offer_code object.sem_id object.academic_year %}"><b>View More Information</b></a> <br></td>
+  {% else %} 
+  <td data-label="Info"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
+  
   {% endif %} 
-  </tr>
-  </tbody>
+        </tr>
+    </tbody>
     {% endif %} 
-  {%endfor %}
-     {%endfor %}
-  </table>
-</div>
-
-<!-- dzai ingn ana jud ang output ana kay si IMO MAN GBUTNG DIHA NGA LOOP NGA DI MANA SYA DIHA IBUTANG ADTO RANA SYA SA GAWAS MAO BITAW 
-NAG IF KO DIHAA -->
-
+    {%endfor %}
+    {%endfor %}
+    </table>
+    <br>
 
 {% endblock %}

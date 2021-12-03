@@ -214,8 +214,8 @@ img {
 }
 
 .nav__name {
-  font-size: 15px;
-  font-weight: var(--font-medium);
+  font-size: var(--small-font-size);
+  font-weight: var(--font-semi-bold);
   white-space: nowrap;
 }
 
@@ -692,9 +692,9 @@ p{
              
 
                 <div>
-                        {% for object in form %} 
-                              <p style="font-weight: bold;"> {{object.firstname }} {{object.lastname }} </p>
-                                   {% endfor %} 
+                       
+                              <p style="font-weight: bold;"> {{form.firstname }} {{form.lastname }} </p>
+                                  
                                    </div>
               </div>
         </header>
@@ -716,20 +716,12 @@ p{
                               <i class='bx bx-bell nav__icon' ></i>
                               <span class="nav__name">Notifications {{notif2}}</span>
                           </a>
-                          
-
-                            <a href="{% url 'teacher_home_view' %}" class="nav__link">
-                                <i class='bx bx-home nav__icon' ></i>
-                                <span class="nav__name">Home</span>
-                            </a>
                             
                               <a href="{% url 'teacher_view_referred_students' %}" class="nav__link">
                                   <i class='bx bx-navigation nav__icon' ></i>
                                   <span class="nav__name">View Referred Student</span>
                                   <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
                               </a>
-
-                            
                         </div>
 
               <a href="{% url 'logout' %}" class="nav__link nav__logout">

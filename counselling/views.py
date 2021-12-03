@@ -20,7 +20,7 @@ from datetime import date,datetime,timedelta
 
 import datetime as dt
 
-from .forms import DepaChoiceForm,OfferingForm,StudentSetSchedForm,CounselorFeedbackForm,VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
+from .forms import DateForm,DepaChoiceForm,OfferingForm,StudentSetSchedForm,CounselorFeedbackForm,VerificationForm,AccountCreatedForm,AccountsForm,CounselorForm, TeachersReferralForm, StudentsForm,CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
 from .models import  DepaChoice,Offering,StudentSetSched,NotificationFeedback,CounselorFeedback,SubjectWithSem,Semester,AccountCreated,Faculty,Counselor,Notification,Counselor,TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
 from .resources import SubjectWithSemResource,SemesterResource,StudentsloadResource,FacultyResource,CounselorResource,TeachersReferralResource, SubjectOfferedResource,FacultyloadResource
@@ -663,7 +663,7 @@ def upload_facultyload(request):
 @login_required(login_url='login')
 def teacher_home_view(request, *args, **kwargs):
     user = request.session.get('username')
-    user_name = Faculty.objects.filter(employee_id = user)
+    user_name = Faculty.objects.get(employee_id = user)
     fload = Facultyload.objects.filter(employee_id = user)
 
     # studentReferred //student id of t the student referred
@@ -680,7 +680,7 @@ def new(request,stud,id):
     time2 = ""
     subj = OfferCode.objects.get(offer_code=id)
     user = request.session.get('username')
-    user_name = Faculty.objects.filter(employee_id = user)
+    user_name = Faculty.objects.get(employee_id = user)
     studentReferred = AllStudent.objects.get(studnumber=stud)
     subject_referred = subj.subject_code
     form = TeachersReferralForm(instance=studentReferred, initial={'subject_referred': subject_referred })
@@ -857,9 +857,8 @@ def new(request,stud,id):
                 create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(stud), schedDay = tomorrow , schedStartTime = time1 , schedEndTime = time2)
                 messages.info(request, 'Successfully Referred the Student')
                 print("eeeeeeeee")
-
-    context = {"form1": form,"form":user_name}
-    return render(request, "teacher/new.html", context )
+    global notif2
+    return render(request, "teacher/new.html", {"notif2":notif2,"form1": form,"form":user_name} )
 
 
 
@@ -887,19 +886,22 @@ def teacher_view_students(request, id):
             if allstud.studnumber == stud.studnumber:
                 finalstudentlist.append(AllStudent(allstud.studnumber,allstud.firstname,allstud.lastname))
     user = request.session.get('username')
-    user_name = Faculty.objects.filter(employee_id = user)
-    return render(request, "teacher/list_students.html", {"id": id,"object_list": finalstudentlist,"form": user_name})
+    user_name = Faculty.objects.get(employee_id = user)
+    global notif2
+    return render(request, "teacher/list_students.html", {"notif2":notif2,"id": id,"object_list": finalstudentlist,"form": user_name})
 
 @login_required(login_url='login')
 def teacher_view_referred_students(request, *args, **kwargs):
+    global notif2
     user = request.session.get('username')
     qs = TeachersReferral.objects.filter(employeeid = user)
     user = request.session.get('username')
-    user_name = Faculty.objects.filter(employee_id = user)
-    return render(request, "teacher/list_referred_students.html", {"object_list": qs,"form": user_name})
+    user_name = Faculty.objects.get(employee_id = user)
+    return render(request, "teacher/list_referred_students.html", {"notif2":notif2,"object_list": qs,"form": user_name})
 
 @login_required(login_url='login')
 def teacher_view_detail_referred_students(request, id):
+    global notif2
     user = request.session.get('username')
     detail=[]
     qs = TeachersReferral.objects.filter(employeeid = user)
@@ -910,14 +912,14 @@ def teacher_view_detail_referred_students(request, id):
             degree_program = referedStud.degree_program,subject_referred=referedStud.subject_referred,
             reasons=referedStud.reasons,behavior_problem = referedStud.behavior_problem))
     user = request.session.get('username')
-    user_name = Faculty.objects.filter(employee_id = user)
-    return render(request, "teacher/modal.html", {"object_list": detail,"form": user_name})
+    user_name = Faculty.objects.get(employee_id = user)
+    return render(request, "teacher/modal.html", {"notif2":notif2,"object_list": detail,"form": user_name})
 
 
 @login_required(login_url='login')
 def teacher_coursecard(request, *args, **kwargs):
     user = request.session.get('username')
-    qs = Facultyload.objects.filter(employee_id = user)
+    qs = Facultyload.objects.get(employee_id = user)
     context = {"object_list": qs}
     return render(request, "teacher/about.html",)
 
@@ -940,8 +942,8 @@ def notifications_teacher(request):
             return render(request, "teacher/counselor.html", {})
 
     notif = NotificationFeedback.objects.filter(to_user = user)
-    counselor_name = Faculty.objects.filter(employee_id = user)
-    return render(request, 'teacher/notification.html', {"notifications":notif,"form": counselor_name} )
+    user_name = Faculty.objects.get(employee_id = user)
+    return render(request, 'teacher/notification.html', {"notifications":notif,"form": user_name} )
 
 @login_required(login_url='login')
 def teacher_view_notif_detail(request, id):
@@ -956,7 +958,7 @@ def teacher_view_notif_detail(request, id):
             detail.append(TeachersReferral(firstname=referedStud.firstname, 
             lastname=referedStud.lastname,studnumber=referedStud.studnumber,
             degree_program = referedStud.degree_program, subject_referred=referedStud.subject_referred,feedback = fback.feedback))
-    user_name = Faculty.objects.filter(employee_id = user)
+    user_name = Faculty.objects.get(employee_id = user)
     if notif2 != 0:
         notif2 = notif2 - 1
     return render(request, "teacher/detailNotif.html", {"objects": detail,"form": user_name})
@@ -1042,7 +1044,7 @@ def counselor_view_schedule(request, *args, **kwargs):
                             time = timeArray[x]
                     for object2 in ScheduledReferralbyDay:
                             if(timeArray[x]==object2.start_time):
-                                choice = 'counseling'
+                                choice = 'Counseling'
                                 classForToday.append(TeachersReferral(firstname=object2.firstname, 
                                 lastname=object2.lastname,studnumber=object2.studnumber,
                                 degree_program = object2.degree_program,subject_referred=object2.subject_referred,
@@ -1051,7 +1053,7 @@ def counselor_view_schedule(request, *args, **kwargs):
                                 
                     for object3 in ClassesCounselor:
                             if(timeArray[x]==object3.start_time):
-                                choice = 'class'
+                                choice = 'Class'
                                 classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
                                 start_time= time,end_time= object3.end_time,room = object3.room,
                                 subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
@@ -1065,7 +1067,7 @@ def counselor_view_schedule(request, *args, **kwargs):
                             time = timeArray[x]
                     for object2 in ScheduledReferralbyDay:
                             if(timeArray[x]==object2.start_time):
-                                choice = 'counseling'
+                                choice = 'Counseling'
                                 classForToday.append(TeachersReferral(firstname=object2.firstname, 
                                 lastname=object2.lastname,studnumber=object2.studnumber,
                                 degree_program = object2.degree_program,subject_referred=object2.subject_referred,
@@ -1074,7 +1076,7 @@ def counselor_view_schedule(request, *args, **kwargs):
                                 
                     for object3 in ClassesCounselor:
                             if(timeArray[x]==object3.start_time):
-                                choice = 'class'
+                                choice = 'Class'
                                 classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
                                 start_time= time,end_time= object3.end_time,room = object3.room,
                                 subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
@@ -1088,7 +1090,7 @@ def counselor_view_schedule(request, *args, **kwargs):
                             time = timeArray[x]
                     for object2 in ScheduledReferralbyDay:
                             if(timeArray[x]==object2.start_time):
-                                choice = 'counseling'
+                                choice = 'Counseling'
                                 classForToday.append(TeachersReferral(firstname=object2.firstname, 
                                 lastname=object2.lastname,studnumber=object2.studnumber,
                                 degree_program = object2.degree_program,subject_referred=object2.subject_referred,
@@ -1097,7 +1099,7 @@ def counselor_view_schedule(request, *args, **kwargs):
                                 
                     for object3 in ClassesCounselor:
                             if(timeArray[x]==object3.start_time):
-                                choice = 'class'
+                                choice = 'Class'
                                 classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
                                 start_time= time,end_time= object3.end_time,room = object3.room,
                                 subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
@@ -1241,13 +1243,16 @@ def notifications(request):
     return render(request, 'counselor/notification.html', {"notifications":notif,"form": counselor_name} )
 
 
-# student
+#student
 @login_required(login_url='login')
 def student_home_view(request, *args, **kwargs):
     global notif1
     
     user = request.session.get('username')
-    student_name = AllStudent.objects.filter(studnumber = user)
+    student_name = AllStudent.objects.get(studnumber = user)
+ 
+
+
     return render(request, "student/student_home.html", {"notif1":notif1,"form": student_name})
 
 @login_required(login_url='login')
@@ -1403,10 +1408,6 @@ def student_schedule(request, *args, **kwargs):
                                 time1='' 
                 ScheduledReferralbyDay=[]
                 ClassesCounselor=[]
-            print("aaaa")
-            print(time1)
-            print(time2)
-            print(tomorrow)
             if(time1!='' and time2!=''):
                 schedForm.save()
                 qs = Counselor.objects.get(program_designation = degree.program_code)
@@ -1428,13 +1429,12 @@ def student_schedule(request, *args, **kwargs):
                 notif1 = notif1 + 1
                 create_notification(qs.employee_id, user, 'appointment', extra_id=int(student_name.studnumber), schedDay = tomorrow , schedStartTime = time1 , schedEndTime = time2)
                 messages.info(request, 'Successfully Set Schedule')
-                print("eeeeeeeee")
-
-    context = {"schedform": schedForm,"form": student_name}
-    return render(request, "student/schedule.html",context)
+                
+    return render(request, "student/schedule.html",{"notif1":notif1,"schedform": schedForm,"form": student_name})
 
 @login_required
 def view_schedule_student(request, *args, **kwargs):
+    global notif1
     user = request.session.get('username')
     today = date.today()
     now = dt.datetime.now()
@@ -1501,7 +1501,7 @@ def view_schedule_student(request, *args, **kwargs):
                             time = timeArray[x]
                     for object2 in ScheduledReferralbyDay:
                             if(timeArray[x]==object2.start_time):
-                                choice = 'counseling'
+                                choice = 'Counseling'
                                 classForToday.append(TeachersReferral(firstname=object2.firstname, 
                                 lastname=object2.lastname,studnumber=object2.studnumber,
                                 degree_program = object2.degree_program,subject_referred=object2.subject_referred,
@@ -1510,7 +1510,7 @@ def view_schedule_student(request, *args, **kwargs):
                                 
                     for object3 in ClassesStudent:
                             if(timeArray[x]==object3.start_time):
-                                choice = 'class'
+                                choice = 'Class'
                                 classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
                                 start_time= time,end_time= object3.end_time,room = object3.room,
                                 subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
@@ -1524,7 +1524,7 @@ def view_schedule_student(request, *args, **kwargs):
                             time = timeArray[x]
                     for object2 in ScheduledReferralbyDay:
                             if(timeArray[x]==object2.start_time):
-                                choice = 'counseling'
+                                choice = 'Counseling'
                                 classForToday.append(TeachersReferral(firstname=object2.firstname, 
                                 lastname=object2.lastname,studnumber=object2.studnumber,
                                 degree_program = object2.degree_program,subject_referred=object2.subject_referred,
@@ -1533,7 +1533,7 @@ def view_schedule_student(request, *args, **kwargs):
                                 
                     for object3 in ClassesStudent:
                             if(timeArray[x]==object3.start_time):
-                                choice = 'class'
+                                choice = 'Class'
                                 classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
                                 start_time= time,end_time= object3.end_time,room = object3.room,
                                 subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
@@ -1547,7 +1547,7 @@ def view_schedule_student(request, *args, **kwargs):
                             time = timeArray[x]
                     for object2 in ScheduledReferralbyDay:
                             if(timeArray[x]==object2.start_time):
-                                choice = 'counseling'
+                                choice = 'Counseling'
                                 classForToday.append(TeachersReferral(firstname=object2.firstname, 
                                 lastname=object2.lastname,studnumber=object2.studnumber,
                                 degree_program = object2.degree_program,subject_referred=object2.subject_referred,
@@ -1556,7 +1556,7 @@ def view_schedule_student(request, *args, **kwargs):
                                 
                     for object3 in ClassesStudent:
                             if(timeArray[x]==object3.start_time):
-                                choice = 'class'
+                                choice = 'Class'
                                 classForToday.append(OfferCode(offer_code = object3.offer_code,days = object3.days,
                                 start_time= time,end_time= object3.end_time,room = object3.room,
                                 subject_code = object3.subject_code,sem_id=object3.sem_id, academic_year = object3.academic_year,choice = choice))
@@ -1571,23 +1571,24 @@ def view_schedule_student(request, *args, **kwargs):
     student_name = AllStudent.objects.get(studnumber = user)
     print("aaaaaaaaa")
     print(one)
-    return render(request, "student/viewschedule.html", {"schedForToday":classForToday, "time":one,"form": student_name})
+    return render(request, "student/viewschedule.html", {"notif1":notif1,"schedForToday":classForToday, "time":one,"form": student_name})
 
 @login_required
 def view_class_students(request, offer_code, sem_id, year):
+    global notif1
     user = request.session.get('username')
-    student_name = AllStudent.objects.filter(studnumber = user)
+    student_name = AllStudent.objects.get(studnumber = user)
     session = OfferCode.objects.get(offer_code=offer_code, sem_id=sem_id, academic_year=year)
-    context = {"object":session,"form": student_name}
-    return render(request, "student/viewclass.html", context)
+  
+    return render(request, "student/viewclass.html", {"notif1":notif1,"object":session,"form": student_name})
 
 @login_required
 def view_appointment_students(request, start, end, date):
+    global notif1
     user = request.session.get('username')
-    student_name = AllStudent.objects.filter(studnumber = user)
+    student_name = AllStudent.objects.get(studnumber = user)
     getStudentsSched =  TeachersReferral.objects.get(start_time=start, end_time=end, date=date)
-    context = {"object":getStudentsSched,"form": student_name}
-    return render(request, "student/viewappointment.html", context)
+    return render(request, "student/viewappointment.html", {"notif1":notif1,"object":getStudentsSched,"form": student_name})
 
 @login_required
 def notifications_student(request):
@@ -1609,7 +1610,7 @@ def notifications_student(request):
     notif = Notification.objects.filter(extra_id=user)
     if notif is not None:
         print("becca")
-    student_name = AllStudent.objects.filter(studnumber = user)
+    student_name = AllStudent.objects.get(studnumber = user)
     return render(request, 'student/notification.html', {"notifications":notif,"form": student_name})
 
 @login_required
@@ -1628,8 +1629,8 @@ def student_notif_detail(request, id):
     if notif1 != 0:
         notif1 = notif1 - 1
     user = request.session.get('username')
-    student_name = AllStudent.objects.filter(studnumber = user)
-    return render(request, 'student/notif_detail.html', {"object_list":detail, "form": student_name})
+    student_name = AllStudent.objects.get(studnumber = user)
+    return render(request, 'student/notif_detail.html', {"notif1":notif1,"object_list":detail, "form": student_name})
 
 
 
