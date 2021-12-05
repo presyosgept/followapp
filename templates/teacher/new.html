@@ -244,6 +244,131 @@ margin-right: px;
 float: right;
 
 }
+   .fac{
+margin: auto;
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonF {
+width: 420px;
+height: 55px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #4863A0;
+border: none;
+border-radius: 45px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+margin: auto;
+}
+.buttons{
+  margin-left: auto;
+  width: 200px;
+  height: auto;
+  border: 5em;
+  cursor: pointer;
+  outline: none;
+  font-size: 16px;
+  -webkit-transform: translate(0);
+  transform: translate(0);
+  background-image: linear-gradient(45deg, #98b4ac, #4863A0);
+  padding: 0.7em 2em;
+  border-radius: 65px;
+  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
+  -webkit-transition: box-shadow 0.25s;
+  transition: box-shadow 0.25s;
+  color: white;
+}
+.buttons .text {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(45deg, #4863A0, #98b4ac);
+}
+
+.buttons:after {
+  content: "";
+  border-radius: 18px;
+  position: absolute;
+  margin: 4px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  background: #E5E4E2;
+}
+
+.buttons:hover {
+  background-image: linear-gradient(-45deg, #98b4ac, #4863A0);
+  box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
+}
+
+.buttons:hover .text {
+  background-image: linear-gradient(-45deg, #4863A0, #98b4ac);
+}
+.fac{
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonF {
+  padding: 13px;
+width: 445px;
+height: 45px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #4863A0;
+border: none;
+border-radius: 45px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+margin: auto;
+}
+.facers{
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonFed {
+  padding: 13px;
+width: 450px;
+height: 45px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #4863A0;
+border: none;
+border-radius: 45px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+margin: auto;
+}
 
   </style>
 
@@ -254,16 +379,17 @@ float: right;
     <!-- SEARCH BAR NI -->
 
     <div class="input">
-                     <div class="table-row table-head">
-            <div class="table-cell first-cell">
-                <p class="listTitle">Refer a Student</p>
-            </div>
-        </div>
+                  <div class="fac">
+                    <button type="submit" class="buttonF">My Subjects</button>
+                  </div> 
+                  &nbsp;
        <h3 style="font-weight: bold; text-align: center;" class="txtColor">&nbsp; &nbsp;  <i>To proceed with Referring a student, kindly input the following details.</i></h3>
 &nbsp;
-{% for message in messages %}
-          <center> <p>{{message}}</p> </center>
-      {% endfor %}
+        <div class="facers">
+          {% for message in messages %}
+     <p class="buttonFed">{{message}} !</p>
+     {% endfor %}
+    </div>
           <TABLE class="center" style="margin-left: 100px;">
 <TR>
 <TD><label class="txtFont"><b>Input Student ID:</b></label></TD>
@@ -293,10 +419,10 @@ float: right;
     
   &nbsp;    &nbsp;
   
-     <i><h4 style="margin-left: 95px; font-size: large;" >Reasons&nbsp;for&nbsp;Referral:</h4> </i>
+     <i><h4 style="margin-left: auto; font-size: large;" >Reasons&nbsp;for&nbsp;Referral:</h4> </i>
      {{form1.reasons}}
-     &nbsp;
-    <button class="btn success" style="font-weight: bold;">Submit</button>
+     <br> <br>
+    <button class="buttons" style="font-weight: bold;  color: #454545;">Submit</button>
    
   </div>
   </div>

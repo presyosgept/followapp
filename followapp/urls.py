@@ -49,6 +49,7 @@ from counselling.views import(
     teacher_view_detail_referred_students,
     teacher_view_notif_detail,
     notifications_teacher,
+    counselor_view_another_sched,
 
     #counselor
     counselor_home_view,
@@ -161,6 +162,8 @@ urlpatterns = [
     path('teacher/view_detail/?P:<int:id>', teacher_view_detail_referred_students, name='teacher_view_detail_referred_students'), 
     path('teacher/teacher_view_notif_detail/?P:<int:id>', teacher_view_notif_detail, name='teacher_view_notif_detail'), 
     path('teacher/notifications', notifications_teacher, name="notifications_teacher"),
+    path('teacher/counselor_view_another_sched/?P:<int:num>', counselor_view_another_sched, name='counselor_view_another_sched'), 
+    
 
 
     #counselor 

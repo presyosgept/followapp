@@ -162,6 +162,43 @@ div.item {
 #index-gallery{
   width:465px;
 }
+.fac{
+
+display: flex;
+align-items: left;
+justify-content: left;
+padding-left: 20px;
+
+}
+.feed{
+
+display: flex;
+align-items: left;
+justify-content: left;
+margin-left: 40px;
+text-align: left;
+white-space: normal;
+
+}
+
+.buttonF {
+width: 200px;
+height: 40px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #4863A0;
+border: none;
+border-radius: 45px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+}
+
 </style>
 
 
@@ -184,18 +221,15 @@ div.item {
     <div id="box">
   
       <br>        
-      <div class="trow-list">
-        <div  class="table-cell">
-      <p class="modal1"><b>Feedback:</b> &nbsp;</p>
-        </div> 
-  
-            <div class="table-cell">
-      <p class="modal2"> &nbsp; &nbsp; {{object.feedback}}</p> 
+      <div class="fac">
+        <button type="submit" class="buttonF">Feedback</button>
       </div> 
-      </div>
   
-  
+      <div class="feed">
+       <p style="font-size: 20px;">{{object.feedback}}</p>
+      </div> 
      </div>
      {% endfor %}
   </div>
 {% endblock %}
+

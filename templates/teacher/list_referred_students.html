@@ -6,160 +6,185 @@
 
 {% block content %} 
 <style>
-       .card{
-      display: flex;
-      padding: 20px;
-      max-width: 408px;
-   padding-left: 5px;
-      height: 210px;
-      margin: 20px;
-      border-radius: 10px;
-      background-color: #98adb4;
-      box-shadow:
-        0 9px 33px rgba(0, 0, 0, 0.07);
-      overflow-y: scroll;
-      float: left;
-      flex-wrap: row;
-      margin-left: 140px;
-      align-items: stretch;
-      
-     
-      
-      
-      
-    }
-.txtFont{
-  font-family: Arial, Helvetica, sans-serif;
-  color: black;
-  text-align:left; margin-right: 30px; 
-  display: flex;
-  font-size: 17px;
-  text-overflow: ellipsis;
-  align-items: start;
-}
-.txtFonty{
-  font-family: Arial, Helvetica, sans-serif;
-  color: black;
-  text-align:left; 
-  display: flex;
-  font-size: 17px; margin-left: 10px;
-  text-overflow: ellipsis;
-  margin-top: 8px;
-  align-items: center;
-  /* justify-content: center; */
-}
-/* === TABLE ==== */
-.table-box
-{
-    margin: 15px auto;
+
+/* Table Styles */
+
+.table-wrapper{
+    margin: 10px 70px 70px;
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
 }
 
-.table-row{
-    display: table;
-    width: 40%;
-    margin: 10px auto;
-    font-family: sans-serif;
-    background: transparent;
-    padding: 4px 0;
-    color: #555;
-    font-size: 13px;
-    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-    height: 0.1%;
-    border-radius: 20px;
-    
+.fl-table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+    overflow-y: scroll;
 }
-.table-head{
-  
-    background: #E5E4E2;
-    box-shadow: none;
-    color: #fff;
-    font-weight: 600;
-    height: 20px;
-    line-height: 5px;
-    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
- 
-}
-.table-head .table-cell{
-    border-right: none;
-}
-.table-cell{
-    display: table-cell;
-    width: 20%;
+
+.fl-table td, .fl-table th {
     text-align: center;
-    padding: 4px 0;
-    border-right: 1px solid #d8c090;
-    vertical-align: middle;
-    
-}
-.first-cell{
-    text-align: left;
-    padding-left: 10px;
-    width: 10%;
+    padding: 8px;
 }
 
-.last-cell{
-    border-right: none;
-    width: 10%;
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
 }
-/* a{
-    text-decoration: none;
-    color: #555;
-} */
-p{
+
+.fl-table thead th {
+    color: #ffffff;
+    background: #4863A0;
+}
+
+.fl-table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #4863A0;
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .fl-table {
+        display: block;
+        width: 100%;
+    }
+    .table-wrapper:before{
+        content: "Scroll horizontally >";
+        display: block;
+        text-align: right;
+        font-size: 11px;
+        color: white;
+        padding: 0 0 10px;
+    }
+    .fl-table thead, .fl-table tbody, .fl-table thead th {
+        display: block;
+    }
+    .fl-table thead th:last-child{
+        border-bottom: none;
+    }
+    .fl-table thead {
+        float: left;
+    }
+    .fl-table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+    }
+    .fl-table td, .fl-table th {
+        padding: 20px .625em .625em .625em;
+        height: 80px;
+        vertical-align: middle;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 120px;
+        font-size: 20px;
+        text-overflow: ellipsis;
+    }
+    .fl-table thead th {
+        text-align: left;
+        border-bottom: 1px solid #f7f7f9;
+    }
+    .fl-table tbody tr {
+        display: table-cell;
+    }
+    .fl-table tbody tr:nth-child(odd) {
+        background: none;
+    }
+    .fl-table tr:nth-child(even) {
+        background: transparent;
+    }
+    .fl-table tr td:nth-child(odd) {
+        background: #F8F8F8;
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tr td:nth-child(even) {
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tbody td {
+        display: block;
+        text-align: center;
+    }
+}
+.thkid{
   font-size: 17px;
-  color: black;
 }
-.listTitle{
-  font-size: 20px;
-  text-align: center;
+.fac{
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
-@media only screen and (max-width: 600px) {
-  .table-row {
-    font-size: 11px;
+
+.buttonF {
+  width: 350px;
+  height: 55px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #4863A0;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
   }
-}
-.trow-list{
-      display: table;
-    width: 85%;
-    margin: 10px auto;
-    font-family: sans-serif;
-    background: #E3E4FA;
-    padding: 4px 0;
-    color: #d8c090;
-    font-size: 15px;
-    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-    line-height: 5px;
-    
-}
+
+
 </style>
+<br>
 
-                   
-                            <div class="table-row table-head">
-            <div class="table-cell first-cell">
-                <p class="listTitle">List of Referred Students</p>
-            </div>
-        </div>
-        <br>
-          {% if not object_list %}
-            No Referres Students yet!
-        {% endif %}
-                    <div class="table-box">
-                            {% for object in object_list reversed %}
-        <div class="trow-list">
-            <div class="table-cell first-cell">
-                <p style="text-align: center;"><b>{{object.studnumber}}</b></p>
-            </div>
-            <div class="table-cell" >
-                <p style="text-align: left;"> &nbsp; &nbsp; {{object.lastname}}, &nbsp; {{object.firstname}}</p>
-            </div> 
-                <div class="table-cell last-cell">
-                <a style="color: black;"href="{% url 'teacher_view_detail_referred_students' object.id %}"><b>View More Information</b></a>
-            </div>    
-        </div>
-            
+<div class="fac">
+  <button type="submit" class="buttonF">Upload Faculty</button>
+</div> 
+<br>
+{% if not object_list %}
+  No Referres Students yet!
+{% endif %}
 
-                {% endfor %} 
-         </div>
+ <div class="table-wrapper">
+  
+    <table class="fl-table">
+        <thead>
+        <tr>
+            <th class="thkid">Date</th>
+            <th class="thkid">ID Number</th>
+            <th class="thkid">Students Name</th>
+            <th class="thkid">Information</th>
+        </tr>
+        </thead>
+        {% for object in object_list reversed %}
+        <tbody>
+        <tr>
+
+            <td style="font-size: 15px;">{{object.date}}</td>
+            <td style="font-size: 15px;">{{object.studnumber}}</td>
+            <td style="font-size: 15px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
+            <td style="font-size: 15px;" style="color: black;" ><a href="{% url 'teacher_view_detail_referred_students' object.id %}" style="font-weight: 550; color: black;">View More Information</a></td>
+
+        
+        </tr>
+        <tbody>
+              {% endfor %}
+    </table>
+  </div>
+
+
 {% endblock %}
 
 

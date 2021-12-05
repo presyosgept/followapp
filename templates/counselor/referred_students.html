@@ -189,20 +189,43 @@ float: center;
 margin-left: 15px;
 }
 
+
+.fac{
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonF {
+width: 420px;
+height: 55px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #4863A0;
+border: none;
+border-radius: 45px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+}
+
 </style>
 
-
-
-<div class="table-cont">
-  <div class="table-row table-head">
-<div class="table-cell first-cell">
-<p class="listTitle">List of Referred Students</p>
-</div>
-</div>  
+  <div class="table-cont">
+        <div class="fac">
+          <button type="submit" class="buttonF">List of Referred Students</button>
+        </div> 
 {% if not objects %}
   No Referrals Yet!
 {% endif %}
-<br>
+
 <table class="table" style="color: #4863A0;">
 <thead>
 <tr>

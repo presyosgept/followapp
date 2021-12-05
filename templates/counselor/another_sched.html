@@ -1,4 +1,4 @@
-{% extends "student/student_home.html" %}
+{% extends "counselor/counselor_home.html" %}
 
 {% block title %} 
 Schedule
@@ -29,7 +29,7 @@ div.table-title {
 
 /*** Table Styles **/
 
-.table-fill {
+/* .table-fill {
   background: white;
   border-radius:3px;
   border-collapse: collapse;
@@ -41,7 +41,7 @@ div.table-title {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   animation: float 5s infinite;
 }
- 
+  */
 th {
   color:#413839;
   background:#C1C3D1;
@@ -146,51 +146,7 @@ td.text-center {
 td.text-right {
   text-align: right;
 }
-.table-head{
-  
-    background: #E5E4E2;
-    box-shadow: none;
-    color: #fff;
-    font-weight: 600;
-    line-height: 5px;
-      box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-      width: 500px;
-      margin:auto;
-      border-radius: 20px;
-}
-.table-head .table-cell{
-    border-right: none;
-}
-.table-cell{
-    display: table-cell;
-    width: 20%;
-    text-align: center;
-    padding: 4px 0;
-    border-right: 1px solid #838996;
-    vertical-align: middle;
-}
-.first-cell{
-    text-align: left;
-    padding-left: 10px;
-    width: 8%;
-}
-.last-cell{
-    border-right: none;
-    width: 15px;
-}
-p{
-  font-size: 17px;
-  color: black;
-}
-.listTitle{
-  font-size: 20px;
-  text-align: center;
-}
-@media only screen and (max-width: 600px) {
-  .table-row {
-    font-size: 11px;
-  }
-}
+
 .fac{
 
 display: flex;
@@ -200,8 +156,8 @@ justify-content: center;
 }
 
 .buttonF {
-width: 420px;
-height: 55px;
+width: 350px;
+height: 45px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
 text-transform: uppercase;
@@ -217,13 +173,15 @@ cursor: pointer;
 outline: none;
 }
 
-
   </style>
   <br>
-  <div class="fac">
-    <button type="submit" class="buttonF">Today's List Schedule</button>
-  </div> 
-  <br>
+  <a style="color: #504A4B" 
+  href="{% url 'counselor_view_another_sched' 1 %}"> 
+           <div class="fac">
+          <button type="submit" class="buttonF">Click here to view next day</button>
+        </div> 
+</a> 
+<br>
 
     <table class="table-fill">
     <thead style="height: 20px;">
@@ -248,9 +206,9 @@ outline: none;
             <td>{{object.choice}}</td>
             {% if object.choice|stringformat:"s" == "Class" %} 
             <td data-label="Info"><a style="color: #504A4B"
-                href="{% url 'view_class_students' object.offer_code object.sem_id object.academic_year %}"><b>View More Information</b></a> <br></td>
+                href="{% url 'counselor_detail_schedule_class' object.offer_code object.sem_id object.academic_year %}"><b>View More Information</b></a> <br></td>
   {% else %} 
-  <td data-label="Info"><a  style="color: #504A4B" href="{% url 'view_appointment_students' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
+  <td data-label="Info"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
   
   {% endif %} 
         </tr>
