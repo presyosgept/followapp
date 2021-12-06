@@ -36,8 +36,8 @@ Notification_Detail
         background-color: #B4CFEC;
         box-shadow:
           0 9px 33px rgba(0, 0, 0, 0.07);
-          min-width: 800px;
-    height: 350px;
+          width: 600px;
+    height: 250px;
     float: center;
     margin: auto;
   }
@@ -156,6 +156,12 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+.Pbox{
+  font-size: 19px;
+  line-height: 30px;
+  text-align: justify;
+
+}
 
 </style>
 
@@ -177,31 +183,37 @@ outline: none;
    <br>
   
   </div>
-
+  {% if object.subject_referred %}
   <div id="box">
-
-      <br>        
       <div class="trow-list">
-        <div  class="table-cell">
-      <p class="modal1">Subject: &nbsp;</p>
-      <p class="modal1">Date: &nbsp; &nbsp;</p>
-      <p class="modal1">Reasons: &nbsp; &nbsp;</p>  
-      <p class="modal1">Start Session: &nbsp; &nbsp;</p>  
-      <p class="modal1">End Session: &nbsp; &nbsp;</p>   
-        </div> 
-
-            <div class="table-cell">
-      <p class="modal2"> &nbsp; &nbsp;  {{object.subject_referred}}</p>
-      <p class="modal2" > &nbsp; &nbsp; {{object.date}}</p>
-      <p class="modal2" > &nbsp; &nbsp; {{object.reasons}}</p>  
-      <p class="modal2" > &nbsp; &nbsp; {{object.start_time}}</p>  
-      <p class="modal2" > &nbsp; &nbsp; {{object.end_time}}</p>    
-      </div> 
-      </div>
+        <p class="Pbox">
+          You have a schedule appointment on {{object.date}} with a Start Session of {{object.start_time}}
+          and ends in {{object.end_time}} In {{object.subject_referred}} Subject, with the Reasons stated below:
+          <li class="Pbox" style="text-align:left;">{{object.reasons}}</li>
+        </p>
+    </div>
 
 
      </div>
 </div>
+{% else %}
+<div id="box">
+
+  <div class="trow-list">
+    <p class="Pbox">
+      You have a schedule appointment on {{object.date}} with a Start Session of {{object.start_time}}
+      and ends in {{object.end_time}} With the Reasons stated below:
+      <li class="Pbox" style="text-align:left;">{{object.reasons}}</li>
+    </p>
+</div>
+
+
+
+
+     </div>
+</div>
+
+  {% endif %}  
 
 {% endfor %} 
  </div>

@@ -483,9 +483,9 @@ img {
                 <a style="font-weight: bold; margin-right:  900px;"href="{% url 'teacher_home_view' %}" class="header__logo">FOLLOW APP</a>
     
       <div>
-                        {% for object in form %} 
+                       
                               <p style="font-weight: bold;"> {{object.firstname }} {{object.lastname }} </p>
-                                   {% endfor %} 
+                               
                                    </div>
             </div>
         </header>
@@ -502,10 +502,7 @@ img {
                     <div class="nav__list">
                         <div class="nav__items">
 
-                            <a href="{% url 'director_home_view' %}" class="nav__link">
-                                <i class='bx bx-home nav__icon' ></i>
-                                <span class="nav__name">Home</span>
-                            </a>
+                        
 
                             <a href="{% url 'director_assign_counselor' %}" class="nav__link">
                                 <i class='bx bx-label nav__icon' ></i>

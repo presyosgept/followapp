@@ -165,11 +165,21 @@ outline: none;
 }
   </style>
   
-
+<!-- 
+<div class="table-row table-head">
+  <div class="table-cell first-cell">
+      <p class="listTitle"> <i>Input your Feedback here</i></p>
+  </div>
+</div> -->
 <br>
 <br>   
 
+  <!-- Date Referred: {{info.created_at}} <br> 
+  Reffered by : {{info1.firstname}} {{info1.lastname}} <br> 
+  Name of student Referred : {{student.firstname}}  {{student.lastname}} <br> 
+  Subject of student Referred : {{student.subject_referred}} <br> 
 
+  Prepared by : {{info2.firstname}} {{info2.lastname}} <br>  -->
 
   <form action="#" class="cleanForm" method="POST">
 
@@ -207,8 +217,6 @@ outline: none;
 
         <div class="column">
           <div class="row1"> 
-            <p class="pText"><b class="bText">Reffered by: &nbsp;</b> {{info1.firstname}} {{info1.lastname}}</p>
-            <p class="pText"><b class="bText">Subject of Student Referred: &nbsp;</b>{{student.subject_referred}}</p>
         
             &nbsp;    &nbsp;   
           </div>

@@ -337,9 +337,18 @@ outline: none;
   
      </div>
   </div>
-
+    {% if type == 'manual_referral' or type == 'not finish'%}
 <a href="{% url 'counselor_feedback' object.id %}">  
   <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
+
+     {% elif type == 'finish' %}
+
+     {% else %}
+  <a href="{% url 'counselor_feedback_student' object.id %}">  
+  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
+
+ 
+    {% endif %}  
 <br>
 <br>
            {% endfor %}

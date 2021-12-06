@@ -239,7 +239,9 @@ p{
 </div>
      </div>
  </section>
-
+ {% for message in messages %}
+     <p class="buttonFed">{{message}} !</p>
+     {% endfor %}
 
 {% endblock %}
 

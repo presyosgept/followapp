@@ -150,11 +150,11 @@
 <br>
 
 <div class="fac">
-  <button type="submit" class="buttonF">Upload Faculty</button>
+  <button type="submit" class="buttonF">Referred Student </button>
 </div> 
 <br>
 {% if not object_list %}
-  No Referres Students yet!
+  No Referred Students Yet!
 {% endif %}
 
  <div class="table-wrapper">
@@ -162,9 +162,10 @@
     <table class="fl-table">
         <thead>
         <tr>
-            <th class="thkid">Date</th>
+            <th class="thkid">Session Date</th>
             <th class="thkid">ID Number</th>
             <th class="thkid">Students Name</th>
+            <th class="thkid">Status</th>
             <th class="thkid">Information</th>
         </tr>
         </thead>
@@ -175,6 +176,7 @@
             <td style="font-size: 15px;">{{object.date}}</td>
             <td style="font-size: 15px;">{{object.studnumber}}</td>
             <td style="font-size: 15px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
+            <td style="font-size: 15px;">{{object.status|title}}</td>
             <td style="font-size: 15px;" style="color: black;" ><a href="{% url 'teacher_view_detail_referred_students' object.id %}" style="font-weight: 550; color: black;">View More Information</a></td>
 
         

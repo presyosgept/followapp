@@ -209,14 +209,13 @@ outline: none;
       <td> <small>{{ notification.created_at|timesince }} ago</small></td>
       
     </tr>
-     </a> {% elif notification.notification_type == 'manual_referral' %}
-
-
-    <tr>
-      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id %}"><strong>{{ notification.created_by.username }}</strong>  <b style="color: black;">Manual Referral</b></a></td>
-      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
+     </a> 
+  
+     {% else %}
+     <tr>
+      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id notification.notification_type %}"><strong>{{ notification.created_by.username }}</strong>  <b style="color: black;">You have Counseling Session</b></a></td>
+      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id notification.notification_type %}">{{ notification.created_at|timesince }} ago</a></td>
     </tr>
-
  
     {% endif %}  
   {% endfor %}

@@ -241,7 +241,7 @@ outline: none;
 </thead>
 <br>
 
-{% for object in objects %}
+{% for object in objects  reversed %}
 
 <tbody>
 <tr>
@@ -249,7 +249,7 @@ outline: none;
 <td data-label="Name"> {{object.lastname}}, &nbsp; {{object.firstname}}</td>
 <td data-label="Date"><a>{{object.date}}</a></td>
 <td data-label="Status"><a>{{object.status|title}}</a></td>
-<td  ><a href="{% url 'counselor_view_detail_referred_students' object.id %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
+<td  ><a href="{% url 'counselor_view_detail_referred_students' object.id 'not finish' %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
 
 </tr>
 </tbody>
