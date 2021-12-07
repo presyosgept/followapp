@@ -27,20 +27,12 @@ Schedule
 }
 
 #box {
-  /* border: 1px solid red;
-  background-color: honeydew;
-  border: 1px solid black;
-  box-shadow:
-        0 9px 33px rgba(0, 0, 0, 0.07);
-  height: 350px;
-  min-width: 20px;
-  margin: auto; */
   border: 1px solid black;
   border-radius: 10px;
       background-color: #B4CFEC;
       box-shadow:
         0 9px 33px rgba(0, 0, 0, 0.07);
-        min-width: 700px;
+        width: 600px;
   height: 350px;
   float: center;
   margin: auto;
@@ -232,6 +224,12 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+.Pbox{
+  font-size: 20px;
+  line-height: 30px;
+  text-align: justify;
+
+}
 
 </style>
   <div class="fac">
@@ -247,27 +245,19 @@ outline: none;
           src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
          >
          <p style="padding: 10px; font-size: 17px;"><b>Students Name:&nbsp;</b> {{object.lastname}}, {{object.firstname}}</p>
-         <p style="line-height: 1px; font-size: 17px;"><b>ID Number:&nbsp;</b>{{object.studnumber}}</p>
+         <p style="line-height: 1px; font-size: 17px;"><b>ID Number:&nbsp;</b> {{object.studnumber}}</p>
     </div>
 
   
     <div id="box">
-  
-      <br>        
       <div class="trow-list">
-        <div  class="table-cell">
-      <p class="modal1"><b>Date:</b> &nbsp;</p>
-      <p class="modal1"><b>Reasons:</b> &nbsp;</p>
-      <p class="modal1"><b>Time:</b> &nbsp;</p>
-        </div> 
-  
-            <div class="table-cell">
-              naka sentence ni diri
-      <p class="modal2"> &nbsp; &nbsp; {{object.date}}</p> 
-      <p class="modal2"> &nbsp; &nbsp; {{object.reasons}}</p>
-      <p class="modal2"> &nbsp; &nbsp; {{object.start_time}} - {{object.end_time}}</p>
-      </div> 
-      </div>
+        <p class="Pbox">
+          You have a schedule appointment on <b>{{object.date}}</b> with a Start Session of <b>{{object.start_time}}</b>
+          and ends in <b>{{object.end_time}}</b> With the Reasons stated below:
+          <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
+        </p>
+    </div>
+
      </div>
 
   </div>

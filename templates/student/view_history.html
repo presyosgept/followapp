@@ -176,6 +176,32 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
+font-size:20px;
+}
+    .facN{
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonN {
+width: 300px;
+height: 40px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #4863A0;
+border: none;
+border-radius: 45px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
 }
 
 </style>
@@ -192,15 +218,28 @@ outline: none;
   <th style="text-align:center; color: black;">Time</th>
 
 </tr>
+  {% if not object %}
+        <div class="facN">
+          <button  class="buttonN">No Records Yet!</button>
+        </div> 
+             <br>
+{% else %}
 
 {% for obj in object reversed %}
+      {% for couns in counselor %}
+      <!-- {{couns.employee_id}}
+      {{obj.counselor}}  -->
 
+       {% if couns.employee_id == obj.counselor %}
 <tr>
-  <td>{{counselor.firstname}} {{counselor.lastname}}</td>
+  <td>{{couns.firstname}} {{couns.lastname}}</td>
   <td> {{obj.date}}</td>
   <td>{{obj.start_time}} - {{obj.end_time}}</td>
  
 </tr>
+ {% endif %}
+{% endfor %}
 {% endfor %}
 </table>
+ {% endif %}
 {% endblock %}

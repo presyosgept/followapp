@@ -27,21 +27,13 @@
     }
     
     #box {
-      /* border: 1px solid red;
-      background-color: honeydew;
-      border: 1px solid black;
-      box-shadow:
-            0 9px 33px rgba(0, 0, 0, 0.07);
-      height: 350px;
-      min-width: 20px;
-      margin: auto; */
       border: 1px solid black;
       border-radius: 10px;
           background-color: #B4CFEC;
           box-shadow:
             0 9px 33px rgba(0, 0, 0, 0.07);
-            min-width: 800px;
-      height: 350px;
+            max-width: 780px;
+      height: 500px;
       float: center;
       margin: auto;
     }
@@ -187,17 +179,54 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+.facU{
 
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonN {
+width: 280px;
+height: 40px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #4863A0;
+border: none;
+border-radius: 45px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+font-size: 13px;
+}
+
+.Pbox{
+  font-size: 20px;
+  line-height: 30px;
+  text-align: justify;
+
+}
     </style>
- {% if not object_list %}
-                      No Referred Students yet!
-                  {% endif %}
+
 
               {% for object in object_list  reversed %}
         <div class="fac">
           <button type="submit" class="buttonF">Students Referral Information</button>
         </div> 
         <br>
+         {% if not object_list %}
+         <div class="facU"> 
+  <button class="buttonN">No Referred Students Yet!</button>
+</div> 
+    {% endif %}
+<br>
+              
         <div id="wrapper">
             <div id="square">
               <br>
@@ -207,30 +236,25 @@ outline: none;
                   height: 200px; margin: auto;" 
                   src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
                  >
-                 <p style="padding: 10px; font-size: 17px;"><b>Students Name:</b> {{object.lastname}}, {{object.firstname}}</p>
-                 <p style="line-height: 1px; font-size: 17px;"><b>Degree Program:</b>  {{object.degree_program}}</p>
-             
-          
+                 <div  style="padding: 10px;">
+                 <p style="font-size: 17px;"><b>Students Name:</b> {{object.lastname}}, {{object.firstname}}</p>
+                 <p style="line-height: 4px; font-size: 17px;"><b>Student Number:</b> {{object.studnumber}}</p>
+                 <p style="line-height: 15px; font-size: 17px;"><b>Degree Program:</b> {{object.degree_program}}</p>
+                 </div>
+
             </div>
           
             <div id="box">
           
               <br>        
               <div class="trow-list">
-                <div  class="table-cell">
-              <p class="modal1"><b>Student Number:</b> &nbsp;</p>
-              <p class="modal1"><b>Subject:</b> &nbsp; &nbsp;</p>
-              <p class="modal1"><b>Behavior Problem:</b> &nbsp; &nbsp;</p>   
-              <p class="modal1"><b>Additional Information: </b>&nbsp; &nbsp;</p>  
-                </div> 
-          
-                    <div class="table-cell">
-              <p class="modal2"> &nbsp; &nbsp; {{object.studnumber}}</p>
-              <p class="modal2" > &nbsp; &nbsp; {{object.subject_referred}}</p>
-              <p class="modal2" > &nbsp; &nbsp; {{object.behavior_problem}}</p>   
-              <p class="modal2" > &nbsp; &nbsp;  {{object.reasons}}</p>   
-              </div> 
-              </div>
+  <p class="Pbox">
+    <b>{{object.lastname}}</b> is referred under the <b>{{object.subject_referred}}</b> Subject, due to 
+    having a behavioral problem of being <b>{{object.behavior_problem}}</b>  <br> 
+    Additional Information stated below:
+    <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
+  </p>
+</div>
           
           
              </div>

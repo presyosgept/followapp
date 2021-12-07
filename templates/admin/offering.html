@@ -27,7 +27,7 @@ margin: auto;
 .column{
  width:250px;
  float:center;
- margin-right:20px;
+ margin-left: 10px;
  padding: 10px;   
  text-align: left;
 }
@@ -36,61 +36,53 @@ margin: auto;
  float:center;
  text-align: left;
 }
+.column1{
+
+  margin: 112px;
+
+}
 .row1{
- width: 450px;
- float:left;
- text-align: left;
+
+  margin: 112px;
+
 }
 
 /* BUTTONS */
-.buttons{
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: auto;
-  float: center;
-  height: 36px;
-  border: 5em;
+}
+
+.button {
+  width: 140px;
+  height: 30px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-  font-size: 16px;
-  -webkit-transform: translate(0);
-  transform: translate(0);
-  background-image: linear-gradient(45deg, #98b4ac, #4863A0);
-  padding: 0.7em 2em;
-  border-radius: 65px;
-  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
-  -webkit-transition: box-shadow 0.25s;
-  transition: box-shadow 0.25s;
-  color: white;
-}
-.buttons .text {
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(45deg, #4863A0, #98b4ac);
-}
 
-.buttons:after {
-  content: "";
-  border-radius: 18px;
-  position: absolute;
-  margin: 4px;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: -1;
-  background: #E5E4E2;
-}
+  }
 
-.buttons:hover {
-  background-image: linear-gradient(-45deg, #98b4ac, #4863A0);
-  box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
+.button:hover {
+  background-color: #95B9C7;
+  box-shadow: 0px 15px 20px #C9C0BB;
+  color: #fff;
+  transform: translateY(-7px);
 }
-
-.buttons:hover .text {
-  background-image: linear-gradient(-45deg, #4863A0, #98b4ac);
-}
-
   </style>
-<br>
+<br> <br> <br> 
 <div class="offering">
   <form method="POST" action="">
     {% csrf_token %}
@@ -103,13 +95,15 @@ margin: auto;
       </div>
      
       </div>
-    <br> <br> <br>
-      <div class="column">
-        <div class="row"> 
-          <p> <button class="buttons" style="font-weight: bold; margin: auto; color: #454545;">Submit</button></p> 
+    <br> <br> 
+    <div class="column1">
+      <div class="row1"> 
+        <div class="wrap">
+          <button type="submit" class="button">Upload</button>
         </div>
-       
-        </div>
+      </div>
+     
+      </div>
 <br>
 </form>
 

@@ -26,8 +26,8 @@ SECRET_KEY = '7*nv+#e#^$qoa4gpu(w(*_9$fx*k8(_gv$l757q9d3@#r4y2so'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['followapp-server.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['followapp-server.herokuapp.com','127.0.0.1']
 
 # Application definition
 
@@ -98,16 +98,16 @@ WSGI_APPLICATION = 'followapp.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES={
-    'default':{
-      'ENGINE': 'django.db.backends.postgresql_psycopg2',
-      'NAME': 'deces3ogdhib1f',
-      'USER': 'gnrwmmkteizgbn',
-      'PASSWORD': '5479624cfe511782363676e40fe5a67aa7e25113f549873d278dffd2e2f62fb9',
-      'HOST': 'ec2-52-7-228-45.compute-1.amazonaws.com',
-      'PORT': '5432',
-  }
-}
+# DATABASES={
+#     'default':{
+#       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#       'NAME': 'deces3ogdhib1f',
+#       'USER': 'gnrwmmkteizgbn',
+#       'PASSWORD': '5479624cfe511782363676e40fe5a67aa7e25113f549873d278dffd2e2f62fb9',
+#       'HOST': 'ec2-52-7-228-45.compute-1.amazonaws.com',
+#       'PORT': '5432',
+#   }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -119,18 +119,17 @@ DATABASES={
 #     }
 # }
 
-# DATABASES={
-#     'default':{
-#       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#       'NAME': 'followappdb',
-#       'USER': 'postgres',
-#       'PASSWORD': '1234',
-#       'HOST': 'localhost',
-#       'PORT': '5432',
-      
-#   }
-  
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'followapp_database',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
+        'PORT': '5432',
+
+    }
+}
 
 
 # Password validation
@@ -182,4 +181,3 @@ EMAIL_HOST_PASSWORD = 'preciousgift'
 EMAIT_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-

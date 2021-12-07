@@ -27,20 +27,12 @@
   }
   
   #box {
-    /* border: 1px solid red;
-    background-color: honeydew;
-    border: 1px solid black;
-    box-shadow:
-          0 9px 33px rgba(0, 0, 0, 0.07);
-    height: 350px;
-    min-width: 20px;
-    margin: auto; */
     border: 1px solid black;
     border-radius: 10px;
         background-color: #B4CFEC;
         box-shadow:
           0 9px 33px rgba(0, 0, 0, 0.07);
-          min-width: 800px;
+          min-width: 600px;
     height: 350px;
     float: center;
     margin: auto;
@@ -188,7 +180,12 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+.Pbox{
+  font-size: 19px;
+  line-height: 30px;
+  text-align: justify;
 
+}
 </style>
 
 {% for object in objects %}
@@ -216,26 +213,15 @@ outline: none;
   
       <br>        
       <div class="trow-list">
-        <div  class="table-cell">
-      <p class="modal1"><b>Feedback:</b> &nbsp;</p>
-      <p class="modal1"><b>Subject:</b> &nbsp; &nbsp;</p>
-        </div> 
-  
-            <div class="table-cell"> sentence ni diri nga part
-      <p class="modal2"> &nbsp; &nbsp; {{object.feedback}}</p>
-      <p class="modal2" > &nbsp; &nbsp; {{object.subject_referred}}</p> 
-      </div> 
-      </div>
-  
-  
+        <p class="Pbox">
+          The feedback in <b>{{object.subject_referred}}</b> Subject is already assested.<br>
+        </b>Feedback stated below:
+          <li class="Pbox" style="text-align:left;"><b>{{object.feedback}}</b></li>
+        </p>
+    </div>
      </div>
   </div>
 
            {% endfor %}
-
-      
-
-
-     
                
 {% endblock %}

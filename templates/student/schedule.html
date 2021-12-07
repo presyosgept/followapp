@@ -263,7 +263,7 @@ justify-content: center;
 
 .buttonFed {
   padding: 13px;
-width: 435px;
+width: 400px;
 height: 40px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
@@ -278,14 +278,14 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-margin-right: auto;
+margin: auto;
+
 }
 </style>
   <div class="fac">
-    <button type="submit" class="buttonF">Set Schedule</button>
+    <button class="buttonF">Set Schedule for Counseling</button>
   </div> 
-  diri dapat naay sentnece unsay purpose aning pag paset nimo sa schedule
-&nbsp;
+<br>
 <form action="#" class="cleanForm" method="POST">
         <div class="facers">
           {% for message in messages %}
@@ -301,10 +301,10 @@ margin-right: auto;
          
       <form method="POST" action=""> 
             {% csrf_token %}
-           <i><h4  class="bText" >Input Reasons below:</h4> </i>
+           <i><h4 style="font-size: 16px; color: #4C4646;" >Input the Reasons below to Set a Schedule for Counseling:</h4> </i>
            {{schedform.reasons}}
            <br> <br>
-          <button class="buttons" style="font-weight: bold; color: #454545;">Submit</button>
+          <button class="buttons" type="submit" style="font-weight: bold; color: #454545;">Submit</button>
           <!-- // E TUPONG ANG BUTTON OG TITLE IF EITHER LAPTOP OR MONITOR // -->
           </form>
 

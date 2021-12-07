@@ -184,6 +184,32 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+.facU{
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonN {
+width: 280px;
+height: 40px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #4863A0;
+border: none;
+border-radius: 45px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+font-size: 13px;
+}
 
 </style>
 
@@ -194,9 +220,12 @@ outline: none;
 
 <br>
 
-    {% if not notifications %}
-        <h4>No Notifications Yet!</h4>
-    {% endif %}
+{% if not notifications %}
+<div class="facU"> 
+  <button class="buttonN">No Notifications Yet!</button>
+</div> 
+
+{% endif %}
 
     <table id="customers">
     

@@ -5,8 +5,8 @@
 .faculty{
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 40%;
-  height: 300px;
+  width: 50%;
+  height: 320px;
   border-radius: 5px;
   background-color: #E3E4FA;
   float: center;
@@ -71,8 +71,34 @@
   cursor: pointer;
   outline: none;
   }
+  .facF{
+  height: 20%;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  padding: 15px;
+}
 
+.buttonFac {
+  width: 270px;
+  height: 40px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #4863A0;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  margin: auto;
+  }
 </style>
+<br> <br> <br> <br>
 <div class="faculty">
   <div class="fac">
     <button type="submit" class="buttonF">Upload  All Faculty</button>
@@ -87,7 +113,10 @@
     </div>
   </form>
   {% for message in messages %}
-  <center> <p>{{message}} !</p> </center>
+  <div class="facF">
+    <button type="submit" class="buttonFac"> <center> <p>{{message}} !</p> </center></button>
+  </div> 
+             
 {% endfor %}
 
                 

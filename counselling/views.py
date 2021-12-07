@@ -450,6 +450,7 @@ def director_assign_counselor(request, *args, **kwargs):
 @login_required(login_url='login')
 def director_fillinForm(request, pk):
     user = request.session.get('username')
+    cs = Counselor.objects.all()
     counselor = Counselor.objects.get(employee_id=pk)
     form = CounselorForm(instance=counselor)
     qs = Faculty.objects.filter(role='counselor')
@@ -457,11 +458,21 @@ def director_fillinForm(request, pk):
     if request.method == "POST":
         form = CounselorForm(request.POST, instance=counselor)
         if form.is_valid():
-            form.save()
-            form = CounselorForm(instance=counselor)
-            messages.info(request, 'successfully Assigned The Counselor')
-            return render(request, "director/form.html", {"form1": form, "form": director_name})
+            program_designation = form['program_designation'].value()
+            for check in cs:
+                if check.program_designation == program_designation:
+                    form = CounselorForm(instance=counselor)
+                    messages.info(
+                        request, 'Already Assigned This Department To Another Counselor')
+                    return render(request, "director/form.html", {"form1": form, "form": director_name})
+                else:
+                    form.save()
+                    form = CounselorForm(instance=counselor)
+                    messages.info(
+                        request, 'successfully Assigned The Counselor')
+                    return render(request, "director/form.html", {"form1": form, "form": director_name})
     return render(request, "director/form.html", {"form1": form, "form": director_name})
+
 
 # director
 
@@ -469,8 +480,6 @@ def director_fillinForm(request, pk):
 # admin
 @login_required(login_url='login')
 def admin_home_view(request, *args, **kwargs):
-    tomorrow = date.today() + timedelta(days=1)
-    print(str(tomorrow))
     return render(request, "admin/admin_home.html", {})
 
 
@@ -507,8 +516,6 @@ def admin_department_choice(request):
             form.save()
             depa_choice = form.cleaned_data['depa_choice']
             dep = depa_choice
-            print("byee")
-            print(depa_choice)
             return redirect(admin_view_offering)
 
     return render(request, "admin/depachoice.html", {"form": form})
@@ -540,365 +547,376 @@ def admin_view_offering(request):
 
 @login_required(login_url='login')
 def upload_studentsload(request):
-    if request.method == 'POST':
-        StudentsloadResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            StudentsloadResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 3):
-            for data in imported_data:
-                value = Studentsload(
-                    data[0],
-                    data[1],
-                    data[2],
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 3):
+                for data in imported_data:
+                    value = Studentsload(
+                        data[0],
+                        data[1],
+                        data[2],
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/upload_studentsload.html")
 
 
 @login_required(login_url='login')
 def upload_students(request):
-    if request.method == 'POST':
-
-        AllStudentResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
-        if(col == 8):
-            for data in imported_data:
-                value = AllStudent(
-                    data[0],
-                    data[1],
-                    data[2],
-                    data[3],
-                    data[4],
-                    data[5],
-                    data[6],
-                    data[7],
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+    try:
+        if request.method == 'POST':
+            AllStudentResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
+            if(col == 8):
+                for data in imported_data:
+                    value = AllStudent(
+                        data[0],
+                        data[1],
+                        data[2],
+                        data[3],
+                        data[4],
+                        data[5],
+                        data[6],
+                        data[7],
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/upload_students.html")
 
 
 @login_required(login_url='login')
 def upload_faculty(request):
-    if request.method == 'POST':
-        FacultyResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            FacultyResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 5):
-            for data in imported_data:
-                value = Faculty(
-                    data[0],
-                    data[1],
-                    data[2],
-                    data[3],
-                    data[4],
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 5):
+                for data in imported_data:
+                    value = Faculty(
+                        data[0],
+                        data[1],
+                        data[2],
+                        data[3],
+                        data[4],
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/upload_faculty.html")
 
 
 @login_required(login_url='login')
 def upload_facultyload(request):
-    if request.method == 'POST':
-        FacultyloadResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            FacultyloadResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 3):
-            for data in imported_data:
-                value = Facultyload(
-                    data[0],
-                    data[1],
-                    data[2],
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 3):
+                for data in imported_data:
+                    value = Facultyload(
+                        data[0],
+                        data[1],
+                        data[2],
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/upload_facultyload.html")
 
 
 @login_required(login_url='login')
 def uploaddb_counselor(request):
-    if request.method == 'POST':
-        CounselorResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            CounselorResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 4):
-            for data in imported_data:
-                value = Counselor(
-                    data[0],
-                    data[1],
-                    data[2],
-                    data[3],
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 4):
+                for data in imported_data:
+                    value = Counselor(
+                        data[0],
+                        data[1],
+                        data[2],
+                        data[3],
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/uploaddb_counselor.html")
 
 
 @login_required(login_url='login')
 def uploaddb_offercode(request):
-    if request.method == 'POST':
-        OfferCodeResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            OfferCodeResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 8):
-            for data in imported_data:
-                value = OfferCode(
-                    data[0],
-                    data[1],
-                    data[2],
-                    data[3],
-                    data[4],
-                    data[5],
-                    data[6],
-                    data[7],
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 8):
+                for data in imported_data:
+                    value = OfferCode(
+                        data[0],
+                        data[1],
+                        data[2],
+                        data[3],
+                        data[4],
+                        data[5],
+                        data[6],
+                        data[7],
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/uploaddb_offerCode.html")
 
 
 @login_required(login_url='login')
 def uploaddb_semester(request):
-    if request.method == 'POST':
-        SemesterResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            SemesterResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 2):
-            for data in imported_data:
-                value = Semester(
-                    data[0],
-                    data[1],
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 2):
+                for data in imported_data:
+                    value = Semester(
+                        data[0],
+                        data[1],
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/uploaddb_semester.html")
 
 
 @login_required(login_url='login')
 def uploaddb_allsubject(request):
-    if request.method == 'POST':
-        AllSubjectResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            AllSubjectResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 4):
-            for data in imported_data:
-                value = AllSubject(
-                    data[0],
-                    data[1],
-                    data[2],
-                    data[3],
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 4):
+                for data in imported_data:
+                    value = AllSubject(
+                        data[0],
+                        data[1],
+                        data[2],
+                        data[3],
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/uploaddb_allsubject.html")
 
 
 @login_required(login_url='login')
 def uploaddb_allfaculty(request):
-    if request.method == 'POST':
-        AllFacultyResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            AllFacultyResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 6):
-            for data in imported_data:
-                value = AllFaculty(
-                    data[0],
-                    data[1],
-                    data[2],
-                    data[3],
-                    data[4],
-                    data[5],
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 6):
+                for data in imported_data:
+                    value = AllFaculty(
+                        data[0],
+                        data[1],
+                        data[2],
+                        data[3],
+                        data[4],
+                        data[5],
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/uploaddb_allfaculty.html")
 
 
 @login_required(login_url='login')
 def uploaddb_degreeprogram(request):
-    if request.method == 'POST':
-        DegreeProgramResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            DegreeProgramResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 4):
-            for data in imported_data:
-                value = DegreeProgram(
-                    data[0],
-                    data[1],
-                    data[2],
-                    data[3]
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 4):
+                for data in imported_data:
+                    value = DegreeProgram(
+                        data[0],
+                        data[1],
+                        data[2],
+                        data[3]
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/uploaddb_degreeprogram.html")
 
 
 @login_required(login_url='login')
 def uploaddb_department(request):
-    if request.method == 'POST':
-        DepartmentResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            DepartmentResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 3):
-            for data in imported_data:
-                value = Department(
-                    data[0],
-                    data[1],
-                    data[2]
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 3):
+                for data in imported_data:
+                    value = Department(
+                        data[0],
+                        data[1],
+                        data[2]
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/uploaddb_department.html")
 
 
 @login_required(login_url='login')
 def uploaddb_schooloffices(request):
-    if request.method == 'POST':
-        SchoolOfficesResource()
-        dataset = Dataset()
-        new_students = request.FILES['myfile']
+    try:
+        if request.method == 'POST':
+            SchoolOfficesResource()
+            dataset = Dataset()
+            new_students = request.FILES['myfile']
 
-        imported_data = dataset.load(new_students.read(), format='xlsx')
-        wb_obj = openpyxl.load_workbook(new_students)
-        sheet_obj = wb_obj.active
-        col = sheet_obj.max_column
-        row = sheet_obj.max_row
+            imported_data = dataset.load(new_students.read(), format='xlsx')
+            wb_obj = openpyxl.load_workbook(new_students)
+            sheet_obj = wb_obj.active
+            col = sheet_obj.max_column
+            row = sheet_obj.max_row
 
-        if(col == 3):
-            for data in imported_data:
-                value = SchoolOffices(
-                    data[0],
-                    data[1],
-                    data[2]
-                )
-                value.save()
-            messages.info(request, 'Successfully Added')
-        else:
-            messages.info(request, 'Failed to Add the Data')
-    else:
-        messages.info(request, 'No data has been added Yet')
+            if(col == 3):
+                for data in imported_data:
+                    value = SchoolOffices(
+                        data[0],
+                        data[1],
+                        data[2]
+                    )
+                    value.save()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Failed to Add the Data')
+    except Exception:
+        messages.info(request, 'Please Choose File')
     return render(request, "admin/uploaddb_schooloffices.html")
 
 # admin
@@ -1532,23 +1550,16 @@ def counselor_detail_schedule_counseling(request, start, end, date):
 
 
 @login_required(login_url='login')
-def counselor_detail_schedule_class(request, offer_code, sem_id, year):
-    global notif
-    user = request.session.get('username')
-    counselor_name = Faculty.objects.get(employee_id=user)
-    session = OfferCode.objects.get(
-        offer_code=offer_code, sem_id=sem_id, academic_year=year)
-    return render(request, "counselor/modalClass.html", {"notif": notif, "object": session, "form": counselor_name})
-
-
-@login_required(login_url='login')
-def counselor_view_detail_referred_students(request, id, type):
+def counselor_view_detail_referred_students(request, id):
     global notif
     user = request.session.get('username')
     detail = []
     qs = TeachersReferral.objects.filter(counselor=user)
+    type = "teacher"
     for referedStud in qs:
         if(referedStud.id == id):
+            if referedStud.subject_referred == "":
+                type = "student"
             detail.append(TeachersReferral(id=id, firstname=referedStud.firstname,
                                            lastname=referedStud.lastname, studnumber=referedStud.studnumber,
                                            degree_program=referedStud.degree_program, subject_referred=referedStud.subject_referred,
@@ -2152,17 +2163,6 @@ def student_view_another_sched(request, num):
     return render(request, "student/another_sched.html", {"notif1": notif1, "today": today, "day_name": day_name, "schedForToday": classForToday, "time": one, "form": student_name})
 
 
-# @login_required
-# def view_class_students(request, offer_code, sem_id, year):
-#     global notif1
-#     user = request.session.get('username')
-#     student_name = AllStudent.objects.get(studnumber=user)
-#     session = OfferCode.objects.get(
-#         offer_code=offer_code, sem_id=sem_id, academic_year=year)
-
-#     return render(request, "student/viewclass.html", {"notif1": notif1, "object": session, "form": student_name})
-
-
 @login_required
 def view_appointment_students(request, start, end, date):
     global notif1
@@ -2220,9 +2220,10 @@ def student_history(request):
     global notif1
     user = request.session.get('username')
     student_name = AllStudent.objects.get(studnumber=user)
-    student_record = TeachersReferral.objects.filter(studnumber=user)
-    for couns in student_record:
-        counselor = Counselor.objects.get(employee_id=couns.counselor)
+    student_record = TeachersReferral.objects.filter(
+        studnumber=user, status='done')
+    counselor = Counselor.objects.all()
+
     return render(request, "student/view_history.html", {"notif1": notif1, "object": student_record, "counselor": counselor, "form": student_name})
 
 

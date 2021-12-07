@@ -117,12 +117,38 @@ View Offer
         text-align: center;
     }
 }
+.fac{
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.buttonF {
+  width: 250px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #4863A0;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  margin: auto;
+  }
 </style>
-<br>
-{% if not forms %}
-No Data
-{% endif %}
-<br>
+    
+
+<div class="fac">
+    <button type="submit" class="buttonF">List of Offerings</button>
+  </div> 
 <div class="table-wrapper">
   <table class="fl-table">
       <thead>
@@ -135,20 +161,23 @@ No Data
           <th>Academic Year</th>
       </tr>
       </thead>
+      {% for form in forms %}
       <tbody>
       <tr>
-        {% for form in forms %}
           <td>{{form.offer_code}}</td>
           <td>{{form.days}}</td>
           <td>{{form.start_time}} - {{form.end_time}} </td>
           <td>{{form.room}}</td>
           <td>{{form.subject_code}}</td>
           <td>{{form.academic_year}}</td>
-          
-{% endfor %}
+        
       </tr>
       <tbody>
+        {% endfor %}
   </table>
+  {% if not forms %}
+<p><b>No Data AVailable</b></p>
+{% endif %}
 </div>
 
 

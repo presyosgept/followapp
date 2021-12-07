@@ -41,8 +41,8 @@
         background-color: #B4CFEC;
         box-shadow:
           0 9px 33px rgba(0, 0, 0, 0.07);
-          min-width: 800px;
-    height: 350px;
+          max-width: 750px;
+    height: 500px;
     float: center;
     margin: auto;
   }
@@ -283,7 +283,12 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+.Pbox{
+  font-size: 20px;
+  line-height: 30px;
+  text-align: justify;
 
+}
 </style>
 {% for object in objects %}
   <div class="fac">
@@ -314,34 +319,22 @@ outline: none;
     <div id="box">
   
       <br>        
-      <div class="trow-list">
-        <div  class="table-cell">
 
-      <p class="modal1"><b>Behavior Problem:</b> &nbsp;</p>
-      <!-- <p class="modal1"><b>Subject:</b> &nbsp; &nbsp;</p> -->
-      <p class="modal1"><b>Reasons:</b> &nbsp; &nbsp;</p>
-      <p class="modal1"><b>Start Session:</b> &nbsp; &nbsp;</p>
-      <p class="modal1"><b>End Session:</b> &nbsp; &nbsp;</p>
-        </div> 
-  
-            <div class="table-cell">
-
-      <p class="modal2"> &nbsp; &nbsp; {{object.behavior_problem | title}}</p>
-      <!-- <p class="modal2" > &nbsp; &nbsp; {{object.subject_referred}}</p>  -->
-      <p class="modal2" > &nbsp; &nbsp; {{object.reasons}}</p>
-      <p class="modal2" > &nbsp; &nbsp; {{object.start_time}}</p>
-      <p class="modal2" > &nbsp; &nbsp; {{object.end_time}}</p>
-      </div> 
-      </div>
-  
-  
+  <div class="trow-list">
+  <p class="Pbox">
+    <b>{{object.lastname}}</b> is reffered due to having a behavior problem of <b> {{object.behavior_problem | title}}</b> 
+    The Session starts at {{object.start_time}} and ends in {{object.end_time}} on {{object.date}}  <br> 
+    With the Reasons stated below:
+    <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
+  </p>
+</div>
      </div>
   </div>
-    {% if type == 'manual_referral' or type == 'not finish'%}
+    {% if type == 'teacher' %}
 <a href="{% url 'counselor_feedback' object.id %}">  
   <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
 
-     {% elif type == 'finish' %}
+    
 
      {% else %}
   <a href="{% url 'counselor_feedback_student' object.id %}">  
