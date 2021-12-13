@@ -219,7 +219,8 @@ outline: none;
     <thead style="height: 20px;">
     <tr>
     <th class="text-left">Time</th>
-    <th class="text-left">Service</th>
+    <th class="text-left">Action</th>
+    <th class="text-left">Subject Code</th>
     <th class="text-left">Information</th>
     </tr>
     </thead>
@@ -235,7 +236,8 @@ outline: none;
             {% endif %} 
             {% for object in schedForToday %}
             {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
-            <td>{{object.choice}} {{object.offer_code}} {{object.subject_code}}</td>
+            <td>{{object.choice}}</td>
+            <td>{{object.subject_code}} - {{object.offer_code}}</td> 
             {% if object.choice|stringformat:"s" == "Class" %} 
         {% else %} 
   <td data-label="Info"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>

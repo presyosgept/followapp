@@ -14,7 +14,7 @@ Assign Counselor
       height: 210px;
       margin: 20px;
       border-radius: 10px;
-      background-color: #98adb4;
+      background-color: #98b4ac;
       box-shadow:
         0 9px 33px rgba(0, 0, 0, 0.07);
       overflow-y: scroll;
@@ -148,9 +148,9 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
@@ -171,13 +171,15 @@ margin: auto;
 
 <div class="table-box">
   {% for object in object_list %}
+  <a href="{% url 'director_fillinForm' object.employee_id %}"> 
 <div class="trow-list">
 <div class="table-cell first-cell">
-  <a href="{% url 'director_fillinForm' object.employee_id %}"> 
+  <!-- <a href="{% url 'director_fillinForm' object.employee_id %}">  -->
 <p style="text-align: left; margin-left: 50px; font-size: 18px;"><b>{{object.lastname}}, {{object.firstname}}</b></p>
-  </a>
+  <!-- </a> -->
 </div>   
 </div>
+</a>
 
 
 {% endfor %} 

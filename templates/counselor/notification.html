@@ -224,11 +224,7 @@ font-size: 13px;
  
 <br>
 <table id="customers">
-      <tr>
-      <th style="text-align:center; color: black;">Referral</th>
-      <th style="text-align:center; color: black;">Time</th>
-   
-    </tr>
+     
 {% for notification in notifications reversed %}
 
     {% if notification.notification_type == 'automatic_referral' %}
@@ -243,9 +239,9 @@ font-size: 13px;
   
      {% else %}
      <tr>
-      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id notification.notification_type %}">
+      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id %}">
          <b style="color: black;">You have Counseling Session on <strong>{{ notification.schedDay|date }}</strong></b></a></td>
-      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id notification.notification_type %}">{{ notification.created_at|timesince }} ago</a></td>
+      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
     </tr>
  
     {% endif %}  

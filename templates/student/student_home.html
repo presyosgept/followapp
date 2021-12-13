@@ -1,10 +1,10 @@
 <!DOCTYPE html>
     <html lang="en">
-    <head>
-
-       <meta charset="utf-8">
+<head>
+  
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Static Example</title>
+  <title>Follow App Student</title>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -12,7 +12,8 @@
   <!-- XDSoft DateTimePicker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
-
+  <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Sawarabi Gothic">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -32,20 +33,19 @@
   --nav-width: 250px;
 
   /*========== Colors ==========*/
- --first-color: #d8c090;
+  --first-color: #4863A0;
   --first-color-light: #F4F0FA;
   --title-color: #19181B;
   --text-color: #58555E;
   --navtext-color: #FFFFFF;
   --text-color-light: #A5A1AA;
-  --body-color: #E5E4E2;
-  --nav-color: #4863A0;
+  --body-color: #d8c090;
+  --nav-color: #98b4ac;
   --container-color: #FFFFFF;
   --card-color: #F9F6FD;
   --main1-color: #d8c090;
   --dropdown: #4863A0;
-  --header-color: #FFFFFF;
-
+  --header-color: #98b4ac;
 
   /*========== Font and typography ==========*/
   --body-font: 'Poppins', sans-serif;
@@ -568,6 +568,11 @@ th, td {
 }
 
 </style>
+</head>
+<title>
+  Follow App Student
+</title>
+
     <body>
         <!--========== HEADER ==========-->
 
@@ -576,12 +581,12 @@ th, td {
                
  
                 <img style="height:50px; " src="https://1.bp.blogspot.com/-zssvz_H77as/YSdIaUUbIbI/AAAAAAAAAf0/xhPKHM0G8dczMa5vP7MPCZvNVeZQkpKgACLcBGAsYHQ/w945-h600-p-k-no-nu/logo3.png"></img>
-                <a style="font-weight: bold; margin-right:  auto;" href="{% url 'student_home_view' %}"  class="header__logo">FOLLOW APP</a>
-             
-
+                <a style="font-weight: bold;margin-right:  auto; color: #FFFFFF;  font-family: 'Sawarabi Gothic', serif; 
+                letter-spacing: 2px;" 
+                href="{% url 'student_home_view' %}" class="header__logo">FOLLOW APP</a>
                 <div>
                 
-                              <p style="font-weight: 800px; color:#19181B;"> <b>{{form.firstname }} {{form.lastname }} </b></p>
+                              <p style="font-weight: bold;  color: #FFFFFF;"> {{form.firstname }} {{form.lastname }} </p>
                                    
                                    </div>
               </div>
@@ -636,15 +641,33 @@ th, td {
 
         <!--========== CONTENTS HOME ==========-->
             <div class="divHome">
+              
+
             <section id="homie" >
+
                 <br>
                 <div class="card1">
+
            <br>
           {% block content %} 
 
-    <img style="max-width: 700px;
-  height: 480px; margin: auto;" 
-  src="https://static.e-counseling.com/wp-content/uploads/2020/04/online-counseling-illustration-750.png">
+          <div style="display: flex;flex-direction:row;
+          flex-wrap:wrap-reverse;">
+               <img style="max-width: 1000px;
+     height: 480px; margin: auto;" 
+     src="https://epsyclinic.com/assets/img/intro-mobile.png"  
+    >
+    <div style="margin: auto; float: center; line-height: 30px;" >
+     <p><h4>
+       Student is bahog baba ang counselor pero  dapat antuson nimo
+       In student, mangamatay mos kabahog baba and thats awful <br>
+       You can set a schedule with your Cunselors whenever depress mo hahahah<br>
+       pero bahala na oy raw hahahaha potangina <br>
+       E.g. 
+     <i> <b>Upload School Offices</b> first, then follow the rest.</i>
+     </h4></p>
+   </div>
+   </div>
            {% endblock %}
          </div>
                </section>

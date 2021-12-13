@@ -278,7 +278,7 @@ font-size: 13px;
 <td data-label="Name"> {{object.lastname}}, &nbsp; {{object.firstname}}</td>
 <td data-label="Date"><a>{{object.date}}</a></td>
 <td data-label="Status"><a>{{object.status|title}}</a></td>
-<td style="color: black;" ><a href="{% url 'counselor_view_detail_referred_students' object.id 'finish' %}" style="font-weight: 550; color: black;">View More Information</a></td>
+<td style="color: black;" ><a href="{% url 'counselor_view_detail_referred_students' object.id %}" style="font-weight: 550; color: black;">View More Information</a></td>
 
 </tr>
 </tbody>

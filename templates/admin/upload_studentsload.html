@@ -9,7 +9,7 @@
   width: 50%;
   height: 320px;
   border-radius: 5px;
-  background-color: #E3E4FA;
+  background-color: #98b4ac;
   float: center;
   margin: auto;
    line-height: 40px; 
@@ -47,7 +47,8 @@
   color: #fff;
   transform: translateY(-7px);
 }
-.fac{
+
+  .fac{
   height: 20%;
   display: flex;
   align-items: left;
@@ -64,45 +65,21 @@
   letter-spacing: 2.5px;
   font-weight: 500;
   color: #fff;
-  background-color: #4863A0;
+  background-color: #d8c090;
   border: none;
-  border-radius: 45px;
+  border-radius: 8px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-  }
-  .facF{
-  height: 20%;
-  display: flex;
-  align-items: left;
-  justify-content: left;
-  padding: 15px;
-}
-
-.buttonFac {
-  width: 270px;
-  height: 40px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 500;
-  color: #fff;
-  background-color: #4863A0;
-  border: none;
-  border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-  margin: auto;
+  font-family: var(--body-font);
+  font-size: 12.5px;
   }
 </style>
 <br> <br> <br> <br>
 <div class="faculty">
   <div class="fac">
-    <button type="submit" class="buttonF">Upload Students Load</button>
+    <button type="submit" class="buttonF"><b>Upload Students Load</b></button>
   </div> 
 <br>
   <form method="post" enctype="multipart/form-data">
@@ -114,9 +91,7 @@
     </div>
   </form>
   {% for message in messages %}
-  <div class="facF">
-    <button type="submit" class="buttonFac"> <center> <p>{{message}} !</p> </center></button>
-  </div> 
+  <center> <b><p>{{message}} !</p></b> </center>   
              
 {% endfor %}
 

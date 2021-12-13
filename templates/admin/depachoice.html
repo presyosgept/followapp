@@ -12,7 +12,7 @@ Schedule
     width: 600px;
     height: 300px;
     border-radius: 5px;
-    background-color: #E3E4FA;
+    background-color: #98b4ac;
     float: center;
   margin: auto;
     text-align: center;
@@ -83,9 +83,44 @@ Schedule
     color: #fff;
     transform: translateY(-7px);
   }
+  .bText{
+    color: #fff;
+  }
+  .fac{
+  height: 20%;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  padding: 15px;
+}
+
+.buttonF {
+  width: 250px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #d8c090;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  font-family: var(--body-font);
+  font-size: 15px;
+  font-weight: bold;
+  }
+
     </style>
-  </style>
-<br>  <br> <br>
+
+
+<div class="fac">
+  <button type="submit" class="buttonF"><b>DEPARTMENT</b></button>
+</div> 
 <div class="depachoice">
   <form method="POST" action="">
     {% csrf_token %}
@@ -101,7 +136,7 @@ Schedule
     <div class="column1">
       <div class="row1"> 
         <div class="wrap">
-          <button type="submit" class="button">Upload</button>
+          <button type="submit" class="button">Submit</button>
         </div>
       </div>
      
@@ -110,7 +145,7 @@ Schedule
 </form>
 
 {% for message in messages %}
-                    <center> <p>{{message}}</p> </center>
+                   <center> <b><p>{{message}} !</p></b> </center>   
                 {% endfor %}
   
                   

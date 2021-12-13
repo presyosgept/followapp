@@ -271,7 +271,7 @@ outline: none;
 margin: auto;
 }
 .buttons{
-  margin-left: auto;
+  margin-left: 100px;
   width: 200px;
   height: auto;
   border: 5em;
@@ -280,7 +280,7 @@ margin: auto;
   font-size: 16px;
   -webkit-transform: translate(0);
   transform: translate(0);
-  background-image: linear-gradient(45deg, #98b4ac, #4863A0);
+  background-image: linear-gradient(45deg, #98b4ac, #d8c090);
   padding: 0.7em 2em;
   border-radius: 65px;
   box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
@@ -291,7 +291,7 @@ margin: auto;
 .buttons .text {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(45deg, #4863A0, #98b4ac);
+  background-image: linear-gradient(45deg, #d8c090, #98b4ac);
 }
 
 .buttons:after {
@@ -308,12 +308,12 @@ margin: auto;
 }
 
 .buttons:hover {
-  background-image: linear-gradient(-45deg, #98b4ac, #4863A0);
+  background-image: linear-gradient(-45deg, #98b4ac, #d8c090);
   box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
 }
 
 .buttons:hover .text {
-  background-image: linear-gradient(-45deg, #4863A0, #98b4ac);
+  background-image: linear-gradient(-45deg, #d8c090, #98b4ac);
 }
 .fac{
 
@@ -333,9 +333,9 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
@@ -360,9 +360,9 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
@@ -385,11 +385,11 @@ margin: auto;
                   &nbsp;
        <h3 style="font-weight: bold; text-align: center;" class="txtColor">&nbsp; &nbsp;  <i>To proceed with Referring a student, kindly input the following details.</i></h3>
 &nbsp;
-        <div class="facers">
+     
           {% for message in messages %}
-     <p class="buttonFed">{{message}} !</p>
+    <center><b> <p>{{message}} !</p></b></center>
      {% endfor %}
-    </div>
+ 
           <TABLE class="center" style="margin-left: 100px;">
 <TR>
 <TD><label class="txtFont"><b>Input Student ID:</b></label></TD>
@@ -410,20 +410,21 @@ margin: auto;
 </TR>
 <TR>
 <TD><label class="txtFont"><b>Behavioral Problem:</b></label></TD>
-<TD><label style="margin-right: auto;">{{form1.behavior_problem}}</label></TD>
+<div class="checkVax">
+  <TD><label>{{form1.behavior_problem}}</label></TD>
+</div>
 </TR>
 </TABLE>
 
 <div class="column">
-  <div class="row">     
-    
+  <div class="row">      
   &nbsp;    &nbsp;
   
      <i><h4 style="margin-left: auto; font-size: large;" >Input&nbsp;Additional&nbsp;Information:</h4> </i>
      {{form1.reasons}}
      <br> <br>
     <button class="buttons" style="font-weight: bold;  color: #454545;">Submit</button>
-   
+   <br> <br>
   </div>
   </div>
   <br>
@@ -433,7 +434,6 @@ margin: auto;
 
  <br> 
  </div>
-
 
  
       

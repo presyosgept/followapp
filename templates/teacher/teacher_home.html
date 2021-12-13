@@ -18,19 +18,20 @@
   --nav-width: 250px;
 
   /*========== Colors ==========*/
- --first-color: #d8c090;
+  --first-color: #4863A0;
   --first-color-light: #F4F0FA;
   --title-color: #19181B;
   --text-color: #58555E;
   --navtext-color: #FFFFFF;
   --text-color-light: #A5A1AA;
-  --body-color: #E5E4E2;
-  --nav-color: #4863A0;
+  --body-color: #d8c090;
+  --nav-color: #98b4ac;
   --container-color: #FFFFFF;
   --card-color: #F9F6FD;
   --main1-color: #d8c090;
   --dropdown: #4863A0;
-  --header-color: #FFFFFF;
+  --header-color: #98b4ac;
+
 
 
   /*========== Font and typography ==========*/
@@ -582,7 +583,7 @@ display: flex;
 
 .card_content {
   padding: 1rem;
-  background: #98AFC7;
+  background: #98b4ac;
 }
 
 .card_title {
@@ -695,42 +696,17 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
-.facU{
 
-display: flex;
-align-items: center;
-justify-content: center;
-
-}
-
-.buttonN {
-width: 280px;
-height: 40px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #4863A0;
-border: none;
-border-radius: 45px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
-font-size: 13px;
-}
   </style>
-
+  <title>Follow App Teacher</title>
     </head>
     <body>
         <!--========== HEADER ==========-->
@@ -804,11 +780,14 @@ font-size: 13px;
                   {% for object in object_list %}
                 
 <div class="cards_item">
-  <a href="{% url 'teacher_view_students' object.offer_code_id %}"> 
+  <a href="{% url 'teacher_view_students' object.offer_code %}"> 
   <div class="card">
     <div class="card_image"><img src="https://picsum.photos/500/300/?image=2"></div>
     <div class="card_content">
-      <h2 class="card_title">{{object.offer_code_id }}</h2>
+      <h2 class="card_title">{{object.offer_code}}</h2>
+       <h2 class="card_title">{{object.subject_code }}</h2>
+        <h2 class="card_title">{{object.days }}</h2>
+         <h1 class="card_title">{{object.start_time}} - {{object.end_time}}</h1>
       
        <!-- <h2 class="card_title">{{object.subject_code_id }}</h2> -->
    

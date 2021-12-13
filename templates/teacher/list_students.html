@@ -208,52 +208,23 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-}
-.facU{
-
-display: flex;
-align-items: center;
-justify-content: center;
-
-}
-
-.buttonN {
-width: 280px;
-height: 40px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #4863A0;
-border: none;
-border-radius: 45px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
-font-size: 13px;
 }
 
 </style>
     <div class="fac">
     <button type="submit" class="buttonF">List of Students</button>
   </div> 
-           <br>
             {% if not object_list %}
-               <div class="facU"> 
-  <button class="buttonN">No Enrolled Students Yet!</button>
-</div> 
+            <br>
+            No Enrolled Students Yet!
         {% endif %}
-
                        <div class="table-box">
                             {% for object in object_list %}
            

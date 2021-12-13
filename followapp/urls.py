@@ -73,6 +73,7 @@ from counselling.views import(
     director_fillinForm,
 
     # student
+    student_add_info,
     student_home_view,
     student_schedule,
     notifications_student,
@@ -93,7 +94,6 @@ from counselling.views import(
     uploaddb_schooloffices,
     uploaddb_department,
     uploaddb_degreeprogram,
-    uploaddb_allfaculty,
     uploaddb_allsubject,
     uploaddb_semester,
     uploaddb_offercode,
@@ -110,7 +110,6 @@ urlpatterns = [
     path('uploaddb/department', uploaddb_department, name="uploaddb_department"),
     path('uploaddb/degreeprogram', uploaddb_degreeprogram,
          name="uploaddb_degreeprogram"),
-    path('uploaddb/allfaculty', uploaddb_allfaculty, name="uploaddb_allfaculty"),
     path('uploaddb/allsubjects', uploaddb_allsubject,
          name="uploaddb_allsubjects"),
     path('uploaddb/semester', uploaddb_semester, name="uploaddb_semester"),
@@ -207,6 +206,7 @@ urlpatterns = [
 
 
     # student
+    path('student/add_info', student_add_info, name="student_add_info"),
     path('student/', student_home_view, name="student_home_view"),
     path('student/schedule', student_schedule, name="student_schedule"),
     path('student/view_schedule_student',

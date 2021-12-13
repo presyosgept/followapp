@@ -28,23 +28,18 @@
   }
   
   #box {
-    /* border: 1px solid red;
-    background-color: honeydew;
-    border: 1px solid black;
-    box-shadow:
-          0 9px 33px rgba(0, 0, 0, 0.07);
-    height: 350px;
-    min-width: 20px;
-    margin: auto; */
+    overflow: hidden;
+  text-overflow: ellipsis;
     border: 1px solid black;
     border-radius: 10px;
         background-color: #B4CFEC;
         box-shadow:
           0 9px 33px rgba(0, 0, 0, 0.07);
-          max-width: 750px;
-    height: 500px;
+          max-width: 780px;
+    height: 350px;
     float: center;
     margin: auto;
+    overflow-y: scroll;
   }
   /* === TABLE ==== */
   
@@ -291,7 +286,10 @@ outline: none;
 }
 </style>
 {% for object in objects %}
-  <div class="fac">
+
+ {% if not object.subject_referred %}
+
+ <div class="fac">
     <button type="submit" class="buttonF">Students Referral Information</button>
   </div> 
 
@@ -322,14 +320,16 @@ outline: none;
 
   <div class="trow-list">
   <p class="Pbox">
-    <b>{{object.lastname}}</b> is reffered due to having a behavior problem of <b> {{object.behavior_problem | title}}</b> 
-    The Session starts at {{object.start_time}} and ends in {{object.end_time}} on {{object.date}}  <br> 
-    With the Reasons stated below:
-    <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
+    You are scheduled for an appointment.
+    The Session starts at <b>{{object.start_time}}</b> and ends at <b> {{object.end_time}}</b> on <b> {{object.date}}</b>  <br> 
+    <i>With the Reasons stated below:</i>
+    <li class="Pbox" style="text-align: justify;"><b>{{object.reasons}}</b></li>
   </p>
 </div>
      </div>
   </div>
+
+   {% if object.feedback is None %}
     {% if type == 'teacher' %}
 <a href="{% url 'counselor_feedback' object.id %}">  
   <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
@@ -340,13 +340,83 @@ outline: none;
   <a href="{% url 'counselor_feedback_student' object.id %}">  
   <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
 
+     
+    {% endif %}  
+    {% endif %}  
+
+
+
+     {% else %}
+  <div class="fac">
+    <button type="submit" class="buttonF">Students Referral Information</button>
+  </div> 
+
+  <br>
+  <div id="wrapper">
+    <div id="square">
+      <br>
+    
+        
+          <img style="max-width: 200px;
+          height: 200px; margin: auto;" 
+          src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
+         >
+         <p style="padding: 10px; font-size: 17px; line-height: 25px;">
+          <b>Students Name:</b> {{object.lastname}}, {{object.firstname}}<br>
+          <b>Student Number:</b> {{object.studnumber}}<br>
+          <b>Degree Program:</b>  {{object.degree_program}}
+        </p>
+
+     
+  
+    </div>
+    &nbsp; &nbsp;
+  
+    <div id="box">
+  
+      <br>        
+{% if not object.behavior_problem %}
+      <div class="trow-list">
+        <p class="Pbox">
+          <b>{{object.lastname}}</b> is referred.</b> 
+          The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br> 
+         <i> With the Reasons stated below:</i>
+          <li class="Pbox" style="text-align:justify;"><b>{{object.reasons}}</b></li>
+        </p>
+      </div>
+      {% else %}  
+<div class="trow-list">
+        <p class="Pbox">
+          <b>{{object.lastname}}</b> is referred due to as having a behavior problem of <b> {{object.behavior_problem | title}}.</b> 
+          The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br> 
+         <i> With the Reasons stated below:</i>
+          <li class="Pbox" style="text-align:justify;"><b>{{object.reasons}}</b></li>
+        </p>
+      </div>
+{% endif %}  
+
+     </div>
+  </div>
+    {% if object.feedback is None %}
+    {% if type == 'teacher' %}
+<a href="{% url 'counselor_feedback' object.id %}">  
+  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
+
+    
+
+     {% else %}
+  <a href="{% url 'counselor_feedback_student' object.id %}">  
+  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
+{% endif %}  
  
     {% endif %}  
 <br>
 <br>
+
+    {% endif %}  
            {% endfor %}
 
-      
+  
 
 
      

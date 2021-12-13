@@ -6,242 +6,244 @@ Schedule
 {% block content %} 
 <style>
 
-  div.table-title {
-     display: block;
-    margin: auto;
+div.table-title {
+   display: block;
+  margin: auto;
+
+  padding:5px;
+ 
+}
+
+.table-title h3 {
+   color: #fafafa;
+   font-size: 30px;
+   font-weight: 400;
+   font-style:normal;
+   font-family: "Roboto", helvetica, arial, sans-serif;
+   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+   text-transform:uppercase;
+
+}
+
+
+/*** Table Styles **/
+
+.table-fill {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 320px;
+  margin: auto;
+  max-width: 100px;
+  padding:5px;
+  width: 200%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+ 
+th {
+  color:#413839;
+  background:#C1C3D1;
+  border-bottom:4px solid #C1C3D1;
+  border-right: 1px solid  #C1C3D1;
+  font-size:23px;
+  font-weight: 100;
+  padding: 10px;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+  min-width: 355px;
+
+}
+
+th:first-child {
+  border-top-left-radius:3px;
+}
+ 
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+
+}
   
-    padding:5px;
-   
-  }
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom: 1px solid #C1C3D1;
+  color:#504A4B;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+
+}
+ 
+tr:hover td {
+  background:#4863A0;
+  color:#4863A0;
+  border-top: 1px solid #4863A0;
+}
+ 
+tr:first-child {
+  border-top:none;
+}
+
+tr:last-child {
+  border-bottom:none;
+}
+ 
+tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+ 
+tr:nth-child(odd):hover td {
+  background:#C1C3D1;
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+td {
+  background:#FFFFFF;
+  padding: 10px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300;
+  font-size:18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+ 
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
+  text-align: center;
+}
+
+th.text-right {
+  text-align: right;
+}
+
+td.text-left {
+  text-align: center;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+td.text-right {
+  text-align: right;
+}
+.table-head{
   
-  .table-title h3 {
-     color: #fafafa;
-     font-size: 30px;
-     font-weight: 400;
-     font-style:normal;
-     font-family: "Roboto", helvetica, arial, sans-serif;
-     text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-     text-transform:uppercase;
-  
-  }
-  
-  
-  /*** Table Styles **/
-  
-  .table-fill {
-    background: white;
-    border-radius:3px;
-    border-collapse: collapse;
-    height: 320px;
-    margin: auto;
-    max-width: 100px;
-    padding:5px;
-    width: 200%;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    animation: float 5s infinite;
-  }
-   
-  th {
-    color:#413839;
-    background:#C1C3D1;
-    border-bottom:4px solid #C1C3D1;
-    border-right: 1px solid  #C1C3D1;
-    font-size:23px;
-    font-weight: 100;
-    padding: 10px;
+    background: #E5E4E2;
+    box-shadow: none;
+    color: #fff;
+    font-weight: 600;
+    line-height: 5px;
+      box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+      width: 500px;
+      margin:auto;
+      border-radius: 20px;
+}
+.table-head .table-cell{
+    border-right: none;
+}
+.table-cell{
+    display: table-cell;
+    width: 20%;
     text-align: center;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    vertical-align:middle;
-    min-width: 275px;
-  
-  }
-  
-  th:first-child {
-    border-top-left-radius:3px;
-  }
-   
-  th:last-child {
-    border-top-right-radius:3px;
-    border-right:none;
-  
-  }
-    
-  tr {
-    border-top: 1px solid #C1C3D1;
-    border-bottom: 1px solid #C1C3D1;
-    color:#504A4B;
-    font-size:16px;
-    font-weight:normal;
-    text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
-  
-  }
-   
-  tr:hover td {
-    background:#4863A0;
-    color:#4863A0;
-    border-top: 1px solid #4863A0;
-  }
-   
-  tr:first-child {
-    border-top:none;
-  }
-  
-  tr:last-child {
-    border-bottom:none;
-  }
-   
-  tr:nth-child(odd) td {
-    background:#EBEBEB;
-  }
-   
-  tr:nth-child(odd):hover td {
-    background:#C1C3D1;
-  }
-  
-  tr:last-child td:first-child {
-    border-bottom-left-radius:3px;
-  }
-   
-  tr:last-child td:last-child {
-    border-bottom-right-radius:3px;
-  }
-   
-  td {
-    background:#FFFFFF;
-    padding: 10px;
-    text-align:left;
-    vertical-align:middle;
-    font-weight:300;
-    font-size:18px;
-    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-    border-right: 1px solid #C1C3D1;
-   
-  }
-  
-  td:last-child {
-    border-right: 0px;
-  }
-  
-  th.text-left {
+    padding: 4px 0;
+    border-right: 1px solid #838996;
+    vertical-align: middle;
+}
+.first-cell{
     text-align: left;
+    padding-left: 10px;
+    width: 8%;
+}
+.last-cell{
+    border-right: none;
+    width: 15px;
+}
+p{
+  font-size: 17px;
+  color: black;
+}
+.listTitle{
+  font-size: 20px;
+  text-align: center;
+}
+@media only screen and (max-width: 600px) {
+  .table-row {
+    font-size: 11px;
   }
-  
-  th.text-center {
-    text-align: center;
-  }
-  
-  th.text-right {
-    text-align: right;
-  }
-  
-  td.text-left {
-    text-align: center;
-  }
-  
-  td.text-center {
-    text-align: center;
-  }
-  
-  td.text-right {
-    text-align: right;
-  }
-  .table-head{
-    
-      background: #E5E4E2;
-      box-shadow: none;
-      color: #fff;
-      font-weight: 600;
-      line-height: 5px;
-        box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-        width: 500px;
-        margin:auto;
-        border-radius: 20px;
-  }
-  .table-head .table-cell{
-      border-right: none;
-  }
-  .table-cell{
-      display: table-cell;
-      width: 20%;
-      text-align: center;
-      padding: 4px 0;
-      border-right: 1px solid #838996;
-      vertical-align: middle;
-  }
-  .first-cell{
-      text-align: left;
-      padding-left: 10px;
-      width: 8%;
-  }
-  .last-cell{
-      border-right: none;
-      width: 15px;
-  }
-  p{
-    font-size: 17px;
-    color: black;
-  }
-  .listTitle{
-    font-size: 20px;
-    text-align: center;
-  }
-  @media only screen and (max-width: 600px) {
-    .table-row {
-      font-size: 11px;
-    }
-  }
-  .fac{
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  }
-  
-  .buttonF {
-  width: 420px;
-  height: 55px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 15px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 600;
-  color: #fff;
-  background-color: #4863A0;
-  border: none;
-  border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-  }
-  .facDay{
-  
-  display: flex;
-  align-items: left;
-  justify-content: left;
-  
-  }
-  
-  .buttonDay {
-  width: 300px;
-  height: 55px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 15px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 600;
-  color: #fff;
-  background-color: #4863A0;
-  border: none;
-  border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-  margin-left: 10px;
-  }
-    </style>
+}
+.fac{
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonF {
+width: 420px;
+height: 55px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #d8c090;
+border: none;
+border-radius: 8px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+}
+.facDay{
+
+display: flex;
+align-items: left;
+justify-content: left;
+
+}
+
+.buttonDay {
+width: 300px;
+height: 55px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #d8c090;
+border: none;
+border-radius: 8px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+margin-left: 10px;
+}
+
+
+  </style>
   <div class="facDay">
     <button type="submit" class="buttonDay">{{today}},  {{day_name}}</button>
   </div> 
@@ -260,9 +262,7 @@ Schedule
     <tr>
     <th class="text-left">Time</th>
     <th class="text-left">Action</th>
-    <th class="text-left">Subject Code</th>
     <th class="text-left">Information</th>
-
     </tr>
     </thead>
     {% for obj in time %}
@@ -277,10 +277,7 @@ Schedule
             {% endif %} 
             {% for object in schedForToday %}
             {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
-            <td>{{object.choice}}</td>   
-            <td>{{object.subject_code}} - {{object.offer_code}}</td> 
-            <!-- <td>{{object.offer_code}}</td> 
-            <td> {{object.subject_code}}</td>  -->
+            <td>{{object.choice}} {{object.offer_code}}  {{object.subject_code}}</td>   
             {% if object.choice|stringformat:"s" == "Class" %} 
            {% else %} 
   <td data-label="Info"><a  style="color: #504A4B" href="{% url 'view_appointment_students' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>

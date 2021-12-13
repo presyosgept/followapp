@@ -1,0 +1,50 @@
+ {% extends "student/student_home.html" %}
+
+{% block title %} 
+Student Info
+{% endblock %} 
+
+
+{% block content %} 
+
+
+    <form method="POST" action="">
+    {% csrf_token %}
+    
+    <div class="column">
+      <div class="row"> 
+        <p class="pText"><b class="bText">First Name: &nbsp;</b> {{info.firstname}}</p>
+        <p class="pText"><b class="bText">Last Name: &nbsp;</b>  {{info.lastname}}</p>
+        <p class="pText"><b class="bText">studnumber: &nbsp;</b> {{info.studnumber}}</p>
+        <p class="pText"><b class="bText">year: &nbsp;</b> {{info.year}}</p>
+        <p class="pText"><b class="bText">degree_program: &nbsp;</b> {{info.degree_program}}</p>  
+        <!-- //duha duha ko idiplay ba ni sya -->
+        
+        <p class="pText"><b class="bText">student_email: &nbsp;</b> {{info.student_email}}</p>
+        
+
+
+        &nbsp;    &nbsp;   
+
+         <p class="pText"><b class="bText">mother_firstname: &nbsp;</b> {{info.mother_firstname}}</p>
+        <p class="pText"><b class="bText">mother_lastname: &nbsp;</b>  {{info.mother_lastname}}</p>
+        <p class="pText"><b class="bText">father_firstname: &nbsp;</b> {{info.father_firstname}}</p>
+        <p class="pText"><b class="bText">father_lastname: &nbsp;</b> {{info.father_lastname}}</p>
+        
+         <p class="pText"><b class="bText">student_contact_number: &nbsp;</b> {{info.student_contact_number}}</p>
+        <p class="pText"><b class="bText">parent_contact_number: &nbsp;</b>  {{info.parents_contact_number}}</p>
+        <p class="pText"><b class="bText">address: &nbsp;</b> {{info.address}}</p>
+        <p class="pText"><b class="bText">parents_email: &nbsp;</b> {{info.parents_email}}</p>
+
+      </div>
+      </div>
+    <div class="column1">
+      <div class="row1"> 
+        <div class="wrap">
+          <button type="submit" class="button">Submit</button>
+        </div>
+      </div>
+      </div>
+</form>
+     
+{% endblock %}

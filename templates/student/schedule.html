@@ -6,6 +6,7 @@ Schedule
 
 
 {% block content %} 
+
 <style>
 
   .login_btn {
@@ -120,7 +121,7 @@ margin-bottom:15px;
   font-size: 16px;
   -webkit-transform: translate(0);
   transform: translate(0);
-  background-image: linear-gradient(45deg, #98b4ac, #4863A0);
+  background-image: linear-gradient(45deg, #98b4ac, #d8c090);
   padding: 0.7em 2em;
   border-radius: 65px;
   box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
@@ -131,7 +132,7 @@ margin-bottom:15px;
 .buttons .text {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(45deg, #4863A0, #98b4ac);
+  background-image: linear-gradient(45deg, #d8c090, #98b4ac);
 }
 
 .buttons:after {
@@ -148,12 +149,12 @@ margin-bottom:15px;
 }
 
 .buttons:hover {
-  background-image: linear-gradient(-45deg, #98b4ac, #4863A0);
+  background-image: linear-gradient(-45deg, #98b4ac, #d8c090);
   box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
 }
 
 .buttons:hover .text {
-  background-image: linear-gradient(-45deg, #4863A0, #98b4ac);
+  background-image: linear-gradient(-45deg, #d8c090, #98b4ac);
 }
 .table-head{
   
@@ -218,7 +219,7 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
 border-radius: 45px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -244,9 +245,9 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
@@ -271,7 +272,7 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
 border-radius: 45px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -287,11 +288,11 @@ margin: auto;
   </div> 
 <br>
 <form action="#" class="cleanForm" method="POST">
-        <div class="facers">
+     
           {% for message in messages %}
-     <p class="buttonFed">{{message}} !</p>
+  <center><b>   <p>{{message}} !</p></b></center>
      {% endfor %}
-    </div>
+
      
         <div class="row">     
           <p class="pText"><b class="bText">Student Number: &nbsp;</b>  {{schedform.studnumber}}</p> 
@@ -301,7 +302,7 @@ margin: auto;
          
       <form method="POST" action=""> 
             {% csrf_token %}
-           <i><h4 style="font-size: 16px; color: #4C4646;" >Input the Reasons below to Set a Schedule for Counseling:</h4> </i>
+           <i><h4 style="font-size: 16px; color: #4C4646;" >Input the Reasons below to Set a Schedule for Referral:</h4> </i>
            {{schedform.reasons}}
            <br> <br>
           <button class="buttons" type="submit" style="font-weight: bold; color: #454545;">Submit</button>

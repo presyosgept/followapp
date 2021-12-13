@@ -17,9 +17,9 @@
     height: 350px;
     border-radius: 20px;
   
-    border: 1px solid black;
+    border: 1px solid #98b4ac;
     border-radius: 10px;
-        background-color: #B4CFEC;
+        background-color: #98b4ac;
         box-shadow:
           0 9px 33px rgba(0, 0, 0, 0.07);
     margin: auto;
@@ -27,36 +27,26 @@
   }
   
   #box {
+  
     border: 1px solid black;
-    border-radius: 10px;
-        background-color: #B4CFEC;
-        box-shadow:
-          0 9px 33px rgba(0, 0, 0, 0.07);
-          min-width: 600px;
-    height: 350px;
-    float: center;
-    margin: auto;
+  border-radius: 10px;
+ 
+      box-shadow:
+        0 9px 33px rgba(0, 0, 0, 0.07);
+        min-width: 1008px;
+  min-height: 100px;
+  float: left;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  white-space:normal; word-break: break-all;
   }
   /* === TABLE ==== */
-  
-  /* .table-row{
-      display: table;
-      width: 40%;
-      margin: 10px auto;
-      font-family: sans-serif;
-      background: transparent;
-      padding: 4px 0;
-      color: #555;
-      font-size: 13px;
-      box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-      height: 0.1%;
-      border-radius: 20px;
-      margin-top: 50px;
-       
-  } */
+
   .table-head{
     
-      background: #E5E4E2;
+      background: #98b4ac;
       box-shadow: none;
       color: #fff;
       font-weight: 600;
@@ -74,7 +64,7 @@
       width: 20%;
       text-align: center;
       padding: 4px 0;
-      border-right: 1px solid #838996;
+      border-right: 1px solid #98b4ac;
       vertical-align: middle;
   }
   .first-cell{
@@ -172,9 +162,9 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
@@ -186,6 +176,77 @@ outline: none;
   text-align: justify;
 
 }
+.column{
+ min-width: 300px;
+ float:left;
+ margin-right: auto;
+
+}
+.row{
+  width: 450px;
+ float:right;
+ text-align: left;
+ text-align: justify;
+ 
+
+  margin-left: auto;
+
+  line-height: 30px;
+  
+}
+.rowText{
+  font-size: 23px;
+  min-width: 900px;
+  padding: 10px;
+}
+.image{
+  max-width: 320px;
+  height: 150px; 
+}
+.picInfo{
+  display: flex;
+justify-content: center;
+}
+.column{
+ width:250px;
+ float:left;
+ margin-right:20px;
+
+}
+
+.row1{
+ width: 450px;
+ float:left;
+margin-left: 200px;
+padding: 8px;
+
+}
+
+
+.last{
+ margin:0;
+ padding: 10px;   
+}
+.pText{
+  font-weight: 600;
+  font-size: 20px;
+  color: #454545;
+
+}
+.bText{
+  color: #000;
+  font-size: 20px;
+
+}
+
+form.cleanForm {
+width:700px;
+margin:0 auto;
+
+}
+form.cleanForm p {
+margin-bottom:15px;
+}
 </style>
 
 {% for object in objects %}
@@ -193,34 +254,44 @@ outline: none;
           <button type="submit" class="buttonF">Feedback of Referral</button>
         </div> 
     
+<form action="#" class="cleanForm" method="POST">
   <br>
-  <div id="wrapper">
-    <div id="square">
-      <br>
-    
-        
-          <img style="max-width: 200px;
-          height: 200px; margin: auto;" 
-          src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
-         >
-         <p style="padding: 10px; font-size: 17px;"><b>Students Name:</b> {{object.lastname}}, {{object.firstname}}</p>
-         <p style="line-height: 1px; font-size: 17px;"><b>Degree Program:</b>  {{object.degree_program}}</p>
-     
+
+<div class="column">
+  <div class="row">  
+    <img class="image"
+    src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
+    > 
+    <br>
+    <p class="pText"><b class="bText">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</p> 
+
+
   
-    </div>
-  
-    <div id="box">
-  
-      <br>        
-      <div class="trow-list">
-        <p class="Pbox">
-          The feedback in <b>{{object.subject_referred}}</b> Subject is already assested.<br>
-        </b>Feedback stated below:
-          <li class="Pbox" style="text-align:left;"><b>{{object.feedback}}</b></li>
-        </p>
-    </div>
-     </div>
+<div>
+  <p class="rowText">
+    The feedback in <b>{{object.subject_referred}}</b> Subject is already assessed.<br>
+  <i><b>Feedback stated below:</b></i>
+  <div id="box">
+    <li style="font-size: 21px; padding: 10px;"><b>{{object.feedback}}</b></li>
   </div>
+  </p>
+</div>
+
+
+
+  </div>
+  </div>
+  <br> <br> <br> <br> <br> <br> <br> <br>
+
+<div class="column">
+  <div class="row1"> 
+    <p class="pText"><b class="bText">Degree Program: &nbsp;</b>{{object.degree_program}}</p>
+    &nbsp;    &nbsp;   
+  </div>
+ 
+  </div>
+      
+  </form>
 
            {% endfor %}
                

@@ -10,7 +10,7 @@
   width: 600px;
   height: 300px;
   border-radius: 5px;
-  background-color: #E3E4FA;
+  background-color: #98b4ac;
   float: center;
 margin: auto;
   text-align: center;
@@ -80,7 +80,7 @@ justify-content: center;
 
 .buttonF {
   padding: 13px;
-width: 445px;
+width: 300px;
 height: 45px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
@@ -88,9 +88,9 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
@@ -118,15 +118,18 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 margin: auto;
 
+}
+.bText{
+  color: #fff;
 }
 </style>
  <section id="assignedC">
@@ -139,13 +142,11 @@ margin: auto;
 
   <div class="input">
     <div class="fac">
-      <button type="submit" class="buttonF">Assigned Employee</button>
+      <button type="submit" class="buttonF">Assign Employee</button>
     </div> 
 <br>
 {% for message in messages %}    
-<div class="facU">
-  <button type="submit" class="buttonFU"><p style="font-size: 12px;">{{message}} !</p></button>
-</div> 
+<center><b><p>{{message}}</p></b></center>
 {% endfor %}
 <br>
 <div class="offering">
@@ -156,7 +157,7 @@ margin: auto;
       <div class="row"> 
         <p class="pText"><b class="bText">First Name: &nbsp;</b> {{form1.firstname}}</p>
         <p class="pText"><b class="bText">Last Name: &nbsp;</b>  {{form1.lastname}}</p>
-        <p class="pText"><b class="bText">Program Distination: &nbsp;</b> {{form1.program_designation}}</p>
+        <p class="pText"><b class="bText">Program Designation: &nbsp;</b> {{form1.program_designation}}</p>
         &nbsp;    &nbsp;   
       </div>
       </div>

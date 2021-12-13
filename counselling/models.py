@@ -1,3 +1,4 @@
+from multiselectfield import MultiSelectField
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
@@ -39,17 +40,27 @@ class AllStudent(models.Model):
     middlename = models.CharField(max_length=220)
     degree_program = models.ForeignKey(DegreeProgram, on_delete=models.CASCADE)
     year = models.IntegerField()
-    email = models.EmailField(max_length=254)
+    student_email = models.EmailField(max_length=254)
     role = models.CharField(max_length=220, blank=True, null=True)
 
 
-class AllFaculty(models.Model):
-    employee_id = models.CharField(max_length=15, primary_key=True)
+class StudentInfo(models.Model):
+    studnumber = models.CharField(max_length=15, primary_key=True)
     lastname = models.CharField(max_length=220)
     firstname = models.CharField(max_length=220)
     middlename = models.CharField(max_length=220)
-    email = models.EmailField(max_length=254)
-    department_id = models.ForeignKey(Department, on_delete=models.CASCADE)
+    degree_program = models.ForeignKey(DegreeProgram, on_delete=models.CASCADE)
+    year = models.IntegerField()
+    student_email = models.EmailField(max_length=254)
+    student_contact_number = models.CharField(max_length=220)
+    address = models.CharField(max_length=220)
+    mother_lastname = models.CharField(max_length=220)
+    mother_firstname = models.CharField(max_length=220)
+    father_lastname = models.CharField(max_length=220)
+    father_firstname = models.CharField(max_length=220)
+    parents_contact_number = models.CharField(max_length=220)
+    parents_email = models.EmailField(max_length=254)
+    status = models.CharField(max_length=254, default='undone')
 
 
 class Faculty(models.Model):
@@ -58,6 +69,7 @@ class Faculty(models.Model):
     firstname = models.CharField(max_length=220)
     email = models.EmailField(max_length=254)
     role = models.CharField(max_length=220)
+    department_id = models.ForeignKey(Department, on_delete=models.CASCADE)
 
 
 class AccountCreated(models.Model):
@@ -184,7 +196,7 @@ class TeachersReferral(models.Model):
                         ('ATTITUDE', 'ATTITUDE'), ('USING GADGETS IN CLASS',
                                                    'USING GADGETS IN CLASS'),
                         ('GRUBBING', 'GRUBBING'), ('OTHERS', 'OTHERS'))
-    behavior_problem = models.CharField(
+    behavior_problem = MultiSelectField(
         max_length=220, choices=BEHAVIOR_PROBLEM, null=True, blank=True)
     feedback = models.CharField(max_length=10000, blank=True, null=True)
     choice = models.CharField(max_length=220, blank=True, null=True)

@@ -27,14 +27,7 @@ Schedule
 }
 
 #box {
-  /* border: 1px solid red;
-  background-color: honeydew;
-  border: 1px solid black;
-  box-shadow:
-        0 9px 33px rgba(0, 0, 0, 0.07);
-  height: 350px;
-  min-width: 20px;
-  margin: auto; */
+
   border: 1px solid black;
   border-radius: 10px;
       background-color: #B4CFEC;
@@ -44,6 +37,17 @@ Schedule
   height: 350px;
   float: center;
   margin: auto;
+      overflow-y: scroll;
+    overflow: hidden;
+  text-overflow: ellipsis;
+  
+  overflow-wrap: break-word;
+}
+.Pbox{
+  font-size: 19px;
+  line-height: 30px;
+  text-align: justify;
+
 }
 /* === TABLE ==== */
 
@@ -179,6 +183,7 @@ margin-left: 40px;
 text-align: left;
 white-space: normal;
 
+
 }
 
 .buttonF {
@@ -225,9 +230,12 @@ outline: none;
         <button type="submit" class="buttonF">Feedback</button>
       </div> 
   
-      <div class="feed">
-       <p style="font-size: 20px;">{{object.feedback}}</p>
-      </div> 
+
+            <div class="trow-list">
+        <p class="Pbox">
+        {{object.feedback}}
+        </p>
+      </div>
      </div>
      {% endfor %}
   </div>

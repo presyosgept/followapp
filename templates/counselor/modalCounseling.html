@@ -28,23 +28,18 @@
 }
 
 #box {
-  /* border: 1px solid red;
-  background-color: honeydew;
   border: 1px solid black;
-  box-shadow:
-        0 9px 33px rgba(0, 0, 0, 0.07);
-  height: 350px;
-  min-width: 20px;
-  margin: auto; */
-  border: 1px solid black;
-  border-radius: 10px;
-      background-color: #B4CFEC;
-      box-shadow:
-        0 9px 33px rgba(0, 0, 0, 0.07);
-        min-width: 800px;
-  height: 350px;
-  float: center;
-  margin: auto;
+    border-radius: 10px;
+        background-color: #B4CFEC;
+        box-shadow:
+          0 9px 33px rgba(0, 0, 0, 0.07);
+          max-width: 780px;
+    height: 350px;
+    float: center;
+    margin: auto;
+    overflow-y: scroll;
+
+  text-overflow: ellipsis;
 }
 /* === TABLE ==== */
 
@@ -163,14 +158,43 @@ div.item {
 #index-gallery{
   width:465px;
 }
-</style>
+.fac{
 
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonF {
+width: 420px;
+height: 55px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #4863A0;
+border: none;
+border-radius: 45px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+}
+.Pbox{
+  font-size: 20px;
+  line-height: 30px;
+  text-align: justify;
+
+}
+</style>
+{% if not object.behavior_problem %}
 <br>
-<div class="table-row table-head">
-  <div class="table-cell first-cell">
-      <p class="listTitle">Counseling Information</p>
-  </div>
-</div> 
+<div class="fac">
+  <button type="submit" class="buttonF">Counseling Information</button>
+</div>
 <div id="wrapper">
   <div id="square">
     <br>
@@ -190,22 +214,51 @@ div.item {
 
     <br>        
     <div class="trow-list">
-      <div  class="table-cell">
-    <p class="modal1"><b>Date:</b> &nbsp;</p>
-    <p class="modal1"><b>Subject:</b> &nbsp; &nbsp;</p>
-    <p class="modal1"><b>Behavior Problem:</b> &nbsp; &nbsp;</p>   
-    <p class="modal1"><b>Reasons: </b>&nbsp; &nbsp;</p>  
-      </div> 
-
-          <div class="table-cell">
-    <p class="modal2"> &nbsp; &nbsp; {{object.date}}</p>
-    <p class="modal2" > &nbsp; &nbsp; {{object.subject_referred}}</p>
-    <p class="modal2" > &nbsp; &nbsp; {{object.behavior_problem | title}}</p>   
-    <p class="modal2" > &nbsp; &nbsp; {{object.reasons}}</p>   
-    </div> 
+      <p class="Pbox">
+        You have an appointment with <b> {{object.lastname}}.</b></b> 
+        The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}} </b> <br> 
+        <i>With the Reasons stated below:</i>
+        <li class="Pbox" style="text-align:justify;"><b>{{object.reasons}}</b></li>
+      </p>
     </div>
 
 
    </div>
 </div>
+{% else %}
+<br>
+<div class="fac">
+  <button type="submit" class="buttonF">Counseling Information</button>
+</div>
+<div id="wrapper">
+  <div id="square">
+    <br>
+  
+      
+        <img style="max-width: 200px;
+        height: 200px; margin: auto;" 
+        src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
+       >
+       <p style="padding: 10px; font-size: 17px;"><b>Students Name:</b> {{object.lastname}}, {{object.firstname}}</p>
+       <p style="line-height: 1px; font-size: 17px;"><b>Degree Program:</b>  {{object.degree_program}}</p>
+   
+
+  </div>
+
+  <div id="box">
+
+    <br>        
+    <div class="trow-list">
+      <p class="Pbox">
+        You have an appointment with <b> {{object.lastname}}</b> due to as having a behavior problem of <b>{{object.behavior_problem | title}}.</b> 
+        The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}} </b> <br> 
+        <i>With the Reasons stated below:</i>
+        <li class="Pbox" style="text-align:justify;"><b>{{object.reasons}}</b></li>
+      </p>
+    </div>
+
+
+   </div>
+</div>
+{% endif %}
 {% endblock %}
