@@ -190,17 +190,44 @@ p{
     font-size: 11px;
   }
 }
-.fac{
-
-display: flex;
-align-items: center;
-justify-content: center;
-
+.facDay{
+  
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  
+  }
+  
+  .buttonDay {
+  width: 320px;
+  height: 55px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #d8c090;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  margin-left: 10px;
+  }
+  .fac{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .buttonF {
-width: 420px;
-height: 55px;
+  position: fixed;
+width: 100%;
+min-width: 1320px;
+height: 60px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
 text-transform: uppercase;
@@ -214,54 +241,26 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-}
-.facDay{
-
-display: flex;
-align-items: left;
-justify-content: left;
-
-}
-
-.buttonDay {
-width: 300px;
-height: 55px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #d8c090;
-border: none;
-border-radius: 8px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
-margin-left: 10px;
-}
-
-
+  }
   </style>
-  <div class="facDay">
-    <button type="submit" class="buttonDay">{{today}},  {{day_name}}</button>
+  <div class="fac">
+    <button type="submit" class="buttonF">{{today}},  {{day_name}}</button>
   </div> 
   <br>
 
     <a style="color: #504A4B" 
   href="{% url 'student_view_another_sched' 1 %}"> 
-           <div class="fac">
-          <button type="submit" class="buttonF">Click here to view next day</button>
+           <div class="facDay">
+          <button type="submit" class="buttonDay">Click here to view next day</button>
         </div> 
 </a> 
-  <br>
-
+<br>
     <table class="table-fill">
     <thead style="height: 20px;">
     <tr>
     <th class="text-left">Time</th>
     <th class="text-left">Action</th>
+    <th class="text-left">Subject Code</th>
     <th class="text-left">Information</th>
     </tr>
     </thead>
@@ -277,7 +276,8 @@ margin-left: 10px;
             {% endif %} 
             {% for object in schedForToday %}
             {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
-            <td>{{object.choice}} {{object.offer_code}}  {{object.subject_code}}</td>   
+            <td>{{object.choice}}</td>   
+            <td>{{object.subject_code}} - {{object.offer_code}}</td>  
             {% if object.choice|stringformat:"s" == "Class" %} 
            {% else %} 
   <td data-label="Info"><a  style="color: #504A4B" href="{% url 'view_appointment_students' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>

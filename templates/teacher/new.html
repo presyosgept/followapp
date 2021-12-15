@@ -324,9 +324,11 @@ justify-content: center;
 }
 
 .buttonF {
-  padding: 13px;
-width: 445px;
-height: 45px;
+  position: fixed;
+
+width: 100%;
+min-width: 1320px;
+height: 60px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
 text-transform: uppercase;
@@ -340,56 +342,26 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-margin: auto;
 }
-.facers{
-
-display: flex;
-align-items: center;
-justify-content: center;
-
-}
-
-.buttonFed {
-  padding: 13px;
-width: 450px;
-height: 45px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #d8c090;
-border: none;
-border-radius: 8px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
-margin: auto;
-}
-
   </style>
-
-
-  <!-- SEARCH BAR NI -->
+  
+  &nbsp;
+  <div class="fac">
+    <button type="submit" class="buttonF">Refer a Student</button>
+  </div> 
+  <br> <br>
+<div class="homeCard">
   <form class="reffer" method="POST" action="">
     {% csrf_token %}
-    <!-- SEARCH BAR NI -->
-
-    <div class="input">
-                  <div class="fac">
-                    <button type="submit" class="buttonF">My Subjects</button>
-                  </div> 
-                  &nbsp;
+  
+<br> 
        <h3 style="font-weight: bold; text-align: center;" class="txtColor">&nbsp; &nbsp;  <i>To proceed with Referring a student, kindly input the following details.</i></h3>
 &nbsp;
-     
+        <div class="facers">
           {% for message in messages %}
-    <center><b> <p>{{message}} !</p></b></center>
+     <p class="buttonFed">{{message}} !</p>
      {% endfor %}
- 
+    </div>
           <TABLE class="center" style="margin-left: 100px;">
 <TR>
 <TD><label class="txtFont"><b>Input Student ID:</b></label></TD>
@@ -410,30 +382,26 @@ margin: auto;
 </TR>
 <TR>
 <TD><label class="txtFont"><b>Behavioral Problem:</b></label></TD>
-<div class="checkVax">
-  <TD><label>{{form1.behavior_problem}}</label></TD>
-</div>
+<TD><label style="margin-right: auto;">{{form1.behavior_problem}}</label></TD>
 </TR>
 </TABLE>
 
 <div class="column">
-  <div class="row">      
+  <div class="row">     
+    
   &nbsp;    &nbsp;
   
-     <i><h4 style="margin-left: auto; font-size: large;" >Input&nbsp;Additional&nbsp;Information:</h4> </i>
+     <i><h4 style="float: center; margin-left: 100px; font-size: large;" >Input&nbsp;Additional&nbsp;Information:</h4> </i>
      {{form1.reasons}}
      <br> <br>
     <button class="buttons" style="font-weight: bold;  color: #454545;">Submit</button>
-   <br> <br>
+   
   </div>
   </div>
   <br>
-  <!-- <button class="btn success" style="font-weight: bold;">Submit</button> -->
+
 </form>
-
-
- <br> 
- </div>
+</div>
 
  
       

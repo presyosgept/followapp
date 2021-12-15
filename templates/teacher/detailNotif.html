@@ -145,31 +145,6 @@
   #index-gallery{
     width:465px;
   }
-  .fac{
-
-display: flex;
-align-items: center;
-justify-content: center;
-
-}
-
-.buttonF {
-width: 420px;
-height: 55px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #d8c090;
-border: none;
-border-radius: 8px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
-}
 .Pbox{
   font-size: 19px;
   line-height: 30px;
@@ -179,18 +154,17 @@ outline: none;
 .column{
  min-width: 300px;
  float:left;
- margin-right: auto;
-
+ margin-right:20px;
 }
 .row{
   width: 450px;
  float:right;
  text-align: left;
  text-align: justify;
- 
-
+  flex-direction: column-reverse;
+  padding: 8px;
   margin-left: auto;
-
+ padding: 10px; 
   line-height: 30px;
   
 }
@@ -218,7 +192,6 @@ justify-content: center;
  width: 450px;
  float:left;
 margin-left: 200px;
-padding: 8px;
 
 }
 
@@ -230,13 +203,10 @@ padding: 8px;
 .pText{
   font-weight: 600;
   font-size: 20px;
-  color: #454545;
-
 }
 .bText{
   color: #000;
   font-size: 20px;
-
 }
 
 form.cleanForm {
@@ -247,52 +217,85 @@ margin:0 auto;
 form.cleanForm p {
 margin-bottom:15px;
 }
+.fac{
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.buttonF {
+  position: fixed;
+  padding: 0 1rem;
+  margin:0px;
+min-width: 1320px;
+height: 60px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #d8c090;
+border: none;
+border-radius: 8px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+
+}
 </style>
 
+<br>
 {% for object in objects %}
         <div class="fac">
           <button type="submit" class="buttonF">Feedback of Referral</button>
         </div> 
-    
-<form action="#" class="cleanForm" method="POST">
-  <br>
-
-<div class="column">
-  <div class="row">  
-    <img class="image"
-    src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
-    > 
+<br> <br>
+<div class="homeCard">
+  <form action="#" class="cleanForm" method="POST">
     <br>
-    <p class="pText"><b class="bText">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</p> 
-
-
   
-<div>
-  <p class="rowText">
-    The feedback in <b>{{object.subject_referred}}</b> Subject is already assessed.<br>
-  <i><b>Feedback stated below:</b></i>
-  <div id="box">
-    <li style="font-size: 21px; padding: 10px;"><b>{{object.feedback}}</b></li>
+  <div class="column">
+    <div class="row">  
+      <img class="image"
+      src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
+      > 
+      <br>
+      <p class="pText"><b class="bText">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</p> 
+  
+  
+    
+  <div>
+    <p class="rowText">
+      The feedback in <b>{{object.subject_referred}}</b> Subject is already assessed.
+    </b>Feedback stated below:
+    <div id="box">
+      <li style="font-size: 21px; padding: 10px;"><b>{{object.feedback}}</b></li>
+    </div>
+    </p>
   </div>
-  </p>
+  
+  
+  
+    </div>
+    </div>
+    <br> <br> <br> <br> <br> <br> <br> <br> <br> 
+  
+  <div class="column">
+    <div class="row1"> 
+      <p class="pText"><b class="bText">Degree Program: &nbsp;</b>{{object.degree_program}}</p>
+      &nbsp;    &nbsp;   
+    </div>
+   
+    </div>
+        
+    </form>
 </div>
 
-
-
-  </div>
-  </div>
-  <br> <br> <br> <br> <br> <br> <br> <br>
-
-<div class="column">
-  <div class="row1"> 
-    <p class="pText"><b class="bText">Degree Program: &nbsp;</b>{{object.degree_program}}</p>
-    &nbsp;    &nbsp;   
-  </div>
- 
-  </div>
-      
-  </form>
-
            {% endfor %}
+               
                
 {% endblock %}

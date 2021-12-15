@@ -393,17 +393,16 @@ def loginPage(request):
                                 flag = 1
                     if flag == 1:
                         request.session['username'] = username
-                        check = StudentInfo.objects.all()
-                        print("dil emty")
-                        print(check)
-                        if check is not None:
-                            stud = StudentInfo.objects.get(studnumber=username)
-                            if stud.status == 'undone':
-                                return redirect('student_add_info')
-                            else:
-                                return redirect('student_home_view')
-                        else:
-                            return redirect('student_add_info')
+                        return redirect('student_home_view')
+                        # check = StudentInfo.objects.all()
+                        # if check is not None:
+                        #     stud = StudentInfo.objects.get(studnumber=username)
+                        #     if stud.status == 'undone':
+                        #         return redirect('student_add_info')
+                        #     else:
+                        #         return redirect('student_home_view')
+                        # else:
+                        #     return redirect('student_add_info')
 
                     else:
                         qs = Faculty.objects.all()
@@ -450,7 +449,25 @@ def home(request, *args, **kwargs):
 def director_home_view(request, *args, **kwargs):
     user = request.session.get('username')
     director_name = Faculty.objects.get(employee_id=user)
-    return render(request, "director/director_home.html", {"object": director_name})
+    today = date.today()
+    year = today.strftime("%Y")
+    month = today.strftime("%Y-%m")
+    referals = TeachersReferral.objects.all()
+    stat_month = 0
+    stat_day = 0
+    stat_year = 0
+    for stud in referals:
+        getmonth = stud.date.strftime("%Y-%m")
+        getday = stud.date.strftime("%Y-%m-%d")
+        getyear = stud.date.strftime("%Y")
+        if month == getmonth:
+            stat_month += 1
+        if today == getday:
+            stat_day += 1
+        if year == getyear:
+            stat_year += 1
+
+    return render(request, "director/director_home.html", {"object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
 
 
 @login_required(login_url='login')
@@ -488,7 +505,6 @@ def director_fillinForm(request, pk):
                     request, 'Successfully Assigned The Counselor')
                 return render(request, "director/form.html", {"form1": form, "object": director_name})
     return render(request, "director/form.html", {"form1": form, "object": director_name})
-
 
 # director
 
@@ -1135,7 +1151,8 @@ def teacher_view_students(request, id):
     for stud in qs_student:
         for chu in chuchu:
             if stud.studnumber == chu.studnumber:
-                studentslist.append(AllStudent(stud.studnumber, stud.email))
+                studentslist.append(AllStudent(
+                    stud.studnumber, stud.student_email))
 
     allstud = AllStudent.objects.all()
     for allstud in allstud:
@@ -1693,7 +1710,6 @@ def student_add_info(request, *args, **kwargs):
     student_name = AllStudent.objects.get(studnumber=user)
     infoForm = StudentInfoForm(instance=student_name)
     if request.method == "POST":
-        print("drriii")
         infoForm = StudentInfoForm(request.POST, instance=student_name)
         mother_firstname = request.POST['mother_firstname']
         mother_lastname = request.POST['mother_lastname']
@@ -1704,8 +1720,6 @@ def student_add_info(request, *args, **kwargs):
         address = request.POST['address']
         parents_email = request.POST['parents_email']
         if infoForm.is_valid():
-            print("dihaaaa")
-            print(StudentInfoForm)
             infoForm.save()
             info = StudentInfo.objects.get(studnumber=user)
             info.mother_firstname = mother_firstname

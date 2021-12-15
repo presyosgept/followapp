@@ -103,18 +103,6 @@ Notification_Detail
       margin: auto;
     }
   }
-  .trow-list{
-        display:inline-block;
-      width: 70%;
-     
-      font-family: sans-serif;
-      background: transparent;
-      padding: 10px 0;
-      margin: auto;
-   
-  
-  
-  }
   .modal1{
     font-size: 23px;
     font-weight: 300;
@@ -127,16 +115,17 @@ Notification_Detail
     /* line-height: 25px; */
   }
   .fac{
-
-display: flex;
-align-items: center;
-justify-content: center;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .buttonF {
-width: 420px;
-height: 55px;
+  position: fixed;
+width: 100%;
+min-width: 1320px;
+height: 60px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
 text-transform: uppercase;
@@ -150,13 +139,20 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-}
-.Pbox{
-  font-size: 19px;
-  line-height: 30px;
-  text-align: justify;
+  }
 
+
+.Pbox{
+  display:inline-block;
+  width: auto;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: justify;
+padding: 12px;
+
+word-break: break-word;
 }
+
 
 </style>
 
@@ -165,7 +161,7 @@ outline: none;
           <button type="submit" class="buttonF">Full Details</button>
         </div> 
 <br>
-            <div class="container">
+        
 {% for object in object_list %}
 <div id="wrapper">
   <div id="square">
@@ -179,18 +175,35 @@ outline: none;
   
   </div>
   {% if object.subject_referred %}
-  <div id="box">
-      <div class="trow-list">
-        <p class="Pbox">
-          You have a schedule appointment on <b>{{object.date}}</b> with a Start Session of <b>{{object.start_time}}</b>
-          and ends in <b>{{object.end_time}}</b> In <b>{{object.subject_referred}}</b> Subject, with the Reasons stated below:
-          <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
-        </p>
-    </div>
+          {% if object.behavior_problem %}
+            <div id="box">
+                <div class="trow-list">
+                  <p class="Pbox">
+                    You have a schedule appointment on <b>{{object.date}}</b> with a Start Session of <b>{{object.start_time}}</b>
+                    and ends in <b>{{object.end_time}}</b> In <b>{{object.subject_referred}}</b> Subject, with the behavioral problem of <b>{{object.behavior_problem}}</b>.
+                    Reasons stated below:
+                    <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
+                  </p>
+              </div>
 
 
-     </div>
-</div>
+              </div>
+          </div>
+          {% else %}
+          <div id="box">
+                <div class="trow-list">
+                  <p class="Pbox">
+                    You have a schedule appointment on <b>{{object.date}}</b> with a Start Session of <b>{{object.start_time}}</b>
+                    and ends in <b>{{object.end_time}}</b> In <b>{{object.subject_referred}}</b> Subject, with the
+                    Reasons stated below:
+                    <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
+                  </p>
+              </div>
+
+
+              </div>
+          </div>
+            {% endif %}  
 {% else %}
 <div id="box">
 
@@ -206,7 +219,7 @@ outline: none;
 
 
      </div>
-</div>
+
 
   {% endif %}  
 

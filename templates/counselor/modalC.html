@@ -20,7 +20,7 @@
   
     border: 1px solid black;
     border-radius: 10px;
-        background-color: #B4CFEC;
+        background-color: #98b4ac;
         box-shadow:
           0 9px 33px rgba(0, 0, 0, 0.07);
     margin: auto;
@@ -28,36 +28,22 @@
   }
   
   #box {
-    overflow: hidden;
-  text-overflow: ellipsis;
-    border: 1px solid black;
-    border-radius: 10px;
-        background-color: #B4CFEC;
-        box-shadow:
-          0 9px 33px rgba(0, 0, 0, 0.07);
-          max-width: 780px;
-    height: 350px;
-    float: center;
-    margin: auto;
-    overflow-y: scroll;
-  }
-  /* === TABLE ==== */
   
-  /* .table-row{
-      display: table;
-      width: 40%;
-      margin: 10px auto;
-      font-family: sans-serif;
-      background: transparent;
-      padding: 4px 0;
-      color: #555;
-      font-size: 13px;
-      box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-      height: 0.1%;
-      border-radius: 20px;
-      margin-top: 50px;
-       
-  } */
+  border: 1px solid black;
+border-radius: 10px;
+
+    box-shadow:
+      0 9px 33px rgba(0, 0, 0, 0.07);
+      min-width: 1008px;
+min-height: 100px;
+float: left;
+margin: auto;
+display: flex;
+flex-direction: row;
+overflow: hidden;
+white-space:normal; word-break: break-all;
+}
+
   .table-head{
     
       background: #E5E4E2;
@@ -218,7 +204,7 @@
   font-size: 16px;
   -webkit-transform: translate(0);
   transform: translate(0);
-  background-image: linear-gradient(45deg, #98b4ac, #4863A0);
+  background-image: linear-gradient(45deg, #98b4ac, #d8c090);
   padding: 0.7em 2em;
   border-radius: 65px;
   box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
@@ -229,7 +215,7 @@
 .buttons .text {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(45deg, #4863A0, #98b4ac);
+  background-image: linear-gradient(45deg, #d8c090, #98b4ac);
 }
 
 .buttons:after {
@@ -246,12 +232,85 @@
 }
 
 .buttons:hover {
-  background-image: linear-gradient(-45deg, #98b4ac, #4863A0);
+  background-image: linear-gradient(-45deg, #98b4ac, #d8c090);
   box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
 }
 
 .buttons:hover .text {
-  background-image: linear-gradient(-45deg, #4863A0, #98b4ac);
+  background-image: linear-gradient(-45deg, #d8c090, #98b4ac);
+}
+.Pbox{
+  font-size: 19px;
+  line-height: 30px;
+  text-align: justify;
+
+}
+.column{
+ min-width: 300px;
+ float:left;
+ margin-right:20px;
+}
+.row{
+  width: 500px;
+ float:right;
+ text-align: left;
+ text-align: justify;
+  flex-direction: column-reverse;
+  padding: 8px;
+  margin-left: auto;
+ padding: 10px; 
+  line-height: 30px;
+  
+}
+.rowText{
+  font-size: 23px;
+  min-width: 900px;
+  padding: 10px;
+}
+.image{
+  max-width: 320px;
+  height: 150px; 
+}
+.picInfo{
+  display: flex;
+justify-content: center;
+}
+.column{
+ width:250px;
+ float:left;
+ margin-right:20px;
+
+}
+
+.row1{
+ width: 450px;
+ float:left;
+margin-left: 200px;
+padding-top: 17px;
+
+}
+
+
+.last{
+ margin:0;
+ padding: 10px;   
+}
+.pText{
+  font-weight: 600;
+  font-size: 20px;
+}
+.bText{
+  color: #000;
+  font-size: 20px;
+}
+
+form.cleanForm {
+width:700px;
+margin:0 auto;
+
+}
+form.cleanForm p {
+margin-bottom:15px;
 }
 .fac{
 
@@ -262,83 +321,93 @@ justify-content: center;
 }
 
 .buttonF {
-width: 420px;
-height: 55px;
+  position: fixed;
+
+width: 100%;
+min-width: 1320px;
+height: 60px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
-.Pbox{
-  font-size: 20px;
-  line-height: 30px;
-  text-align: justify;
 
-}
+
 </style>
-{% for object in objects %}
-
- {% if not object.subject_referred %}
-
+<br>
  <div class="fac">
     <button type="submit" class="buttonF">Students Referral Information</button>
   </div> 
 
+{% for object in objects %}
+
+ {% if not object.subject_referred %}
+
+  <br> <br> <br>
+<div class="card1">
   <br>
-  <div id="wrapper">
-    <div id="square">
-      <br>
+  <form action="#" class="cleanForm" method="POST">
+    <br>
     
-        
-          <img style="max-width: 200px;
-          height: 200px; margin: auto;" 
-          src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
-         >
-         <p style="padding: 10px; font-size: 17px; line-height: 25px;">
-          <b>Students Name:</b> {{object.lastname}}, {{object.firstname}}<br>
-          <b>Student Number:</b> {{object.studnumber}}<br>
-          <b>Degree Program:</b>  {{object.degree_program}}
-        </p>
-
-     
-  
-    </div>
-    &nbsp; &nbsp;
-  
+    <div class="column">
+    <div class="row">  
+    <img class="image"
+    src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
+    > 
+    <br>
+    <p class="pText"><b class="bText">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</p> 
+    <p class="pText"><b class="bText">Students Number: &nbsp;</b>{{object.studnumber}}</p>
+    
+    
+    
+    <div>
+    <p class="rowText">
+      You are scheduled for an appointment.
+      The Session starts at <b>{{object.start_time}}</b> and ends at <b> {{object.end_time}}</b> on <b> {{object.date}}</b>  <br> 
+      <i>With the Reasons stated below:</i>
     <div id="box">
-  
-      <br>        
+      <li class="Pbox" style="text-align: justify; margin-left:8px;"><b>{{object.reasons}}</b></li>
+    </div>
+    </p>
+    </div>
+    
 
-  <div class="trow-list">
-  <p class="Pbox">
-    You are scheduled for an appointment.
-    The Session starts at <b>{{object.start_time}}</b> and ends at <b> {{object.end_time}}</b> on <b> {{object.date}}</b>  <br> 
-    <i>With the Reasons stated below:</i>
-    <li class="Pbox" style="text-align: justify;"><b>{{object.reasons}}</b></li>
-  </p>
+    </div>
+    </div>
+    <br> <br> <br> <br> <br> <br> <br> <br>
+    
+    <div class="column">
+    <div class="row1"> 
+    <p class="pText"><b class="bText">Degree Program: &nbsp;</b>{{object.degree_program}}</p>
+    &nbsp;    &nbsp;   
+    </div>
+    
+    </div>
+    
+    </form>
+    
 </div>
-     </div>
-  </div>
 
+<br> 
    {% if object.feedback is None %}
     {% if type == 'teacher' %}
-<a href="{% url 'counselor_feedback' object.id %}">  
-  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
+<center><a href="{% url 'counselor_feedback' object.id %}">  
+  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a></center>
 
     
 
      {% else %}
-  <a href="{% url 'counselor_feedback_student' object.id %}">  
-  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
+<center>  <a href="{% url 'counselor_feedback_student' object.id %}">  
+  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a></center>
 
      
     {% endif %}  
@@ -347,66 +416,79 @@ outline: none;
 
 
      {% else %}
+     <!-- ANOTHER PARTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -->
+     <br>
   <div class="fac">
     <button type="submit" class="buttonF">Students Referral Information</button>
   </div> 
 
+  <br> <br>
+<div class="card1">
   <br>
-  <div id="wrapper">
-    <div id="square">
-      <br>
+  <form action="#" class="cleanForm" method="POST">
+    <br>
     
-        
-          <img style="max-width: 200px;
-          height: 200px; margin: auto;" 
-          src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
-         >
-         <p style="padding: 10px; font-size: 17px; line-height: 25px;">
-          <b>Students Name:</b> {{object.lastname}}, {{object.firstname}}<br>
-          <b>Student Number:</b> {{object.studnumber}}<br>
-          <b>Degree Program:</b>  {{object.degree_program}}
-        </p>
-
-     
-  
-    </div>
-    &nbsp; &nbsp;
-  
+    <div class="column">
+    <div class="row">  
+    <img class="image"
+    src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
+    > 
+    <br>
+    <p class="pText"><b class="bText">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</p> 
+    <p class="pText"><b class="bText">Students Number: &nbsp;</b>{{object.studnumber}}</p>
+    
+    
+    {% if not object.behavior_problem %}
+    <div>
+    <p class="rowText">
+      <b>{{object.lastname}}</b> is referred.</b> 
+      The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br> 
+     <i> With the Reasons stated below:</i>
     <div id="box">
-  
-      <br>        
-{% if not object.behavior_problem %}
-      <div class="trow-list">
-        <p class="Pbox">
-          <b>{{object.lastname}}</b> is referred.</b> 
-          The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br> 
-         <i> With the Reasons stated below:</i>
-          <li class="Pbox" style="text-align:justify;"><b>{{object.reasons}}</b></li>
-        </p>
-      </div>
-      {% else %}  
-<div class="trow-list">
-        <p class="Pbox">
-          <b>{{object.lastname}}</b> is referred due to as having a behavior problem of <b> {{object.behavior_problem | title}}.</b> 
-          The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br> 
-         <i> With the Reasons stated below:</i>
-          <li class="Pbox" style="text-align:justify;"><b>{{object.reasons}}</b></li>
-        </p>
-      </div>
-{% endif %}  
+      <li class="Pbox" style="text-align:justify; margin-left:8px;"><b>{{object.reasons}}</b></li>
+    </div>
+    </p>
+    </div>
+    {% else %}  
+    <div>
+    <p class="rowText">
+      <b>{{object.lastname}}</b> is referred due to as having a behavior problem of <b> {{object.behavior_problem | title}}.</b> 
+      The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br> 
+     <i> With the Reasons stated below:</i>
+    <div id="box">
+      <li class="Pbox" style="text-align:justify; margin-left:8px;"><b>{{object.reasons}}</b></li>
+    </div>
+    </p>
+    </div>
+    {% endif %}  
 
-     </div>
-  </div>
+
+    </div>
+    </div>
+    <br> <br> <br> <br> <br> <br> <br> <br> <br> 
+    
+    <div class="column">
+    <div class="row1"> 
+    <p class="pText"><b class="bText">Degree Program: &nbsp;</b>{{object.degree_program}}</p>
+    &nbsp;    &nbsp;   
+    </div>
+    
+    </div>
+    
+    </form>
+    
+</div>
+<br> <br>
     {% if object.feedback is None %}
     {% if type == 'teacher' %}
-<a href="{% url 'counselor_feedback' object.id %}">  
-  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
+<center><a href="{% url 'counselor_feedback' object.id %}">  
+  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a></center>
 
     
 
      {% else %}
-  <a href="{% url 'counselor_feedback_student' object.id %}">  
-  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a>
+ <center> <a href="{% url 'counselor_feedback_student' object.id %}">  
+  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a></center>
 {% endif %}  
  
     {% endif %}  
@@ -415,11 +497,7 @@ outline: none;
 
     {% endif %}  
            {% endfor %}
-
-  
-
-
-     
+ 
                
 {% endblock %}
 

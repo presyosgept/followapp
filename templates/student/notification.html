@@ -152,18 +152,18 @@ p{
       background-color: #E3E4FA;
       color: white;
     }
-
-.fac{
-
-display: flex;
-align-items: center;
-justify-content: center;
-
+    .fac{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-.buttonN {
-width: 280px;
-height: 40px;
+.buttonF {
+  position: fixed;
+width: 100%;
+min-width: 1320px;
+height: 60px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
 text-transform: uppercase;
@@ -177,20 +177,20 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-font-size: 13px;
-}
+  }
+
 
 
 </style>
 
 
         <div class="fac">
-          <button class="buttonN">Notifications</button>
+          <button class="buttonF">Notifications</button>
         </div> 
         <br>
     {% if not notifications %}
+<center><p><b>No Notifications Yet!</b></p></center>
 
-    <center><b><p> No Notifications Yet!</p></b></center>
     {% endif %}
 <br>
 <table id="customers">

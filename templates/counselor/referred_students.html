@@ -5,6 +5,7 @@ Referred Students
 {% endblock %} 
 
 {% block content %} 
+
 <style>
    
   .center {
@@ -83,7 +84,7 @@ color: #64748B;
 
 .card-link{
 font-size: 12px;
-color: #4F46E5;
+color: #fff;
 }
 /* === TABLE ==== */
 .table-box
@@ -191,56 +192,32 @@ margin-left: 15px;
 
 
 .fac{
-
-display: flex;
-align-items: center;
-justify-content: center;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .buttonF {
-width: 420px;
-height: 55px;
+  position: fixed;
+width: 100%;
+min-width: 1320px;
+height: 60px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-}
-.facU{
+  }
 
-display: flex;
-align-items: center;
-justify-content: center;
-
-}
-
-.buttonN {
-width: 280px;
-height: 40px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #4863A0;
-border: none;
-border-radius: 45px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
-font-size: 13px;
-}
 </style>
 
   <div class="table-cont">
@@ -248,14 +225,9 @@ font-size: 13px;
           <button type="submit" class="buttonF">List of Referred Students</button>
         </div> 
 <br>
-{% if not objects %}
-<div class="facU">
-  <button type="submit" class="buttonN">No Referrals Yet!</button>
-</div> 
-{% endif %}
 
 
-<table class="table" style="color: #4863A0;">
+<table class="table">
 <thead>
 <tr>
 <th>ID Number</th>
@@ -287,6 +259,9 @@ font-size: 13px;
 
 {%endfor %}
 </table>
+          {% if not objects %}
+   <center><b><p>No Referrals Yet!</p></b></center>
+        {% endif %}
 </div>
 
 

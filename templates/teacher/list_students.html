@@ -200,8 +200,11 @@ justify-content: center;
 }
 
 .buttonF {
-width: 450px;
-height: 55px;
+  position: fixed;
+
+width: 100%;
+min-width: 1320px;
+height: 60px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
 text-transform: uppercase;
@@ -218,13 +221,15 @@ outline: none;
 }
 
 </style>
+<br>
     <div class="fac">
     <button type="submit" class="buttonF">List of Students</button>
   </div> 
+  <br> 
             {% if not object_list %}
-            <br>
             No Enrolled Students Yet!
         {% endif %}
+        <br>
                        <div class="table-box">
                             {% for object in object_list %}
            

@@ -1,6 +1,7 @@
 {% extends 'counselor/counselor_home.html' %}
 {% block title %} Notification {% endblock %}
 {% block content %}
+
 <style>
        .card{
       display: flex;
@@ -173,15 +174,15 @@ text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
-.facU{
+.fac{
 
 display: flex;
 align-items: center;
@@ -189,40 +190,38 @@ justify-content: center;
 
 }
 
-.buttonN {
-width: 280px;
-height: 40px;
+.buttonF {
+  position: fixed;
+
+width: 100%;
+min-width: 1320px;
+height: 60px;
 font-family: 'Roboto', sans-serif;
-font-size: 15px;
+font-size: 16px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
 color: #fff;
-background-color: #4863A0;
+background-color: #d8c090;
 border: none;
-border-radius: 45px;
+border-radius: 8px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-font-size: 13px;
 }
-
 </style>
 
-
+<br>
         <div class="fac">
           <button type="submit" class="buttonF">Notifications</button>
         </div> 
-<br>
+<br> <br>
 {% if not notifications %}
-<div class="facU">
-  <button type="submit" class="buttonN">No Notifications Yet!</button>
-</div> 
+<center><p><b>No Notifications Yet!</b></p></center>
 {% endif %}
 
- 
-<br>
+<br> <br>
 <table id="customers">
      
 {% for notification in notifications reversed %}
