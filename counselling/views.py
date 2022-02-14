@@ -106,7 +106,7 @@ class RegisterApi(APIView):
                                             host='smtp.gmail.com',
                                             port=587,
                                             username='followapp2021@gmail.com',
-                                            password='followapp#123')
+                                            password='hellocapstone2')
                 EmailMessage(
                     "Verification Code",
                     "This is your verification code: " + code,
@@ -236,7 +236,7 @@ def register(request):
                                         host='smtp.gmail.com',
                                         port=587,
                                         username='followapp2021@gmail.com',
-                                        password='followapp#123')
+                                        password='hellocapstone2')
             EmailMessage(
                 "Verification Code",
                 "This is your verification code: " + code,
@@ -267,7 +267,7 @@ def register(request):
                                             host='smtp.gmail.com',
                                             port=587,
                                             username='followapp2021@gmail.com',
-                                            password='followapp#123')
+                                            password='hellocapstone2')
                 EmailMessage(
                     "Verification Code",
                     "This is your verification code: " + code,
@@ -393,16 +393,16 @@ def loginPage(request):
                                 flag = 1
                     if flag == 1:
                         request.session['username'] = username
-                        return redirect('student_home_view')
-                        # check = StudentInfo.objects.all()
-                        # if check is not None:
-                        #     stud = StudentInfo.objects.get(studnumber=username)
-                        #     if stud.status == 'undone':
-                        #         return redirect('student_add_info')
-                        #     else:
-                        #         return redirect('student_home_view')
-                        # else:
-                        #     return redirect('student_add_info')
+                        # return redirect('student_home_view')
+                        check = StudentInfo.objects.all()
+                        if check is not None:
+                            stud = StudentInfo.objects.get(studnumber=username)
+                            if stud.status == 'undone':
+                                return redirect('student_add_info')
+                            else:
+                                return redirect('student_home_view')
+                        else:
+                            return redirect('student_add_info')
 
                     else:
                         qs = Faculty.objects.all()
@@ -1740,6 +1740,7 @@ def student_add_info(request, *args, **kwargs):
 def student_home_view(request, *args, **kwargs):
     global notif1
     user = request.session.get('username')
+
     student_name = AllStudent.objects.get(studnumber=user)
     return render(request, "student/student_home.html", {"notif1": notif1, "form": student_name})
 
