@@ -238,9 +238,16 @@ outline: none;
   
      {% else %}
      <tr>
-      <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id %}">
+        {% if notification.is_read_counselor == True %}
+      <td><a style="color: gray;" href="{% url 'counselor_view_detail_referred_students' notification.id %}">
+         <b style="color: gray;">You have Counseling Session on <strong>{{ notification.schedDay|date }}</strong></b></a></td>
+      <td><a style="color: gray;" href="{% url 'counselor_view_detail_referred_students' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
+     {% else %}
+     <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id %}">
          <b style="color: black;">You have Counseling Session on <strong>{{ notification.schedDay|date }}</strong></b></a></td>
       <td><a style="color: black;" href="{% url 'counselor_view_detail_referred_students' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
+     
+      {% endif %}  
     </tr>
  
     {% endif %}  

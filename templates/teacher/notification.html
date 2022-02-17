@@ -223,9 +223,16 @@ outline: none;
     
     
     <tr>
-      <td><a style="color: black;" href="{% url 'teacher_view_notif_detail' notification.id %}">
+       {% if notification.is_read == True %}
+      <td><a style="color: gray;" href="{% url 'teacher_view_notif_detail' notification.id %}">
+        <b style="color: gray;">Your Referred Student Has Been Assessed </b></a></td>
+      <td><a style="color: gray;" href="{% url 'teacher_view_notif_detail' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
+          {% else %}
+     <td><a style="color: black;" href="{% url 'teacher_view_notif_detail' notification.id %}">
         <b style="color: black;">Your Referred Student Has Been Assessed </b></a></td>
       <td><a style="color: black;" href="{% url 'teacher_view_notif_detail' notification.id %}">{{ notification.created_at|timesince }} ago</a></td>
+   
+      {% endif %}  
     </tr>
     
     

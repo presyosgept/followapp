@@ -232,7 +232,7 @@ class SubjectOffered(models.Model):
 
 class Counselor(models.Model):
     PROGRAM_DESIGNATION = (('BSIT', 'BSIT'),
-                           ('BSPT', 'BSPT'), ('BSMT', 'BSMT'))
+                           ('BSPT', 'BSPT'), ('BSMT', 'BSMT'), ('BSIS', 'BSIS'))
     employee_id = models.CharField(max_length=220, primary_key=True)
     firstname = models.CharField(max_length=220)
     lastname = models.CharField(max_length=220)
@@ -253,7 +253,8 @@ class Notification(models.Model):
 
     to_user = models.CharField(max_length=220, null=True, blank=True)
     notification_type = models.CharField(max_length=100, choices=CHOICES)
-    is_read = models.BooleanField(default=False)
+    is_read_student = models.BooleanField(default=False)
+    is_read_counselor = models.BooleanField(default=False)
     extra_id = models.IntegerField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -276,6 +277,6 @@ class NotificationFeedback(models.Model):
     notification_type = models.CharField(max_length=100, choices=CHOICES)
     is_read = models.BooleanField(default=False)
     extra_id = models.IntegerField(null=True, blank=True)
-
+    referral_id = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=220, null=True, blank=True)
