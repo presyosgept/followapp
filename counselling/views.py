@@ -1728,10 +1728,12 @@ def student_add_info(request, *args, **kwargs):
         mother_lastname = request.POST['mother_lastname']
         father_firstname = request.POST['father_firstname']
         father_lastname = request.POST['father_lastname']
+        guardian_firstname = request.POST['guardian_firstname']
+        guardian_lastname = request.POST['guardian_lastname']
         student_contact_number = request.POST['student_contact_number']
-        parents_contact_number = request.POST['parents_contact_number']
-        address = request.POST['address']
-        parents_email = request.POST['parents_email']
+        mother_contact_number = request.POST['mother_contact_number']
+        father_contact_number = request.POST['father_contact_number']
+        guardian_contact_number = request.POST['guardian_contact_number']
         if infoForm.is_valid():
             infoForm.save()
             info = StudentInfo.objects.get(studnumber=user)
@@ -1739,10 +1741,12 @@ def student_add_info(request, *args, **kwargs):
             info.mother_lastname = mother_lastname
             info.father_firstname = father_firstname
             info.father_lastname = father_lastname
+            info.guardian_firstname = guardian_firstname
+            info.guardian_lastname = guardian_lastname
             info.student_contact_number = student_contact_number
-            info.parents_contact_number = parents_contact_number
-            info.address = address
-            info.parents_email = parents_email
+            info.mother_contact_number = mother_contact_number
+            info.father_contact_number = father_contact_number
+            info.guardian_contact_number = guardian_contact_number
             info.status = "done"
             info.save()
             return redirect('student_home_view')

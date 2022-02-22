@@ -53,13 +53,19 @@ class StudentInfo(models.Model):
     year = models.IntegerField()
     student_email = models.EmailField(max_length=254)
     student_contact_number = models.CharField(max_length=220)
-    address = models.CharField(max_length=220)
     mother_lastname = models.CharField(max_length=220)
     mother_firstname = models.CharField(max_length=220)
     father_lastname = models.CharField(max_length=220)
     father_firstname = models.CharField(max_length=220)
-    parents_contact_number = models.CharField(max_length=220)
-    parents_email = models.EmailField(max_length=254)
+    guardian_lastname = models.CharField(max_length=220, blank=True, null=True)
+    guardian_firstname = models.CharField(
+        max_length=220, blank=True, null=True)
+    mother_contact_number = models.CharField(
+        max_length=220, blank=True, null=True)
+    father_contact_number = models.CharField(
+        max_length=220, blank=True, null=True)
+    guardian_contact_number = models.CharField(
+        max_length=220, blank=True, null=True)
     status = models.CharField(max_length=254, default='undone')
 
 
@@ -232,12 +238,13 @@ class SubjectOffered(models.Model):
 
 class Counselor(models.Model):
     PROGRAM_DESIGNATION = (('BSIT', 'BSIT'),
-                           ('BSPT', 'BSPT'), ('BSMT', 'BSMT'), ('BSIS', 'BSIS'))
+                           ('BSIS', 'BSIS'), ('BSCS', 'BSCS'),
+                           ('BSA', 'BSA'))
+    program_designation = MultiSelectField(
+        max_length=220, choices=PROGRAM_DESIGNATION, null=True, blank=True)
     employee_id = models.CharField(max_length=220, primary_key=True)
     firstname = models.CharField(max_length=220)
     lastname = models.CharField(max_length=220)
-    program_designation = models.CharField(
-        max_length=220, choices=PROGRAM_DESIGNATION, null=True, blank=True)
 
 
 class Notification(models.Model):

@@ -26,9 +26,14 @@ class StudentInfoForm(forms.ModelForm):
     class Meta:
         model = StudentInfo
         fields = ['studnumber', 'firstname', 'lastname',  'degree_program',
-                  'year', 'student_email', 'student_contact_number',  'address',
-                  'mother_lastname', 'mother_firstname',  'father_lastname',
-                  'father_firstname', 'parents_contact_number', 'parents_email']
+                  'year', 'student_email', 'student_contact_number',
+                  'mother_lastname', 'mother_firstname', 
+                  'father_lastname','father_firstname', 
+                  'guardian_lastname','guardian_firstname', 
+                  'mother_contact_number',
+                  'father_contact_number',
+                  'guardian_contact_number',
+                  ]
 
 
 class DateForm(forms.Form):
@@ -153,7 +158,9 @@ class CounselorForm(forms.ModelForm):
         self.fields['employee_id'].disabled = True
         self.fields['firstname'].disabled = True
         self.fields['lastname'].disabled = True
-
+    
+    program_designation = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
+                                            choices=Counselor.PROGRAM_DESIGNATION)
     class Meta:
         model = Counselor
         fields = ['employee_id', 'firstname',

@@ -376,7 +376,7 @@ margin-bottom:15px;
                 <img style="height:50px; " src="https://1.bp.blogspot.com/-zssvz_H77as/YSdIaUUbIbI/AAAAAAAAAf0/xhPKHM0G8dczMa5vP7MPCZvNVeZQkpKgACLcBGAsYHQ/w945-h600-p-k-no-nu/logo3.png"></img>
                 <a style="font-weight: bold;margin-right:  auto; color: #FFFFFF;  font-family: 'Sawarabi Gothic', serif; 
                 letter-spacing: 2px;" 
-                href="{% url 'student_home_view' %}" class="header__logo">FOLLOW APP</a>
+                href="#" class="header__logo">FOLLOW APP</a>
       <div>
                        
                               <p style="font-weight: bold; color: #FFFFFF;">Student Info Registration</p>
@@ -407,11 +407,7 @@ margin-bottom:15px;
                 <p class="pText"><b class="bText">Mother's Firstname: &nbsp;</b> {{info.mother_firstname}}</p>
                 <p class="pText"><b class="bText">Mother's Lastname: &nbsp;</b>  {{info.mother_lastname}}</p>
             
-                <br>
-                <p class="pText"><b class="bText">Parent's  Contact Number: &nbsp;</b>
-                  <p style="text-align: left;"> {{info.parents_contact_number}}</p></p>
-               <p class="pText"><b class="bText">Address: &nbsp;</b>
-                 <p style="text-align: left;"> {{info.address}}</p></p>
+              
             
             
               </div>
@@ -436,8 +432,16 @@ margin-bottom:15px;
                   <p class="pText"><b class="bText">Father's Firstname: &nbsp;</b> {{info.father_firstname}}</p>
                   <p class="pText"><b class="bText">Father's Lastname: &nbsp;</b> {{info.father_lastname}}</p>
                   <br> 
-                  <p class="pText"><b class="bText">Parents Email: &nbsp;</b>
-                    <p style="text-align: left;">  {{info.parents_email}}</p></p>
+                   <br> <br> <br>
+                  <p class="pText"><b class="bText">Guardian's Firstname: &nbsp;</b> {{info.guardian_firstname}}</p>
+                  <p class="pText"><b class="bText">Guardian's Lastname: &nbsp;</b> {{info.guardian_lastname}}</p>
+                  <br> 
+                  <p class="pText"><b class="bText">Mother Contact Number:: &nbsp;</b>
+                    <p style="text-align: left;">  {{info.mother_contact_number}}</p></p>
+                     <p class="pText"><b class="bText">Father Contact Number:: &nbsp;</b>
+                    <p style="text-align: left;">  {{info.father_contact_number}}</p></p>
+                     <p class="pText"><b class="bText">Guardian Contact Number:: &nbsp;</b>
+                    <p style="text-align: left;">  {{info.guardian_contact_number}}</p></p>
                   <p class="pText"><b class="bText">Student's Contact Number: &nbsp;</b>
                     <p style="text-align: left;"> {{info.student_contact_number}}</p></p>
               
