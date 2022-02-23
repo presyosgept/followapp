@@ -201,7 +201,7 @@ urlpatterns = [
          counselor_view_feedback, name="counselor_view_feedback"),
     path('counselor/counselor_view_detail_feedback/?P:<int:id>',
          counselor_view_detail_feedback, name='counselor_view_detail_feedback'),
-    path('counselor/counselor_view_another_sched/?P:<int:num>',
+    path('counselor/counselor_view_another_sched',
          counselor_view_another_sched, name='counselor_view_another_sched'),
 
 

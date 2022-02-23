@@ -287,3 +287,7 @@ class NotificationFeedback(models.Model):
     referral_id = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=220, null=True, blank=True)
+
+
+class Calendar(models.Model):
+    pickedDate = models.DateField(null=True)

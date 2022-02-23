@@ -1,6 +1,6 @@
 from multiselectfield import MultiSelectFormField
 from django.forms.widgets import CheckboxSelectMultiple
-from .models import StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
+from .models import Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
@@ -27,9 +27,9 @@ class StudentInfoForm(forms.ModelForm):
         model = StudentInfo
         fields = ['studnumber', 'firstname', 'lastname',  'degree_program',
                   'year', 'student_email', 'student_contact_number',
-                  'mother_lastname', 'mother_firstname', 
-                  'father_lastname','father_firstname', 
-                  'guardian_lastname','guardian_firstname', 
+                  'mother_lastname', 'mother_firstname',
+                  'father_lastname', 'father_firstname',
+                  'guardian_lastname', 'guardian_firstname',
                   'mother_contact_number',
                   'father_contact_number',
                   'guardian_contact_number',
@@ -158,13 +158,36 @@ class CounselorForm(forms.ModelForm):
         self.fields['employee_id'].disabled = True
         self.fields['firstname'].disabled = True
         self.fields['lastname'].disabled = True
-    
+
     program_designation = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
-                                            choices=Counselor.PROGRAM_DESIGNATION)
+                                               choices=Counselor.PROGRAM_DESIGNATION)
+
     class Meta:
         model = Counselor
         fields = ['employee_id', 'firstname',
                   'lastname', 'program_designation']
+
+
+# class DateForm(forms.Form):
+#     date = forms.DateTimeField(
+#         input_formats=['%m/%d/%Y %H:%M'],
+#         widget=forms.DateTimeInput(attrs={
+#             'class': 'form-control datetimepicker-input',
+#             'data-target': '#datetimepicker1'
+#         })
+#     )
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class CalendarForm(forms.ModelForm):
+    class Meta:
+        model = Calendar
+        fields = '__all__'
+
+        widgets = {
+            'pickedDate': DateInput(format='%m/%d/%Y'),
+        }
 
 
 # class CounselorScheduleForm(ModelForm):

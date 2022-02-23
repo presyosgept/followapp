@@ -203,17 +203,28 @@ outline: none;
 
 
   </style>
+
+    <form method="POST" action="{% url 'counselor_view_another_sched' %}">
+          {% csrf_token %}
+          {{ offer.pickedDate }}
+        
+      <div class="wrap">
+                <button type="submit" class="button">Submit</button>
+              </div>
+      </form>
+       <br> <br>
+        <br> <br>
     <div class="fac">
       <button type="submit" class="buttonF">{{today}},  {{day_name}}</button>
     </div> 
     <br>
 <br>
-  <a style="color: #504A4B" 
-  href="{% url 'counselor_view_another_sched' 1 %}"> 
+  <!-- <a style="color: #504A4B" 
+  href="{% url 'counselor_view_another_sched' %}"> 
            <div class="facDay">
           <button type="submit" class="buttonDay">Click here to view next day</button>
         </div> 
-</a> 
+</a>  -->
 <br>
 
  

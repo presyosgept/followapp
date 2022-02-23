@@ -2,14 +2,14 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from .models import StudentInfo, AccountsApi, Facultyload, Faculty, NotificationFeedback, Notification, TeachersReferral, SubjectOffered, Studentsload, Counselor
+from .models import StudentInfo, AccountsApi, Facultyload, Faculty, NotificationFeedback, Notification, TeachersReferral, SubjectOffered, Studentsload, Counselor, Calendar
 from .models import DepaChoice, Offering, StudentSetSched, CounselorFeedback, MyTable, SubjectWithSem, Semester, AllSubject, OfferCode, AccountCreated, SchoolOffices, Department, DegreeProgram, AllStudent
 
 admin.site.register(StudentInfo)
 admin.site.register(StudentSetSched)
 admin.site.register(Offering)
 admin.site.register(DepaChoice)
-
+admin.site.register(Calendar)
 admin.site.register(CounselorFeedback)
 
 

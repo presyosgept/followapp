@@ -1,3 +1,5 @@
+
+from django.http import HttpResponse
 from json import encoder
 from typing import Counter
 from django.db.models.fields import TimeField
@@ -20,8 +22,8 @@ from datetime import date, datetime, timedelta
 
 import datetime as dt
 
-from .forms import StudentInfoForm, DateForm, DepaChoiceForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import StudentInfo, DepaChoice, Offering, StudentSetSched, NotificationFeedback, CounselorFeedback, SubjectWithSem, Semester, AccountCreated, Faculty, Counselor, Notification, Counselor, TeachersReferral,  SubjectOffered, Facultyload, Studentsload
+from .forms import CalendarForm, StudentInfoForm, DepaChoiceForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
+from .models import Calendar, StudentInfo, DepaChoice, Offering, StudentSetSched, NotificationFeedback, CounselorFeedback, SubjectWithSem, Semester, AccountCreated, Faculty, Counselor, Notification, Counselor, TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
 from .resources import SubjectWithSemResource, SemesterResource, StudentsloadResource, FacultyResource, CounselorResource, TeachersReferralResource, SubjectOfferedResource, FacultyloadResource
 from tablib import Dataset
@@ -920,6 +922,7 @@ def uploaddb_schooloffices(request):
 
 # admin
 
+
 # teacher
 
 
@@ -944,6 +947,7 @@ def teacher_home_view(request, *args, **kwargs):
         if check.is_read == False:
             count = count + 1
     teacherNotif = count
+
     return render(request, "teacher/teacher_home.html",  {"object_list": facultyload, "teacherNotif": teacherNotif, "form": user_name})
 
 
@@ -981,6 +985,23 @@ def new(request, stud, id):
                 program_designation=degree.program_code)
             OfferCodeCounselor = Facultyload.objects.filter(
                 employee_id=counselor.employee_id)
+
+            # counselor = []
+            # OfferCodeCounselor = []
+            # counselors = Counselor.objects.all()
+            # for object in counselors:
+            #     if object.program_designation is not None:
+            #         for program in object.program_designation:
+            #             if program == degree.program_code:
+            #                 counselor.append(Counselor(employee_id=object.employee_id, firstname=object.firstname,
+            #                                            lastname=object.lastname, program_designation=object.program_designation))
+
+            # OfferCodeCounselors = Facultyload.objects.all()
+            # for object in OfferCodeCounselors:
+            #     for object1 in counselor:
+            #         if object1.employee_id == object.employee_id:
+            #             OfferCodeCounselor.append(Facultyload(id=object.id, employee_id=object.employee_id,
+            #                                                   offer_code=object.offer_code))
 
             timeArray = []
             initialtime = 0
@@ -1117,6 +1138,18 @@ def new(request, stud, id):
 
             if(time1 != '' and time2 != ''):
                 form.save()
+                # qs = []
+                # qs1 = []
+                # counselors = Counselor.objects.all()
+                # for object in counselors:
+                #     if object.program_designation is not None:
+                #         for program in object.program_designation:
+                #             if program == degree.program_code:
+                #                 qs.append(Counselor(employee_id=object.employee_id, firstname=object.firstname,
+                #                                     lastname=object.lastname, program_designation=object.program_designation))
+                #                 qs1.append(
+                #                     Counselor(employee_id=object.employee_id))
+                # print("qs1", qs1)
                 qs = Counselor.objects.get(
                     program_designation=degree.program_code)
                 behavior = form.cleaned_data['behavior_problem']
@@ -1130,7 +1163,7 @@ def new(request, stud, id):
                                             'subject_referred': subject_referred})
                 counselorNotif = counselorNotif + 1
                 # studentNotif = studentNotif + 1
-                create_notification(qs.employee_id, user, 'manual_referral', extra_id=int(
+                create_notification(qs, user, 'manual_referral', extra_id=int(
                     stud), schedDay=tomorrow, schedStartTime=time1, schedEndTime=time2)
                 messages.info(request, 'Successfully Referred the Student')
 
@@ -1266,6 +1299,12 @@ def counselor_home_view(request, *args, **kwargs):
 def counselor_view_schedule(request, *args, **kwargs):
     global counselorNotif
     global count
+    offer = CalendarForm()
+    if request.method == "POST":
+        offer = CalendarForm(request.POST)
+        if offer.is_valid():
+            offer.save()
+
     count = 0
     user = request.session.get('username')
     today = date.today()
@@ -1394,19 +1433,25 @@ def counselor_view_schedule(request, *args, **kwargs):
                 time = timeArray[x]
 
     counselor_name = Faculty.objects.get(employee_id=user)
-    return render(request, "counselor/schedule.html", {"counselorNotif": counselorNotif, "today": today, "day_name": day_name, "schedForToday": classForToday, "time": one, "form": counselor_name})
+    return render(request, "counselor/schedule.html", {"offer": offer, "counselorNotif": counselorNotif, "today": today, "day_name": day_name, "schedForToday": classForToday, "time": one, "form": counselor_name})
 
 
 @login_required(login_url='login')
-def counselor_view_another_sched(request, num):
+def counselor_view_another_sched(request):
     global counselorNotif
     global count
-    count += num
+    offer = CalendarForm()
+    if request.method == "POST":
+        offer = CalendarForm(request.POST)
+        if offer.is_valid():
+            offer.save()
+    newDate = Calendar.objects.last()
+
     user = request.session.get('username')
     counselor_name = Faculty.objects.get(employee_id=user)
-    today = date.today() + timedelta(days=count)
-    now = dt.datetime.now() + timedelta(days=count)
-    day_name = now.strftime("%a")
+    today = newDate.pickedDate
+    day_name = today.strftime("%a")
+
     ClassesofCounselor = []
     ClassesCounselor = []
     ClassesCounselorCheck = False
@@ -1527,7 +1572,7 @@ def counselor_view_another_sched(request, num):
             if(timeArray[x] >= start and timeArray[x] < end):
                 one.append(timeArray[x])
                 time = timeArray[x]
-    return render(request, "counselor/another_sched.html", {"counselorNotif": counselorNotif, "today": today, "day_name": day_name, "schedForToday": classForToday, "time": one, "form": counselor_name})
+    return render(request, "counselor/another_sched.html", {"offer": offer, "counselorNotif": counselorNotif, "today": today, "day_name": day_name, "schedForToday": classForToday, "time": one, "form": counselor_name})
 
 
 @login_required(login_url='login')
