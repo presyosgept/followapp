@@ -71,6 +71,7 @@ from counselling.views import(
     director_home_view,
     director_assign_counselor,
     director_fillinForm,
+    director_choose_program,
 
     # student
     student_add_info,
@@ -228,6 +229,9 @@ urlpatterns = [
          name="director_assign_counselor"),
     path('director/form/<str:pk>', director_fillinForm,
          name="director_fillinForm"),
+    path('director/choose_program', director_choose_program,
+         name="director_choose_program"),
+
 
 
     path('admin/', admin.site.urls),

@@ -1,72 +1,12 @@
-{% extends "counselor/counselor_home.html" %}
+{% extends "director/director_home.html" %}
 
 {% block title %} 
-Referred Students
+Choose program
 {% endblock %} 
 
+
 {% block content %} 
-
 <style>
-   
-  .center {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .txtFont{
-    font-family: Arial, Helvetica, sans-serif;
-    color: black;
-    text-align:left; margin-right: 100px; font-size: 20px;
-  }
-  .txtFonty{
-    font-family: Arial, Helvetica, sans-serif;
-    color: black;
-    text-align:left; margin-right: 100px; font-size: 17px;
-  }
-  .last{
-     font-size: 25px;
-  }
-
-.modal{
-font-size: 19px;
-}
-.container{
-border-radius: 10px;
-background-color: #B4CFEC;
-box-shadow:
-0 9px 33px rgba(0, 0, 0, 0.07);
-width: 1200px;
-height: 400px;
-float: center;
-margin-left: 15px;
-}
-
-
-.fac{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.buttonF {
-  position: fixed;
-width: 100%;
-min-width: 1320px;
-height: 60px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #d8c090;
-border: none;
-border-radius: 8px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
-  }
 
 /* Table Styles */
 
@@ -177,41 +117,96 @@ outline: none;
         text-align: center;
     }
 }
+.fac{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.buttonF {
+  position: fixed;
+
+width: 100%;
+min-width: 1320px;
+height: 60px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #d8c090;
+border: none;
+border-radius: 8px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+
+  }
 </style>
+    <br> <br> <br><br> <br> <br>
+ <form method="post" action="">
+    {% csrf_token %}
+     {% for form1 in progform %}
+    {% for form in forms %}
+
+     <tr>
+        <td id="checkboxes">
+            {{ form1.program }}
+            <input name="{{ form1.program }}" value="{{ form.program_name  }}">
+            <!-- <input type="checkbox" name="check" id="{{form.program_name}}" value={{form.program_name}}> -->
+        </td>
+    <tr>
+        <!-- <input  name="fa_f_ids[{{ form.program_name }}]" value="{{ form.program_name  }}"> -->
+    {% endfor %}
+    {% endfor %}
+    <button type="submit" class="btn btn-light">Select</button>
+  </form>
+
+  <br> <br> <br>
+  <br> <br> <br>
+
 
 <div class="fac">
-    <button type="submit" class="buttonF">List of Referred Students</button>
+    <button type="submit" class="buttonF">List of Offerings</button>
   </div> 
   <br> <br>
 <div class="table-wrapper">
+    
+
+
+
   <table class="fl-table">
       <thead>
       <tr>
-          <th>ID Number</th>
-          <th>Students Name</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Information</th>
+          <th>program_code</th>
+          <th>program_name</th>
       </tr>
       </thead>
-{% for object in objects reversed %}
+      {% for form in forms %}
       <tbody>
       <tr>
-          <td>{{object.studnumber}}</td>
-          <td>{{object.lastname}}, &nbsp; {{object.firstname}}</td>
-          <td>{{object.date}}</td>
-          <td>{{object.status|title}}</td>
-          <td style="color: black;" ><a href="{% url 'counselor_view_detail_referred_students' object.id %}" style="font-weight: 550; color: black;">View More Information</a></td>
-
+            
+          <td><input type="checkbox" id="music" name="interest" value="music">
+    <label for="music">{{ form.program_code }}</label></td>
+          <td>{{ form.program_name }}</td>
         
       </tr>
       <tbody>
         {% endfor %}
   </table>
-          {% if not objects %}
-   <center><b><p>No Referrals Yet!</p></b></center>
-        {% endif %}
+
+ 
+<a href="{% url 'director_fillinForm' object  %}"><small>ggdfgdfgdfgdg ago</small></a>
+
+  {% if not forms %}
+<center><p><b>No Data Available</b></p></center>
+{% endif %}
 </div>
+
+
 
 
 {% endblock %}

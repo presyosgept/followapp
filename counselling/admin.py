@@ -141,7 +141,7 @@ admin.site.register(Counselor)
 
 class CounselorAdmin(ImportExportModelAdmin):
     list_display = ('employee_id', 'firstname',
-                    'lastname', 'program_designation')
+                    'lastname', 'school_choice', 'program_designation')
 
 
 admin.site.register(Notification)

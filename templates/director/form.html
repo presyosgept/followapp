@@ -108,9 +108,6 @@ outline: none;
 <div class="fac">
   <button type="submit" class="buttonF">Assign Employee</button>
 </div> 
-<form class="reffer" method="POST" action="">
-  {% csrf_token %}
-  <!-- SEARCH BAR NI -->
 
   <div class="input">
 <br>
@@ -119,6 +116,14 @@ outline: none;
 {% endfor %}
 <br>
 <div class="offering">
+  <!-- if form1.program_designation -->
+  {% if form1.program_designation == null %}
+hakdog
+{% else %}
+imong program nga gi assign sa imoha 
+{{form1.program_designation}}
+{% endif %}
+
   <form method="POST" action="">
     {% csrf_token %}
     
@@ -126,7 +131,7 @@ outline: none;
       <div class="row"> 
         <p class="pText"><b class="bText">First Name: &nbsp;</b> {{form1.firstname}}</p>
         <p class="pText"><b class="bText">Last Name: &nbsp;</b>  {{form1.lastname}}</p>
-        <p class="pText"><b class="bText">Program Designation: &nbsp;</b> {{form1.program_designation}}</p>
+        <p class="pText"><b class="bText">Program Designation: &nbsp;</b> {{form1.school_choice}}</p>
         &nbsp;    &nbsp;   
       </div>
       </div>
@@ -140,7 +145,6 @@ outline: none;
 </form>
 
   </div>
-</form>
 
 
 

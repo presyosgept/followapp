@@ -22,7 +22,7 @@ from datetime import date, datetime, timedelta
 
 import datetime as dt
 
-from .forms import CalendarForm, StudentInfoForm, DepaChoiceForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
+from .forms import ProgramForm, CalendarForm, StudentInfoForm, DepaChoiceForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
 from .models import Calendar, StudentInfo, DepaChoice, Offering, StudentSetSched, NotificationFeedback, CounselorFeedback, SubjectWithSem, Semester, AccountCreated, Faculty, Counselor, Notification, Counselor, TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
 from .resources import SubjectWithSemResource, SemesterResource, StudentsloadResource, FacultyResource, CounselorResource, TeachersReferralResource, SubjectOfferedResource, FacultyloadResource
@@ -220,6 +220,7 @@ feedback_id = 0
 global sem
 global sy
 global dep
+global school
 
 
 def register(request):
@@ -484,33 +485,81 @@ def director_assign_counselor(request, *args, **kwargs):
     return render(request, "director/assign_counselor.html", {"object_list": qs, "object": director_name})
 
 
+global director_pk
+
+
 @login_required(login_url='login')
 def director_fillinForm(request, pk):
+    global director_pk
+    global school
+    director_pk = pk
     user = request.session.get('username')
     cs = Counselor.objects.all()
     counselor = Counselor.objects.get(employee_id=pk)
     form = CounselorForm(instance=counselor)
+    progform = ProgramForm()
     director_name = Faculty.objects.get(employee_id=user)
-    flag = 0
-    if request.method == "POST":
-        form = CounselorForm(request.POST, instance=counselor)
-        if form.is_valid():
-            designation = form['program_designation'].value()
-            for check in cs:
-                if check.program_designation == designation:
-                    flag = 1
-
-            if flag == 1:
-                messages.info(
-                    request, 'Ops! Already Assigned This Department To Another Counselor!')
-                return render(request, "director/form.html", {"form1": form, "object": director_name})
-            else:
+    if counselor.program_designation is None:
+        print("wala ka diri")
+        print("cdsgdfgdfgation ", counselor.program_designation)
+        if request.method == "POST":
+            progform = ProgramForm(request.POST)
+            form = CounselorForm(request.POST, instance=counselor)
+            if form.is_valid():
+                designation = progform['school_choice'].value()
+                schoolchoice = SchoolOffices.objects.get(
+                    school_office_name=designation)
+                school = schoolchoice.school_id
                 form.save()
-                form = CounselorForm(instance=counselor)
+                # form = CounselorForm(instance=counselor)
                 messages.info(
                     request, 'Successfully Assigned The Counselor')
-                return render(request, "director/form.html", {"form1": form, "object": director_name})
+                return redirect(director_choose_program)
+    else:
+        print("counselor.program_designation ", counselor.program_designation)
+        if request.method == "POST":
+            form = CounselorForm(request.POST, instance=counselor, initial={
+                'program_designation': counselor.program_designation})
+            if form.is_valid():
+                designation = form['school_choice'].value()
+                schoolchoice = SchoolOffices.objects.get(
+                    school_office_name=designation)
+                school = schoolchoice.school_id
+                form.save()
+                # form = CounselorForm(instance=counselor)
+                messages.info(
+                    request, 'Successfully Assigned The Counselor')
+                return redirect(director_choose_program)
     return render(request, "director/form.html", {"form1": form, "object": director_name})
+
+
+@login_required(login_url='login')
+def director_choose_program(request):
+    global school
+    global director_pk
+    programs = []
+    progform = ProgramForm()
+    if request.method == "POST":
+        progform = ProgramForm(request.POST)
+        designation = progform['program'].value()
+        print("abububu1432423423", designation)
+        if progform.is_valid():
+            designation = progform['program'].value()
+            print("abububu", designation)
+            progform.save()
+
+    degreeprogram = DegreeProgram.objects.all()
+    for degree in degreeprogram:
+        if degree.school_id_id == school:
+            t = Counselor.objects.get(employee_id=director_pk)
+            t.program_designation = degree.program_code
+            t.save()
+            programs.append(DegreeProgram(
+                program_code=degree.program_code, program_name=degree.program_name))
+    user = request.session.get('username')
+    director_name = Faculty.objects.get(employee_id=user)
+    qs = Faculty.objects.filter(role='counselor')
+    return render(request, "director/director_choose_program.html", {"forms": programs, "progform": progform, "object": director_pk})
 
 # director
 
@@ -717,14 +766,12 @@ def uploaddb_counselor(request):
             sheet_obj = wb_obj.active
             col = sheet_obj.max_column
             row = sheet_obj.max_row
-
-            if(col == 4):
+            if(col == 5):
                 for data in imported_data:
                     value = Counselor(
                         data[0],
                         data[1],
-                        data[2],
-                        data[3],
+                        data[2]
                     )
                     value.save()
                 messages.info(request, 'Successfully Added')

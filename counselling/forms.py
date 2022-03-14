@@ -151,6 +151,9 @@ class StudentsloadForm(forms.Form):
     studnumber = forms.CharField()
 
 
+class ProgramForm(forms.Form):
+    program = forms.CharField()
+
 class CounselorForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -159,13 +162,13 @@ class CounselorForm(forms.ModelForm):
         self.fields['firstname'].disabled = True
         self.fields['lastname'].disabled = True
 
-    program_designation = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
-                                               choices=Counselor.PROGRAM_DESIGNATION)
+    # program_designation = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
+    #                                            choices=Counselor.PROGRAM_DESIGNATION)
 
     class Meta:
         model = Counselor
         fields = ['employee_id', 'firstname',
-                  'lastname', 'program_designation']
+                  'lastname', 'school_choice']
 
 
 # class DateForm(forms.Form):
