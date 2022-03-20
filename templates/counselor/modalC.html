@@ -30,18 +30,20 @@
   #box {
   
   border: 1px solid black;
-border-radius: 10px;
+border-radius: 15px;
 
     box-shadow:
-      0 9px 33px rgba(0, 0, 0, 0.07);
-      min-width: 1008px;
-min-height: 100px;
-float: left;
-margin: auto;
+      5 90px 50px rgba(0, 0, 0, 0.07);
+      min-width: 550px;
+min-height: 200px;
+
 display: flex;
-flex-direction: row;
-overflow: hidden;
-white-space:normal; word-break: break-all;
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  margin-left: 10px;
+
 }
 
   .table-head{
@@ -263,9 +265,9 @@ white-space:normal; word-break: break-all;
   
 }
 .rowText{
-  font-size: 23px;
-  min-width: 900px;
-  padding: 10px;
+  font-size: 20px;
+
+  margin: auto;
 }
 .image{
   max-width: 320px;
@@ -340,7 +342,60 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+.card1 {
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 40%;
+  min-height: 500px;
+  border-radius: 5px;
+  float: center;
+  margin-left: auto;
+/* margin: auto;
+  text-align: center; */
+  overflow: hidden;
+  background-color: white;
+}
+@media screen and (max-width: 320px) {
+  .header__search {
+    width: 70%;
+  }
+  .card1{
+    width: 70%;
+  }
+}
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
 
+.button {
+  margin: 0 auto;
+  width: 160px;
+  height: 30px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #d8c090;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: #95B9C7;
+  box-shadow: 0px 15px 20px #C9C0BB;
+  color: #fff;
+  transform: translateY(-7px);
+}
 
 </style>
 <br>
@@ -355,21 +410,14 @@ outline: none;
   <br> <br> <br>
 <div class="card1">
   <br>
-  <form action="#" class="cleanForm" method="POST">
-    <br>
-    
-    <div class="column">
-    <div class="row">  
-    <img class="image"
-    src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
-    > 
-    <br>
-    <p class="pText"><b class="bText">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</p> 
-    <p class="pText"><b class="bText">Students Number: &nbsp;</b>{{object.studnumber}}</p>
-    
-    
-    
-    <div>
+         
+            <form action="#" class="cleanForm" method="POST">
+              {% csrf_token %}
+           
+              
+             <div>
+               <h3 style="text-align: justify; margin-left:8px; font-size: 20px;"><i>Schedule of Appointment</i></h3>
+               <br> <br>
     <p class="rowText">
       You are scheduled for an appointment.
       The Session starts at <b>{{object.start_time}}</b> and ends at <b> {{object.end_time}}</b> on <b> {{object.date}}</b>  <br> 
@@ -379,39 +427,30 @@ outline: none;
     </div>
     </p>
     </div>
-    
-
-    </div>
-    </div>
-    <br> <br> <br> <br> <br> <br> <br> <br>
-    
-    <div class="column">
-    <div class="row1"> 
-    <p class="pText"><b class="bText">Degree Program: &nbsp;</b>{{object.degree_program}}</p>
-    &nbsp;    &nbsp;   
-    </div>
-    
-    </div>
-    
-    </form>
-    
-</div>
-
-<br> 
+                
+            
+            </form>
+            <br> 
    {% if object.feedback is None %}
     {% if type == 'teacher' %}
-<center><a href="{% url 'counselor_feedback' object.id %}">  
-  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a></center>
-
+    <div class="wrap">
+      <center><a href="{% url 'counselor_feedback' object.id %}">  
+  <button class="button"  style="font-weight: bold;  color: black;"><p style="font-weight: bold;">Feedback</p></button> </a></center>
+    </div>
     
 
      {% else %}
-<center>  <a href="{% url 'counselor_feedback_student' object.id %}">  
-  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a></center>
+<div class="wrap">
+  <center>  <a href="{% url 'counselor_feedback_student' object.id %}">  
+  <button class="button" style="font-weight: 800;  color: black;">Feedback</button> </a></center>
+</div>
 
      
     {% endif %}  
-    {% endif %}  
+    {% endif %} 
+    
+</div>
+ 
 
 
 
@@ -420,27 +459,26 @@ outline: none;
      <br>
   <div class="fac">
     <button type="submit" class="buttonF">Students Referral Information</button>
-  </div> 
+  </div>  
 
-  <br> <br>
+  <br> <br> <br>
 <div class="card1">
   <br>
   <form action="#" class="cleanForm" method="POST">
     <br>
     
-    <div class="column">
-    <div class="row">  
-    <img class="image"
-    src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"  
-    > 
-    <br>
-    <p class="pText"><b class="bText">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</p> 
-    <p class="pText"><b class="bText">Students Number: &nbsp;</b>{{object.studnumber}}</p>
+    <!-- <div class="column">
+    <div class="row">   -->
+
     
     
     {% if not object.behavior_problem %}
+   
     <div>
+       <h3 style="text-align: justify; margin-left:8px; font-size: 20px;"><i>Schedule of Appointment</i></h3>
+       <br> <br>
     <p class="rowText">
+      
       <b>{{object.lastname}}</b> is referred.</b> 
       The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br> 
      <i> With the Reasons stated below:</i>
@@ -450,7 +488,10 @@ outline: none;
     </p>
     </div>
     {% else %}  
+   
     <div>
+       <h3 style="text-align: justify; margin-left:8px; font-size: 20px;"><i>Schedule of Appointment</i></h3>
+       <br> <br>
     <p class="rowText">
       <b>{{object.lastname}}</b> is referred due to as having a behavior problem of <b> {{object.behavior_problem | title}}.</b> 
       The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br> 
@@ -462,23 +503,15 @@ outline: none;
     </div>
     {% endif %}  
 
-
+<!-- 
     </div>
-    </div>
+    </div> -->
     <br> <br> <br> <br> <br> <br> <br> <br> <br> 
     
-    <div class="column">
-    <div class="row1"> 
-    <p class="pText"><b class="bText">Degree Program: &nbsp;</b>{{object.degree_program}}</p>
-    &nbsp;    &nbsp;   
-    </div>
-    
-    </div>
+
     
     </form>
-    
-</div>
-<br> <br>
+    <br> <br>
     {% if object.feedback is None %}
     {% if type == 'teacher' %}
 <center><a href="{% url 'counselor_feedback' object.id %}">  
@@ -493,6 +526,8 @@ outline: none;
  
     {% endif %}  
 <br>
+    
+</div>
 <br>
 
     {% endif %}  

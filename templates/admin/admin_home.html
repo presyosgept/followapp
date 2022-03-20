@@ -466,17 +466,29 @@ img {
                           
                             <div class="nav__dropdown-collapse">
                                 <div class="nav__dropdown-content">
-                                    <a href="{% url 'uploaddb_schooloffices' %}" class="nav__dropdown-item">Upload School Offices</a>
-                                    <a href="{% url 'uploaddb_department' %}" class="nav__dropdown-item">Upload Department</a>
-                                    <a href="{% url 'uploaddb_degreeprogram' %}" class="nav__dropdown-item">Upload Degree Program</a>
                                     <a href="{% url 'uploaddb_offercode' %}" class="nav__dropdown-item">Upload Subject Offerings</a>
-                                    <a href="{% url 'uploaddb_allsubjects' %}" class="nav__dropdown-item">Upload All Subjects</a>
-                                    <a href="{% url 'uploaddb_semester' %}" class="nav__dropdown-item">Upload Semester</a>
-                                    <a href="{% url 'uploaddb_counselor' %}" class="nav__dropdown-item">Upload Counselor</a>
                                     <a href="{% url 'upload_faculty' %}"  class="nav__dropdown-item">Upload Faculty</a>
                                     <a href="{% url 'upload_facultyload' %}"  class="nav__dropdown-item">Upload Faculty Load</a>
                                     <a href="{% url 'upload_students' %}"   class="nav__dropdown-item">Upload Student</a>
                                     <a href="{% url 'upload_studentsload' %}"  class="nav__dropdown-item">Upload Students Load</a>
+                                    <a href="{% url 'upload_another_student' %}"  class="nav__dropdown-item">Upload Another Student</a>
+
+                                    
+                                </div>  
+                            </div>
+                          </div>
+
+                                             <div class="nav__dropdown">
+                            <a href="#refer" class="nav__link">
+                                <i class='bx bx-navigation nav__icon' ></i>
+                                <span class="nav__name">Update</span>
+                                <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                            </a>
+                          
+                            <div class="nav__dropdown-collapse">
+                                <div class="nav__dropdown-content">
+                                    <a href="{% url 'view_schooloffices' %}" class="nav__dropdown-item">Offices/School</a>
+                                    <a href="{% url 'uploaddb_department' %}" class="nav__dropdown-item">Department</a>
 
                                     
                                 </div>  
@@ -490,11 +502,31 @@ img {
                             </a>
 
 
-                           
+                            </div>
+
+                                             <div class="nav__dropdown">
+                            <a href="#refer" class="nav__link">
+                                <i class='bx bx-navigation nav__icon' ></i>
+                                <span class="nav__name">Testing upload data</span>
+                                <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                            </a>
+                          
+                            <div class="nav__dropdown-collapse">
+                                <div class="nav__dropdown-content">
+                                   <a href="{% url 'uploaddb_schooloffices' %}" class="nav__dropdown-item">Upload School Offices</a>
+                                    <a href="{% url 'uploaddb_department' %}" class="nav__dropdown-item">Upload Department</a>
+                                    <a href="{% url 'uploaddb_degreeprogram' %}" class="nav__dropdown-item">Upload Degree Program</a>
+                                    <a href="{% url 'uploaddb_allsubjects' %}" class="nav__dropdown-item">Upload All Subjects</a>
+                                    <a href="{% url 'uploaddb_semester' %}" class="nav__dropdown-item">Upload Semester</a>
+                                    <a href="{% url 'uploaddb_counselor' %}" class="nav__dropdown-item">Upload Counselor</a>
+
+                                </div>  
+                            </div>
+                          </div>
                              
                         </div>
     
-
+<br>
                 <a href="{% url 'logout' %}" class="nav__link nav__logout">
                     <i class='bx bx-log-out nav__icon' ></i>
                     <span class="nav__name">Sign Out</span>

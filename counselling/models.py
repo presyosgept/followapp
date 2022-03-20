@@ -240,20 +240,15 @@ class Counselor(models.Model):
     employee_id = models.CharField(max_length=220, primary_key=True)
     firstname = models.CharField(max_length=220)
     lastname = models.CharField(max_length=220)
-    SCHOOL_CHOICE = (('School of Computer Studies', 'School of Computer Studies'),
-                     ('School of Education', 'School of Education'),
-                     ('School of Engineering', 'School of Engineering'),
-                     ('School of Arts and Sciences',
-                      'School of Arts and Sciences'),
-                     ('School of Business and Management',
-                      'School of Business and Management'),
-                     ('Center for Religious Education',
-                      'Center for Religious Education'),
-                     ('Student Development and Placement Center', 'Student Development and Placement Center'))
-    school_choice = models.CharField(max_length=220, choices=SCHOOL_CHOICE,
-                                     default='School of Computer Studies', null=False, blank=False)
-    program_designation = models.CharField(
-        max_length=220, null=True, blank=True)
+    PROGRAM_DESIGNATION = (('BSIT', 'BSIT'),
+                           ('BSCS', 'BSCS'),
+                           ('BSCE', 'BSCE'),
+                           ('BSME', 'BSME'),
+                           ('BAPOL', 'BAPOL'),
+                           ('BSA', 'BSA'),
+                           ('BSMA', 'BSMA'))
+    program_designation = MultiSelectField(
+        max_length=220, choices=PROGRAM_DESIGNATION, null=True, blank=True)
 
 
 class Notification(models.Model):

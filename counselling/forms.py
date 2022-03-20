@@ -1,6 +1,6 @@
 from multiselectfield import MultiSelectFormField
 from django.forms.widgets import CheckboxSelectMultiple
-from .models import Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
+from .models import SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
@@ -154,6 +154,17 @@ class StudentsloadForm(forms.Form):
 class ProgramForm(forms.Form):
     program = forms.CharField()
 
+
+class DeleteSchoolOfficeForm(forms.Form):
+    schoolform_code = forms.CharField()
+
+
+class AddSchoolOfficeForm(forms.ModelForm):
+    class Meta:
+        model = SchoolOffices
+        fields = '__all__'
+
+
 class CounselorForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -162,13 +173,13 @@ class CounselorForm(forms.ModelForm):
         self.fields['firstname'].disabled = True
         self.fields['lastname'].disabled = True
 
-    # program_designation = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
-    #                                            choices=Counselor.PROGRAM_DESIGNATION)
+    program_designation = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
+                                               choices=Counselor.PROGRAM_DESIGNATION)
 
     class Meta:
         model = Counselor
         fields = ['employee_id', 'firstname',
-                  'lastname', 'school_choice']
+                  'lastname', 'program_designation']
 
 
 # class DateForm(forms.Form):

@@ -147,26 +147,7 @@ outline: none;
   }
 </style>
     <br> <br> <br><br> <br> <br>
- <form method="post" action="">
-    {% csrf_token %}
-     {% for form1 in progform %}
-    {% for form in forms %}
-
-     <tr>
-        <td id="checkboxes">
-            {{ form1.program }}
-            <input name="{{ form1.program }}" value="{{ form.program_name  }}">
-            <!-- <input type="checkbox" name="check" id="{{form.program_name}}" value={{form.program_name}}> -->
-        </td>
-    <tr>
-        <!-- <input  name="fa_f_ids[{{ form.program_name }}]" value="{{ form.program_name  }}"> -->
-    {% endfor %}
-    {% endfor %}
-    <button type="submit" class="btn btn-light">Select</button>
-  </form>
-
-  <br> <br> <br>
-  <br> <br> <br>
+ 
 
 
 <div class="fac">

@@ -1,0 +1,46 @@
+{% extends "admin/admin_home.html" %}
+
+{% block title %} 
+View Offer
+{% endblock %} 
+
+
+{% block content %} 
+
+ {% for message in messages %}
+     <p >{{message}} !</p>
+     {% endfor %}
+     <br> <br>
+list of school offices <br>
+
+  {% for form in school %}
+
+{{form.school_code}}
+{{form.school_office_name}}
+<br>
+{% endfor %}
+<br><br>
+add data here
+<form method="POST" action="{% url 'view_schooloffices' %}">
+          {% csrf_token %}
+          {{ addschoolForm.school_id }}
+          {{ addschoolForm.school_code }}
+          {{ addschoolForm.school_office_name }}
+        
+      <div class="wrap">
+                <button type="submit" class="button">Submit</button>
+              </div>
+      </form>
+<br><br><br>
+Delete   deleteschoolForm
+
+<form method="POST" action="{% url 'view_schooloffices' %}">
+          {% csrf_token %}
+          {{ deleteschoolForm.schoolform_code }}
+        
+      <div class="wrap">
+                <button type="submit" class="button">Submit</button>
+              </div>
+      </form>
+
+{% endblock %}

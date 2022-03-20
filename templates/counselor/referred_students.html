@@ -8,24 +8,6 @@ Referred Students
 
 <style>
    
-  .center {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .txtFont{
-    font-family: Arial, Helvetica, sans-serif;
-    color: black;
-    text-align:left; margin-right: 100px; font-size: 20px;
-  }
-  .txtFonty{
-    font-family: Arial, Helvetica, sans-serif;
-    color: black;
-    text-align:left; margin-right: 100px; font-size: 17px;
-  }
-  .last{
-     font-size: 25px;
-  }
-
 .modal{
 font-size: 19px;
 }
@@ -68,7 +50,7 @@ cursor: pointer;
 outline: none;
   }
 
-/* Table Styles */
+  /* Table Styles */
 
 .table-wrapper{
     margin: 10px 70px 70px;
@@ -177,40 +159,48 @@ outline: none;
         text-align: center;
     }
 }
+.table_head{
+  font-size: 14px;
+}
 </style>
 
-<div class="fac">
-    <button type="submit" class="buttonF">List of Referred Students</button>
-  </div> 
-  <br> <br>
+  <div class="table-cont">
+        <div class="fac">
+          <button type="submit" class="buttonF">List of Referred Students</button>
+        </div> 
+<br>
+
 <div class="table-wrapper">
   <table class="fl-table">
       <thead>
       <tr>
-          <th>ID Number</th>
-          <th>Students Name</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Information</th>
+          <th class="table_head">ID Number</th>
+          <th class="table_head">Students Name</th>
+          <th class="table_head">Degree Program</th>
+          <th class="table_head">Date</th>
+          <th class="table_head">Status</th>
+          <th class="table_head">Information</th>
       </tr>
       </thead>
-{% for object in objects reversed %}
+      {% for object in objects reversed %}
       <tbody>
       <tr>
-          <td>{{object.studnumber}}</td>
-          <td>{{object.lastname}}, &nbsp; {{object.firstname}}</td>
-          <td>{{object.date}}</td>
-          <td>{{object.status|title}}</td>
-          <td style="color: black;" ><a href="{% url 'counselor_view_detail_referred_students' object.id %}" style="font-weight: 550; color: black;">View More Information</a></td>
-
-        
+                  <td style="font-size: 14px;">{{object.studnumber}}</td>
+                  <td style="font-size: 14px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
+                  <td style="font-size: 14px;">{{object.degree_program}}</td>
+                  <td style="font-size: 14px;">{{object.date}}</td>
+                  <td style="font-size: 14px;">{{object.status|title}}</td>
+                  <td style="font-size: 14px;"><a href="{% url 'counselor_view_detail_referred_students' object.id  %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
+                
       </tr>
       <tbody>
         {% endfor %}
   </table>
-          {% if not objects %}
-   <center><b><p>No Referrals Yet!</p></b></center>
-        {% endif %}
+  <div style="padding: 2px;">
+    {% if not objects %}
+    <center><b><p>No Referrals Yet!</p></b></center>
+         {% endif %}  
+  </div>
 </div>
 
 

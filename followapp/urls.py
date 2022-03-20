@@ -38,6 +38,8 @@ from counselling.views import(
     admin_offering,
     admin_view_offering,
     admin_department_choice,
+    upload_another_student,
+    view_schooloffices,
 
 
     # teacher
@@ -65,6 +67,7 @@ from counselling.views import(
     counselor_view_appointment,
     counselor_view_feedback,
     counselor_view_detail_feedback,
+    counselor_view_another_feedback,
 
 
     # director
@@ -98,7 +101,7 @@ from counselling.views import(
     uploaddb_allsubject,
     uploaddb_semester,
     uploaddb_offercode,
-    uploaddb_counselor,
+    uploaddb_counselor
 )
 
 
@@ -153,9 +156,13 @@ urlpatterns = [
          admin_view_offering, name="admin_view_offering"),
     path('admin/admin_department_choice',
          admin_department_choice, name="admin_department_choice"),
+     path('admin/upload_another_student',
+         upload_another_student, name="upload_another_student"),
+     path('admin/view_schooloffices',
+         view_schooloffices, name="view_schooloffices"),
 
 
-
+    
     # teacher
     path('teacher/', teacher_home_view, name="teacher_home_view"),
     # path('teacher/referstudent',  refer_student, name="refer_student"),
@@ -204,6 +211,8 @@ urlpatterns = [
          counselor_view_detail_feedback, name='counselor_view_detail_feedback'),
     path('counselor/counselor_view_another_sched',
          counselor_view_another_sched, name='counselor_view_another_sched'),
+    path('counselor/counselor_view_another_feedback',
+         counselor_view_another_feedback, name='counselor_view_another_feedback'),
 
 
     # student
@@ -218,7 +227,7 @@ urlpatterns = [
          student_notif_detail, name="student_notif_detail"),
     path('student/view_appointment_students/<str:start>/<str:end>/<str:date>',
          view_appointment_students, name="view_appointment_students"),
-    path('student/student_view_another_sched/?P:<int:num>',
+    path('student/student_view_another_sched',
          student_view_another_sched, name='student_view_another_sched'),
     path('student/student_history', student_history, name="student_history"),
 

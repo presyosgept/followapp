@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -289,75 +288,99 @@ margin-bottom:15px;
    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 96.2%;
-  min-height: 530px;
+  min-height: 500px;
   border-radius: 5px;
-  background-color: #E9E4D4;
   float: left;
   margin-left: auto;
 /* margin: auto;
   text-align: center; */
   overflow: hidden;
+  background-color: white;
 }
 #id_firstname{
-  width: 160px;
-  height: 25px;
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+  border-radius: 20px;
+  font-size: 15px;
 }
 #id_lastname{
-  width: 160px;
-  height: 25px;
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+  border-radius: 20px;
+  text-align: start;
+  font-size: 15px;
 }
 #id_student_email{
-  width: 255px;
-  height: 25px;
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+  border-radius: 20px;
+  font-size: 15px;
 }
 #id_year{
-  width: 95px;
-  height: 25px;
+  width: 200px;
+  height: 30px;
   text-align: center;
   color: #3A3B3C;
+  border-radius: 20px;
+  font-size: 15px;
 }
 #id_studnumber{
-  width: 95px;
-  height: 25px;
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+  border-radius: 20px;
+  font-size: 15px;
 }
 #id_mother_firstname{
-  width: 180px;
-  height: 22px;
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+    border-radius: 20px;
+    font-size: 15px;
 }
 #id_mother_lastname{
-  width: 180px;
-  height: 22px;
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+    border-radius: 20px;
+    font-size: 15px;
 }
-#id_parents_contact_number{
-  width: 180px;
-  height: 22px;
+#id_mother_contact_number{
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+    border-radius: 20px;
+    font-size: 15px;
 }
 #id_address{
   width: 180px;
   height: 22px;
   color: #3A3B3C;
+  font-size: 15px;
 }
 #id_father_firstname{
-  width: 180px;
-  height: 22px;
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+    border-radius: 20px;
+    font-size: 15px;
 }
 #id_father_lastname{
-  width: 180px;
-  height: 22px;
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+    border-radius: 20px;
+    font-size: 15px;
 }
-#id_parents_contact_number{
-  width: 180px;
-  height: 22px;
+#id_father_contact_number{
+  width: 400px;
+  height: 35px;
   color: #3A3B3C;
+    border-radius: 20px;
+    font-size: 15px;
 }
 #id_parents_email{
   width: 180px;
@@ -394,32 +417,39 @@ margin-bottom:15px;
           </div>
           <br>
           <br>
-          <div class="card1">
+         
             <form action="#" class="cleanForm" method="POST">
               {% csrf_token %}
-            
+           
+              
             <div class="column">
-              <div class="row">     
-                <p class="pText"><b class="bText">First Name: &nbsp;</b>{{info.firstname}}</p> 
+              
+              <div class="row">    
+                <p><h3>Student's Personal Information</h3></p>
+                <p class="pText"><b class="bText">First Name: </b>{{info.firstname}}</p> 
                 <p class="pText"><b class="bText" >Last Name: &nbsp;</b>{{info.lastname}}</p> 
                 <p class="pText"><b class="bText" >Student Number: &nbsp;</b>{{info.studnumber}}</p> 
                 <br> <br> 
-                <p class="pText"><b class="bText">Mother's Firstname: &nbsp;</b> {{info.mother_firstname}}</p>
+                <h3>*Required</h3>
+                <i>If No Mother/Father, input None.</i>
+                <p><h3>Mothers Personal Information</h3></p>
+                <p class="pText"><b class="bText">Mother's Firstname: &nbsp;</b>{{info.mother_firstname}}</p>
                 <p class="pText"><b class="bText">Mother's Lastname: &nbsp;</b>  {{info.mother_lastname}}</p>
-            
-              
+                <p class="pText"><b class="bText">Contact Number: <br></b>  {{info.mother_contact_number}}</p>
+
+                <br> <br>
+                <p><h3>Guardian Personal Information</h3></p>
+                <p class="pText"><b class="bText">Guardian's  Firstname: &nbsp;</b>{{info.father_firstname}}</p>
+                <p class="pText"><b class="bText">Guardian's   Lastname: &nbsp;</b>  {{info.father_lastname}}</p>
+                <p class="pText"><b class="bText">Contact Number: <br></b>  {{info.father_contact_number}}</p>
             
             
               </div>
-              
               </div>
-              
-              
-            
-            
+              <br> <br>
             <div class="column">
               <div class="row1"> 
-                <p class="pText"><b class="bText">Year Level:  &nbsp;</b>{{info.year}}</p>
+                <p class="pText"><b class="bText">Year Level: <br></b>{{info.year}}</p>
                 <p class="pText"><b class="bText">Student Email: &nbsp;</b>{{info.student_email}}</p>  
               </div>
              
@@ -428,35 +458,23 @@ margin-bottom:15px;
             
               <div class="column">
                 <div class="row1"> 
-                  <br> <br> <br>
+                  <br> <br> <br> <br> <br> <br>
+                  <p><h3>Fathers Personal Information</h3></p>
+                  <p class="pText"><b class="bText">Father's Lastname: &nbsp;</b>  {{info.mother_lastname}}</p>
                   <p class="pText"><b class="bText">Father's Firstname: &nbsp;</b> {{info.father_firstname}}</p>
-                  <p class="pText"><b class="bText">Father's Lastname: &nbsp;</b> {{info.father_lastname}}</p>
+                  <p class="pText"><b class="bText">Contact Number: &nbsp;</b> {{info.father_contact_number}}</p>
                   <br> 
-                   <br> <br> <br>
-                  <p class="pText"><b class="bText">Guardian's Firstname: &nbsp;</b> {{info.guardian_firstname}}</p>
-                  <p class="pText"><b class="bText">Guardian's Lastname: &nbsp;</b> {{info.guardian_lastname}}</p>
-                  <br> 
-                  <p class="pText"><b class="bText">Mother Contact Number:: &nbsp;</b>
-                    <p style="text-align: left;">  {{info.mother_contact_number}}</p></p>
-                     <p class="pText"><b class="bText">Father Contact Number:: &nbsp;</b>
-                    <p style="text-align: left;">  {{info.father_contact_number}}</p></p>
-                     <p class="pText"><b class="bText">Guardian Contact Number:: &nbsp;</b>
-                    <p style="text-align: left;">  {{info.guardian_contact_number}}</p></p>
-                  <p class="pText"><b class="bText">Student's Contact Number: &nbsp;</b>
-                    <p style="text-align: left;"> {{info.student_contact_number}}</p></p>
-              
-              
-                  &nbsp;    &nbsp;   
+                   <br>  <br> <br>  <br> <br>  <br> <br>  <br> <br> <br> <br> <br> <br> 
                 </div>
                 <center> <button class="buttons" style="font-weight: bold; color: #454545;">Submit</button></center>
-               <br> <br>
+         <br>
                 </div>
                 
             
             </form>
       
-          </div>
-          <br>  <br> <br>  <br> <br>  <br>
+        
+          <br> <br> <br>
 
                
           {% endblock %} 

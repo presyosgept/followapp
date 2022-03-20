@@ -7,264 +7,201 @@ Referred Students
 {% block content %} 
 <style>
    
-  .center {
-    margin-left: auto;
-    margin-right: auto;
+  .modal{
+  font-size: 19px;
   }
-  .txtFont{
-    font-family: Arial, Helvetica, sans-serif;
-    color: black;
-    text-align:left; margin-right: 100px; font-size: 20px;
+  .container{
+  border-radius: 10px;
+  background-color: #B4CFEC;
+  box-shadow:
+  0 9px 33px rgba(0, 0, 0, 0.07);
+  width: 1200px;
+  height: 400px;
+  float: center;
+  margin-left: 15px;
   }
-  .txtFonty{
-    font-family: Arial, Helvetica, sans-serif;
-    color: black;
-    text-align:left; margin-right: 100px; font-size: 17px;
+  
+  
+  .fac{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
   }
-  .last{
-     font-size: 25px;
+  
+  .buttonF {
+    position: fixed;
+  width: 100%;
+  min-width: 1320px;
+  height: 60px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #d8c090;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+    }
+  
+    /* Table Styles */
+  
+  .table-wrapper{
+      margin: 10px 70px 70px;
+      box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
   }
+  
+  .fl-table {
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: normal;
+      border: none;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 100%;
+      white-space: nowrap;
+      background-color: white;
+      overflow-y: scroll;
+  }
+  
+  .fl-table td, .fl-table th {
+      text-align: center;
+      padding: 8px;
+  }
+  
+  .fl-table td {
+      border-right: 1px solid #f8f8f8;
+      font-size: 12px;
+  }
+  
+  .fl-table thead th {
+      color: #ffffff;
+      background: #98b4ac;
+  }
+  
+  .fl-table thead th:nth-child(odd) {
+      color: #ffffff;
+      background: #98b4ac;
+  }
+  
+  .fl-table tr:nth-child(even) {
+      background: #F8F8F8;
+  }
+  
+  /* Responsive */
+  
+  @media (max-width: 767px) {
+      .fl-table {
+          display: block;
+          width: 100%;
+      }
+      .table-wrapper:before{
+          content: "Scroll horizontally >";
+          display: block;
+          text-align: right;
+          font-size: 11px;
+          color: white;
+          padding: 0 0 10px;
+      }
+      .fl-table thead, .fl-table tbody, .fl-table thead th {
+          display: block;
+      }
+      .fl-table thead th:last-child{
+          border-bottom: none;
+      }
+      .fl-table thead {
+          float: left;
+      }
+      .fl-table tbody {
+          width: auto;
+          position: relative;
+          overflow-x: auto;
+      }
+      .fl-table td, .fl-table th {
+          padding: 20px .625em .625em .625em;
+          height: 60px;
+          vertical-align: middle;
+          box-sizing: border-box;
+          overflow-x: hidden;
+          overflow-y: auto;
+          width: 120px;
+          font-size: 13px;
+          text-overflow: ellipsis;
+      }
+      .fl-table thead th {
+          text-align: left;
+          border-bottom: 1px solid #f7f7f9;
+      }
+      .fl-table tbody tr {
+          display: table-cell;
+      }
+      .fl-table tbody tr:nth-child(odd) {
+          background: none;
+      }
+      .fl-table tr:nth-child(even) {
+          background: transparent;
+      }
+      .fl-table tr td:nth-child(odd) {
+          background: #F8F8F8;
+          border-right: 1px solid #E6E4E4;
+      }
+      .fl-table tr td:nth-child(even) {
+          border-right: 1px solid #E6E4E4;
+      }
+      .fl-table tbody td {
+          display: block;
+          text-align: center;
+      }
+  }
+  .table_head{
+    font-size: 14px;
+  }
+    .t-body{
+    font-size: 20px;
+  }
+  </style>
 
-
-
-.card-text{
-display: inline;
-flex-direction: row;
-justify-content: start;
-width: 600px;
-/* margin-right: 600px; */
-
-}
-
-
-.card-img{
-width: 160px;
-height: 160px;
-border-radius: 50%;
-float: left;
-margin-left: 80px;
-margin-top: 20px;
-
-}
-
-
-.card-description{
-margin: 10px 0;
-}
-
-
-.card-link{
-margin-top: 20px;
-}
-.card-img{
-background-color: transparent;
-
-float: left;
-}
-
-.card-title{
-font-size: 20px;
-color: #334155;
-margin-right: 800px;
-margin-left: 160px;
-margin-bottom: 40px;
-padding: auto;
-}
-.card-stud{
-font-size: 23px;
-color: #334155;
-margin-right: 90px; line-height: 5%;
-font-weight: 600;
-} 
-.card-description{
-font-size: 12px;
-color: #64748B;
-}
-
-.card-link{
-font-size: 12px;
-color: #d8c090;
-}
-/* === TABLE ==== */
-.table-box
-{
-
-margin-bottom: 40px;
-margin-left: 150px;
-vertical-align:top;
-}
-
-/* .table-row{
-display: table;
-width: 40%;
-margin: 10px auto;
-font-family: sans-serif;
-background: transparent;
-padding: 4px 0;
-color: #555;
-font-size: 13px;
-box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-height: 0.1%;
-border-radius: 20px;
-margin-top: 50px;
-
-} */
-.table-head{
-
-background: #E5E4E2;
-box-shadow: none;
-color: #fff;
-font-weight: 600;
-line-height: 5px;
-box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-width: 500px;
-margin: auto;
-border-radius: 20px;
-}
-.table-head .table-cell{
-border-right: none;
-}
-.table-cell{
-display: table-cell;
-width: 20%;
-text-align: center;
-padding: 4px 0;
-border-right: 1px solid #838996;
-vertical-align: middle;
-}
-.first-cell{
-text-align: left;
-padding-left: 10px;
-width: 8%;
-}
-.last-cell{
-border-right: none;
-width: 15px;
-}
-/* a{
-textdecoration: none;
-color: #555;
-} */
-p{
-font-size: 17px;
-color: black;
-}
-.listTitle{
-font-size: 20px;
-text-align: center;
-}
-@media only screen and (max-width: 600px) {
-.table-row {
-font-size: 11px;
-}
-}
-.trow-list{
-display:inline-block;
-width: 85%;
-
-font-family: sans-serif;
-background: transparent;
-padding: 4px 0;
-color: #555;
-font-size: 13px;
-
-height: 15px;
-
-
-vertical-align:top;
-margin-bottom: 100px;
-
-}
-.modal{
-font-size: 19px;
-}
-.container{
-border-radius: 10px;
-background-color: #B4CFEC;
-box-shadow:
-0 9px 33px rgba(0, 0, 0, 0.07);
-width: 1200px;
-height: 400px;
-float: center;
-margin-left: 15px;
-}
-
-
-.fac{
-
-display: flex;
-align-items: center;
-justify-content: center;
-
-}
-
-.buttonF {
-  position: fixed;
-
-width: 100%;
-min-width: 1320px;
-height: 60px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #d8c090;
-border: none;
-border-radius: 8px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
-}
-
-
-</style>
-<br>
   <div class="table-cont">
         <div class="fac">
           <button type="submit" class="buttonF">List of Pending Referred Students</button>
         </div>   
         <br>
-
-
-
-<table class="table">
-<thead>
-<tr>
-<th>ID Number</th>
-<th>Students Name</th>
-<th>Date</th>
-<th>Status</th>
-<th>Information</th>
-</tr>
-</thead>
-
-<br>
-
-{% for object in objects  reversed %}
-
-<tbody>
-<tr>
-<td  data-label="ID Number">{{object.studnumber}}</td>
-<td data-label="Name"> {{object.lastname}}, &nbsp; {{object.firstname}}</td>
-<td data-label="Date"><a>{{object.date}}</a></td>
-<td data-label="Status"><a>{{object.status|title}}</a></td>
-<td  ><a href="{% url 'counselor_view_detail_referred_students' object.id  %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
-
-</tr>
-</tbody>
-
-
-
-{%endfor %}
-</table>
-         {% if not objects %}
-   <center><b><p>No Pending Referrals Yet!</p></b></center>
-        {% endif %}
-        <br>
+        <div class="table-wrapper">
+          <table class="fl-table">
+              <thead>
+              <tr>
+                <th class="table_head">ID Number</th>
+                <th class="table_head">Students Name</th>
+                <th class="table_head">Date</th>
+                <th class="table_head">Status</th>
+                <th class="table_head">Information</th>
+              </tr>
+              </thead>
+              {% for object in objects reversed %}
+              <tbody>
+              <tr>
+                  <td style="font-size: 14px;">{{object.studnumber}}</td>
+                  <td style="font-size: 14px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
+                  <td style="font-size: 14px;">{{object.date}}</td>
+                  <td style="font-size: 14px;">{{object.status|title}}</td>
+                  <td style="font-size: 14px;"><a href="{% url 'counselor_view_detail_referred_students' object.id  %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
+                
+              </tr>
+              <tbody>
+                {% endfor %}
+          </table>
+<div style="padding: 2px;">
+  {% if not objects %}
+  <center><b><p>No Pending Referrals Yet!</p></b></center>
+       {% endif %}
 </div>
+        
+        </div>
 
 
 {% endblock %}
