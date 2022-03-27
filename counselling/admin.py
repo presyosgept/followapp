@@ -64,21 +64,21 @@ admin.site.register(SchoolOffices)
 
 
 class SchoolOfficesAdmin(ImportExportModelAdmin):
-    list_display = ('school_id', 'school_code', 'school_office_name')
+    list_display = ('school_code', 'school_office_name')
 
 
 admin.site.register(Department)
 
 
 class DepartmentAdmin(ImportExportModelAdmin):
-    list_display = ('department_id', 'department_name', 'school_id')
+    list_display = ('department_id', 'department_name', 'school_code')
 
 
 admin.site.register(DegreeProgram)
 
 
 class DegreeProgramAdmin(ImportExportModelAdmin):
-    list_display = ('program_id', 'program_code', 'program_name', 'school_id')
+    list_display = ('program_id', 'program_code', 'program_name', 'school_code')
 
 
 admin.site.register(AllStudent)

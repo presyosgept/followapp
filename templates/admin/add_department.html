@@ -1,15 +1,12 @@
-{% extends "counselor/counselor_home.html" %}
+{% extends "admin/admin_home.html" %}
 
 {% block title %} 
-Another Schedule
+View Department
 {% endblock %} 
 
+
 {% block content %} 
-
 <style>
-
-
-  
   tr {
     border-top: 1px solid #C1C3D1;
     border-bottom: 1px solid #C1C3D1;
@@ -281,73 +278,180 @@ Another Schedule
           text-align: center;
       }
   }
-  
   .center {
-
-text-align: center;
-}
-
-.center_title {
-
-text-align: center;
-margin-right: 20px;
-}
-
   
-    </style>
+  text-align: center;
+  }
+  
+  .center_title {
+  
+  text-align: center;
+  margin-right: 20px;
+  }
+  
+  .wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.button {
+  margin: 0 auto;
+  width: 140px;
+  height: 30px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: whitesmoke;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: #95B9C7;
+  box-shadow: 0px 15px 20px #C9C0BB;
+  color: #fff;
+  transform: translateY(-7px);
+}
+.table_words{
+  font-size: 15px;
+  text-align: left;
+  align-items: center;
+  margin-left: 285px;
+}
+
+.flex-container {
+    display: flex;
+background-color: #C0C0C0;
+
+min-height: 215px;
+  border-radius: 5px;
+
+  transition: 0.3s;
+
+
+}
+
+.flex-child {
+    flex: 1;
+}  
+
+.flex-child:first-child {
+    margin-right: 200px;
+} 
+  .message {
+    margin: 0 auto;
+    width: 257px;
+    height: 40px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #95B9C7;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    }
+  
+#id_department_name_form{
+    width: 200px;
+  height: 25px;
+  color: #3A3B3C;
+  border-radius: 5px;
+  font-size: 15px; 
+}
+#id_del_department_name_form{
+     width: 200px;
+  height: 25px;
+  color: #3A3B3C;
+  border-radius: 5px;
+  font-size: 15px;  
+}
+
+</style>
 
 <div class="fac">
-  <button type="submit" class="buttonF">{{today}},  {{day_name}}</button>
+  <button type="submit" class="buttonF">Departments</button>
 </div> 
+
 <br>
-        <form method="POST" action="{% url 'counselor_view_another_sched' %}">
+        <!-- <form method="POST" action="{% url 'add_department' school %}">
           {% csrf_token %}
-      <div class="center_title">
-        <p><i><h4>To view a Schedule, select the date below.</h4></i></p>
-      </div>
       <div class="center">
-        {{ offer.pickedDate }} <button type="submit" class="button">Submit</button>
+        <p class="center_title"><i><h4>Input data here: &nbsp; {{ addDepaForm.department_name_form }} </h4></i></p> <button type="submit" class="button">Submit</button>
               </div>
+      </form> -->
+
+      <div class="flex-container">
+
+  <div class="flex-child magenta" style="margin-left: 200px;">
+    <form method="POST" action="{% url 'add_department' school %}">
+          {% csrf_token %}
+
+          <h3>Adding Department</h3>
+          <p><i style="font-size: 18px;">Input Department:</i> &nbsp;  {{ addDepaForm.department_name_form }}</p>
+                <button type="submit" class="button">Submit</button>
       </form>
-       <br> 
+      <br>
+                       <div style="margin-left: 500px; font-size: 16.3px;">
+             {% for message in messages %}
+     <button type="submit" class="message"><p><b>{{message}} !</b></p></button>
+     {% endfor %}
+</div>
+  </div>
+ 
+
+  <div class="flex-child green">
+    <form method="POST" action="{% url 'add_department' school %}">
+          {% csrf_token %}
+
+          <h3>Deleting Department</h3>
+          <p><i style="font-size: 18px;">Delete Department:</i> &nbsp; {{ deleteDepaForm.del_department_name_form }}</p>
+          <button type="submit" class="button">Submit</button>
+      </form>
+  </div>
+  
+</div>
+
+ <br>
 
 <div class="table-wrapper">
-   
   <table class="fl-table">
-    <thead>
-    <tr>
-        <th>Time</th>
-        <th>Action</th>
-        <th>Subject Code</th>
-        <th>Information</th>
-    </tr>
-    </thead>
-    {% for obj in time %}
-    <tbody>
+      <thead>
+      <tr>
+          <th class="table_head">List of Departments</th>
+      </tr>
+      </thead>
+      {% for form in depa %}
+      <tbody>
         <tr>
-            {% if forloop.counter0|divisibleby:2 %}
-            <td style="font-size: 16px;">{{obj}}
-                {% endif %}
-            </td>
-            {% if forloop.counter0|divisibleby:2 == 0 %}
-            <td>  </td>
-            {% endif %} 
-            {% for object in schedForToday %}
-            {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
-            <td style="font-size: 16px;">{{object.choice}}</td>
-            <td style="font-size: 16px;">{{object.subject_code}} - {{object.offer_code}}</td> 
-            {% if object.choice|stringformat:"s" == "Class" %} 
-        {% else %} 
-  <td data-label="Info" style="font-size: 15px;"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
-  
-  {% endif %} 
-        </tr>
-    <tbody>
-        {% endif %} 
-        {%endfor %}
-        {%endfor %}
-</table>
+            <td  style="font-size: 15px;" class="table_words"><a style="color: #504A4B" href="#"><b>{{form.department_name}}</b>
+  </a> <br></td>
+
+        
+      </tr>
+      <tbody>
+        {% endfor %}
+  </table>
 </div>
-    <br>
+
+
+
+
+<br><br><br>
 
 {% endblock %}

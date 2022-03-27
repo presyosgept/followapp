@@ -15,22 +15,22 @@ class MyTable(models.Model):
 
 
 class SchoolOffices(models.Model):
-    school_id = models.CharField(max_length=15, primary_key=True)
-    school_code = models.CharField(max_length=220)
+    #school_id = models.CharField(max_length=15, primary_key=True)
+    school_code = models.CharField(max_length=220, primary_key=True)
     school_office_name = models.CharField(max_length=220)
 
 
 class Department(models.Model):
     department_id = models.CharField(max_length=15, primary_key=True)
     department_name = models.CharField(max_length=220)
-    school_id = models.ForeignKey(SchoolOffices, on_delete=models.CASCADE)
+    school_code = models.ForeignKey(SchoolOffices, on_delete=models.CASCADE)
 
 
 class DegreeProgram(models.Model):
     program_id = models.CharField(max_length=15, primary_key=True)
     program_code = models.CharField(max_length=220)
     program_name = models.CharField(max_length=220)
-    school_id = models.ForeignKey(SchoolOffices, on_delete=models.CASCADE)
+    school_code = models.ForeignKey(SchoolOffices, on_delete=models.CASCADE)
 
 
 class AllStudent(models.Model):

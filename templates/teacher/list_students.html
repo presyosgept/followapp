@@ -6,250 +6,204 @@
 
 {% block content %} 
 <style>
-  img {
-  height: auto;
-  max-width: 100%;
-  vertical-align: middle;
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+
+
+div.table-title {
+   display: block;
+  margin: auto;
+  max-width: 600px;
+  padding:5px;
+  width: 100%;
 }
 
-.cards {
-       /* margin: 0 auto;
-  display: grid;
- 
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: repeat(2,auto 1fr auto); */
-
-   display: flex;
-    flex-wrap: wrap;
-    flex-flow: row wrap;
-margin: 0;
-  padding: 0;
-  flex-direction: row;
-  justify-content: space-evenly;
-align-items: center;
-
-    margin-left: 12%;
-    margin-right: 5%;
-
-  /* position: absolute; */
- 
-  
- 
-        /* flex-direction: row;
-        flex-wrap: wrap;
-          list-style: none;                   
-  margin: 0;
-  padding: 0; */
-}
-
-.cards_listStud {
-  padding: .5rem;
-  margin: 0;
-  
+.table-title h3 {
+   color: #fafafa;
+   font-size: 30px;
+   font-weight: 400;
+   font-style:normal;
+   font-family: "Roboto", helvetica, arial, sans-serif;
+   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+   text-transform:uppercase;
 }
 
 
+/*** Table Styles **/
 
-@media (min-width: 18rem) {
-  .cards_listStud  {
-    width: 18%;
-    height: 30%;
-  }
-}
-
-@media (min-width: 30rem) {
-  .cards_listStud  {
-    width: 20%;
-    height: 30%;
-  }
-}
-.card {
-  background-color: white;
-  border-radius: 0.25rem;
-  box-shadow: 0 15px 20px -12px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 80%;
-
-}
-
-.card_content {
-   padding-top: 15px;
-  padding-right: 5px;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  /* padding: .8rem; */
-  background: #d8c090;
-}
-
-.card_title {
-  color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: capitalize;
-  margin: 0px;
-}
-
-.card_text {
-  color: #ffffff;
-  font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 1.25rem;    
-  font-weight: 400;
-}
-
-.main{
+.table-fill {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 100px;
+  margin: auto;
   max-width: 1200px;
-  margin: 0 auto;
+  padding:5px;
+  width: 100%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+ 
+th {
+ 
 
+  border-bottom:4px solid #9ea7af;
+  border-right: 1px solid #343a45;
+  font-size:23px;
+  font-weight: 100;
+  padding: 19px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
 }
 
-.row{
-  margin: 10px;
-  padding: 10px 10px;
+th:first-child {
+  border-top-left-radius:3px;
 }
-h1{ 
-  color: black;
+ 
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
 }
-
-/* === TABLE ==== */
-.table-box
-{
-    margin: 50px auto;
-}
-
-.table-row{
-    display: table;
-    width: 40%;
-    margin: 10px auto;
-    font-family: sans-serif;
-    background: transparent;
-    padding: 4px 0;
-    color: #555;
-    font-size: 13px;
-    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-    height: 0.1%;
-    border-radius: 20px;
-}
-.table-head{
   
-    background: #E5E4E2;
-    box-shadow: none;
-    color: #fff;
-    font-weight: 600;
-    line-height: 5px;
-      box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom: 1px solid #C1C3D1;
+  color:#666B85;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
 }
-.table-head .table-cell{
-    border-right: none;
-}
-.table-cell{
-    display: table-cell;
-    width: 20%;
-    text-align: center;
-    padding: 4px 0;
-    border-right: 1px solid #d6d4d4;
-    vertical-align: middle;
-}
-.first-cell{
-    text-align: left;
-    padding-left: 10px;
-    width: 8%;
-}
-.last-cell{
-    border-right: none;
-}
-/* a{
-    text-decoration: none;
-    color: #555;
+ 
+/* tr:hover td {
+  background:#4E5066;
+  color:#FFFFFF;
+  border-top: 1px solid #22262e;
 } */
-p{
-  font-size: 17px;
-  color: black;
+ 
+tr:first-child {
+ border-top: 1px solid #C1C3D1;
 }
-.listTitle{
-  font-size: 20px;
+
+tr:last-child {
+ border-bottom: 1px solid #C1C3D1;
+}
+ 
+tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+ 
+/* tr:nth-child(odd):hover td {
+  background:#4E5066;
+} */
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+td {
+  background:#FFFFFF;
+  padding:20px;
+  text-align:left;
+  vertical-align:middle;
+
+  font-weight:300;
+  font-size:18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
   text-align: center;
 }
-@media only screen and (max-width: 600px) {
-  .table-row {
-    font-size: 11px;
+
+th.text-right {
+  text-align: right;
+}
+
+td.text-left {
+  text-align: left;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+td.text-right {
+  text-align: right;
+}
+.button {
+  margin: 0 auto;
+  width: 140px;
+  height: 30px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
   }
-}
-.trow-list{
-      display: table;
-    width: 85%;
-    margin: 10px auto;
-    font-family: sans-serif;
-    background: #E3E4FA;
-    padding: 4px 0;
-    color: #555;
-    font-size: 13px;
-    box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-    line-height: 5px;
-    
-}
-.fac{
 
-display: flex;
-align-items: center;
-justify-content: center;
-
+.button:hover {
+  background-color: #95B9C7;
+  box-shadow: 0px 15px 20px #C9C0BB;
+  color: #fff;
+  transform: translateY(-7px);
 }
 
-.buttonF {
-  position: fixed;
-
-width: 100%;
-min-width: 1320px;
-height: 60px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #d8c090;
-border: none;
-border-radius: 8px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
-}
 
 </style>
-<br>
     <div class="fac">
     <button type="submit" class="buttonF">List of Students</button>
   </div> 
-  <br> 
+  <br> <br>
             {% if not object_list %}
             No Enrolled Students Yet!
         {% endif %}
         <br>
-                       <div class="table-box">
-                            {% for object in object_list %}
-           
-            <a href="{% url 'new' object.studnumber id %}"> 
 
- 
-        <div class="trow-list">
-            <div class="table-cell first-cell">
-                <p style="text-align: center; font-weight: 500;"><b>{{object.studnumber}}</b></p>
-            </div>
-            <div class="table-cell">
-                <p style="text-align: left; font-weight: 500;"> &nbsp; &nbsp; {{object.firstname}}, &nbsp; {{object.lastname}}</p>
-            </div>     
-        </div>
-            </a>
+<br>
+<table class="table-fill">
+<thead>
+<tr>
+<th class="text-center">ID Number</th>
+<th class="text-center">Student</th>
+<th class="text-center">Actions</th>
+</tr>
+</thead>
+  {% for object in object_list %}
 
-                {% endfor %} 
-         </div>
+    <tbody class="table-hover">
+<tr>
+<td class="text-left">{{object.studnumber}}</td>
+<td class="text-left">{{object.firstname}}, &nbsp; {{object.lastname}}</td>
+<td class="text-center"><a href="{% url 'new' object.studnumber id %}"><button type="submit" class="button">View Info</button></a></td>
 
-      
+</tr>
+</tbody>
+
+
+
+{% endfor %} 
+</table>
 
 {% endblock %}
 

@@ -1,54 +1,85 @@
-{% extends "counselor/counselor_home.html" %}
-
-{% block title %} 
-Pending Referred Students
-{% endblock %} 
-
-{% block content %} 
+{% extends "admin/admin_home.html" %}
+{% block title %} Upload New Offer Code {% endblock %}
+{% block content %}
+ 
 <style>
-   
-  .modal{
-  font-size: 19px;
-  }
-  .container{
-  border-radius: 10px;
-  background-color: #B4CFEC;
-  box-shadow:
-  0 9px 33px rgba(0, 0, 0, 0.07);
-  width: 1200px;
-  height: 400px;
+.faculty{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 50%;
+  height: 320px;
+  border-radius: 5px;
+  background-color: #98b4ac;
   float: center;
-  margin-left: 15px;
-  }
-  
-  
-  .fac{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  
-  .buttonF {
-    position: fixed;
-  width: 100%;
-  min-width: 1320px;
-  height: 60px;
+  margin: auto;
+   line-height: 40px; 
+}
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.button {
+  margin: 0 auto;
+  width: 140px;
+  height: 30px;
   font-family: 'Roboto', sans-serif;
-  font-size: 15px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  font-weight: 600;
-  color: #fff;
-  background-color: #d8c090;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 45px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-    }
-  
+  }
+
+.button:hover {
+  background-color: #95B9C7;
+  box-shadow: 0px 15px 20px #C9C0BB;
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.fac{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.buttonF {
+  position: fixed;
+
+width: 100%;
+min-width: 1320px;
+height: 60px;
+font-family: 'Roboto', sans-serif;
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #fff;
+background-color: #d8c090;
+border: none;
+border-radius: 8px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+  }
+  .input{
+    margin: 0 auto;
+  height: 30px;
+  font-weight: 500;
+  }
     /* Table Styles */
   
   .table-wrapper{
@@ -91,9 +122,6 @@ Pending Referred Students
   
   .fl-table tr:nth-child(even) {
       background: #F8F8F8;
-  }
-      tr:nth-child(odd):hover td {
-    background:#C1C3D1;
   }
   
   /* Responsive */
@@ -161,50 +189,34 @@ Pending Referred Students
           text-align: center;
       }
   }
-  .table_head{
-    font-size: 17px;
+  .office_name{
+margin-left: 10px;
+font-size: 20px;
   }
-    .t-body{
-    font-size: 20px;
-  }
-  </style>
 
-  <div class="table-cont">
-        <div class="fac">
-          <button type="submit" class="buttonF">List of Pending Referred Students</button>
-        </div>   
-        <br>
-        <div class="table-wrapper">
-          <table class="fl-table">
-              <thead>
-              <tr>
-                <th class="table_head">ID Number</th>
-                <th class="table_head">Students Name</th>
-                <th class="table_head">Date</th>
-                <th class="table_head">Status</th>
-                <th class="table_head">Information</th>
-              </tr>
-              </thead>
-              {% for object in objects reversed %}
-              <tbody>
-              <tr>
-                  <td style="font-size: 16px;">{{object.studnumber}}</td>
-                  <td style="font-size: 16px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
-                  <td style="font-size: 16px;">{{object.date}}</td>
-                  <td style="font-size: 16px;">{{object.status|title}}</td>
-                  <td style="font-size: 16px;"><a href="{% url 'counselor_view_detail_referred_students' object.id  %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
+</style>
+
+<div class="fac">
+  <button type="submit" class="buttonF"><b>Upload Subject Offering in {{school_office}}</b></button>
+ 
+</div> 
+<br> <br> <br> <br>
+<div class="faculty">
+
+<br>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+<center><input type="file" name="myfile" class="input"></center>
+   <br> <br>
+    <div class="wrap">
+      <button type="submit" class="button">Upload</button>
+    </div>
+  </form>
+  {% for message in messages %}
+  <center> <b><p>{{message}} !</p></b> </center>
+{% endfor %} 
+
                 
-              </tr>
-              <tbody>
-                {% endfor %}
-          </table>
-<div style="padding: 2px;">
-  {% if not objects %}
-  <center><b><p>No Pending Referrals Yet!</p></b></center>
-       {% endif %}
 </div>
-        
-        </div>
-
-
-{% endblock %}
+  {% endblock %}

@@ -236,6 +236,12 @@
     height: 200px;
     overflow-y: scroll;
 }
+
+#id_behavior_problem{
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
 .left {
 float: left;
 margin-right: px;
@@ -343,9 +349,9 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+
   </style>
-  
-  &nbsp;
+
   <div class="fac">
     <button type="submit" class="buttonF">Refer a Student</button>
   </div> 
@@ -380,11 +386,18 @@ outline: none;
 <TD><label style="margin-right: auto;">{{form1.subject_referred}}</label></TD>
 
 </TR>
+ 
 <TR>
 <TD><label class="txtFont"><b>Behavioral Problem:</b></label></TD>
 <TD><label style="margin-right: auto;">{{form1.behavior_problem}}</label></TD>
-</TR>
+</TR> 
+
 </TABLE>
+ {% for item in form1.behavior_problem %}
+                    <li><input type="checkbox", value="{{item.behavior_problem}}", name="{{item.behavior_problem}}" checked>{{item.behavior_problem}}</li>
+                
+            {% endfor %}
+
 
 <div class="column">
   <div class="row">     

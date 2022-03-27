@@ -1,6 +1,6 @@
 from multiselectfield import MultiSelectFormField
 from django.forms.widgets import CheckboxSelectMultiple
-from .models import SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
+from .models import Department, SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
@@ -111,8 +111,8 @@ class TeachersReferralForm(forms.ModelForm):
         self.fields['lastname'].disabled = True
         self.fields['subject_referred'].disabled = True
 
-    behavior_problem = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
-                                            choices=TeachersReferral.BEHAVIOR_PROBLEM)
+    behavior_problem = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(),
+                                                 choices=TeachersReferral.BEHAVIOR_PROBLEM)
 
     class Meta:
         model = TeachersReferral
@@ -159,10 +159,36 @@ class DeleteSchoolOfficeForm(forms.Form):
     schoolform_code = forms.CharField()
 
 
-class AddSchoolOfficeForm(forms.ModelForm):
-    class Meta:
-        model = SchoolOffices
-        fields = '__all__'
+class AddSchoolOfficeForm(forms.Form):
+    school_code = forms.CharField()
+    school_office_name = forms.CharField()
+
+# class AddSchoolOfficeForm(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         super(AddSchoolOfficeForm, self).__init__(*args, **kwargs)
+#         self.fields['school_id'].disabled = True
+
+#     class Meta:
+#         model = SchoolOffices
+#         fields = ['school_id', 'school_code',
+#                   'school_office_name']
+
+
+class DeleteDepartmentForm(forms.Form):
+    del_department_name_form = forms.CharField()
+
+
+class AddDepartmentForm(forms.Form):
+    department_name_form = forms.CharField()
+    # school_code_form = forms.CharField()
+    # def __init__(self, *args, **kwargs):
+    #     super(AddDepartmentForm, self).__init__(*args, **kwargs)
+    #     self.fields['school_code'].disabled = True
+
+    # class Meta:
+    #     model = Department
+    #     fields = ['department_id', 'department_name',
+    #               'school_code']
 
 
 class CounselorForm(forms.ModelForm):

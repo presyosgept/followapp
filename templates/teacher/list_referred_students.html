@@ -1,7 +1,7 @@
 {% extends "teacher/teacher_home.html" %}
 
 {% block title %} 
-   Referred Students
+   List of Referred Students
 {% endblock %} 
 
 {% block content %} 
@@ -50,6 +50,9 @@
 .fl-table tr:nth-child(even) {
     background: #F8F8F8;
 }
+  tr:nth-child(odd):hover td {
+    background:#C1C3D1;
+  }
 
 /* Responsive */
 
@@ -167,6 +170,7 @@ outline: none;
             <th class="thkid">Session Date</th>
             <th class="thkid">ID Number</th>
             <th class="thkid">Students Name</th>
+            <th class="thkid">Degree Program</th>
             <th class="thkid">Status</th>
             <th class="thkid">Information</th>
         </tr>
@@ -175,11 +179,12 @@ outline: none;
         <tbody>
         <tr>
 
-            <td style="font-size: 15px;">{{object.date}}</td>
-            <td style="font-size: 15px;">{{object.studnumber}}</td>
-            <td style="font-size: 15px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
-            <td style="font-size: 15px;">{{object.status|title}}</td>
-            <td style="font-size: 15px;" style="color: black;" ><a href="{% url 'teacher_view_detail_referred_students' object.id %}" style="font-weight: 550; color: black;">View More Information</a></td>
+            <td style="font-size: 16px;">{{object.date}}</td>
+            <td style="font-size: 16px;">{{object.studnumber}}</td>
+            <td style="font-size: 16px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
+            <td style="font-size: 16px;">{{object.degree_program}}</td>
+            <td style="font-size: 16px;">{{object.status|title}}</td>
+            <td style="font-size: 16px;" style="color: black;" ><a href="{% url 'teacher_view_detail_referred_students' object.id %}" style="font-weight: 550; color: black;">View More Information</a></td>
 
         
         </tr>

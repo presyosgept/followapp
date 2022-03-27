@@ -1,7 +1,7 @@
-{% extends "teacher/teacher_home.html" %}
+{% extends "teacher/list_referred_students.html" %}
 
 {% block title %} 
-Detail Notif
+   Referred Students
 {% endblock %} 
 
 {% block content %} 
@@ -26,24 +26,23 @@ Detail Notif
     overflow-wrap: break-word;
   }
   
-  #box {
-      background: #f4f4f4;
-    height: 400px; 
-    padding: 15px;
-    overflow-y: scroll;
-    text-align: justify;
-    border: 2px solid black;
-    border-radius: 15px;
+  /* .box {
+  
+  border: 2px solid black;
+border-radius: 15px;
+
     box-shadow:
       5 90px 50px rgba(0, 0, 0, 0.07);
-    min-width: 550px;
-    min-height: 200px;
+      min-width: 550px;
+min-height: 200px;
 
+display: flex;
   width: 100px;
+  white-space: nowrap;
   text-overflow: ellipsis; 
-margin-left: 70px;
-
-}
+  margin-left: 20px;
+   overflow-y: auto;
+} */
 
   .table-head{
     
@@ -244,6 +243,8 @@ margin-left: 70px;
   font-size: 19px;
   line-height: 30px;
   text-align: justify;
+    overflow-y: scroll;
+  overflow-x: hidden;
 
 }
 .column{
@@ -266,7 +267,7 @@ margin-left: 70px;
 .rowText{
   font-size: 20px;
 
-  margin: 25px;
+  margin: 50px;
 }
 .image{
   max-width: 320px;
@@ -352,7 +353,7 @@ outline: none;
 /* margin: auto;
   text-align: center; */
   overflow: hidden;
-  background-color:whitesmoke;
+  background-color: whitesmoke;
 }
 @media screen and (max-width: 320px) {
   .header__search {
@@ -395,37 +396,52 @@ outline: none;
   color: #fff;
   transform: translateY(-7px);
 }
+.scroll-box {
+    background: #f4f4f4;
+    height: 400px; 
+    padding: 15px;
+    overflow-y: scroll;
+    text-align: justify;
+    border: 2px solid black;
+    border-radius: 15px;
+    box-shadow:
+      5 90px 50px rgba(0, 0, 0, 0.07);
+    min-width: 550px;
+    min-height: 200px;
+
+  width: 100px;
+  text-overflow: ellipsis; 
+  margin-left: 60px;
+}
 
 </style>
-{% for object in objects %}
-        <div class="fac">
-          <button type="submit" class="buttonF">Feedback of Referral</button>
-        </div> 
-<br> <br> <br>
+{% for object in object_list  reversed %}
+
+<div class="fac">
+  <button type="submit" class="buttonF">Information of Referred Student</button>
+</div> 
+<br> <br>
+{% if not object_list %}
+No Referred Students yet!
+{% endif %}
+<br> 
 <div class="card1">
   <form action="#" class="cleanForm" method="POST">
     <br>
-             <div style="text-align: center">
-               <h3 style="text-align: justify; margin-left: 16px; font-size: 20px;"><i>Feedback of the Referred Student</i></h3>
-          <br>
-                  <h3 style="text-align: justify; margin-left: 50px;"><p style="color: black; font-size: 18px;">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</p></h3>
-                 <h3 style="text-align: justify; margin-left: 50px;"><p style="color: black; font-size: 18px;">Degree Program: &nbsp;</b>{{object.degree_program}}</p></h3>  
-
+             <div>
+               <h3 style="text-align: justify; margin-left:8px; font-size: 20px;"><i>Referred Student</i></h3>
     <p class="rowText">
-      The feedback in <b>{{object.subject_referred}}</b> Subject is already assessed. <br> 
-      
-      <br>
-      <i>Feedback stated below:</i>
-    <div id="box">
-      <li class="Pbox" style="text-align: justify; margin-left:8px;"><b>{{object.feedback}}</b></li>
-    </div>
+    <b>{{object.lastname}}</b> is referred under the subject of <b> {{object.subject_referred}}</b> with a 
+    behavioral problem of <b>{{object.behavior_problem}}</b> <br> <br>
+      <i>With the Reasons stated below:</i>
+    <div class="scroll-box">
+<p><li class="Pbox" style="text-align: justify; margin-left:8px;"><b>{{object.reasons}}</b></li></p>
+</div>
     </p>
     </div>    
     </form>
     
 </div>
-
-           {% endfor %}
-               
+   {% endfor %}
                
 {% endblock %}

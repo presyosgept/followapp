@@ -22,7 +22,7 @@ from datetime import date, datetime, timedelta
 
 import datetime as dt
 
-from .forms import DeleteSchoolOfficeForm, AddSchoolOfficeForm, ProgramForm, CalendarForm, StudentInfoForm, DepaChoiceForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
+from .forms import DeleteDepartmentForm, AddDepartmentForm, DeleteSchoolOfficeForm, AddSchoolOfficeForm, ProgramForm, CalendarForm, StudentInfoForm, DepaChoiceForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
 from .models import Calendar, StudentInfo, DepaChoice, Offering, StudentSetSched, NotificationFeedback, CounselorFeedback, SubjectWithSem, Semester, AccountCreated, Faculty, Counselor, Notification, Counselor, TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
 from .resources import SubjectWithSemResource, SemesterResource, StudentsloadResource, FacultyResource, CounselorResource, TeachersReferralResource, SubjectOfferedResource, FacultyloadResource
@@ -538,10 +538,8 @@ def director_choose_program(request):
     if request.method == "POST":
         progform = ProgramForm(request.POST)
         designation = progform['program'].value()
-        print("abububu1432423423", designation)
         if progform.is_valid():
             designation = progform['program'].value()
-            print("abububu", designation)
             progform.save()
 
     degreeprogram = DegreeProgram.objects.all()
@@ -572,28 +570,95 @@ def view_schooloffices(request):
     school = SchoolOffices.objects.all()
     addschoolForm = AddSchoolOfficeForm()
     deleteschoolForm = DeleteSchoolOfficeForm()
+    flag = 0
     if request.method == "POST":
         addschoolForm = AddSchoolOfficeForm(request.POST)
         deleteschoolForm = DeleteSchoolOfficeForm(request.POST)
         if addschoolForm.is_valid():
             code = addschoolForm.cleaned_data['school_code']
-            addschoolForm.school_code = code.upper()
-            addschoolForm.save()
-            t = SchoolOffices.objects.get(school_code=code)
-            t.school_code = code.upper()
-            t.save()
-            messages.info(request, 'Successfully add')
+            name = addschoolForm.cleaned_data['school_office_name']
+            newdata = SchoolOffices(
+                school_code=code.upper(), school_office_name=name)
+            newdata.save()
+            messages.info(request, 'Successfully Added')
 
         if deleteschoolForm.is_valid():
             delete = deleteschoolForm['schoolform_code'].value()
-            instance = SchoolOffices.objects.get(school_code=delete.upper())
-            instance.delete()
-            messages.info(request, 'Successfully delete')
-            # addschoolForm.save()
+            schoolOffc = SchoolOffices.objects.all()
+            for object in schoolOffc:
+                if object.school_code == delete.upper():
+                    flag = 1
+                    object.delete()
+                    messages.info(request, 'Successfully Deleted')
+            if(flag == 0):
+                messages.info(request, 'No Code Found')
         addschoolForm = AddSchoolOfficeForm()
         deleteschoolForm = DeleteSchoolOfficeForm()
 
     return render(request, "admin/view_schooloffices.html", {"school": school, "addschoolForm": addschoolForm, "deleteschoolForm": deleteschoolForm})
+
+
+@login_required(login_url='login')
+def view_department(request):
+    school = SchoolOffices.objects.all()
+    return render(request, "admin/view_department.html", {"school": school})
+
+
+@login_required(login_url='login')
+def add_department(request, school):
+    depa = Department.objects.filter(school_code_id=school)
+    addDepaForm = AddDepartmentForm()
+    deleteDepaForm = DeleteDepartmentForm()
+    flag = 0
+    if request.method == "POST":
+        addDepaForm = AddDepartmentForm(request.POST)
+        deleteDepaForm = DeleteDepartmentForm(request.POST)
+        if addDepaForm.is_valid():
+            updater = 0
+            checker = 0
+            while updater != 1:
+                char = '1234567890'
+                for x in range(0, 1):
+                    codeId = ''
+                    for x in range(0, 5):
+                        code_char = random.choice(char)
+                        codeId = codeId + code_char
+                for obj in depa:
+                    if obj.department_id == codeId:
+                        checker = 1
+                if checker != 1:
+                    department_name_form1 = addDepaForm['department_name_form'].value(
+                    )
+                    t = Department(department_id=codeId, department_name=department_name_form1.title(),
+                                   school_code_id=school)
+                    t.save()
+                    updater = 1
+                    messages.info(request, 'Successfully add')
+
+        if deleteDepaForm.is_valid():
+            delete = deleteDepaForm['del_department_name_form'].value()
+
+            # idOfIdDeleted= Department.objects.get(department_name=delete)
+            # departmentList= Department.objects.LL()
+
+            # for object in departmentList:
+            #     if object.id > idOfIdDeleted:
+            #         t= Department.objects.get(department_id=object.id)
+            #         t.department_id=object.id-1
+            #         t.save()
+
+            deleteDepa = Department.objects.filter(school_code_id=school)
+            for object in deleteDepa:
+                if object.department_name == delete.title():
+                    flag = 1
+                    object.delete()
+                    messages.info(request, 'Successfully deleted')
+            if(flag == 0):
+                messages.info(request, 'not existing')
+        addDepaForm = AddDepartmentForm()
+        deleteDepaForm = DeleteDepartmentForm()
+    department = Department.objects.filter(school_code_id=school)
+    return render(request, "admin/add_department.html", {"depa": department, "addDepaForm": addDepaForm, "deleteDepaForm": deleteDepaForm, "school": school})
 
 
 @login_required(login_url='login')
@@ -842,7 +907,13 @@ def uploaddb_counselor(request):
 
 
 @login_required(login_url='login')
-def uploaddb_offercode(request):
+def offercode(request):
+    school = SchoolOffices.objects.all()
+    return render(request, "admin/offercode.html", {"school": school})
+
+
+@login_required(login_url='login')
+def uploaddb_offercode(request, school_office):
     try:
         if request.method == 'POST':
             OfferCodeResource()
@@ -873,7 +944,7 @@ def uploaddb_offercode(request):
                 messages.info(request, 'Failed to Add the Data')
     except Exception:
         messages.info(request, 'Please Choose File')
-    return render(request, "admin/uploaddb_offerCode.html")
+    return render(request, "admin/upload_offercode.html", {"school_office": school_office})
 
 
 @login_required(login_url='login')
@@ -1010,12 +1081,11 @@ def uploaddb_schooloffices(request):
             col = sheet_obj.max_column
             row = sheet_obj.max_row
 
-            if(col == 3):
+            if(col == 2):
                 for data in imported_data:
                     value = SchoolOffices(
                         data[0],
-                        data[1],
-                        data[2]
+                        data[1]
                     )
                     value.save()
                 messages.info(request, 'Successfully Added')
@@ -1087,17 +1157,12 @@ def new(request, stud, id):
             tomorrow = today
             finder = 0
             all = Counselor.objects.all()
-            print("rasmil", all)
-            print('degree.program_code', degree.program_code)
-            # print('degree.prodfsdfsdf', all.program_designation)
             for object in all:
                 for object1 in object.program_designation:
                     if(degree.program_code == object1):
-                        print("shuta", object.employee_id)
                         employeeId = object.employee_id
                         sample.append(Counselor(employee_id=object.employee_id, firstname=object.firstname,
                                                 lastname=object.lastname, program_designation=object.program_designation))
-                        print('sample', employeeId)
 
             # counselor = Counselor.objects.get(
             #     program_designation=degree.program_code)
@@ -1287,7 +1352,7 @@ def new(request, stud, id):
                     stud), schedDay=tomorrow, schedStartTime=time1, schedEndTime=time2)
                 messages.info(request, 'Successfully Referred the Student')
 
-    return render(request, "teacher/new.html", {"teacherNotif": teacherNotif, "form1": form, "form": user_name})
+    return render(request, "teacher/refer_a_student.html", {"teacherNotif": teacherNotif, "form1": form, "form": user_name})
 
 
 @login_required(login_url='login')
@@ -1341,7 +1406,7 @@ def teacher_view_detail_referred_students(request, id):
                                            degree_program=referedStud.degree_program, subject_referred=referedStud.subject_referred,
                                            reasons=referedStud.reasons, behavior_problem=referedStud.behavior_problem))
     user_name = Faculty.objects.get(employee_id=user)
-    return render(request, "teacher/modal.html", {"teacherNotif": teacherNotif, "object_list": detail, "form": user_name})
+    return render(request, "teacher/info_referred_student.html", {"teacherNotif": teacherNotif, "object_list": detail, "form": user_name})
 
 
 @login_required(login_url='login')
@@ -1719,7 +1784,7 @@ def counselor_detail_schedule_counseling(request, start, end, date):
     counselor_name = Faculty.objects.get(employee_id=user)
     session = TeachersReferral.objects.get(
         start_time=start, end_time=end, date=date)
-    return render(request, "counselor/modalCounseling.html", {"counselorNotif": counselorNotif, "object": session, "form": counselor_name})
+    return render(request, "counselor/schedule_information.html", {"counselorNotif": counselorNotif, "object": session, "form": counselor_name})
 
 
 @login_required(login_url='login')
@@ -1746,7 +1811,7 @@ def counselor_view_detail_referred_students(request, id):
     user_name = Faculty.objects.get(employee_id=user)
     if counselorNotif != 0:
         counselorNotif = counselorNotif - 1
-    return render(request, "counselor/modalC.html", {"objects": detail, "type": type, "form": user_name})
+    return render(request, "counselor/students_referral_information.html", {"objects": detail, "type": type, "form": user_name})
 
 
 @login_required(login_url='login')
@@ -1820,15 +1885,12 @@ def counselor_feedback(request, id):
     preparedby = Faculty.objects.get(employee_id=student.counselor)
     form1 = CounselorFeedbackForm()
     if request.method == "POST":
-        print("1", id)
         form1 = CounselorFeedbackForm(request.POST)
         if form1.is_valid():
-            print("2")
             form1.save()
             feedback = form1['feedback'].value()
             feedback_id = feedback_id + 1
             if flagteacher == 1:
-                print("3")
                 create_feedback(student.employeeid,
                                 'feedback_teacher', user, feedback_id, id)
 
@@ -1874,7 +1936,6 @@ def counselor_view_another_feedback(request):
 
     counselor_name = Faculty.objects.get(employee_id=user)
     today = newDate.pickedDate
-    print("today", today)
     student = TeachersReferral.objects.filter(
         counselor=user, status='done', date=today)
     counselor_name = Faculty.objects.get(employee_id=user)

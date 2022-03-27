@@ -40,6 +40,9 @@ from counselling.views import(
     admin_department_choice,
     upload_another_student,
     view_schooloffices,
+    view_department,
+    add_department,
+    offercode,
 
 
     # teacher
@@ -117,7 +120,8 @@ urlpatterns = [
     path('uploaddb/allsubjects', uploaddb_allsubject,
          name="uploaddb_allsubjects"),
     path('uploaddb/semester', uploaddb_semester, name="uploaddb_semester"),
-    path('uploaddb/offercode', uploaddb_offercode, name="uploaddb_offercode"),
+    path('uploaddb/offercode/<str:school_office>',
+         uploaddb_offercode, name="uploaddb_offercode"),
     path('uploaddb/counselor', uploaddb_counselor, name="uploaddb_counselor"),
 
 
@@ -156,13 +160,18 @@ urlpatterns = [
          admin_view_offering, name="admin_view_offering"),
     path('admin/admin_department_choice',
          admin_department_choice, name="admin_department_choice"),
-     path('admin/upload_another_student',
+    path('admin/upload_another_student',
          upload_another_student, name="upload_another_student"),
-     path('admin/view_schooloffices',
+    path('admin/view_schooloffices',
          view_schooloffices, name="view_schooloffices"),
+    path('admin/view_department',
+         view_department, name="view_department"),
+    path('admin/add_department/<str:school>',
+         add_department, name="add_department"),
+    path('admin/offercode',
+         offercode, name="offercode"),
 
 
-    
     # teacher
     path('teacher/', teacher_home_view, name="teacher_home_view"),
     # path('teacher/referstudent',  refer_student, name="refer_student"),

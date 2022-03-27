@@ -163,6 +163,31 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+
+.button {
+  width: 200px;
+  height: auto;
+  border: 5em;
+  cursor: pointer;
+  outline: none;
+  font-size: 16px;
+  -webkit-transform: translate(0);
+  transform: translate(0);
+  background-color: #d8c090;
+  padding: 0.7em 2em;
+  border-radius: 65px;
+  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
+  -webkit-transition: box-shadow 0.25s;
+   transition: all 0.3s ease 0s;
+    letter-spacing: 2.5px;
+  }
+
+.button:hover {
+  background-color: #95B9C7;
+  box-shadow: 0px 15px 20px #C9C0BB;
+  color: #fff;
+  transform: translateY(-7px);
+}
   </style>
   
 
@@ -195,7 +220,7 @@ outline: none;
              {{object.remarks}}
              <p class="pText"><b class="bText">Prepared by: &nbsp;</b> {{info2.firstname}} {{info2.lastname}}</p>
             <br> 
-            <button class="buttons" style="font-weight: bold; color: #454545;">Submit</button>
+            <button class="button" style="font-weight: 900; color: #454545;">Submit</button>
             </form>
 
 <br>

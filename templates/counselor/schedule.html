@@ -334,11 +334,11 @@ margin-right: 20px;
             {% endif %} 
             {% for object in schedForToday %}
             {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
-            <td>{{object.choice}}</td>
-            <td>{{object.subject_code}} - {{object.offer_code}}</td> 
+            <td style="font-size: 16px;">{{object.choice}}</td>
+            <td style="font-size: 16px;">{{object.subject_code}} - {{object.offer_code}}</td> 
             {% if object.choice|stringformat:"s" == "Class" %} 
         {% else %} 
-  <td data-label="Info"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
+  <td data-label="Info" style="font-size: 15px;"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
   
   {% endif %} 
         </tr>

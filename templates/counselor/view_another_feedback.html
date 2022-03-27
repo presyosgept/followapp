@@ -1,7 +1,7 @@
 {% extends "counselor/counselor_home.html" %}
 
 {% block title %} 
-View Feedback
+View Another Feedback
 {% endblock %} 
 
 {% block content %} 
@@ -222,16 +222,18 @@ text-align: center;
           <th class="table_head">Date</th>
           <th class="table_head">ID Number</th>
           <th class="table_head">Students Name</th>
+          <th class="table_head">Degree Program</th>
           <th class="table_head">Information</th>
       </tr>
       </thead>
       {% for object in student reversed %}
       <tbody>
       <tr>
-          <td>{{object.date}}</td>
-          <td>{{object.studnumber}}</td>
-          <td>{{object.lastname}}, &nbsp; {{object.firstname}}</td>
-          <td><a href="{% url 'counselor_view_detail_feedback' object.id %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
+          <td style="font-size: 16px;">{{object.date}}</td>
+          <td style="font-size: 16px;">{{object.studnumber}}</td>
+          <td style="font-size: 16px;">{{object.degree_program}}</td>
+          <td style="font-size: 16px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
+          <td style="font-size: 16px;"><a href="{% url 'counselor_view_detail_feedback' object.id %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
         
       </tr>
       <tbody>

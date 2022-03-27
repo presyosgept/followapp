@@ -158,9 +158,12 @@ outline: none;
         display: block;
         text-align: center;
     }
+    tr:nth-child(odd):hover td {
+    background:#C1C3D1;
+  }
 }
 .table_head{
-  font-size: 14px;
+  font-size: 17px;
 }
 </style>
 
@@ -185,12 +188,12 @@ outline: none;
       {% for object in objects reversed %}
       <tbody>
       <tr>
-                  <td style="font-size: 14px;">{{object.studnumber}}</td>
-                  <td style="font-size: 14px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
-                  <td style="font-size: 14px;">{{object.degree_program}}</td>
-                  <td style="font-size: 14px;">{{object.date}}</td>
-                  <td style="font-size: 14px;">{{object.status|title}}</td>
-                  <td style="font-size: 14px;"><a href="{% url 'counselor_view_detail_referred_students' object.id  %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
+                  <td style="font-size: 16px;">{{object.studnumber}}</td>
+                  <td style="font-size: 16px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
+                  <td style="font-size: 16px;">{{object.degree_program}}</td>
+                  <td style="font-size: 16px;">{{object.date}}</td>
+                  <td style="font-size: 16px;">{{object.status|title}}</td>
+                  <td style="font-size: 16px;"><a href="{% url 'counselor_view_detail_referred_students' object.id  %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
                 
       </tr>
       <tbody>

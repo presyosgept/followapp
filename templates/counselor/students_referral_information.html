@@ -29,20 +29,21 @@
   
   #box {
   
-  border: 1px solid black;
-border-radius: 15px;
-
+    background: #f4f4f4;
+    height: 400px; 
+    padding: 15px;
+    overflow-y: scroll;
+    text-align: justify;
+    border: 2px solid black;
+    border-radius: 15px;
     box-shadow:
       5 90px 50px rgba(0, 0, 0, 0.07);
-      min-width: 550px;
-min-height: 200px;
+    min-width: 550px;
+    min-height: 200px;
 
-display: flex;
   width: 100px;
-  white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis; 
-  margin-left: 10px;
+  margin-left: 75px;
 
 }
 
@@ -197,50 +198,7 @@ display: flex;
     padding-left: 10px;
     width: 8%;
 }
-.buttons{
-  width: 200px;
-  height: auto;
-  border: 5em;
-  cursor: pointer;
-  outline: none;
-  font-size: 16px;
-  -webkit-transform: translate(0);
-  transform: translate(0);
-  background-image: linear-gradient(45deg, #98b4ac, #d8c090);
-  padding: 0.7em 2em;
-  border-radius: 65px;
-  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
-  -webkit-transition: box-shadow 0.25s;
-  transition: box-shadow 0.25s;
-  color: white;
-}
-.buttons .text {
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(45deg, #d8c090, #98b4ac);
-}
 
-.buttons:after {
-  content: "";
-  border-radius: 18px;
-  position: absolute;
-  margin: 4px;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: -1;
-  background: #E5E4E2;
-}
-
-.buttons:hover {
-  background-image: linear-gradient(-45deg, #98b4ac, #d8c090);
-  box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
-}
-
-.buttons:hover .text {
-  background-image: linear-gradient(-45deg, #d8c090, #98b4ac);
-}
 .Pbox{
   font-size: 19px;
   line-height: 30px;
@@ -353,7 +311,7 @@ outline: none;
 /* margin: auto;
   text-align: center; */
   overflow: hidden;
-  background-color: white;
+  background-color: whitesmoke;
 }
 @media screen and (max-width: 320px) {
   .header__search {
@@ -371,23 +329,23 @@ outline: none;
   margin: auto;
 }
 
+
 .button {
-  margin: 0 auto;
-  width: 160px;
-  height: 30px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 500;
-  color: #000;
-  background-color: #d8c090;
-  border: none;
-  border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
+  width: 200px;
+  height: 45px;
+  border: 5em;
   cursor: pointer;
   outline: none;
+  font-size: 16px;
+  -webkit-transform: translate(0);
+  transform: translate(0);
+  background-color: #d8c090;
+  padding: 0.7em 2em;
+  border-radius: 65px;
+  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
+  -webkit-transition: box-shadow 0.25s;
+   transition: all 0.3s ease 0s;
+    letter-spacing: 3.5px;
   }
 
 .button:hover {
@@ -435,7 +393,7 @@ outline: none;
     {% if type == 'teacher' %}
     <div class="wrap">
       <center><a href="{% url 'counselor_feedback' object.id %}">  
-  <button class="button"  style="font-weight: bold;  color: black;"><p style="font-weight: bold;">Feedback</p></button> </a></center>
+  <button class="button"  style="font-weight: 800;  color: black;"><p style="font-weight: bold;">Feedback</p></button> </a></center>
     </div>
     
 
@@ -494,7 +452,7 @@ outline: none;
        <br> <br>
     <p class="rowText">
       <b>{{object.lastname}}</b> is referred due to as having a behavior problem of <b> {{object.behavior_problem | title}}.</b> 
-      The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br> 
+      The Session starts at <b>{{object.start_time}}</b> and ends at <b>{{object.end_time}}</b> on <b>{{object.date}}</b>  <br><br>
      <i> With the Reasons stated below:</i>
     <div id="box">
       <li class="Pbox" style="text-align:justify; margin-left:8px;"><b>{{object.reasons}}</b></li>
@@ -503,25 +461,18 @@ outline: none;
     </div>
     {% endif %}  
 
-<!-- 
-    </div>
-    </div> -->
-    <br> <br> <br> <br> <br> <br> <br> <br> <br> 
-    
-
-    
     </form>
-    <br> <br>
+    <br> 
     {% if object.feedback is None %}
     {% if type == 'teacher' %}
 <center><a href="{% url 'counselor_feedback' object.id %}">  
-  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a></center>
+  <button class="button" style="font-weight: 800;  color: #454545;">Feedback</button> </a></center>
 
     
 
      {% else %}
  <center> <a href="{% url 'counselor_feedback_student' object.id %}">  
-  <button class="buttons" style="font-weight: bold;  color: #454545;">Feedback</button> </a></center>
+  <button class="button" style="font-weight: 800;  color: #454545;">Feedback</button> </a></center>
 {% endif %}  
  
     {% endif %}  
