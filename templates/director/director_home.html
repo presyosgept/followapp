@@ -384,7 +384,7 @@ img {
  .studlistCard {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 2px;
-  text-align: centerd#f1f1f1;
+  text-align: centerd #f1f1f1;
   border-radius: 5px;
   transition: 0.3s;
   margin-left: 10px;
@@ -456,7 +456,7 @@ img {
                 <img style="height:50px; " src="https://1.bp.blogspot.com/-zssvz_H77as/YSdIaUUbIbI/AAAAAAAAAf0/xhPKHM0G8dczMa5vP7MPCZvNVeZQkpKgACLcBGAsYHQ/w945-h600-p-k-no-nu/logo3.png"></img>
                 <a style="font-weight: bold;margin-right:  auto; color: #FFFFFF;  font-family: 'Sawarabi Gothic', serif; 
                 letter-spacing: 2px;" 
-                href="{% url 'student_home_view' %}" class="header__logo">FOLLOW APP</a>
+                href="{% url 'director_home_view' %}" class="header__logo">FOLLOW APP</a>
       <div>
                        
                               <p style="font-weight: bold; color: #FFFFFF;"> {{object.firstname }} {{object.lastname }} </p>
@@ -484,10 +484,10 @@ img {
                                 <span class="nav__name">Assigned Councilor</span>
                             </a>
 
-                            <!-- <a href="#deptStat" class="nav__link">
+                            <a href="{% url 'view_stats' %}" class="nav__link">
                                 <i class='bx bx-navigation nav__icon'></i>
                                 <span class="nav__name">Department's Statistic</span>
-                            </a> -->
+                            </a>
                             
                         </div>
 
@@ -503,19 +503,7 @@ img {
             <section id="homie" >
            {% block content %} 
             <!-- E TRY CAROSEL NGANHI -->
-
-<div style="flex-direction: row; display: flex; padding: 10px;">
-    <div style="margin-left: 13px; float: left; line-height: 30px;" >
-  <p><h4> 
-    month {{stat_month}} <br>
-    today {{stat_day}}<br>
-    year {{stat_year}}<br>
-    Statistic for this month charot ambot oy basta mao ni sya tung number of referes student karun nga month
-  There are <b>{{stat_month}}</b> refereed student this month<br>
-   <i>"Director is the heart of the bahog baba"
-                             - Rawr </i>
-  </h4></p>
-</div>
+hakdooogg home 
 <br> 
 <img style="max-width: 700px;
   height: 480px; margin: auto;" 

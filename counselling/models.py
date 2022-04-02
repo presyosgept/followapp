@@ -20,7 +20,7 @@ class SchoolOffices(models.Model):
     school_office_name = models.CharField(max_length=220)
 
 
-class Department(models.Model):
+class NewDepartment(models.Model):
     department_id = models.CharField(max_length=15, primary_key=True)
     department_name = models.CharField(max_length=220)
     school_code = models.ForeignKey(SchoolOffices, on_delete=models.CASCADE)
@@ -75,7 +75,7 @@ class Faculty(models.Model):
     firstname = models.CharField(max_length=220)
     email = models.EmailField(max_length=254)
     role = models.CharField(max_length=220)
-    department_id = models.ForeignKey(Department, on_delete=models.CASCADE)
+    department_id = models.ForeignKey(NewDepartment, on_delete=models.CASCADE)
 
 
 class AccountCreated(models.Model):
@@ -151,7 +151,14 @@ class AllSubject(models.Model):
     subject_code = models.CharField(max_length=225, primary_key=True)
     subject_title = models.CharField(max_length=220)
     units = models.CharField(max_length=220)
-    department_id = models.ForeignKey(Department, on_delete=models.CASCADE)
+    department_id = models.ForeignKey(NewDepartment, on_delete=models.CASCADE)
+
+
+class Subject(models.Model):
+    subject_code = models.CharField(max_length=225, primary_key=True)
+    subject_title = models.CharField(max_length=220)
+    units = models.CharField(max_length=220)
+    department_id = models.ForeignKey(NewDepartment, on_delete=models.CASCADE)
 
 
 class Semester(models.Model):

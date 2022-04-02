@@ -439,9 +439,9 @@ margin-bottom:15px;
 
                 <br> <br>
                 <p><h3>Guardian Personal Information</h3></p>
-                <p class="pText"><b class="bText">Guardian's  Firstname: &nbsp;</b>{{info.father_firstname}}</p>
-                <p class="pText"><b class="bText">Guardian's   Lastname: &nbsp;</b>  {{info.father_lastname}}</p>
-                <p class="pText"><b class="bText">Contact Number: <br></b>  {{info.father_contact_number}}</p>
+                <p class="pText"><b class="bText">Guardian's  Firstname: &nbsp;</b>{{info.guardian_firstname}}</p>
+                <p class="pText"><b class="bText">Guardian's   Lastname: &nbsp;</b>  {{info.guardian_lastname}}</p>
+                <p class="pText"><b class="bText">Contact Number: <br></b>  {{info.guardian_contact_number}}</p>
             
             
               </div>
@@ -454,18 +454,21 @@ margin-bottom:15px;
               </div>
              
               </div>
-              
-            
+    
               <div class="column">
                 <div class="row1"> 
                   <br> <br> <br> <br> <br> <br>
                   <p><h3>Fathers Personal Information</h3></p>
-                  <p class="pText"><b class="bText">Father's Lastname: &nbsp;</b>  {{info.mother_lastname}}</p>
+                  <p class="pText"><b class="bText">Father's Lastname: &nbsp;</b>  {{info.father_lastname}}</p>
                   <p class="pText"><b class="bText">Father's Firstname: &nbsp;</b> {{info.father_firstname}}</p>
                   <p class="pText"><b class="bText">Contact Number: &nbsp;</b> {{info.father_contact_number}}</p>
                   <br> 
                    <br>  <br> <br>  <br> <br>  <br> <br>  <br> <br> <br> <br> <br> <br> 
                 </div>
+
+                  student contact numbr
+            {{info.student_contact_number}}
+               
                 <center> <button class="buttons" style="font-weight: bold; color: #454545;">Submit</button></center>
          <br>
                 </div>
@@ -473,8 +476,7 @@ margin-bottom:15px;
       
         
           <br> <br> <br>
-
-               
+        
           {% endblock %} 
                  
 

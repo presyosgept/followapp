@@ -1,6 +1,6 @@
 from multiselectfield import MultiSelectFormField
 from django.forms.widgets import CheckboxSelectMultiple
-from .models import Department, SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
+from .models import NewDepartment, SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
@@ -99,6 +99,15 @@ class StudentSetSchedForm(forms.ModelForm):
     class Meta:
         model = StudentSetSched
         fields = ['studnumber', 'firstname', 'lastname',  'reasons']
+
+
+STATUS_CHOICES = (('--', '--'),('all', 'all'), ('done', 'done'),
+                  ('pending', 'pending'))
+
+
+class FilterForm(forms.Form):
+    filter_choice = forms.CharField(widget=forms.Select(
+        choices=STATUS_CHOICES))
 
 
 class TeachersReferralForm(forms.ModelForm):

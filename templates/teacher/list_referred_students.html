@@ -154,11 +154,39 @@ outline: none;
 
 
 </style>
+ <form method="POST" action="">
+    {% csrf_token %}
+    
+    <div class="column">
+      <div class="row"> 
+        <p class="pText"><b class="bText">chooose filter: &nbsp;</b>  
+        
+{{filterform.filter_choice}}</p>
+        &nbsp;    &nbsp;   
+      </div>
+     
+      </div>
+    <br> 
+          <button type="submit" class="button">Submit</button>
+        </div>
+      </div>
+     
+      </div>
+<br>
+</form>
 
+
+<br> <br>
+<br> <br>
+<br> <br>
+<br> <br>
 
 <div class="fac">
   <button type="submit" class="buttonF">Referred Student </button>
 </div> 
+<br> <br><br> <br><br> <br><br> <br>
+{{status|title}}
+<br> <br>
 <br> <br>
 
 

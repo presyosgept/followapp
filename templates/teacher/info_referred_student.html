@@ -440,6 +440,11 @@ No Referred Students yet!
     </p>
     </div>    
     </form>
+
+    {% if object.feedback  %}
+  naa na siyay feedback mao ni sya
+    {{object.feedback}}
+    {% endif %}
     
 </div>
    {% endfor %}

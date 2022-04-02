@@ -38,7 +38,6 @@ from counselling.views import(
     admin_offering,
     admin_view_offering,
     admin_department_choice,
-    upload_another_student,
     view_schooloffices,
     view_department,
     add_department,
@@ -78,6 +77,8 @@ from counselling.views import(
     director_assign_counselor,
     director_fillinForm,
     director_choose_program,
+    view_stat_specific_counselor,
+    view_stats,
 
     # student
     student_add_info,
@@ -160,8 +161,6 @@ urlpatterns = [
          admin_view_offering, name="admin_view_offering"),
     path('admin/admin_department_choice',
          admin_department_choice, name="admin_department_choice"),
-    path('admin/upload_another_student',
-         upload_another_student, name="upload_another_student"),
     path('admin/view_schooloffices',
          view_schooloffices, name="view_schooloffices"),
     path('admin/view_department',
@@ -177,7 +176,7 @@ urlpatterns = [
     # path('teacher/referstudent',  refer_student, name="refer_student"),
     path('teacher/teacher_view_student/?P:<int:id>',
          teacher_view_students, name="teacher_view_students"),
-    path('teacher/list_referred_students', teacher_view_referred_students,
+    path('teacher/list_referred_students/<str:status>', teacher_view_referred_students,
          name="teacher_view_referred_students"),
     path('studentslist/new/?P:<int:stud>/?P:<int:id>', new, name='new'),
     path('teacher/teacher_coursecard',
@@ -249,7 +248,10 @@ urlpatterns = [
          name="director_fillinForm"),
     path('director/choose_program', director_choose_program,
          name="director_choose_program"),
-
+    path('director/view_stat_specific_counselor/<str:id>', view_stat_specific_counselor,
+         name="view_stat_specific_counselor"),
+    path('director/view_stats', view_stats,
+         name="view_stats"),
 
 
     path('admin/', admin.site.urls),

@@ -22,10 +22,10 @@ from datetime import date, datetime, timedelta
 
 import datetime as dt
 
-from .forms import DeleteDepartmentForm, AddDepartmentForm, DeleteSchoolOfficeForm, AddSchoolOfficeForm, ProgramForm, CalendarForm, StudentInfoForm, DepaChoiceForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import Calendar, StudentInfo, DepaChoice, Offering, StudentSetSched, NotificationFeedback, CounselorFeedback, SubjectWithSem, Semester, AccountCreated, Faculty, Counselor, Notification, Counselor, TeachersReferral,  SubjectOffered, Facultyload, Studentsload
+from .forms import FilterForm, DeleteDepartmentForm, AddDepartmentForm, DeleteSchoolOfficeForm, AddSchoolOfficeForm, ProgramForm, CalendarForm, StudentInfoForm, DepaChoiceForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
+from .models import NewDepartment, Calendar, StudentInfo, DepaChoice, Offering, StudentSetSched, NotificationFeedback, CounselorFeedback, SubjectWithSem, Semester, AccountCreated, Faculty, Counselor, Notification, Counselor, TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
-from .resources import SubjectWithSemResource, SemesterResource, StudentsloadResource, FacultyResource, CounselorResource, TeachersReferralResource, SubjectOfferedResource, FacultyloadResource
+from .resources import NewDepartmentResource, SubjectWithSemResource, SemesterResource, StudentsloadResource, FacultyResource, CounselorResource, TeachersReferralResource, SubjectOfferedResource, FacultyloadResource
 from tablib import Dataset
 
 # Create your views here.
@@ -37,9 +37,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from . serializers import FacultySerializers, ResultSerializer, Result, UserSerializer
 
-from .models import AccountsApi, AllSubject, OfferCode, SchoolOffices, Department, DegreeProgram, AllStudent
+from .models import AccountsApi, Subject, OfferCode, SchoolOffices, DegreeProgram, AllStudent
 
-from .resources import AllSubjectResource, OfferCodeResource, SchoolOfficesResource, DepartmentResource, DegreeProgramResource, AllStudentResource
+from .resources import SubjectResource, OfferCodeResource, SchoolOfficesResource, DegreeProgramResource, AllStudentResource
 import openpyxl
 
 
@@ -452,10 +452,21 @@ def home(request, *args, **kwargs):
 
 
 # director
+
+
 @login_required(login_url='login')
 def director_home_view(request, *args, **kwargs):
     user = request.session.get('username')
     director_name = Faculty.objects.get(employee_id=user)
+
+    return render(request, "director/director_home.html", {"object": director_name})
+
+
+@login_required(login_url='login')
+def view_stats(request, *args, **kwargs):
+    user = request.session.get('username')
+    director_name = Faculty.objects.get(employee_id=user)
+    couns = Counselor.objects.all()
     today = date.today()
     year = today.strftime("%Y")
     month = today.strftime("%Y-%m")
@@ -474,7 +485,33 @@ def director_home_view(request, *args, **kwargs):
         if year == getyear:
             stat_year += 1
 
-    return render(request, "director/director_home.html", {"object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
+    return render(request, "director/view_stats.html", {"couns": couns, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
+
+
+@login_required(login_url='login')
+def view_stat_specific_counselor(request, id):
+    user = request.session.get('username')
+    director_name = Faculty.objects.get(employee_id=user)
+    couns = Counselor.objects.get(employee_id=id)
+    today = date.today()
+    year = today.strftime("%Y")
+    month = today.strftime("%Y-%m")
+    referals = TeachersReferral.objects.filter(counselor=id)
+    stat_month = 0
+    stat_day = 0
+    stat_year = 0
+    for stud in referals:
+        getmonth = stud.date.strftime("%Y-%m")
+        getday = stud.date.strftime("%Y-%m-%d")
+        getyear = stud.date.strftime("%Y")
+        if month == getmonth:
+            stat_month += 1
+        if today == getday:
+            stat_day += 1
+        if year == getyear:
+            stat_year += 1
+
+    return render(request, "director/view_stat_specific_counselor.html", {"couns": couns, "referals": referals, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
 
 
 @login_required(login_url='login')
@@ -544,7 +581,8 @@ def director_choose_program(request):
 
     degreeprogram = DegreeProgram.objects.all()
     for degree in degreeprogram:
-        if degree.school_id_id == school:
+        # naa diri poblema school_id_id
+        if degree.school_code == school:
             t = Counselor.objects.get(employee_id=director_pk)
             t.program_designation = degree.program_code
             t.save()
@@ -606,58 +644,60 @@ def view_department(request):
 
 @login_required(login_url='login')
 def add_department(request, school):
-    depa = Department.objects.filter(school_code_id=school)
+    depa = NewDepartment.objects.filter(school_code_id=school)
     addDepaForm = AddDepartmentForm()
     deleteDepaForm = DeleteDepartmentForm()
     flag = 0
+    exist = 0
     if request.method == "POST":
         addDepaForm = AddDepartmentForm(request.POST)
         deleteDepaForm = DeleteDepartmentForm(request.POST)
         if addDepaForm.is_valid():
-            updater = 0
-            checker = 0
-            while updater != 1:
-                char = '1234567890'
-                for x in range(0, 1):
-                    codeId = ''
-                    for x in range(0, 5):
-                        code_char = random.choice(char)
-                        codeId = codeId + code_char
-                for obj in depa:
-                    if obj.department_id == codeId:
-                        checker = 1
-                if checker != 1:
-                    department_name_form1 = addDepaForm['department_name_form'].value(
-                    )
-                    t = Department(department_id=codeId, department_name=department_name_form1.title(),
-                                   school_code_id=school)
-                    t.save()
-                    updater = 1
-                    messages.info(request, 'Successfully add')
+            count = NewDepartment.objects.count()
+            department_name_form1 = addDepaForm.cleaned_data['department_name_form']
+            checking = NewDepartment.objects.all()
+            for obj in checking:
+                if obj.department_name == department_name_form1:
+                    exist = 1
+            if exist == 0:
+                t = NewDepartment(department_id=count+1, department_name=department_name_form1,
+                                  school_code_id=school)
+                t.save()
+                addDepaForm = AddDepartmentForm()
+                deleteDepaForm = DeleteDepartmentForm()
+                messages.info(request, 'Successfully Added')
+            else:
+                messages.info(request, 'Department Name is Existing')
 
         if deleteDepaForm.is_valid():
-            delete = deleteDepaForm['del_department_name_form'].value()
-
-            # idOfIdDeleted= Department.objects.get(department_name=delete)
-            # departmentList= Department.objects.LL()
-
-            # for object in departmentList:
-            #     if object.id > idOfIdDeleted:
-            #         t= Department.objects.get(department_id=object.id)
-            #         t.department_id=object.id-1
-            #         t.save()
-
-            deleteDepa = Department.objects.filter(school_code_id=school)
+            delete = deleteDepaForm.cleaned_data['del_department_name_form']
+            deleteDepa = NewDepartment.objects.filter(school_code_id=school)
+            idOfIdDeleted = NewDepartment.objects.get(
+                department_name=delete)
+            id = idOfIdDeleted.department_id
             for object in deleteDepa:
-                if object.department_name == delete.title():
+                if object.department_name == delete:
                     flag = 1
                     object.delete()
-                    messages.info(request, 'Successfully deleted')
+                    departmentList = NewDepartment.objects.all()
+                    for object in departmentList:
+                        if int(object.department_id) > int(id):
+                            ty = NewDepartment.objects.get(
+                                department_id=object.department_id)
+                            newId = int(ty.department_id) - 1
+                            ty.department_id = str(newId)
+                            ty.save()
+
+                    addDepaForm = AddDepartmentForm()
+                    deleteDepaForm = DeleteDepartmentForm()
+                    new = NewDepartment.objects.last()
+                    new.delete()
+                    messages.info(request, 'Successfully Deleted')
+
             if(flag == 0):
-                messages.info(request, 'not existing')
-        addDepaForm = AddDepartmentForm()
-        deleteDepaForm = DeleteDepartmentForm()
-    department = Department.objects.filter(school_code_id=school)
+                messages.info(request, 'Not Existing')
+
+    department = NewDepartment.objects.filter(school_code_id=school)
     return render(request, "admin/add_department.html", {"depa": department, "addDepaForm": addDepaForm, "deleteDepaForm": deleteDepaForm, "school": school})
 
 
@@ -705,8 +745,8 @@ def admin_view_offering(request):
     elif sem == "2ND SEM":
         semester = "201"
 
-    depa = Department.objects.get(department_name=dep)
-    allsubj = AllSubject.objects.filter(department_id_id=depa.department_id)
+    depa = NewDepartment.objects.get(department_name=dep)
+    allsubj = Subject.objects.filter(department_id_id=depa.department_id)
     qs = OfferCode.objects.filter(sem_id=semester, academic_year=sy)
     offering = []
     for a in allsubj:
@@ -782,39 +822,6 @@ def upload_students(request):
 
 
 @login_required(login_url='login')
-def upload_another_student(request):
-    try:
-        if request.method == 'POST':
-            AllStudentResource()
-            dataset = Dataset()
-            new_students = request.FILES['myfile']
-            imported_data = dataset.load(new_students.read(), format='xlsx')
-            wb_obj = openpyxl.load_workbook(new_students)
-            sheet_obj = wb_obj.active
-            col = sheet_obj.max_column
-            row = sheet_obj.max_row
-            if(col == 8):
-                for data in imported_data:
-                    value = AllStudent(
-                        data[0],
-                        data[1],
-                        data[2],
-                        data[3],
-                        data[4],
-                        data[5],
-                        data[6],
-                        data[7],
-                    )
-                    value.save()
-                messages.info(request, 'Successfully Added')
-            else:
-                messages.info(request, 'Failed to Add the Data')
-    except Exception:
-        messages.info(request, 'Please Choose File')
-    return render(request, "admin/upload_another_student.html")
-
-
-@login_required(login_url='login')
 def upload_faculty(request):
     try:
         if request.method == 'POST':
@@ -860,7 +867,6 @@ def upload_facultyload(request):
             sheet_obj = wb_obj.active
             col = sheet_obj.max_column
             row = sheet_obj.max_row
-
             if(col == 3):
                 for data in imported_data:
                     value = Facultyload(
@@ -979,7 +985,7 @@ def uploaddb_semester(request):
 def uploaddb_allsubject(request):
     try:
         if request.method == 'POST':
-            AllSubjectResource()
+            SubjectResource()
             dataset = Dataset()
             new_students = request.FILES['myfile']
 
@@ -991,7 +997,7 @@ def uploaddb_allsubject(request):
 
             if(col == 4):
                 for data in imported_data:
-                    value = AllSubject(
+                    value = Subject(
                         data[0],
                         data[1],
                         data[2],
@@ -1041,7 +1047,7 @@ def uploaddb_degreeprogram(request):
 def uploaddb_department(request):
     try:
         if request.method == 'POST':
-            DepartmentResource()
+            NewDepartmentResource()
             dataset = Dataset()
             new_students = request.FILES['myfile']
 
@@ -1053,7 +1059,7 @@ def uploaddb_department(request):
 
             if(col == 3):
                 for data in imported_data:
-                    value = Department(
+                    value = NewDepartment(
                         data[0],
                         data[1],
                         data[2]
@@ -1385,12 +1391,23 @@ def teacher_view_students(request, id):
 
 
 @login_required(login_url='login')
-def teacher_view_referred_students(request, *args, **kwargs):
+def teacher_view_referred_students(request, status):
     global teacherNotif
     user = request.session.get('username')
-    qs = TeachersReferral.objects.filter(employeeid=user)
+    if status == 'all' or status == '--':
+        qs = TeachersReferral.objects.filter(employeeid=user)
+    elif (status == 'pending'):
+        qs = TeachersReferral.objects.filter(employeeid=user, status='pending')
+    elif (status == 'done'):
+        qs = TeachersReferral.objects.filter(employeeid=user, status='done')
     user_name = Faculty.objects.get(employee_id=user)
-    return render(request, "teacher/list_referred_students.html", {"teacherNotif": teacherNotif, "object_list": qs, "form": user_name})
+    filterform = FilterForm()
+    if request.method == "POST":
+        filterform = FilterForm(request.POST)
+        if filterform.is_valid():
+            filter_choice = filterform['filter_choice'].value()
+            return redirect('teacher_view_referred_students', status=filter_choice)
+    return render(request, "teacher/list_referred_students.html", {"status": status, "filterform": filterform, "teacherNotif": teacherNotif, "object_list": qs, "form": user_name})
 
 
 @login_required(login_url='login')
@@ -1404,7 +1421,7 @@ def teacher_view_detail_referred_students(request, id):
             detail.append(TeachersReferral(firstname=referedStud.firstname,
                                            lastname=referedStud.lastname, studnumber=referedStud.studnumber,
                                            degree_program=referedStud.degree_program, subject_referred=referedStud.subject_referred,
-                                           reasons=referedStud.reasons, behavior_problem=referedStud.behavior_problem))
+                                           reasons=referedStud.reasons, behavior_problem=referedStud.behavior_problem, feedback=referedStud.feedback))
     user_name = Faculty.objects.get(employee_id=user)
     return render(request, "teacher/info_referred_student.html", {"teacherNotif": teacherNotif, "object_list": detail, "form": user_name})
 
@@ -2612,10 +2629,10 @@ def student_history(request):
     # studentSchedulelist = []
     # user = request.session.get('username')
     # studentSubject = Studentsload.objects.filter(studnumber = user)
-    # allSubject = SubjectOffered.objects.all()
+    # Subject = SubjectOffered.objects.all()
     # studentssss = StudentSchedule.objects.order_by('schedid')
     # stud=StudentSchedule.objects.all()
-    # for object in allSubject:
+    # for object in Subject:
     #     for object1 in studentSubject:
     #         if object.offer_no == object1.offer_no:
     #             studentSchedulelist.append(SubjectOffered(object.offer_no,

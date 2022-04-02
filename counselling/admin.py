@@ -3,7 +3,7 @@ from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 from .models import StudentInfo, AccountsApi, Facultyload, Faculty, NotificationFeedback, Notification, TeachersReferral, SubjectOffered, Studentsload, Counselor, Calendar
-from .models import DepaChoice, Offering, StudentSetSched, CounselorFeedback, MyTable, SubjectWithSem, Semester, AllSubject, OfferCode, AccountCreated, SchoolOffices, Department, DegreeProgram, AllStudent
+from .models import NewDepartment, DepaChoice, Offering, StudentSetSched, CounselorFeedback, MyTable, SubjectWithSem, Semester, Subject, OfferCode, AccountCreated, SchoolOffices, DegreeProgram, AllStudent
 
 admin.site.register(StudentInfo)
 admin.site.register(StudentSetSched)
@@ -11,6 +11,7 @@ admin.site.register(Offering)
 admin.site.register(DepaChoice)
 admin.site.register(Calendar)
 admin.site.register(CounselorFeedback)
+admin.site.register(NewDepartment)
 
 
 class CounselorFeedbackAdmin(ImportExportModelAdmin):
@@ -45,7 +46,7 @@ class SemesterAdmin(ImportExportModelAdmin):
     list_display = ('sem_id', 'semester')
 
 
-admin.site.register(AllSubject)
+admin.site.register(Subject)
 
 
 class AllSubjectAdmin(ImportExportModelAdmin):
@@ -67,18 +68,12 @@ class SchoolOfficesAdmin(ImportExportModelAdmin):
     list_display = ('school_code', 'school_office_name')
 
 
-admin.site.register(Department)
-
-
-class DepartmentAdmin(ImportExportModelAdmin):
-    list_display = ('department_id', 'department_name', 'school_code')
-
-
 admin.site.register(DegreeProgram)
 
 
 class DegreeProgramAdmin(ImportExportModelAdmin):
-    list_display = ('program_id', 'program_code', 'program_name', 'school_code')
+    list_display = ('program_id', 'program_code',
+                    'program_name', 'school_code')
 
 
 admin.site.register(AllStudent)
