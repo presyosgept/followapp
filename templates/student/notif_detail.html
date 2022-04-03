@@ -29,8 +29,9 @@ Notification_Detail
         background-color: #98b4ac;
         box-shadow:
           0 9px 33px rgba(0, 0, 0, 0.07);
-          max-width: 780px;
-    height: 350px;
+          max-width: 700px;
+          /* min-height: 400px; */
+    height: 500px;
     float: center;
     margin: auto;
     overflow-y: scroll;
@@ -179,9 +180,9 @@ word-break: break-word;
             <div id="box">
                 <div class="trow-list">
                   <p class="Pbox">
-                    You have a schedule appointment on <b>{{object.date}}</b> with a Start Session of <b>{{object.start_time}}</b>
-                    and ends in <b>{{object.end_time}}</b> In <b>{{object.subject_referred}}</b> Subject, with the behavioral problem of <b>{{object.behavior_problem}}</b>.
-                    Reasons stated below:
+                    You have a scheduled appointment on <b>{{object.date}}</b> that will start at <b>{{object.start_time}}</b>
+                    and will end at <b>{{object.end_time}}</b> In <b>{{object.subject_referred}}</b> Subject, with the behavioral problem of <b>{{object.behavior_problem}}</b>. <br>
+                    <br> With the Reasons stated below:
                     <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
                   </p>
               </div>
@@ -193,9 +194,9 @@ word-break: break-word;
           <div id="box">
                 <div class="trow-list">
                   <p class="Pbox">
-                    You have a schedule appointment on <b>{{object.date}}</b> with a Start Session of <b>{{object.start_time}}</b>
-                    and ends in <b>{{object.end_time}}</b> In <b>{{object.subject_referred}}</b> Subject, with the
-                    Reasons stated below:
+                    You have a scheduled appointment on <b>{{object.date}}</b> that will start at <b>{{object.start_time}}</b>
+                    and will end at <b>{{object.end_time}}</b> In <b>{{object.subject_referred}}</b> Subject, 
+                    <br> With the Reasons stated below:
                     <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
                   </p>
               </div>
@@ -209,8 +210,9 @@ word-break: break-word;
 
   <div class="trow-list">
     <p class="Pbox">
-      You have a schedule appointment on <b>{{object.date}}</b> with a Start Session of <b> {{object.start_time}}</b>
-      and ends in <b>{{object.end_time}}</b> With the Reasons stated below:
+      You have a schedule appointment on <b>{{object.date}}</b> that will start at <b> {{object.start_time}}</b>
+      and will end at <b>{{object.end_time}}</b> <br>
+      <br> With the Reasons stated below:
       <li class="Pbox" style="text-align:left;"><b>{{object.reasons}}</b></li>
     </p>
 </div>

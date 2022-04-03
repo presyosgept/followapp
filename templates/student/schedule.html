@@ -256,6 +256,39 @@ outline: none;
 #id_firstname{
   width: 150px;
 }
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.button {
+  margin: 0 auto;
+  width: 146px;
+  height: 35px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: #95B9C7;
+  box-shadow: 0px 15px 20px #C9C0BB;
+  color: #fff;
+  transform: translateY(-7px);
+}
 </style>
   <div class="fac">
     <button class="buttonF">Set Schedule for Counseling</button>
@@ -281,7 +314,10 @@ outline: none;
            <i><h4 style="font-size: 16px; color: #4C4646;" >Input the Reasons below to Set a Schedule for Referral:</h4> </i>
            {{schedform.reasons}}
            <br> <br>
-          <button class="buttons" type="submit" style="font-weight: bold; color: #454545;">Submit</button>
+    <div class="wrap">
+      <button type="submit" class="button"><b>Submit</b></button>
+    </div>
+          <!-- <button class="buttons" type="submit" style="font-weight: bold; color: #454545;">Submit</button> -->
           <!-- // E TUPONG ANG BUTTON OG TITLE IF EITHER LAPTOP OR MONITOR // -->
           </form>
 
