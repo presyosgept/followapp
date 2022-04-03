@@ -458,18 +458,26 @@ def home(request, *args, **kwargs):
 def director_home_view(request, *args, **kwargs):
     user = request.session.get('username')
     director_name = Faculty.objects.get(employee_id=user)
-
     return render(request, "director/director_home.html", {"object": director_name})
 
 
 @login_required(login_url='login')
 def view_stats(request, *args, **kwargs):
+    offer = CalendarForm()
+    if request.method == "POST":
+        offer = CalendarForm(request.POST)
+        if offer.is_valid():
+            offer.save()
+
     user = request.session.get('username')
     director_name = Faculty.objects.get(employee_id=user)
     couns = Counselor.objects.all()
     today = date.today()
+    day = today.strftime("%Y-%m-%d")
     year = today.strftime("%Y")
     month = today.strftime("%Y-%m")
+    textMon = today.strftime('%B')
+    textDay = today.strftime("%d")
     referals = TeachersReferral.objects.all()
     stat_month = 0
     stat_day = 0
@@ -480,21 +488,97 @@ def view_stats(request, *args, **kwargs):
         getyear = stud.date.strftime("%Y")
         if month == getmonth:
             stat_month += 1
-        if today == getday:
+        if day == getday:
             stat_day += 1
         if year == getyear:
             stat_year += 1
 
-    return render(request, "director/view_stats.html", {"couns": couns, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
+    return render(request, "director/view_stats.html", {"textYear": year, "textDay": textDay, "textMonth": textMon, "offer": offer, "couns": couns, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
+
+
+@login_required(login_url='login')
+def view_another_stats(request, *args, **kwargs):
+    offer = CalendarForm()
+    if request.method == "POST":
+        offer = CalendarForm(request.POST)
+        if offer.is_valid():
+            offer.save()
+    newDate = Calendar.objects.last()
+    today = newDate.pickedDate
+    day = today.strftime("%Y-%m-%d")
+    year = today.strftime("%Y")
+    month = today.strftime("%Y-%m")
+    textMon = today.strftime('%B')
+    textDay = today.strftime("%d")
+    user = request.session.get('username')
+    director_name = Faculty.objects.get(employee_id=user)
+    couns = Counselor.objects.all()
+    referals = TeachersReferral.objects.all()
+    stat_month = 0
+    stat_day = 0
+    stat_year = 0
+    for stud in referals:
+        getmonth = stud.date.strftime("%Y-%m")
+        getday = stud.date.strftime("%Y-%m-%d")
+        getyear = stud.date.strftime("%Y")
+        if month == getmonth:
+            stat_month += 1
+        if day == getday:
+            stat_day += 1
+        if year == getyear:
+            stat_year += 1
+    return render(request, "director/view_another_stats.html", {"textYear": year, "textDay": textDay, "textMonth": textMon, "offer": offer, "couns": couns, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
+
+
+@login_required(login_url='login')
+def view_another_stat_specific_counselor(request, id):
+    offer = CalendarForm()
+    if request.method == "POST":
+        offer = CalendarForm(request.POST)
+        if offer.is_valid():
+            offer.save()
+    newDate = Calendar.objects.last()
+    today = newDate.pickedDate
+    day = today.strftime("%Y-%m-%d")
+    year = today.strftime("%Y")
+    month = today.strftime("%Y-%m")
+    textMon = today.strftime('%B')
+    textDay = today.strftime("%d")
+    user = request.session.get('username')
+    director_name = Faculty.objects.get(employee_id=user)
+    couns = Counselor.objects.get(employee_id=id)
+    referals = TeachersReferral.objects.filter(counselor=id, date=today)
+    stat_month = 0
+    stat_day = 0
+    stat_year = 0
+    for stud in referals:
+        getmonth = stud.date.strftime("%Y-%m")
+        getday = stud.date.strftime("%Y-%m-%d")
+        getyear = stud.date.strftime("%Y")
+        if month == getmonth:
+            stat_month += 1
+        if day == getday:
+            stat_day += 1
+        if year == getyear:
+            stat_year += 1
+    return render(request, "director/view_stat_specific_counselor.html", {"textYear": year, "textDay": textDay, "textMonth": textMon, "offer": offer, "id": id, "couns": couns, "referals": referals, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
 
 
 @login_required(login_url='login')
 def view_stat_specific_counselor(request, id):
+    offer = CalendarForm()
+    if request.method == "POST":
+        offer = CalendarForm(request.POST)
+        if offer.is_valid():
+            offer.save()
     user = request.session.get('username')
     director_name = Faculty.objects.get(employee_id=user)
     couns = Counselor.objects.get(employee_id=id)
     today = date.today()
+    day = today.strftime("%Y-%m-%d")
     year = today.strftime("%Y")
+    textMon = today.strftime('%B')
+    textDay = today.strftime("%d")
     month = today.strftime("%Y-%m")
     referals = TeachersReferral.objects.filter(counselor=id)
     stat_month = 0
@@ -506,12 +590,11 @@ def view_stat_specific_counselor(request, id):
         getyear = stud.date.strftime("%Y")
         if month == getmonth:
             stat_month += 1
-        if today == getday:
+        if day == getday:
             stat_day += 1
         if year == getyear:
             stat_year += 1
-
-    return render(request, "director/view_stat_specific_counselor.html", {"couns": couns, "referals": referals, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
+    return render(request, "director/view_another_stat_specific_counselor.html", {"textYear": year, "textDay": textDay, "textMonth": textMon, "offer": offer, "id": id, "couns": couns, "referals": referals, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
 
 
 @login_required(login_url='login')

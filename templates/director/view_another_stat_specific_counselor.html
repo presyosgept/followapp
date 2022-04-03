@@ -351,24 +351,14 @@ padding-bottom: 6px;
 }
 </style>
 
+
 <div class="fac">
-  <button type="submit" class="buttonF">Statistics</button>
+  <button type="submit" class="buttonF">{{couns.firstname}} {{couns.lastname}} STATISTICS RECORD</button>
 </div> 
 <br>
-      <form method="POST" action="{% url 'view_another_stats' %}">
-          {% csrf_token %}
-      <div class="center_title">
-        <p><i><h4>To view Record of Statistics, select the date below.</h4></i></p>
-      </div>
-      <div class="center">
-        {{ offer.pickedDate }} <button type="submit" class="button">OK</button>
-              </div>
-      </form>
-       <br>
        <div class="statistics_parent_title">
   <h3>No. of Counselled Students</h3>
 </div>
-
 <div class="statistics_parent_div">
 
   <div class="statistics_title">
@@ -383,29 +373,43 @@ padding-bottom: 6px;
 </div>
 </div>
 <br>
+      <form method="POST" action="{% url 'view_another_stat_specific_counselor' id %}">
+          {% csrf_token %}
+      <div class="center_title">
+        <p><i><h4>To view Record of Statistics, select the date below.</h4></i></p>
+      </div>
+      <div class="center">
+        {{ offer.pickedDate }} <button type="submit" class="button">OK</button>
+              </div>
+      </form>
 
-<div class="table-wrapper">
-  <table class="fl-table">
-      <thead>
-      <tr>
-          <th class="table_head">Counselor</th>
-          <th class="table_head">Statistics</th>
-      </tr>
-      </thead>
-      {% for object in couns %}
-      <tbody>
-        <tr>
-          <td><p class="table_words"><b>{{object.lastname}}, &nbsp; {{object.firstname}}</b></p></td>
-          <td>
-            <a href="{% url 'view_stat_specific_counselor' object.employee_id %}"><button type="submit" class="button"><b>View Statistics</b></button></a>
-          </td>
-        
-      </tr>
-      <tbody>
-        {% endfor %}
-  </table>
-</div>
-
+    <br>
+        <div class="table-wrapper">
+          <table class="fl-table">
+              <thead>
+              <tr>
+                <th class="table_head">Students Name</th>
+                <th class="table_head">Date</th>
+                <th class="table_head">Time</th>
+              </tr>
+              </thead>
+              {% for form in referals %}
+              <tbody>
+              <tr>
+                  <td style="font-size: 16px;">{{form.lastname}}, &nbsp; {{form.firstname}}</td>
+                  <td style="font-size: 16px;">{{form.date}}</td>
+                  <td style="font-size: 16px;">{{form.start_time}} - {{form.end_time}}</td>
+                
+              </tr>
+              <tbody>
+                {% endfor %}
+          </table>    
+                    <div style="padding: 2px;">
+  {% if not referals %}
+  <center><b><p>No Records of Statistics !</p></b></center>
+       {% endif %}
+</div>   
+        </div>
 {% endblock %}
 
 

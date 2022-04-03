@@ -79,6 +79,8 @@ from counselling.views import(
     director_choose_program,
     view_stat_specific_counselor,
     view_stats,
+    view_another_stats,
+    view_another_stat_specific_counselor,
 
     # student
     student_add_info,
@@ -252,7 +254,11 @@ urlpatterns = [
          name="view_stat_specific_counselor"),
     path('director/view_stats', view_stats,
          name="view_stats"),
+    path('director/view_another_stats', view_another_stats,
+         name="view_another_stats"),
 
+    path('director/view_another_stat_specific_counselor/<str:id>', view_another_stat_specific_counselor,
+         name="view_another_stat_specific_counselor"),
 
     path('admin/', admin.site.urls),
 ]
