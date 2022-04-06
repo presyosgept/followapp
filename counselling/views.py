@@ -610,6 +610,11 @@ global director_pk
 
 @login_required(login_url='login')
 def director_fillinForm(request, pk):
+
+    # form = TeachersReferralForm(instance=studentReferred, initial={
+    #                             'subject_referred': subject_referred})
+    # form.fields['myChoiceField'].choices = lstChoices
+    chuchu = DegreeProgram.objects.all()
     global director_pk
     global school
     director_pk = pk
@@ -623,6 +628,8 @@ def director_fillinForm(request, pk):
     flag = 0
 
     if request.method == "POST":
+
+        form.fields['program_designation'].choices = chuchu.program_code
         form = CounselorForm(request.POST, instance=counselor)
         if form.is_valid():
             counselorCheck = Counselor.objects.all()

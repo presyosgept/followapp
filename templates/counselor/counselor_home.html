@@ -557,7 +557,125 @@ th, td {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf;
 }
+    /* /////////// SLIDER //////////////////// */
+#bgslider { 
+	overflow: hidden; 
+}
+#bgslider figure { 
+  position: relative;
+  width: 1000%;
+  margin: 0;
+  left: 0;
+  text-align: left;
+  font-size: 0;
+  animation: 15s slidy infinite; 
+}
+#bgslider figure img { 
+	width: 20%; 
+	float: left; 
+	height: 70vh;
+}
+@keyframes slidy {
+0% { left: 0%; }
+20% { left: 0%; }
+25% { left: -100%; }
+45% { left: -100%; }
+50% { left: -200%; }
+70% { left: -200%; }
+75% { left: -300%; }
+95% { left: -300%; }
+100% { left: -400%; }
+}
 
+::-webkit-scrollbar {
+
+display: none;
+}
+
+::-webkit-scrollbar-track {
+ background-color: transparent;
+ -ms-overflow-style: none;  /* IE and Edge */
+ scrollbar-width: none;
+}
+
+::-webkit-scrollbar-thumb {
+ background-color: #d6dee1;
+ border-radius: 20px;
+ border: 6px solid transparent;
+ background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+ background-color: #a8bbbf;
+}
+
+.image_card{
+ height: auto;
+ max-width: 100%;
+ vertical-align: middle;
+}
+
+
+
+.cards {
+display: flex;
+
+     margin-left: auto;
+        flex-direction:row;
+      flex-wrap:wrap;
+       
+}
+
+.cards_item {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  padding: 10px; /* this */
+}
+
+@media (min-width: 40rem) {
+ .cards_item {
+   width: 50%;
+ }
+}
+
+@media (min-width: 56rem) {
+ .cards_item {
+   width: 55%;
+ }
+}
+
+.card {
+
+ border-radius: 0.25rem;
+ box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+
+margin: 15px;
+/* width: 170px;
+margin-left: 100px; */
+}
+
+.card_content {
+ padding: 1rem;
+ background: #98b4ac;
+}
+
+.card_title {
+ color: #ffffff;
+ font-size: 1.1rem;
+ font-weight: 700;
+ letter-spacing: 1px;
+ text-transform: capitalize;
+ margin: 0px;
+}
+
+.card_text {
+ color: #ffffff;
+ font-size: 0.875rem;
+ line-height: 1.5;
+ margin-bottom: 1.25rem;    
+ font-weight: 400;
+}
 
 
         </style>
@@ -640,12 +758,62 @@ th, td {
               
         
            {% block content %} 
+                       <br> 
+               <div id="bgslider">
+      <figure>
+          <img src="https://usjr.edu.ph/wp-content/uploads/2020/09/USJ-R-online-2.png" alt="Slider">
+          <img src="https://sscrmnl.edu.ph/wp-content/themes/sscr-manila/library/images/usjr_gc.jpg" alt="Slider">
+          <img src="https://scontent.fceb1-2.fna.fbcdn.net/v/t1.6435-9/178639572_301052578273148_660433796182069109_n.jpg?stp=dst-jpg_s960x960&_nc_cat=109&ccb=1-5&_nc_sid=e3f864&_nc_ohc=ZY6EPPsGzKQAX9fOnTm&_nc_ht=scontent.fceb1-2.fna&oh=00_AT_XBNRBuj0Tol7KjtFH75K0rbXtHbkHLY7xlZglxMcsIA&oe=626A1510" alt="Slider">
+          <img src="https://usjr.edu.ph/wp-content/uploads/2021/01/LANDING-page-header-400-2.jpg" alt="Slider">
+          <img src="https://scontent.fceb1-2.fna.fbcdn.net/v/t1.15752-9/118773621_253782375689778_6340205554738152846_n.png?stp=dst-png_p1080x2048&_nc_cat=100&ccb=1-5&_nc_sid=ae9488&_nc_eui2=AeGyhw2dTgmdLk_Ak5DgjhEBolDuXsf9B_2iUO5ex_0H_Ti5vZFUd4BLshn5Z5wFyu_yC5Em8Z9hetftIGF4qQtU&_nc_ohc=cmWgC8z_2gUAX-kidQv&_nc_ht=scontent.fceb1-2.fna&oh=03_AVLRDOqFvVEgoDqlL3eN-Jx-rVlWcs_a3vi5F6gKjs-2cQ&oe=62695016" alt="Slider">
+ 
+          
+      </figure>
+  </div>
+
+<br>
+
+<div class="cards_item">
+  <a href=#> 
+  <div class="card">
+    <div class="card_image"><img class="image_card" src="https://media.istockphoto.com/vectors/vector-illustration-in-flat-simple-style-online-psychological-help-vector-id1256551538?k=20&m=1256551538&s=612x612&w=0&h=TUertl_YRw9L55yi0XQtmD2Z1hkYCVzAQUML9uFIL9M="></div>
+    <div class="card_content">
+      <h2 class="card_title">Notifications</h2>
+    </div> 
+  </div>
+</a>
+<br>
+<a href=#> 
+  <div class="card">
+    <div class="card_image"><img class="image_card" src="https://media.istockphoto.com/vectors/vector-illustration-in-flat-simple-style-online-psychological-help-vector-id1252391886?k=20&m=1252391886&s=612x612&w=0&h=gV16EIdD24s8mRlKIkecAkLcvSwZjSAV1DjC_jIPPws="></div>
+    <div class="card_content">
+      <h2 class="card_title">Referral</h2>
+    </div> 
+  </div>
+</a>
+<br>
+<a href=#> 
+  <div class="card">
+      <div class="card_image"><img class="image_card" src="https://media.istockphoto.com/vectors/vector-illustration-in-flat-simple-style-online-psychological-help-vector-id1256551538?k=20&m=1256551538&s=612x612&w=0&h=TUertl_YRw9L55yi0XQtmD2Z1hkYCVzAQUML9uFIL9M="></div>
+    <div class="card_content">
+      <h2 class="card_title">Schedules</h2>
+    </div> 
+  </div>
+</a>
+<br>
+<a href=#> 
+  <div class="card">
+    <div class="card_image"><img class="image_card" src="https://media.istockphoto.com/vectors/vector-illustration-in-flat-simple-style-online-psychological-help-vector-id1252391886?k=20&m=1252391886&s=612x612&w=0&h=gV16EIdD24s8mRlKIkecAkLcvSwZjSAV1DjC_jIPPws="></div>
+    <div class="card_content">
+      <h2 class="card_title">Feedbacks</h2>
+    </div> 
+  </div>
+</a>
+<br>
+</div>
+<br>
  <div style="display: flex;flex-direction:row;
        flex-wrap:wrap-reverse;">
-            <img style="max-width: 1000px;
-  height: 480px; margin: auto;" 
-  src="https://dakotafamilyservices.org/media/1276/online-therapy-dakota-family-services.png"  
- >
  <div style="margin: auto; float: center; line-height: 30px;" >
   <p><h4>
     Counseling is bahog baba ang counselor pero  dapat antuson nimo

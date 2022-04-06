@@ -535,12 +535,9 @@ textarea{
 ::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf;
 }
+/* 
+///// CARD  */
 
-img {
-  height: auto;
-  max-width: 100%;
-  vertical-align: middle;
-}
 
 
 
@@ -708,6 +705,46 @@ cursor: pointer;
 outline: none;
 
 }
+    /* /////////// SLIDER //////////////////// */
+#bgslider { 
+	overflow: hidden; 
+}
+#bgslider figure { 
+  position: relative;
+  width: 1000%;
+  margin: 0;
+  left: 0;
+  text-align: left;
+  font-size: 0;
+  animation: 15s slidy infinite; 
+}
+#bgslider figure img { 
+	width: 20%; 
+	float: left; 
+	height: 70vh;
+}
+@keyframes slidy {
+0% { left: 0%; }
+20% { left: 0%; }
+25% { left: -100%; }
+45% { left: -100%; }
+50% { left: -200%; }
+70% { left: -200%; }
+75% { left: -300%; }
+95% { left: -300%; }
+100% { left: -400%; }
+}
+
+.image_card{
+ height: auto;
+ max-width: 100%;
+ vertical-align: middle;
+}
+.subject_title{
+  flex-direction: row;
+  font-size: 20px;
+  font-weight: 500;
+}
 
   </style>
   <title>Follow App Teacher</title>
@@ -723,6 +760,8 @@ outline: none;
              
 
                 <div>
+        
+                
                        
                               <p style="font-weight: bold;color: #FFFFFF; "> {{form.firstname }} {{form.lastname }} </p>
                                   
@@ -764,26 +803,36 @@ outline: none;
               
                 <div class="custom-scrollbar">
                 <br>
-                  {% block content %} 
-                 
+                  {% block content %}        
+      <br>
+      <div id="bgslider">
+      <figure>
+          <img src="https://usjr.edu.ph/wp-content/uploads/2020/09/USJ-R-online-2.png" alt="Slider">
+          <img src="https://sscrmnl.edu.ph/wp-content/themes/sscr-manila/library/images/usjr_gc.jpg" alt="Slider">
+          <img src="https://scontent.fceb1-2.fna.fbcdn.net/v/t1.6435-9/178639572_301052578273148_660433796182069109_n.jpg?stp=dst-jpg_s960x960&_nc_cat=109&ccb=1-5&_nc_sid=e3f864&_nc_ohc=ZY6EPPsGzKQAX9fOnTm&_nc_ht=scontent.fceb1-2.fna&oh=00_AT_XBNRBuj0Tol7KjtFH75K0rbXtHbkHLY7xlZglxMcsIA&oe=626A1510" alt="Slider">
+          <img src="https://usjr.edu.ph/wp-content/uploads/2021/01/LANDING-page-header-400-2.jpg" alt="Slider">
+          <img src="https://scontent.fceb1-2.fna.fbcdn.net/v/t1.15752-9/118773621_253782375689778_6340205554738152846_n.png?stp=dst-png_p1080x2048&_nc_cat=100&ccb=1-5&_nc_sid=ae9488&_nc_eui2=AeGyhw2dTgmdLk_Ak5DgjhEBolDuXsf9B_2iUO5ex_0H_Ti5vZFUd4BLshn5Z5wFyu_yC5Em8Z9hetftIGF4qQtU&_nc_ohc=cmWgC8z_2gUAX-kidQv&_nc_ht=scontent.fceb1-2.fna&oh=03_AVLRDOqFvVEgoDqlL3eN-Jx-rVlWcs_a3vi5F6gKjs-2cQ&oe=62695016" alt="Slider">
+ 
           
-                  <div class="fac">
-                    <button type="submit" class="buttonF">My Subjects</button>
-                  </div> 
-              
-      <br> <br>
-
+      </figure>
+  </div>
+<br>
       {% if not object_list %}
 <center><p><b>No Subjects Yet!</b></p></center>
 {% endif %}
+<div class="subject_title"><h2>My Subjects</h2></div>
       <div class="cards" >
 
                   {% for object in object_list %}
                 
 <div class="cards_item">
   <a href="{% url 'teacher_view_students' object.offer_code %}"> 
+    
   <div class="card">
-    <div class="card_image"><img src="https://picsum.photos/500/300/?image=2"></div>
+    <div class="card_image"><img style="
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;" src="https://picsum.photos/500/300/?image=2"></div>
     <div class="card_content">
       <h2 class="card_title">{{object.offer_code}}</h2>
        <h2 class="card_title">{{object.subject_code }}</h2>
@@ -814,3 +863,4 @@ outline: none;
 
     </body>
 </html>
+

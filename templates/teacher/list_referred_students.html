@@ -149,47 +149,62 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-
+}
+    .center {
+  
+  text-align: center;
+  }
+  
+  .center_title {
+  
+  text-align: center;
+  margin-right: 20px;
+  font-size: 20px;
+  }
+  .button {
+    margin: 0 auto;
+    width: 96px;
+    height: 27px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    }
+  
+    .button:hover {
+    background-color: #95B9C7;
+    box-shadow: 0px 15px 20px #C9C0BB;
+    color: #fff;
+  }
+  #id_filter_choice{
+min-width: 180px;
   }
 
 
 </style>
- <form method="POST" action="">
-    {% csrf_token %}
-    
-    <div class="column">
-      <div class="row"> 
-        <p class="pText"><b class="bText">chooose filter: &nbsp;</b>  
-        
-{{filterform.filter_choice}}</p>
-        &nbsp;    &nbsp;   
-      </div>
-     
-      </div>
-    <br> 
-          <button type="submit" class="button">Submit</button>
-        </div>
-      </div>
-     
-      </div>
-<br>
-</form>
-
-
-<br> <br>
-<br> <br>
-<br> <br>
-<br> <br>
-
 <div class="fac">
   <button type="submit" class="buttonF">Referred Student </button>
 </div> 
-<br> <br><br> <br><br> <br><br> <br>
-{{status|title}}
 <br> <br>
-<br> <br>
-
-
+      <form method="POST">
+          {% csrf_token %}
+      <div class="center_title">
+        <p><i><h4>Choose Filter: &nbsp; {{status|title}} </h4></i></p>
+      </div>
+      <div class="center">
+        {{filterform.filter_choice}} &nbsp; <button type="submit" class="button">OK</button>
+              </div>
+      </form>
+<br>
  <div class="table-wrapper">
   
     <table class="fl-table">

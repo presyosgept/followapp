@@ -346,14 +346,14 @@ outline: none;
    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 40%;
-  min-height: 500px;
+  min-height: 515px;
   border-radius: 5px;
   margin-left: 500px;
 
 /* margin: auto;
   text-align: center; */
   overflow: hidden;
-  background-color: whitesmoke;
+
 }
 @media screen and (max-width: 320px) {
   .header__search {
@@ -431,11 +431,11 @@ No Referred Students yet!
              <div>
                <h3 style="text-align: justify; margin-left:8px; font-size: 20px;"><i>Referred Student</i></h3>
     <p class="rowText">
-    <b>{{object.lastname}}</b> is referred under the subject of <b> {{object.subject_referred}}</b> with a 
+    <b>{{object.firstname}} {{object.lastname}}</b> is referred under the subject of <b> {{object.subject_referred}}</b> with a 
     behavioral problem of <b>{{object.behavior_problem}}</b> <br> <br>
-      <i>With the Reasons stated below:</i>
+      <i>Additional Information stated below:</i>
     <div class="scroll-box">
-<p><li class="Pbox" style="text-align: justify; margin-left:8px;"><b>{{object.reasons}}</b></li></p>
+<p class="Pbox" style="text-align: justify; margin-left:8px;"><b>{{object.reasons}}</b></p>
 </div>
     </p>
     </div>    

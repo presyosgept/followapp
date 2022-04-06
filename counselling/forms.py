@@ -120,8 +120,8 @@ class TeachersReferralForm(forms.ModelForm):
         self.fields['lastname'].disabled = True
         self.fields['subject_referred'].disabled = True
 
-    behavior_problem = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(),
-                                                 choices=TeachersReferral.BEHAVIOR_PROBLEM)
+    behavior_problem = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
+                                            choices=TeachersReferral.BEHAVIOR_PROBLEM)
 
     class Meta:
         model = TeachersReferral

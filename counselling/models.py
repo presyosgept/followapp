@@ -250,7 +250,7 @@ class Counselor(models.Model):
     PROGRAM_DESIGNATION = (('BSIT', 'BSIT'),
                            ('BSCS', 'BSCS'),
                            ('BSCE', 'BSCE'),
-                           ('BSME', 'BSME'),
+                           ('BSIS', 'BSIS'),
                            ('BAPOL', 'BAPOL'),
                            ('BSA', 'BSA'),
                            ('BSMA', 'BSMA'))
