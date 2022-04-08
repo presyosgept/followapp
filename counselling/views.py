@@ -8,7 +8,7 @@ from django.http.response import Http404, HttpResponsePermanentRedirect, HttpRes
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
-
+from django.db.models import Max, Min
 from django.contrib.auth import authenticate, login, logout
 
 from django.contrib import messages
@@ -610,36 +610,33 @@ global director_pk
 
 @login_required(login_url='login')
 def director_fillinForm(request, pk):
-
-    # form = TeachersReferralForm(instance=studentReferred, initial={
-    #                             'subject_referred': subject_referred})
-    # form.fields['myChoiceField'].choices = lstChoices
-    chuchu = DegreeProgram.objects.all()
     global director_pk
     global school
     director_pk = pk
     user = request.session.get('username')
-    cs = Counselor.objects.all()
     counselor = Counselor.objects.get(employee_id=pk)
     form = CounselorForm(instance=counselor)
     director_name = Faculty.objects.get(employee_id=user)
     program_not_to_assign = []
     check = []
     flag = 0
+    check = 0
 
     if request.method == "POST":
-
-        form.fields['program_designation'].choices = chuchu.program_code
         form = CounselorForm(request.POST, instance=counselor)
         if form.is_valid():
             counselorCheck = Counselor.objects.all()
             program = form.cleaned_data['program_designation']
             for object in counselorCheck:
-                if(object.employee_id != pk):
-                    for object1 in object.program_designation:
-                        if(object1 in program):
-                            program_not_to_assign.append(object1)
-                            flag = 1
+                if object.program_designation is not None:
+                    check = 1
+            if check == 1:
+                for object in counselorCheck:
+                    if(object.employee_id != pk):
+                        for object1 in object.program_designation:
+                            if(object1 in program):
+                                program_not_to_assign.append(object1)
+                                flag = 1
             if(flag == 0):
                 form.save()
                 program_not_to_assign = []
@@ -671,7 +668,6 @@ def director_choose_program(request):
 
     degreeprogram = DegreeProgram.objects.all()
     for degree in degreeprogram:
-        # naa diri poblema school_id_id
         if degree.school_code == school:
             t = Counselor.objects.get(employee_id=director_pk)
             t.program_designation = degree.program_code
@@ -777,11 +773,21 @@ def add_department(request, school):
                             newId = int(ty.department_id) - 1
                             ty.department_id = str(newId)
                             ty.save()
+                    departmentList = NewDepartment.objects.all()
+                    store = []
+                    for obj in departmentList:
+                        store.append(NewDepartment(
+                            department_id=obj.department_id))
+                    max = 0
+                    for a in store:
+                        if int(a.department_id) > max:
+                            max = int(a.department_id)
 
                     addDepaForm = AddDepartmentForm()
                     deleteDepaForm = DeleteDepartmentForm()
-                    new = NewDepartment.objects.last()
+                    new = NewDepartment.objects.get(department_id=str(max))
                     new.delete()
+                    departmentList = NewDepartment.objects.all()
                     messages.info(request, 'Successfully Deleted')
 
             if(flag == 0):

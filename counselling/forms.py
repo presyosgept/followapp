@@ -1,6 +1,6 @@
 from multiselectfield import MultiSelectFormField
 from django.forms.widgets import CheckboxSelectMultiple
-from .models import NewDepartment, SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
+from .models import DegreeProgram, NewDepartment, SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
@@ -207,9 +207,10 @@ class CounselorForm(forms.ModelForm):
         self.fields['employee_id'].disabled = True
         self.fields['firstname'].disabled = True
         self.fields['lastname'].disabled = True
-
-    program_designation = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
-                                               choices=Counselor.PROGRAM_DESIGNATION)
+    # program_designation = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+    #                                                      queryset=DegreeProgram.objects.values_list('program_code'))
+    # program_designation = MultiSelectFormField(widget=forms.CheckboxSelectMultiple,
+    #                                            choices=Counselor.PROGRAM_DESIGNATION)
 
     class Meta:
         model = Counselor

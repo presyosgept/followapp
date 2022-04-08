@@ -247,15 +247,12 @@ class Counselor(models.Model):
     employee_id = models.CharField(max_length=220, primary_key=True)
     firstname = models.CharField(max_length=220)
     lastname = models.CharField(max_length=220)
-    PROGRAM_DESIGNATION = (('BSIT', 'BSIT'),
-                           ('BSCS', 'BSCS'),
-                           ('BSCE', 'BSCE'),
-                           ('BSIS', 'BSIS'),
-                           ('BAPOL', 'BAPOL'),
-                           ('BSA', 'BSA'),
-                           ('BSMA', 'BSMA'))
+    qs = DegreeProgram.objects.all()
+    qs_code = []
+    for obj in qs:
+        qs_code.append([obj.program_code, obj.program_code])
     program_designation = MultiSelectField(
-        max_length=220, choices=PROGRAM_DESIGNATION, null=True, blank=True)
+        max_length=220, choices=qs_code, null=True, blank=True)
 
 
 class Notification(models.Model):
