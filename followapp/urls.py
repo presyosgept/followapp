@@ -42,7 +42,8 @@ from counselling.views import(
     view_department,
     add_department,
     offercode,
-
+    view_enrolled_students_via_degree,
+    view_enrolled_students,
 
     # teacher
     teacher_home_view,
@@ -81,6 +82,9 @@ from counselling.views import(
     view_stats,
     view_another_stats,
     view_another_stat_specific_counselor,
+    director_offering,
+    director_department_choice,
+    director_view_offering,
 
     # student
     student_add_info,
@@ -92,6 +96,7 @@ from counselling.views import(
     view_appointment_students,
     student_view_another_sched,
     student_history,
+    student_edit_profile_view,
 
     # api
     CounselorList,
@@ -171,6 +176,10 @@ urlpatterns = [
          add_department, name="add_department"),
     path('admin/offercode',
          offercode, name="offercode"),
+    path('admin/view_enrolled_students_via_degree', view_enrolled_students_via_degree,
+         name="view_enrolled_students_via_degree"),
+    path('admin/view_enrolled_students/<str:id>',
+         view_enrolled_students, name="view_enrolled_students"),
 
 
     # teacher
@@ -240,6 +249,8 @@ urlpatterns = [
     path('student/student_view_another_sched',
          student_view_another_sched, name='student_view_another_sched'),
     path('student/student_history', student_history, name="student_history"),
+    path('student/student_edit_profile_view', student_edit_profile_view, name="student_edit_profile_view"),
+
 
 
     # director
@@ -256,9 +267,14 @@ urlpatterns = [
          name="view_stats"),
     path('director/view_another_stats', view_another_stats,
          name="view_another_stats"),
-
     path('director/view_another_stat_specific_counselor/<str:id>', view_another_stat_specific_counselor,
          name="view_another_stat_specific_counselor"),
+    path('director/director_offering',
+         director_offering, name="director_offering"),
+    path('director/director_view_offering',
+         director_view_offering, name="director_view_offering"),
+    path('director/director_department_choice',
+         director_department_choice, name="director_department_choice"),
 
     path('admin/', admin.site.urls),
 ]

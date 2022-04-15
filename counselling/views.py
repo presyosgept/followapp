@@ -462,6 +462,63 @@ def director_home_view(request, *args, **kwargs):
 
 
 @login_required(login_url='login')
+def director_offering(request, *args, **kwargs):
+    global sem
+    global sy
+    form = OfferingForm()
+    if request.method == "POST":
+        form = OfferingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            semester = form['semester'].value()
+            schoolyear = form['school_year'].value()
+            sem = semester
+            sy = schoolyear
+            return redirect(director_department_choice)
+
+    return render(request, "director/offering.html", {"form": form})
+
+
+@login_required(login_url='login')
+def director_department_choice(request):
+    global dep
+    form = DepaChoiceForm()
+    if request.method == "POST":
+        form = DepaChoiceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            depa_choice = form.cleaned_data['depa_choice']
+            dep = depa_choice
+            return redirect(director_view_offering)
+
+    return render(request, "director/depachoice.html", {"form": form})
+
+
+@login_required(login_url='login')
+def director_view_offering(request):
+    global sem
+    global sy
+    global dep
+    semester = ''
+    if sem == "1ST SEM":
+        semester = "101"
+    elif sem == "2ND SEM":
+        semester = "201"
+
+    depa = NewDepartment.objects.get(department_name=dep)
+    allsubj = Subject.objects.filter(department_id_id=depa.department_id)
+    qs = OfferCode.objects.filter(sem_id=semester, academic_year=sy)
+    offering = []
+    for a in allsubj:
+        for b in qs:
+            if(a.subject_code == b.subject_code):
+                offering.append(OfferCode(offer_code=b.offer_code, days=b.days, start_time=b.start_time, end_time=b.end_time, room=b.room,
+                                          subject_code=b.subject_code, sem_id=b.sem_id, academic_year=b.academic_year))
+
+    return render(request, "director/viewoffering.html", {"forms": offering})
+
+
+@login_required(login_url='login')
 def view_stats(request, *args, **kwargs):
     offer = CalendarForm()
     if request.method == "POST":
@@ -687,6 +744,19 @@ def director_choose_program(request):
 @login_required(login_url='login')
 def admin_home_view(request, *args, **kwargs):
     return render(request, "admin/admin_home.html", {})
+
+
+@login_required(login_url='login')
+def view_enrolled_students_via_degree(request):
+    degree = DegreeProgram.objects.all()
+    return render(request, "admin/view_enrolled_students_via_degree.html", {"degree": degree})
+
+
+@login_required(login_url='login')
+def view_enrolled_students(request, id):
+    degree = DegreeProgram.objects.get(program_id=id)
+    student = AllStudent.objects.filter(degree_program_id=id)
+    return render(request, "admin/view_enrolled_students.html", {"student": student, "degree": degree})
 
 
 @login_required(login_url='login')
@@ -2137,6 +2207,41 @@ def student_home_view(request, *args, **kwargs):
     studentNotif = count
     student_name = AllStudent.objects.get(studnumber=user)
     return render(request, "student/student_home.html", {"studentNotif": studentNotif, "form": student_name})
+
+
+@login_required(login_url='login')
+def student_edit_profile_view(request, *args, **kwargs):
+    user = request.session.get('username')
+    student = StudentInfo.objects.get(studnumber=user)
+    infoForm = StudentInfoForm(instance=student)
+    if request.method == "POST":
+        infoForm = StudentInfoForm(request.POST, instance=student)
+        mother_firstname = request.POST['mother_firstname']
+        mother_lastname = request.POST['mother_lastname']
+        father_firstname = request.POST['father_firstname']
+        father_lastname = request.POST['father_lastname']
+        guardian_firstname = request.POST['guardian_firstname']
+        guardian_lastname = request.POST['guardian_lastname']
+        student_contact_number = request.POST['student_contact_number']
+        mother_contact_number = request.POST['mother_contact_number']
+        father_contact_number = request.POST['father_contact_number']
+        guardian_contact_number = request.POST['guardian_contact_number']
+        if infoForm.is_valid():
+            infoForm.save()
+            info = StudentInfo.objects.get(studnumber=user)
+            info.mother_firstname = mother_firstname
+            info.mother_lastname = mother_lastname
+            info.father_firstname = father_firstname
+            info.father_lastname = father_lastname
+            info.guardian_firstname = guardian_firstname
+            info.guardian_lastname = guardian_lastname
+            info.student_contact_number = student_contact_number
+            info.mother_contact_number = mother_contact_number
+            info.father_contact_number = father_contact_number
+            info.guardian_contact_number = guardian_contact_number
+            info.save()
+            messages.info(request, 'Successfully edit')
+    return render(request, "student/student_edit_profile_view.html", {"form": student, "info": infoForm})
 
 
 @login_required(login_url='login')

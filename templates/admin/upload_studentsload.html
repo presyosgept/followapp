@@ -79,25 +79,51 @@ outline: none;
   height: 30px;
   font-weight: 500;
   }
+    .message {
+    margin: 0 auto;
+    width: 300px;
+    height: 45px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #fff;
+    background-color: #384c74;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    }
+.parent_message{
+    float: center;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 </style>
 <div class="fac">
   <button type="submit" class="buttonF"><b>Upload Students Load</b></button>
 </div> 
-<br> <br> <br> <br>
+<br> <br>
+<div style="text-align: center">
+       {% for message in messages %}
+     <button type="submit" class="message"><p><b>{{message}} !</b></p></button>
+     {% endfor %}
+</div>
+     <br> <br> 
 <div class="faculty">
 <br>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <center><input type="file" name="myfile" class="input"></center>
+    <center><input type="file" name="myfile" class="input" class="button" style="font-size: 17.5px; font-weight: bold;"></center>
    <br> <br>
     <div class="wrap">
       <button type="submit" class="button">Upload</button>
     </div>
   </form>
-  {% for message in messages %}
-  <center> <b><p>{{message}} !</p></b> </center>
-{% endfor %}  
 
                 
 </div>

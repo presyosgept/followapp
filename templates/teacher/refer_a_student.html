@@ -2,22 +2,20 @@
 {% block title %} Refer Student {% endblock %}
 {% block content %}
 <style>
-  .refCard {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    width: 102%;
-    height: 800px;
-    border-radius: 5px;
-    background-color: var(--card-color); 
-    float: center;
-    margin-top: 10px;
-    margin-bottom: 35px;
-    margin-right: 500px;
-    /* margin-left: 80px;  */
-    text-align: center;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
+.homeCard {
+  box-shadow: 0 4px 8px 0 rgba(2, 2, 2, 0.2);
+  width: 90%;
+  height: 700px;
+  border-radius: 5px;
+  background-color:var(--container-color);
+  float: center;
+  margin-right: auto;
+  margin-left: auto;
+  /* margin-left: 80px;  */
+  text-align: center;
+  overflow-y: scroll;
+  overflow-x: scroll; 
+}
   .form-control {
      margin-left: 50px; 
       display: block;
@@ -340,7 +338,7 @@ font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 8px;
@@ -349,68 +347,224 @@ transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
 }
+  .message {
+    padding: 12px;
+    margin: 0 auto;
+    width: 420px;
+    height: 45px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #95B9C7;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    }
+.parent_message{
+    float: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.button {
+  float: right;
+  padding: auto;
+  margin: 0 auto;
+  width: 160px;
+  height: 38px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+    color: #fff;
+    background-color: #95B9C7;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
 
+.button:hover {
+  background-color: #d8c090;
+  box-shadow: 0px 15px 20px #C9C0BB;
+  color: #fff;
+  transform: translateY(-7px);
+}
+.parent_form{
+  display: flex;
+  flex-direction: row;
+  column-gap: 48rem;
+  margin-left: 10rem;
+}
+.first_form_column{
+display: inline-block;
+flex-direction: column;
+}
+.second_form_column{
+  display: inline-block;
+  flex-direction: column;
+}
+
+.second_label{
+  margin-left: 12px;
+  font-size: 18px;
+}
+#id_studnumber{
+     width: 400px;
+  height: 38px;
+  color: #3A3B3C;
+  border-radius: 5px;
+  font-size: 18px;
+}
+#id_firstname{
+    width: 400px;
+  height: 38px;
+  color: #3A3B3C;
+  border-radius: 5px;
+  font-size: 18px;
+}
+#id_lastname{
+    width: 400px;
+  height: 38px;
+  color: #3A3B3C;
+  border-radius: 5px;
+  font-size: 18px;
+}
+#id_subject_referred{
+    width: 400px;
+  height: 38px;
+  color: #3A3B3C;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.column{
+ width:250px;
+ float:left;
+ /* margin-right:20px; */
+ padding: 10px;  
+
+}
+.row{
+ width: 370px;
+ float:right;
+
+ text-align: left;
+
+
+}
+.row1{
+ width: 450px;
+ float:left;
+ /* margin-left: 250px; */
+ text-align: left;
+
+}
+
+.pText{
+  font-weight: 600;
+  font-size: 20px;
+}
+.bText{
+  color: #000;
+  float: center;
+}
+.parent_checkbox{
+  
+  flex-direction: column;
+  column-gap: 2rem;
+  float: left;
+  margin-left: 10rem;
+}
+.parent_input{
+
+  column-gap: 2rem;
+  float: left;
+  margin-left: 10rem;
+  margin-bottom: 1.5rem;
+}
+.input_text{
+  float: center; 
+  margin-right: auto; 
+  font-size: 20px;
+  font-weight: bold;
+}
+#id_reasons{
+  max-width: 450px;
+  border: 2px solid #000;
+  height: 300px;
+  border-radius: 8px;
+  font-size: 25px;
+  margin-left: auto;
+}
   </style>
 
   <div class="fac">
     <button type="submit" class="buttonF">Refer a Student</button>
   </div> 
   <br> <br>
-<div class="homeCard">
+<!-- <div class="homeCard"> -->
   <form class="reffer" method="POST" action="">
     {% csrf_token %}
   
 <br> 
-       <h3 style="font-weight: bold; text-align: center;" class="txtColor">&nbsp; &nbsp;  <i>To proceed with Referring a student, kindly input the following details.</i></h3>
+       <h3 style="font-weight: bold; text-align: center; font-size: 25px;" class="txtColor">&nbsp; &nbsp;  <i> To proceed with Referring a student, kindly input the following details.</i></h3>
 &nbsp;
-        <div class="facers">
+        <div class="parent_message">
           {% for message in messages %}
-     <p class="buttonFed">{{message}} !</p>
+     <p class="message"><b>{{message}} !</b></p>
      {% endfor %}
     </div>
-          <TABLE class="center" style="margin-left: 100px;">
-<TR>
-<TD><label class="txtFont"><b>Input Student ID:</b></label></TD>
-<TD><label style="margin-right: auto;">{{form1.studnumber}}</label></TD>
-</TR>
-<TR>
-<TD><label class="txtFont"><b>First Name:</b></label></TD>
-<TD><label style="margin-right: auto;">{{form1.firstname}}</label></TD>
-</TR>
-<TR>
-<TD><label class="txtFont"><b>Last Name:</b></label></TD>
-<TD><label style="margin-right: auto;">{{form1.lastname}}</label></TD>
-</TR>
-<TR>
-<TD><label class="txtFont"><b>Subject Reffered:</b></label></TD>
-<TD><label style="margin-right: auto;">{{form1.subject_referred}}</label></TD>
-
-</TR>
- 
-<TR>
-<TD><label class="txtFont"><b>Behavioral Problem:</b></label></TD>
-<TD><label style="margin-right: auto;">{{form1.behavior_problem}}</label></TD>
-</TR> 
-
-</TABLE>
 
 
-<div class="column">
-  <div class="row">     
-    
-  &nbsp;    &nbsp;
+<div class="parent_form">
+  <div class="first_form_column">
+
+              <div class="column">
+                <p class="pText"><b class="bText"></b>{{form1.firstname}} First Name</p> 
+                <p class="pText"><b class="bText" ></b>{{form1.lastname}} Last Name</p> 
+            
+              </div>
   
-     <i><h4 style="float: center; margin-left: 100px; font-size: large;" >Input&nbsp;Additional&nbsp;Information:</h4> </i>
+</div>
+<div class="second_form_column">
+            <div class="column">
+           
+                <p class="pText"><b class="bText"></b>{{form1.studnumber}} Student ID</p>
+                <p class="pText"><b class="bText"></b>{{form1.subject_referred}} Subject Reffered</p>                
+       
+             
+              </div>
+</div>
+</div>
+<br>
+<div class="parent_checkbox">
+           <p class="pText"><b class="bText"></b><i>Select a Behavioral Problem:</i></p>
+                <p class="pText"><b class="bText"></b>{{form1.behavior_problem}}</p>
+</div>
+
+
+<div class="parent_input">
+     <i><p class="input_text">Input&nbsp;Additional&nbsp;Information:</p></i>
      {{form1.reasons}}
      <br> <br>
-    <button class="buttons" style="font-weight: bold;  color: #454545;">Submit</button>
-   
+    <button class="button" style="font-weight: bold; color: #454545;">Submit</button>
+   <br> <br>
   </div>
-  </div>
+
   <br>
 
+
 </form>
-</div>
+<!-- </div> -->
 
  
       

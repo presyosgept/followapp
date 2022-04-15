@@ -5,15 +5,6 @@ from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 
-class MyTable(models.Model):
-    class Meta:
-        unique_together = (('key1', 'key2', 'key3'))
-
-    key1 = models.CharField(max_length=220)
-    key2 = models.CharField(max_length=220)
-    key3 = models.CharField(max_length=220)
-
-
 class SchoolOffices(models.Model):
     #school_id = models.CharField(max_length=15, primary_key=True)
     school_code = models.CharField(max_length=220, primary_key=True)
@@ -119,39 +110,12 @@ class Offering(models.Model):
 
 
 class DepaChoice(models.Model):
-    DEPA_CHOICE = (('Department of Language and Literature', 'Department of Language and Literature'),
-                   ('Department of Social Sciences and Philosophy',
-                    'Department of Social Sciences and Philosophy'),
-                   ('Department of Mathematics and Sciences',
-                    'Department of Mathematics and Sciences'),
-                   ('Department of Journalism and Communication',
-                    'Department of Journalism and Communication'),
-                   ('Department of Psychology and Library Information Science',
-                    'Department of Psychology and Library Information Science'),
-                   ('Department of Accountancy and Finance',
-                    'Department of Accountancy and Finance'),
-                   ('Department of Business and Entrepreneurship',
-                    'Department of Business and Entrepreneurship'),
-                   ('Department of Marketing and Human Resource Management',
-                    'Department of Marketing and Human Resource Management'),
-                   ('Department of Computer Science and Information Technology',
-                    'Department of Computer Science and Information Technology'),
-                   ('Student Development and Placement Center',
-                    'Student Development and Placement Center'),
-                   ('Center for Religious Education',
-                    'Center for Religious Education'),
-                   ('Safety and Security Department',
-                    'Safety and Security Department'),
-                   ('Department of Education', 'Department of Education'))
-    depa_choice = models.CharField(max_length=220, choices=DEPA_CHOICE,
-                                   default='Department of Language and Literature', null=False, blank=False)
-
-
-class AllSubject(models.Model):
-    subject_code = models.CharField(max_length=225, primary_key=True)
-    subject_title = models.CharField(max_length=220)
-    units = models.CharField(max_length=220)
-    department_id = models.ForeignKey(NewDepartment, on_delete=models.CASCADE)
+    qs = NewDepartment.objects.all()
+    qs_code = []
+    for obj in qs:
+        qs_code.append([obj.department_name, obj.department_name])
+    depa_choice = models.CharField(
+        max_length=220, choices=qs_code, null=False, blank=False)
 
 
 class Subject(models.Model):
@@ -170,7 +134,7 @@ class SubjectWithSem(models.Model):
     id = models.CharField(max_length=225, primary_key=True)
     offer_code = models.CharField(max_length=225)
     sem_id = models.ForeignKey(Semester, on_delete=models.CASCADE)
-    subject_code = models.ForeignKey(AllSubject, on_delete=models.CASCADE)
+    subject_code = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
 
 class Facultyload(models.Model):
@@ -201,14 +165,11 @@ class TeachersReferral(models.Model):
     start_time = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)
-
     status = models.CharField(
         max_length=220, blank=True, null=True, default='pending')
     BEHAVIOR_PROBLEM = (('CHEATING', 'CHEATING'),
                         ('TARDINESS', 'TARDINESS'), ('DISRESPECTFUL', 'DISRESPECTFUL'),
-                        ('ATTITUDE', 'ATTITUDE'), ('USING GADGETS IN CLASS',
-                                                   'USING GADGETS IN CLASS'),
-                        ('GRUBBING', 'GRUBBING'), ('OTHERS', 'OTHERS'))
+                        ('BAD ATTITUDE', 'BAD ATTITUDE'), ('OTHERS', 'OTHERS'))
     behavior_problem = MultiSelectField(
         max_length=220, choices=BEHAVIOR_PROBLEM, null=True, blank=True)
     feedback = models.CharField(max_length=10000, blank=True, null=True)

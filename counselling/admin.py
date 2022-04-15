@@ -3,26 +3,21 @@ from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 from .models import StudentInfo, AccountsApi, Facultyload, Faculty, NotificationFeedback, Notification, TeachersReferral, SubjectOffered, Studentsload, Counselor, Calendar
-from .models import NewDepartment, DepaChoice, Offering, StudentSetSched, CounselorFeedback, MyTable, SubjectWithSem, Semester, Subject, OfferCode, AccountCreated, SchoolOffices, DegreeProgram, AllStudent
+from .models import NewDepartment, DepaChoice, Offering, StudentSetSched, CounselorFeedback, SubjectWithSem, Semester, Subject, OfferCode, AccountCreated, SchoolOffices, DegreeProgram, AllStudent
 
 admin.site.register(StudentInfo)
 admin.site.register(StudentSetSched)
 admin.site.register(Offering)
 admin.site.register(DepaChoice)
 admin.site.register(Calendar)
-admin.site.register(CounselorFeedback)
 admin.site.register(NewDepartment)
+
+
+admin.site.register(CounselorFeedback)
 
 
 class CounselorFeedbackAdmin(ImportExportModelAdmin):
     list_display = ('feedback', 'remarks')
-
-
-admin.site.register(MyTable)
-
-
-class MyTableAdmin(ImportExportModelAdmin):
-    list_display = ('key1', 'key2', 'key3')
 
 
 admin.site.register(Facultyload)
@@ -47,13 +42,6 @@ class SemesterAdmin(ImportExportModelAdmin):
 
 
 admin.site.register(Subject)
-
-
-class AllSubjectAdmin(ImportExportModelAdmin):
-    list_display = ('subject_code', 'subject_title', 'units', 'department_id')
-
-
-admin.site.register(OfferCode)
 
 
 class OfferCodeAdmin(ImportExportModelAdmin):

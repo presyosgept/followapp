@@ -1,7 +1,7 @@
 {% extends "admin/admin_home.html" %}
 
 {% block title %} 
-View Offer
+View Department
 {% endblock %} 
 
 
@@ -143,56 +143,49 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-
-  }
-  .parent_tr{
-     font-size: 17px;
-  }
-.parent_td{
+}
+.program{
+  font-size: 16px;
+  color: #000000;
+  
+}
+.list{
+  font-size: 18px;
+}
+.parent_program{
  text-align: left; border: solid 1px #DDEEEE;
 color: #333;
 padding: 10px;
 text-shadow: 1px 1px 1px #fff;
 }
+    tr:hover {
+          background-color: #E6E4E4;
+        }
 </style>
-    
 
 <div class="fac">
-    <button type="submit" class="buttonF">List of Offerings</button>
+    <button type="submit" class="buttonF">Departments</button>
   </div> 
   <br> <br>
 <div class="table-wrapper">
   <table class="fl-table">
       <thead>
       <tr>
-          <th class="parent_tr">Offer Code</th>
-          <th class="parent_tr">Days</th>
-          <th class="parent_tr">Time</th>
-          <th class="parent_tr">Room</th>
-          <th class="parent_tr">Subject Code</th>
-          <th class="parent_tr">Academic Year</th>
+            <th class="list" >Program Code</th>
+          <th class="list"  style="text-align: left; margin: 100px">List of Departments</th>
       </tr>
       </thead>
-      {% for form in forms %}
+      {% for form in degree %}
       <tbody>
       <tr>
-          <td style="font-size: 16px;" class="parent_td">{{form.offer_code}}</td>
-          <td style="font-size: 16px;" class="parent_td">{{form.days}}</td>
-          <td style="font-size: 16px;" class="parent_td">{{form.start_time}} - {{form.end_time}} </td>
-          <td style="font-size: 16px;" class="parent_td">{{form.room}}</td>
-          <td style="font-size: 16px;" class="parent_td">{{form.subject_code}}</td>
-          <td style="font-size: 16px;" class="parent_td">{{form.academic_year}}</td>
-        
+          <td class="parent_program" style="font-size: 15px;" ><b>{{form.program_code}}</b></td> 
+          <td class="parent_program" style="text-align: left;" ><a href="{% url 'view_enrolled_students' form.program_id %}" class="program"> {{form.program_name}} </a></td>
       </tr>
-      <tbody>
+    </tbody>
         {% endfor %}
   </table>
-  {% if not forms %}
-<center><p><b>No Data Available</b></p></center>
-{% endif %}
 </div>
 
 
-
-
 {% endblock %}
+

@@ -101,8 +101,8 @@ class StudentSetSchedForm(forms.ModelForm):
         fields = ['studnumber', 'firstname', 'lastname',  'reasons']
 
 
-STATUS_CHOICES = (('--', '--'), ('all', 'all'), ('done', 'done'),
-                  ('pending', 'pending'))
+STATUS_CHOICES = (('--', '--'), ('all', 'All'), ('done', 'Done'),
+                  ('pending', 'Pending'))
 
 
 class FilterForm(forms.Form):
