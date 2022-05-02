@@ -18,7 +18,7 @@
 /*========== VARIABLES CSS ==========*/
 :root {
   --header-height: 3.5rem;
-  --nav-width: 250px;
+  --nav-width: 259px;
 
   /*========== Colors ==========*/
  --first-color: #4863A0;
@@ -114,7 +114,7 @@ img {
   color: var(--title-color);
   font-weight: var(--font-medium);
   display: none;
-  font-size: 23px;
+  font-size: 21px;
 }
 
 .header__search {
@@ -216,7 +216,7 @@ img {
 }
 
 .nav__name {
-  font-size: var(--small-font-size);
+  font-size: var(--normal-font-size);
   font-weight: var(--font-medium);
   white-space: nowrap;
 }
@@ -245,7 +245,7 @@ img {
 }
 
 .nav__dropdown-item {
-  font-size: var(--smaller-font-size);
+  font-size: var(--small-font-size);
   font-weight: var(--font-medium);
   color: var(--navtext-color);
 }
@@ -323,7 +323,7 @@ img {
   .nav {
     left: 0;
     padding: 1.2rem 1.5rem 0;
-    width: 68px; /* Reduced navbar */
+    width: 69px; /* Reduced navbar */
   }
   .nav__items {
     row-gap: 1.7rem;
@@ -333,7 +333,9 @@ img {
   }
 
   /* Element opacity */
-  .nav__logo-name, 
+  .nav__logo-name {
+    font-size: 20px;
+  }
   .nav__name, 
   .nav__subtitle, 
   .nav__dropdown-icon {
@@ -553,17 +555,22 @@ margin-left: 100px; */
     </head>
     <body>
         <!--========== HEADER ==========-->
-        <header class="header">
+        <!-- <header class="header">
             <div class="header__container">
                 <img style="height:50px; " src="https://1.bp.blogspot.com/-zssvz_H77as/YSdIaUUbIbI/AAAAAAAAAf0/xhPKHM0G8dczMa5vP7MPCZvNVeZQkpKgACLcBGAsYHQ/w945-h600-p-k-no-nu/logo3.png"></img>
-                <a style="font-weight: bold;margin-right:  auto; color: #FFFFFF;  font-family: 'Sawarabi Gothic', serif; 
-                letter-spacing: 2px;" 
-                href="{% url 'admin_home_view' %}" class="header__logo">FOLLOW APP</a>
+                <a style="font-weight: bold; margin-right:  auto; color: #FFFFFF; " href="{% url 'admin_home_view' %}"  class="header__logo">FOLLOW APP</a>
     
                 <div class="header__toggle">
                     <i class='bx bx-menu' id="header-toggle"></i>
                 </div>
             </div>
+        </header> -->
+
+            <header class="header">
+            <div class="header__container">
+                <img style="height:50px; " src="https://1.bp.blogspot.com/-zssvz_H77as/YSdIaUUbIbI/AAAAAAAAAf0/xhPKHM0G8dczMa5vP7MPCZvNVeZQkpKgACLcBGAsYHQ/w945-h600-p-k-no-nu/logo3.png"></img>
+                <a style="font-weight: bold; margin-right:  auto; color: #FFFFFF; " href="{% url 'admin_home_view' %}"   class="header__logo">FOLLOW APP</a>
+              </div>
         </header>
 
         <!--========== NAV ==========-->
@@ -641,6 +648,7 @@ margin-left: 100px; */
                                     <a href="{% url 'uploaddb_allsubjects' %}" class="nav__dropdown-item">Upload All Subjects</a>
                                     <a href="{% url 'uploaddb_semester' %}" class="nav__dropdown-item">Upload Semester</a>
                                     <a href="{% url 'uploaddb_counselor' %}" class="nav__dropdown-item">Upload Counselor</a>
+                                    <a href="{% url 'upload_time' %}" class="nav__dropdown-item">Upload Time</a>
 
                                 </div>  
                             </div>

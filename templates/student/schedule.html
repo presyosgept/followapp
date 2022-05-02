@@ -55,8 +55,8 @@ margin-bottom:15px;
 #id_reasons{
   margin-left: auto;
   margin-right: auto;
-  width: 1010px;
-    height: 200px;
+  width: 55vw;
+    height: 37vh;
     overflow-y: scroll;
 }
 #id_studnumber{
@@ -105,7 +105,7 @@ font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 45px;
@@ -131,7 +131,7 @@ font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 8px;
@@ -198,7 +198,7 @@ outline: none;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 80%;
-  height: 660px;
+  height: 730px;
   border-radius: 5px;
   background-color: var(--container-color); 
   float: center;
@@ -208,6 +208,9 @@ outline: none;
   margin-left: auto;
   text-align: center;
   overflow-y: scroll;
+}
+.schedule-intro{
+  font-size: 18px;
 }
 </style>
   <div class="fac">
@@ -232,11 +235,16 @@ outline: none;
           <p class="pText"><b class="bText" >Student's First Name: &nbsp;</b> {{schedform.firstname}}</p> 
 </div> -->
 
-         pangitag encouraging essay or wuootes nga mabutang nimo diri nga maakit nimo si stsudent
-         nga mo open up kang counselor
+<div class="schedule-intro">
+  Do you feel like sharing but doesn’t know where and whom to open up?
+Know that there are people who are always willing to listen to your problems. <br>Do not be afraid to open up because your COUNSELORS are just behind you. <br>
+	<br><b>SET YOUR SCHEDULE FOR FREE COUNSELING</b>
+	<br><b>ALWAYS REMEMBER, YOU ARE HEARD.</b>
+</div>
+<br>
       <form method="POST" action=""> 
             {% csrf_token %}
-           <i><h4 style="font-size: 16px; color: #4C4646;" >Input the Reasons below to Set a Schedule for Referral:</h4> </i>
+           <i><h4 style="font-size: 18px; color: #4C4646; float: left; margin-left: 9.6em;" >Input the Reasons below to Set a Schedule for Referral:</h4> </i>
            {{schedform.reasons}}
            <br> <br>
     <div class="wrap">

@@ -333,7 +333,7 @@ font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 8px;
@@ -484,7 +484,16 @@ outline: none;
     </div>    
 
        {% else %}
-       walay pay feedback siztt pag huwat
+       <br>
+                  <div>
+               <h3 style="text-align: justify; margin-left:8px; font-size: 20px;"><i>No Feedback Available</i></h3>
+    <p class="rowText">
+      <i>---</i>
+    <div class="scroll-box">
+<p class="Pbox" style="text-align: justify; margin-left:8px;"><b> {{object.feedback}}</b></p>
+</div>
+    </p>
+    </div>   
        {% endif %}
     </form>
 </div>

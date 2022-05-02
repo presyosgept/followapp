@@ -172,12 +172,14 @@ td.text-right {
 
 </style>
     <div class="fac">
-    <button type="submit" class="buttonF">List of Students</button>
+    <button type="submit" class="buttonF">List of Students </button>
   </div> 
   <br> <br>
-            {% if not object_list %}
-            No Enrolled Students Yet!
-        {% endif %}
+            <div style="padding: 2px;">
+      {% if not object_list %}
+<center><p style="font-size: 18px;"><b>No Data Available</b></p></center>
+         {% endif %}  
+  </div>
         <br>
 
 <br>

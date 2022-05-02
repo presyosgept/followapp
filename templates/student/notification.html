@@ -3,6 +3,7 @@
 Notifications
 {% endblock %} 
 {% block content %}
+
 <style>
        .card{
       display: flex;
@@ -48,8 +49,7 @@ Notifications
 /* === TABLE ==== */
 .table-box
 {
-    margin: 15px auto;
-    
+    margin: 50px auto;
 }
 
 .table-row{
@@ -76,7 +76,6 @@ Notifications
     line-height: 5px;
     box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
     justify-content: left;
-    margin: auto;
  
 }
 .table-head .table-cell{
@@ -85,10 +84,12 @@ Notifications
 .table-cell{
     display: table-cell;
     width: 3.33%;
-    text-align: center;
+
     padding: 4px 0;
-    border-right: 1px solid #d8c090;
+    /* border-right: 1px solid #d8c090; */
+     border-collapse: collapse;
     vertical-align: middle;
+ 
     
 }
 .first-cell{
@@ -128,7 +129,12 @@ p{
     color: #d8c090;
     font-size: 15px;
     box-shadow: 0 1px 4px 0px rgba(0,0,50,0.3);
-    line-height: 5px;
+    line-height: 10px;
+}
+.table-box
+{
+    margin: 16px auto;
+    
 }
     #customers {
       font-family: Arial, Helvetica, sans-serif;
@@ -138,10 +144,10 @@ p{
     
     #customers td, #customers th {
       border: 1px solid #ddd;
-      padding: 10px;
+      padding: 20px;
     }
     
-    #customers tr:nth-child(even){background-color: #f2f2f2;}
+
     
     #customers tr:hover {background-color: #ddd;}
     
@@ -152,24 +158,24 @@ p{
       background-color: #E3E4FA;
       color: white;
     }
+
     .fac{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
 }
 
 .buttonF {
-  position: fixed;
-width: 100%;
-min-width: 1320px;
-height: 60px;
+width: 420px;
+height: 55px;
 font-family: 'Roboto', sans-serif;
 font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 8px;
@@ -177,12 +183,36 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-  }
+}
+.fac{
 
+display: flex;
+align-items: center;
+justify-content: center;
 
+}
 
+.buttonF {
+  position: fixed;
+
+width: 100%;
+min-width: 1320px;
+height: 60px;
+font-family: 'Roboto', sans-serif;
+font-size: 16px;
+text-transform: uppercase;
+letter-spacing: 2.5px;
+font-weight: 600;
+color: #000;
+background-color: #d8c090;
+border: none;
+border-radius: 8px;
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease 0s;
+cursor: pointer;
+outline: none;
+}
 </style>
-
 
         <div class="fac">
           <button class="buttonF">Notifications</button>
@@ -192,7 +222,7 @@ outline: none;
 <center><p><b>No Notifications Yet!</b></p></center>
 
     {% endif %}
-<br>
+<br> <br>
 <table id="customers">
   
 

@@ -7,9 +7,6 @@ Schedule
 {% block content %} 
 
 <style>
-
-
-  
   tr {
     border-top: 1px solid #C1C3D1;
     border-bottom: 1px solid #C1C3D1;
@@ -21,7 +18,7 @@ Schedule
   }
    
   tr:hover td {
-    background:#4863A0;
+    background:whitesmoke;
     color:#4863A0;
     border-top: 1px solid #4863A0;
   }
@@ -35,7 +32,7 @@ Schedule
   }
    
   tr:nth-child(odd) td {
-    background:#EBEBEB;
+    background: #ffff;
   }
    
   tr:nth-child(odd):hover td {
@@ -201,6 +198,7 @@ Schedule
       border-right: 1px solid #f8f8f8;
       font-size: 12px;
   }
+    /* //pang linya collor */
   
   .fl-table thead th {
       color: #ffffff;
@@ -291,6 +289,7 @@ text-align: center;
 
 text-align: center;
 margin-right: 20px;
+font-size: 18px;
 }
 
   
@@ -311,43 +310,72 @@ margin-right: 20px;
       </form>
        <br> 
 
-<div class="table-wrapper">
-   
-  <table class="fl-table">
-    <thead>
-    <tr>
-        <th>Time</th>
-        <th>Action</th>
-        <th>Subject Code</th>
-        <th>Information</th>
-    </tr>
-    </thead>
-    {% for obj in time %}
-    <tbody>
-        <tr>
-            {% if forloop.counter0|divisibleby:2 %}
-            <td style="font-size: 16px;">{{obj}}
-                {% endif %}
-            </td>
-            {% if forloop.counter0|divisibleby:2 == 0 %}
-            <td>  </td>
-            {% endif %} 
-            {% for object in schedForToday %}
-            {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
-            <td style="font-size: 16px;">{{object.choice}}</td>
-            <td style="font-size: 16px;">{{object.subject_code}} - {{object.offer_code}}</td> 
-            {% if object.choice|stringformat:"s" == "Class" %} 
-        {% else %} 
-  <td data-label="Info" style="font-size: 15px;"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
+
+                 <div class="table-wrapper">
+          <table class="fl-table">
+              <thead>
+              <tr>
+                <th class="table_head">Schedule Time</th>
+                <th class="table_head">Activities</th>
+                <th class="table_head">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+                 {% for obj in time %}
+              <tr>
+                  <td style="font-size: 16px;" class="parent_program">{{obj.time1|safe}} - {{obj.time2|safe}}</td>
+                  {% for object in schedForToday %}
+                              {% if obj.time1|safe > object.start_time|safe or obj.time1|safe == object.start_time|safe  %}
+                {% if obj.time2|safe  < object.end_time|safe or obj.time2|safe  == object.end_time|safe  %}
+                  <td style="font-size: 16px;" class="parent_program">{{object.choice}} {{object.subject_code}} {{object.offer_code}}</td>
+                       {% if object.choice|stringformat:"s" == "Class" %} 
+                              {% elif object.choice|stringformat:"s" == "Counseling" %} 
+                  <td style="font-size: 16px;" class="parent_program"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View Information</b></a></td>
+                      {% else %} 
+                              {% endif %} 
+                        {% else %} 
+                {% endif %} 
+             {% endif %} 
+
+       {% endfor %}
+
+  {% endfor %}
+              </tr>
+              <tbody>
+          </table>  
+        </div>
+
   
-  {% endif %} 
-        </tr>
-    <tbody>
-        {% endif %} 
-        {%endfor %}
-        {%endfor %}
-</table>
-</div>
+        <!-- LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST -->
+<!-- <div class="table-wrapper">
+  <br><br>
+
+
+</table> 
+  {% for obj in time %}
+     td  display time {{obj.time1|safe}} - {{obj.time2|safe}} <br>
+       {% for object in schedForToday %}
+            {% if obj.time1|safe > object.start_time|safe or obj.time1|safe == object.start_time|safe  %}
+                {% if obj.time2|safe  < object.end_time|safe or obj.time2|safe  == object.end_time|safe  %}
+                      td equaaal {{object.choice}} {{object.subject_code}} - {{object.offer_code}} {{object.start_time|safe}} -- {{object.end_time|safe}} <br>
+                              {% if object.choice|stringformat:"s" == "Class" %} 
+                              {% elif object.choice|stringformat:"s" == "Counseling" %} 
+                                td <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br>
+                              {% else %} 
+                              {% endif %} 
+                        {% else %} 
+                {% endif %} 
+             {% endif %} 
+
+       {%endfor %}
+
+  {%endfor %}
+  <br><br><br>
+
+
+</div> -->
     <br>
 
 {% endblock %}
+
+

@@ -37,13 +37,13 @@ from counselling.views import(
     upload_studentsload,
     admin_offering,
     admin_view_offering,
-    admin_department_choice,
     view_schooloffices,
     view_department,
     add_department,
     offercode,
     view_enrolled_students_via_degree,
     view_enrolled_students,
+    upload_time,
 
     # teacher
     teacher_home_view,
@@ -71,6 +71,7 @@ from counselling.views import(
     counselor_view_feedback,
     counselor_view_detail_feedback,
     counselor_view_another_feedback,
+    counselor_set_schedule,
 
 
     # director
@@ -83,8 +84,11 @@ from counselling.views import(
     view_another_stats,
     view_another_stat_specific_counselor,
     director_offering,
-    director_department_choice,
     director_view_offering,
+    director_degree_program,
+    view_stat_by_degree_program,
+    director_counselor,
+    view_stat_by_counselor,
 
     # student
     student_add_info,
@@ -161,13 +165,13 @@ urlpatterns = [
     path('admin/upload_faculty', upload_faculty, name="upload_faculty"),
     path('admin/upload_facultyload', upload_facultyload, name="upload_facultyload"),
     path('admin/upload_students', upload_students, name="upload_students"),
+    path('admin/upload_time',
+         upload_time, name="upload_time"),
     path('admin/upload_studentsload',
          upload_studentsload, name="upload_studentsload"),
     path('admin/admin_offering', admin_offering, name="admin_offering"),
     path('admin/admin_view_offering',
          admin_view_offering, name="admin_view_offering"),
-    path('admin/admin_department_choice',
-         admin_department_choice, name="admin_department_choice"),
     path('admin/view_schooloffices',
          view_schooloffices, name="view_schooloffices"),
     path('admin/view_department',
@@ -232,6 +236,8 @@ urlpatterns = [
          counselor_view_another_sched, name='counselor_view_another_sched'),
     path('counselor/counselor_view_another_feedback',
          counselor_view_another_feedback, name='counselor_view_another_feedback'),
+    path('counselor/counselor_set_schedule',
+         counselor_set_schedule, name='counselor_set_schedule'),
 
 
     # student
@@ -249,7 +255,8 @@ urlpatterns = [
     path('student/student_view_another_sched',
          student_view_another_sched, name='student_view_another_sched'),
     path('student/student_history', student_history, name="student_history"),
-    path('student/student_edit_profile_view', student_edit_profile_view, name="student_edit_profile_view"),
+    path('student/student_edit_profile_view',
+         student_edit_profile_view, name="student_edit_profile_view"),
 
 
 
@@ -273,8 +280,15 @@ urlpatterns = [
          director_offering, name="director_offering"),
     path('director/director_view_offering',
          director_view_offering, name="director_view_offering"),
-    path('director/director_department_choice',
-         director_department_choice, name="director_department_choice"),
+      path('director/director_degree_program',
+         director_degree_program, name="director_degree_program"),
+path('director/view_stat_by_degree_program/<str:degree>', view_stat_by_degree_program,
+         name="view_stat_by_degree_program"),
+         path('director/director_counselor', director_counselor,
+         name="director_counselor"),
+         path('director/view_stat_by_counselor/<str:id>', view_stat_by_counselor,
+         name="view_stat_by_counselor"),
 
+         
     path('admin/', admin.site.urls),
 ]

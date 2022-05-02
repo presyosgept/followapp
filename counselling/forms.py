@@ -1,6 +1,6 @@
 from multiselectfield import MultiSelectFormField
 from django.forms.widgets import CheckboxSelectMultiple
-from .models import DegreeProgram, NewDepartment, SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering, DepaChoice
+from .models import SetScheduleCounselor, DegreeProgram, NewDepartment, SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
@@ -39,12 +39,6 @@ class StudentInfoForm(forms.ModelForm):
 class DateForm(forms.Form):
     start_date = forms.DateField(widget=DateInput())
     end_date = forms.DateField(widget=DateInput())
-
-
-class DepaChoiceForm(forms.ModelForm):
-    class Meta:
-        model = DepaChoice
-        fields = '__all__'
 
 
 class OfferingForm(forms.ModelForm):
@@ -218,14 +212,6 @@ class CounselorForm(forms.ModelForm):
                   'lastname', 'program_designation']
 
 
-# class DateForm(forms.Form):
-#     date = forms.DateTimeField(
-#         input_formats=['%m/%d/%Y %H:%M'],
-#         widget=forms.DateTimeInput(attrs={
-#             'class': 'form-control datetimepicker-input',
-#             'data-target': '#datetimepicker1'
-#         })
-#     )
 class DateInput(forms.DateInput):
     input_type = 'date'
 
@@ -237,6 +223,36 @@ class CalendarForm(forms.ModelForm):
 
         widgets = {
             'pickedDate': DateInput(format='%m/%d/%Y'),
+        }
+
+
+TIME = (('--', '--'),
+        ('7:00', '7:00 A.M.'), ('7:30', '7:30 A.M.'),
+        ('8:00', '8:00 A.M.'), ('8:30', '8:30 A.M.'),
+        ('9:00', '9:00 A.M.'), ('9:30', '9:30 A.M.'),
+        ('10:00', '10:00 A.M.'), ('10:30', '10:30 A.M.'),
+        ('11:00', '11:00 A.M.'), ('11:30', '11:30 A.M.'),
+        ('12:00', '12:00 P.M.'), ('12:30', '12:30 P.M.'),
+        ('13:00', '1:00 P.M.'), ('13:30', '1:30 P.M.'),
+        ('14:00', '2:00 P.M.'), ('14:30', '2:30 P.M.'),
+        ('15:00', '3:00 P.M.'), ('15:30', '3:30 P.M.'),
+        ('16:00', '4:00 P.M.'), ('16:30', '4:30 P.M.'),
+        ('17:00', '5:00 P.M.'), ('17:30', '5:30 P.M.'))
+
+
+class SetScheduleCounselorForm(forms.ModelForm):
+    start_time = forms.CharField(widget=forms.Select(
+        choices=TIME))
+    end_time = forms.CharField(widget=forms.Select(
+        choices=TIME))
+
+    class Meta:
+        model = SetScheduleCounselor
+        fields = ['employee_id', 'date',
+                  'start_time', 'end_time']
+
+        widgets = {
+            'date': DateInput(format='%Y-%m-%d'),
         }
 
 

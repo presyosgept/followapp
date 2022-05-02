@@ -9,13 +9,12 @@ Schedule
 .offering{
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 600px;
-  height: 300px;
+  width: 50vw;
+  height: 50vh;
   border-radius: 5px;
   background-color: #98b4ac;
   float: center;
-margin: auto;
-  text-align: center;
+  margin: auto;
    line-height: 40px; 
 }
 #id_semester{
@@ -57,10 +56,10 @@ margin: auto;
 }
 
 .button {
-  width: 140px;
-  height: 30px;
+  width: 10vw;
+  height: 32px;
   font-family: 'Roboto', sans-serif;
-  font-size: 11px;
+  font-size: 12.5px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500;
@@ -102,7 +101,7 @@ font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 8px;
@@ -110,42 +109,85 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 transition: all 0.3s ease 0s;
 cursor: pointer;
 outline: none;
-
   }
+.pText{
+  font-size: 22px;
+}
+.bText{}
+
+#id_semester{
+  width: 20vw;
+  height: 3vh;
+  font-size: 15px;
+}
+#id_school_year{
+  width: 20vw;
+  height: 3vh;
+  font-size: 15px;
+}
+#id_depa_choice{
+  width: 20vw;
+  height: 3vh;
+  font-size: 15px;
+}
+.parent_input{
+  display: flex;
+  flex-direction: row;
+  margin-left: 2.3rem;
+}
+.semester_input{
+  display: flex;
+  flex-direction: column;
+}
+.syear_input{
+  display: flex;
+  flex-direction: column;
+}
+.introduction{
+  font-size: 19px;
+}
   </style>
 
 <div class="fac">
 
   <button type="submit" class="buttonF"><b>View Offering</b></button>
 </div> 
-<br> <br> 
+<br> <br>
+<div class="introduction"> 
+  <i><h3>To view the Offering, select a semester, year and department.</h3></i>
+</div>
+<br> <br>
 <div class="offering">
   <form method="POST" action="">
     {% csrf_token %}
+
     
-    <div class="column">
-      <div class="row"> 
+<div class="parent_input">
+      <div class="semester_input">
+
         <p class="pText"><b class="bText">Choose Semester: &nbsp;</b> {{form.semester}}</p>
+        <p class="pText"><b class="bText">Choose Department: &nbsp;</b>{{form.depa_choice}}</p>
+
+      </div>
+          <div class="syear_input">
+  
         <p class="pText"><b class="bText">School Year: &nbsp;</b>  {{form.school_year}}</p>
-        &nbsp;    &nbsp;   
+
       </div>
-     
-      </div>
-    <br> <br> 
-    <div class="column1">
-      <div class="row1"> 
+</div>
+<br> <br> <br>
+<div class="submit_button">
         <div class="wrap">
-          <button type="submit" class="button">Submit</button>
+          <button type="submit" class="button"><b>Submit</b></button>
         </div>
-      </div>
-     
-      </div>
-<br>
+</div>
+{% for message in messages %}
+  <center> <b><p>{{message}} !</p></b> </center>   
+                {% endfor %}
+
 </form>
 
-{% for message in messages %}
-                    <center> <b><p>{{message}} !</p></b> </center>   
-                {% endfor %}
+
   
                   
   </div>

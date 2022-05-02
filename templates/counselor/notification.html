@@ -145,7 +145,7 @@ p{
       padding: 20px;
     }
     
-    #customers tr:nth-child(even){background-color: #f2f2f2;}
+
     
     #customers tr:hover {background-color: #ddd;}
     
@@ -173,7 +173,7 @@ font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 8px;
@@ -201,7 +201,7 @@ font-size: 16px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 8px;
@@ -224,7 +224,7 @@ outline: none;
 <br> <br>
 <table id="customers">
      
-{% for notification in notifications reversed %}
+{% for notification in notifications %}
 
     {% if notification.notification_type == 'automatic_referral' %}
     <a href="#">

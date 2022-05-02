@@ -107,15 +107,12 @@ class Offering(models.Model):
                    ('2021-2022', '2021-2022'))
     school_year = models.CharField(
         max_length=220, choices=SCHOOL_YEAR, default='2021-2022',  null=False, blank=False)
-
-
-class DepaChoice(models.Model):
     qs = NewDepartment.objects.all()
     qs_code = []
     for obj in qs:
         qs_code.append([obj.department_name, obj.department_name])
-    depa_choice = models.CharField(
-        max_length=220, choices=qs_code, null=False, blank=False)
+    depa_choice = models.CharField(default='---',
+                                   max_length=220, choices=qs_code, null=False, blank=False)
 
 
 class Subject(models.Model):
@@ -211,7 +208,8 @@ class Counselor(models.Model):
     qs = DegreeProgram.objects.all()
     qs_code = []
     for obj in qs:
-        qs_code.append([obj.program_code, obj.program_code])
+        qs_code.append(
+            [obj.program_code, obj.program_code+' - '+obj.program_name])
     program_designation = MultiSelectField(
         max_length=220, choices=qs_code, null=True, blank=True)
 
@@ -260,3 +258,17 @@ class NotificationFeedback(models.Model):
 
 class Calendar(models.Model):
     pickedDate = models.DateField(null=True)
+
+
+class SetScheduleCounselor(models.Model):
+    employee_id = models.CharField(max_length=220, null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
+    start_time = models.TimeField(blank=True, null=True)
+    end_time = models.TimeField(blank=True, null=True)
+    choice = models.CharField(max_length=220, blank=True, null=True)
+
+
+class NewTime(models.Model):
+    time_id = models.CharField(max_length=220, primary_key=True)
+    time1 = models.TimeField()
+    time2 = models.TimeField()

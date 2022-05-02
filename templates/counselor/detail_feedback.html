@@ -34,13 +34,12 @@ Feedback
     text-align: justify;
     border: 2px solid black;
     border-radius: 15px;
-    box-shadow:
-      5 90px 50px rgba(0, 0, 0, 0.07);
-    min-width: 550px;
+    box-shadow: 5 90px 50px rgba(0, 0, 0, 0.07);
+    min-width: 90vw;
     min-height: 200px;
-  width: 100px;
-  text-overflow: ellipsis; 
-margin-left: 70px;
+    width: 100px;
+    text-overflow: ellipsis; 
+    align-items: left;
 
 }
 
@@ -263,9 +262,8 @@ margin-left: 70px;
   
 }
 .rowText{
-  font-size: 20px;
-
-  margin: 25px;
+  font-size: 24px;
+  margin: auto;
 }
 .image{
   max-width: 320px;
@@ -331,7 +329,7 @@ font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 8px;
@@ -394,11 +392,21 @@ outline: none;
   color: #fff;
   transform: translateY(-7px);
 }
+.feedback{
+align-items: center;
+display: inline-block;
+}
+.feedback_title{
+font-size: 23px;
+}
+.feedback_information{
+float: left;
+}
 
 </style>
 <br>
 <div class="fac">
-  <button type="submit" class="buttonF">Feedback Information</button>
+  <button type="submit" class="buttonF">Feedback</button>
 </div>
 <br> 
 
@@ -407,22 +415,26 @@ outline: none;
 <br> 
 
 <br>
-<div class="card1">
-  <form action="#" class="cleanForm" method="POST">
+<!-- <div class="card1"> -->
+  <!-- <form action="#" class="cleanForm" method="POST"> -->
     <br>
-             <div>
-               <h3 style="text-align: justify; margin-left:8px; font-size: 20px;"><i>The Feedback</i></h3>
-               <br> <br>
-    <p class="rowText"> 
-      <i>Feedback stated below:</i>
+                 <div class="feedback">
+              <div class="feedback_title"> <h3><i>Feedback Information of  &nbsp;{{object.lastname}}, {{object.firstname}} </i></h3></div>
+<div class="feedback_information">
+  <p class="rowText">
+  <br>
+       <br>
+     <br> <i>Feedback stated below:</i><br>
+     <br>
     <div id="box">
       <li class="Pbox" style="text-align: justify; margin-left:8px;"><b>{{object.feedback}}</b></li>
     </div>
     </p>
-    </div>    
-    </form>
-    
 </div>
+    </div>   
+    <!-- </form> -->
+    
+<!-- </div> -->
 
      {% endfor %}
 {% endblock %}

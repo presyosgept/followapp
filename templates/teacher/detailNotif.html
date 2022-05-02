@@ -27,21 +27,19 @@ Detail Notif
   }
   
   #box {
-      background: #f4f4f4;
+    background: #f4f4f4;
     height: 400px; 
     padding: 15px;
     overflow-y: scroll;
     text-align: justify;
     border: 2px solid black;
     border-radius: 15px;
-    box-shadow:
-      5 90px 50px rgba(0, 0, 0, 0.07);
-    min-width: 550px;
+    box-shadow: 5 90px 50px rgba(0, 0, 0, 0.07);
+    min-width: 90vw;
     min-height: 200px;
-
-  width: 100px;
-  text-overflow: ellipsis; 
-margin-left: 70px;
+    width: 100px;
+    text-overflow: ellipsis; 
+    align-items: left;
 
 }
 
@@ -264,9 +262,8 @@ margin-left: 70px;
   
 }
 .rowText{
-  font-size: 20px;
-
-  margin: 25px;
+  font-size: 25px;
+  margin: auto;
 }
 .image{
   max-width: 320px;
@@ -332,7 +329,7 @@ font-size: 15px;
 text-transform: uppercase;
 letter-spacing: 2.5px;
 font-weight: 600;
-color: #fff;
+color: #000;
 background-color: #d8c090;
 border: none;
 border-radius: 8px;
@@ -361,6 +358,10 @@ outline: none;
   .card1{
     width: 70%;
   }
+      .box{
+      display: flex;
+      flex-direction: column;
+    }
 }
 .wrap {
   height: 100%;
@@ -395,6 +396,22 @@ outline: none;
   color: #fff;
   transform: translateY(-7px);
 }
+.schedule_appointment{
+align-items: center;
+display: inline-block;
+}
+.schedule_title{
+font-size: 23px;
+}
+.schedule_information{
+float: left;
+}
+.students_info{
+color: black; font-size: 22px;
+text-align: justify; margin-left: 50px;
+line-height: 3rem;
+}
+
 
 </style>
 {% for object in objects %}
@@ -402,29 +419,28 @@ outline: none;
           <button type="submit" class="buttonF">Feedback of Referral</button>
         </div> 
 <br> <br> <br>
-<div class="card1">
-  <form action="#" class="cleanForm" method="POST">
-    <br>
-             <div style="text-align: center">
-               <h3 style="text-align: justify; margin-left: 16px; font-size: 20px;"><i>Feedback of the Referred Student</i></h3>
-          <br>
-                  <h3 style="text-align: justify; margin-left: 50px;"><p style="color: black; font-size: 18px;">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</p></h3>
-                 <h3 style="text-align: justify; margin-left: 50px;"><p style="color: black; font-size: 18px;">Degree Program: &nbsp;</b>{{object.degree_program}}</p></h3>  
 
-    <p class="rowText">
+
+                     <div class="schedule_appointment">
+              <div class="schedule_title"> <h3><i>Feedback of the Referred Student</i></h3></div>
+               <br> <br>
+<div class="schedule_information">
+  <div>
+                        <h3 class="students_info">Students Name: &nbsp;</b>{{object.lastname}}, {{object.firstname}}</h3>
+                 <h3 class="students_info">Degree Program: &nbsp;</b>{{object.degree_program}}</h3>  
+  </div>
+  <br> <br>
+      <p class="rowText">
       The feedback in <b>{{object.subject_referred}}</b> Subject is already assessed. <br> 
-      
-      <br>
-      <i>Feedback stated below:</i>
+       <br>
+     <br> <i>Feedback stated below:</i><br>
+     <br>
     <div id="box">
       <li class="Pbox" style="text-align: justify; margin-left:8px;"><b>{{object.feedback}}</b></li>
     </div>
     </p>
-    </div>    
-    </form>
-    
 </div>
-
+    </div>
            {% endfor %}
                
                

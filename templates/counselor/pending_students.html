@@ -39,7 +39,7 @@ Pending Referred Students
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 600;
-  color: #fff;
+  color: #000;
   background-color: #d8c090;
   border: none;
   border-radius: 8px;
@@ -167,6 +167,15 @@ Pending Referred Students
     .t-body{
     font-size: 20px;
   }
+    .parent_program{
+ text-align: left; border: solid 1px #DDEEEE;
+color: #333;
+padding: 10px;
+text-shadow: 1px 1px 1px #fff;
+}
+    tr:hover {
+          background-color: #E6E4E4;
+        }
   </style>
 
   <div class="table-cont">
@@ -188,11 +197,11 @@ Pending Referred Students
               {% for object in objects reversed %}
               <tbody>
               <tr>
-                  <td style="font-size: 16px;">{{object.studnumber}}</td>
-                  <td style="font-size: 16px;">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
-                  <td style="font-size: 16px;">{{object.date}}</td>
-                  <td style="font-size: 16px;">{{object.status|title}}</td>
-                  <td style="font-size: 16px;"><a href="{% url 'counselor_view_detail_referred_students' object.id  %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
+                  <td style="font-size: 16px;" class="parent_program">{{object.studnumber}}</td>
+                  <td style="font-size: 16px;" class="parent_program">{{object.lastname}}, &nbsp; {{object.firstname}}</td>
+                  <td style="font-size: 16px;" class="parent_program">{{object.date}}</td>
+                  <td style="font-size: 16px;" class="parent_program">{{object.status|title}}</td>
+                  <td style="font-size: 16px;" class="parent_program"><a href="{% url 'counselor_view_detail_referred_students' object.id  %}" style="color: black; font-weight: 550;"><b>View More Information</b></a></td>
                 
               </tr>
               <tbody>
@@ -200,7 +209,7 @@ Pending Referred Students
           </table>
 <div style="padding: 2px;">
   {% if not objects %}
-  <center><b><p>No Pending Referrals Yet!</p></b></center>
+  <center><b><p  style="font-size: 18px;">No Pending Referrals Yet!</p></b></center>
        {% endif %}
 </div>
         

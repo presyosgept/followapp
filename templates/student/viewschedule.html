@@ -130,7 +130,7 @@ Schedule
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 600;
-  color: #fff;
+  color: #000;
   background-color: #d8c090;
   border: none;
   border-radius: 8px;
@@ -328,7 +328,7 @@ margin-right: 20px;
                 {% endif %}
             </td>
             {% if forloop.counter0|divisibleby:2 == 0 %}
-            <td>  </td>
+            <td> ---  </td>
             {% endif %} 
             {% for object in schedForToday %}
             {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}

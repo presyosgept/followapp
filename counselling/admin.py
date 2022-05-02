@@ -3,12 +3,13 @@ from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 from .models import StudentInfo, AccountsApi, Facultyload, Faculty, NotificationFeedback, Notification, TeachersReferral, SubjectOffered, Studentsload, Counselor, Calendar
-from .models import NewDepartment, DepaChoice, Offering, StudentSetSched, CounselorFeedback, SubjectWithSem, Semester, Subject, OfferCode, AccountCreated, SchoolOffices, DegreeProgram, AllStudent
+from .models import NewTime, SetScheduleCounselor, NewDepartment, Offering, StudentSetSched, CounselorFeedback, SubjectWithSem, Semester, Subject, OfferCode, AccountCreated, SchoolOffices, DegreeProgram, AllStudent
 
+admin.site.register(NewTime)
+admin.site.register(SetScheduleCounselor)
 admin.site.register(StudentInfo)
 admin.site.register(StudentSetSched)
 admin.site.register(Offering)
-admin.site.register(DepaChoice)
 admin.site.register(Calendar)
 admin.site.register(NewDepartment)
 
@@ -41,7 +42,7 @@ class SemesterAdmin(ImportExportModelAdmin):
     list_display = ('sem_id', 'semester')
 
 
-admin.site.register(Subject)
+admin.site.register(OfferCode)
 
 
 class OfferCodeAdmin(ImportExportModelAdmin):
