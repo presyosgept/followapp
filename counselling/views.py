@@ -1917,7 +1917,7 @@ def counselor_set_schedule(request, *args, **kwargs):
             day_name = date.strftime("%a")
             if timeEnd <= timeStart:
                 # offer = SetScheduleCounselorForm(request.POST, initial={'employee_id': user, 'choice': 'Not Available'})
-                messages.info(request, 'sayop imong time')
+                messages.info(request, 'Conflict of Time')
             else:
                 OfferCodeCounselor = Facultyload.objects.filter(
                     employee_id=user)
@@ -1975,18 +1975,18 @@ def counselor_set_schedule(request, *args, **kwargs):
                                 newData.choice = 'Not Available'
                                 newData.save()
                                 # offer = SetScheduleCounselorForm(request.POST, initial={'employee_id': user, 'choice': 'Not Available'})
-                                messages.info(request, 'success')
+                                messages.info(request, 'Success')
                             else:
                                 messages.info(
-                                    request, 'ddi ka wede mag set kay naa kay klase ani')
+                                    request, 'Not Available Time')
 
                         else:
                             messages.info(
-                                request, 'ddi ka wede mag set kay naa kay klase ani')
+                                request, 'Not Available Time')
 
                     else:
                         messages.info(
-                            request, 'ddi ka wede mag set kay naa kay klase ani')
+                            request, 'Not Available Time')
 
                     #ReferralNotAvailableChecker and ClassesCounselorCheck is true
                 if(ReferralNotAvailableChecker == True and ClassesCounselorCheck == True and notAvailableSchedChecker == False):
@@ -2005,14 +2005,14 @@ def counselor_set_schedule(request, *args, **kwargs):
                             newData.choice = 'Not Available'
                             newData.save()
                             # offer = SetScheduleCounselorForm(request.POST, initial={'employee_id': user, 'choice': 'Not Available'})
-                            messages.info(request, 'success')
+                            messages.info(request, 'Success')
                         else:
                             messages.info(
-                                request, 'ddi ka wede mag set kay naa kay klase ani')
+                                request, 'Not Available Time')
 
                     else:
                         messages.info(
-                            request, 'ddi ka wede mag set kay naa kay klase ani')
+                            request, 'Not Available Time')
 
                 #ReferralNotAvailableChecker and notAvailableChecker is true
                 if(ReferralNotAvailableChecker == True and ClassesCounselorCheck == False and notAvailableSchedChecker == True):
@@ -2031,15 +2031,15 @@ def counselor_set_schedule(request, *args, **kwargs):
                             newData.choice = 'Not Available'
                             newData.save()
                             # offer = SetScheduleCounselorForm(request.POST, initial={'employee_id': user, 'choice': 'Not Available'})
-                            messages.info(request, 'success')
+                            messages.info(request, 'Success')
 
                         else:
                             messages.info(
-                                request, 'ddi ka wede mag set kay naa kay klase ani')
+                                request, 'Not Available Time')
 
                     else:
                         messages.info(
-                            request, 'ddi ka wede mag set kay naa kay klase ani')
+                            request, 'Not Available Time')
 
                 #ClassesCounselorCheck and not AvailableChecker is true
                 if(ReferralNotAvailableChecker == False and ClassesCounselorCheck == True and notAvailableSchedChecker == True):
@@ -2058,13 +2058,13 @@ def counselor_set_schedule(request, *args, **kwargs):
                             newData.choice = 'Not Available'
                             newData.save()
                             # offer = SetScheduleCounselorForm(request.POST, initial={'employee_id': user, 'choice': 'Not Available'})
-                            messages.info(request, 'success')
+                            messages.info(request, 'Success')
                         else:
                             messages.info(
-                                request, 'ddi ka wede mag set kay naa kay klase ani')
+                                request, 'Not Available Time')
                     else:
                         messages.info(
-                            request, 'ddi ka wede mag set kay naa kay klase ani')
+                            request, 'Not Available Time')
 
                 #ClassesCounselorCheck is True
                 if(ReferralNotAvailableChecker == False and ClassesCounselorCheck == True and notAvailableSchedChecker == False):
@@ -2083,10 +2083,10 @@ def counselor_set_schedule(request, *args, **kwargs):
                         newData.choice = 'Not Available'
                         newData.save()
                         # offer = SetScheduleCounselorForm(request.POST, initial={'employee_id': user, 'choice': 'Not Available'})
-                        messages.info(request, 'success')
+                        messages.info(request, 'Success')
                     else:
                         messages.info(
-                            request, 'ddi ka wede mag set kay naa kay klase ani')
+                            request, 'Not Available Time')
                 #ReferralNotAvailableChecker is True
                 if(ReferralNotAvailableChecker == True and ClassesCounselorCheck == False and notAvailableSchedChecker == False):
                     print('6')
@@ -2101,10 +2101,10 @@ def counselor_set_schedule(request, *args, **kwargs):
                         newData.choice = 'Not Available'
                         newData.save()
                         # offer = SetScheduleCounselorForm(request.POST, initial={'employee_id': user, 'choice': 'Not Available'})
-                        messages.info(request, 'success')
+                        messages.info(request, 'Success')
                     else:
                         messages.info(
-                            request, 'ddi ka wede mag set kay naa kay klase ani')
+                            request, 'Not Available Time')
                 #notAvailableSchedChecker is True
                 if(ReferralNotAvailableChecker == True and ClassesCounselorCheck == False and notAvailableSchedChecker == False):
                     print('7')
@@ -2119,10 +2119,10 @@ def counselor_set_schedule(request, *args, **kwargs):
                         newData.choice = 'Not Available'
                         newData.save()
                         # offer = SetScheduleCounselorForm(request.POST, initial={'employee_id': user, 'choice': 'Not Available'})
-                        messages.info(request, 'success')
+                        messages.info(request, 'Success')
                     else:
                         messages.info(
-                            request, 'ddi ka wede mag set kay naa kay klase ani')
+                            request, 'Not Available Time')
                 # if all are false
                 if(ReferralNotAvailableChecker == False and ClassesCounselorCheck == False and notAvailableSchedChecker == False):
                     print('8')
@@ -2132,7 +2132,7 @@ def counselor_set_schedule(request, *args, **kwargs):
                     newData.choice = 'Not Available'
                     newData.save()
                     # offer = SetScheduleCounselorForm(request.POST, initial={'employee_id': user, 'choice': 'Not Available'})
-                    messages.info(request, 'success')
+                    messages.info(request, 'Success')
 
     return render(request, "counselor/counselor_set_schedule.html", {"offer": offer, "counselorNotif": counselorNotif, "form": counselor_name})
 
@@ -2928,7 +2928,7 @@ def student_edit_profile_view(request, *args, **kwargs):
             info.father_contact_number = father_contact_number
             info.guardian_contact_number = guardian_contact_number
             info.save()
-            messages.info(request, 'Successfully edit')
+            messages.info(request, 'Success')
     return render(request, "student/student_edit_profile_view.html", {"form": student, "info": infoForm})
 
 

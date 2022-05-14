@@ -329,7 +329,7 @@ font-size: 18px;
                   <td style="font-size: 16px;" class="parent_program">{{object.choice}} {{object.subject_code}} {{object.offer_code}}</td>
                        {% if object.choice|stringformat:"s" == "Class" %} 
                               {% elif object.choice|stringformat:"s" == "Counseling" %} 
-                  <td style="font-size: 16px;" class="parent_program"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>{ object.start_time|safe }View Information</b></a></td>
+                  <td style="font-size: 16px;" class="parent_program"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>{{ object.start_time|safe }}View Information</b></a></td>
                       {% else %} 
                               {% endif %} 
                         {% else %} 
