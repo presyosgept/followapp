@@ -111,6 +111,7 @@ class Offering(models.Model):
     qs_code = []
     for obj in qs:
         qs_code.append([obj.department_name, obj.department_name])
+    print('qs_code', qs_code)
     depa_choice = models.CharField(default='---',
                                    max_length=220, choices=qs_code, null=False, blank=False)
 
@@ -258,6 +259,11 @@ class NotificationFeedback(models.Model):
 
 class Calendar(models.Model):
     pickedDate = models.DateField(null=True)
+
+
+class FilterDate(models.Model):
+    pickedStartDate = models.DateField(null=True)
+    pickedEndDate = models.DateField(null=True)
 
 
 class SetScheduleCounselor(models.Model):

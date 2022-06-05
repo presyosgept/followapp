@@ -22,8 +22,8 @@ from datetime import date, datetime, timedelta
 
 import datetime as dt
 
-from .forms import SetScheduleCounselorForm, FilterForm, DeleteDepartmentForm, AddDepartmentForm, DeleteSchoolOfficeForm, AddSchoolOfficeForm, ProgramForm, CalendarForm, StudentInfoForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
-from .models import NewTime, SetScheduleCounselor, NewDepartment, Calendar, StudentInfo, Offering, StudentSetSched, NotificationFeedback, CounselorFeedback, SubjectWithSem, Semester, AccountCreated, Faculty, Counselor, Notification, Counselor, TeachersReferral,  SubjectOffered, Facultyload, Studentsload
+from .forms import FilterDateForm, SetScheduleCounselorForm, FilterForm, DeleteDepartmentForm, AddDepartmentForm, DeleteSchoolOfficeForm, AddSchoolOfficeForm, ProgramForm, CalendarForm, StudentInfoForm, OfferingForm, StudentSetSchedForm, CounselorFeedbackForm, VerificationForm, AccountCreatedForm, AccountsForm, CounselorForm, TeachersReferralForm, StudentsForm, CreateUserForm, SubjectOfferedForm, FacultyloadForm, StudentsloadForm
+from .models import FilterDate, NewTime, SetScheduleCounselor, NewDepartment, Calendar, StudentInfo, Offering, StudentSetSched, NotificationFeedback, CounselorFeedback, SubjectWithSem, Semester, AccountCreated, Faculty, Counselor, Notification, Counselor, TeachersReferral,  SubjectOffered, Facultyload, Studentsload
 
 from .resources import TimeResource, NewDepartmentResource, SubjectWithSemResource, SemesterResource, StudentsloadResource, FacultyResource, CounselorResource, TeachersReferralResource, SubjectOfferedResource, FacultyloadResource
 from tablib import Dataset
@@ -221,6 +221,8 @@ global sem
 global sy
 global dep
 global school
+global filterStartDate
+global filterEndData
 
 
 def register(request):
@@ -471,11 +473,55 @@ def director_counselor(request, *args, **kwargs):
 
 @login_required(login_url='login')
 def view_stat_by_counselor(request, id):
+    global filterStartDate
+    global filterEndData
+    filterDate = FilterDateForm()
+    if request.method == "POST":
+        filterDate = FilterDateForm(request.POST)
+        if filterDate.is_valid():
+            start = filterDate['pickedStartDate'].value()
+            end = filterDate['pickedEndDate'].value()
+            filterStartDate = start
+            filterEndData = end
+            filterDate.save()
     user = request.session.get('username')
+    counselorName = Counselor.objects.get(employee_id=id)
     director_name = Faculty.objects.get(employee_id=user)
     stat_details = TeachersReferral.objects.filter(counselor=id)
     stat = stat_details.count()
-    return render(request, "director/view_stat_by_counselor.html", {"object": director_name, 'stat_details': stat_details, 'stat': stat})
+    return render(request, "director/view_stat_by_counselor.html", {'filterDate': filterDate, 'counselor':id, 'couns':counselorName, "object": director_name, 'stat_details': stat_details, 'stat': stat})
+
+
+@login_required(login_url='login')
+def view_stat_by_counselor_with_date(request, id):
+    global filterStartDate
+    global filterEndData
+    filterDate = FilterDateForm()
+    if request.method == "POST":
+        filterDate = FilterDateForm(request.POST)
+        if filterDate.is_valid():
+            start = filterDate['pickedStartDate'].value()
+            end = filterDate['pickedEndDate'].value()
+            filterStartDate = start
+            filterEndData = end
+            filterDate.save()
+            filterDate = FilterDateForm()
+    user = request.session.get('username')
+    director_name = Faculty.objects.get(employee_id=user)
+    counselorName = Counselor.objects.get(employee_id=id)
+    newDate = FilterDate.objects.last()
+    students = TeachersReferral.objects.all()
+    detail = []
+    for obj in students:
+        if obj.counselor == id:
+            if obj.date >= newDate.pickedStartDate and obj.date <= newDate.pickedEndDate:
+                detail.append(TeachersReferral(firstname=obj.firstname,
+                                               lastname=obj.lastname, studnumber=obj.studnumber,
+                                               degree_program=obj.degree_program, subject_referred=obj.subject_referred,
+                                               reasons=obj.reasons, behavior_problem=obj.behavior_problem, date=obj.date,
+                                               feedback=obj.feedback))
+    stat = len(detail)
+    return render(request, "director/view_stat_by_counselor_with_date.html", {'filterDate': filterDate, 'start': filterStartDate, 'end': filterEndData, 'counselor':id, 'couns': counselorName, "object": director_name, 'stat_details': detail, 'stat': stat})
 
 
 @login_required(login_url='login')
@@ -488,11 +534,53 @@ def director_degree_program(request, *args, **kwargs):
 
 @login_required(login_url='login')
 def view_stat_by_degree_program(request, degree):
+    global filterStartDate
+    global filterEndData
+    filterDate = FilterDateForm()
+    if request.method == "POST":
+        filterDate = FilterDateForm(request.POST)
+        if filterDate.is_valid():
+            start = filterDate['pickedStartDate'].value()
+            end = filterDate['pickedEndDate'].value()
+            filterStartDate = start
+            filterEndData = end
+            filterDate.save()
     user = request.session.get('username')
     director_name = Faculty.objects.get(employee_id=user)
     stat_details = TeachersReferral.objects.filter(degree_program=degree)
     stat = stat_details.count()
-    return render(request, "director/view_stat_by_degree_program.html", {"object": director_name, 'stat_details': stat_details, 'stat': stat})
+    return render(request, "director/view_stat_by_degree_program.html", {"offer": filterDate, "degree": degree, "object": director_name, "stat_details": stat_details, 'stat': stat})
+
+
+@login_required(login_url='login')
+def view_stat_by_degree_program_with_date(request, degree):
+    global filterStartDate
+    global filterEndData
+    filterDate = FilterDateForm()
+    if request.method == "POST":
+        filterDate = FilterDateForm(request.POST)
+        if filterDate.is_valid():
+            start = filterDate['pickedStartDate'].value()
+            end = filterDate['pickedEndDate'].value()
+            filterStartDate = start
+            filterEndData = end
+            filterDate.save()
+            filterDate = FilterDateForm()
+    user = request.session.get('username')
+    director_name = Faculty.objects.get(employee_id=user)
+    newDate = FilterDate.objects.last()
+    students = TeachersReferral.objects.all()
+    detail = []
+    for obj in students:
+        if obj.degree_program == degree:
+            if obj.date >= newDate.pickedStartDate and obj.date <= newDate.pickedEndDate:
+                detail.append(TeachersReferral(firstname=obj.firstname,
+                                               lastname=obj.lastname, studnumber=obj.studnumber,
+                                               degree_program=obj.degree_program, subject_referred=obj.subject_referred,
+                                               reasons=obj.reasons, behavior_problem=obj.behavior_problem, date=obj.date,
+                                               feedback=obj.feedback))
+    stat = len(detail)
+    return render(request, "director/view_stat_by_degree_program_with_date.html", {"offer": filterDate, 'start': filterStartDate, 'end': filterEndData, "degree": degree, "object": director_name, "stat_details": detail, 'stat': stat})
 
 
 @login_required(login_url='login')
@@ -1443,24 +1531,26 @@ def new(request, stud, id):
                         for object in ClassesofCounselor:
                             for d in object.days:
                                 if d == day_name:
+                                    print("day", d)
                                     ClassesCounselor.append(OfferCode(offer_code=object.offer_code, days=object.days,
                                                                       start_time=object.start_time, end_time=object.end_time,
                                                                       room=object.room, subject_code=object.subject_code,
                                                                       sem_id=object.sem_id, academic_year=object.academic_year,))
                         ClassesCounselorCheck = bool(ClassesCounselor)
+                        print("pif", ClassesCounselor)
                     else:
                         ClassesCounselorCheck = False
 
                         # check the notAvailableSchedule
 
-                    for a in ClassesCounselor:
-                        print('oooooo', a.offer_code)
+                    # for a in ClassesCounselor:
+                       # print('oooooo', a.offer_code)
                     notAvailableSched = SetScheduleCounselor.objects.filter(
                         date=tomorrow)
 
                     notAvailableSchedCheck = bool(notAvailableSched)
-                    print('notAvailableSchedCheck', notAvailableSchedCheck)
-                    print('notAvailableSched', notAvailableSched)
+                   # print('notAvailableSchedCheck', notAvailableSchedCheck)
+                    #print('notAvailableSched', notAvailableSched)
                     for h in notAvailableSched:
                         print('hhhhhh', h.start_time, h.end_time)
 
@@ -1586,8 +1676,6 @@ def new(request, stud, id):
                                 counter = 0
                                 TimeTaken = 0
                                 time1 = ''
-                        # notAvailableSched = []
-                        # ClassesCounselor = []
 
                     elif(ClassesCounselorCheck == False and notAvailableSchedCheck == True and ScheduledReferralbyDayCheck == True):
                         print('6')
@@ -1626,8 +1714,6 @@ def new(request, stud, id):
                                 counter = 0
                                 TimeTaken = 0
                                 time1 = ''
-                                # notAvailableSched = []
-                                # ScheduledReferralbyDay = []
 
                     elif(ClassesCounselorCheck == True and notAvailableSchedCheck == False and ScheduledReferralbyDayCheck == True):
                         print('7')
@@ -1636,6 +1722,7 @@ def new(request, stud, id):
                                 for object2 in ClassesCounselor:
                                     if(timeArray[x+1] <= object2.end_time and timeArray[x] >= object2.start_time):
                                         TimeTaken += 1
+                                        print('sud', timeArray[x], TimeTaken)
                                 if(TimeTaken == 0):
                                     for object3 in ScheduledReferralbyDay:
                                         if(timeArray[x+1] <= object3.end_time and timeArray[x] >= object3.start_time):
@@ -1657,7 +1744,6 @@ def new(request, stud, id):
                                         TimeTaken = 0
                                         TimeTaken1 = 0
                                         counter = 0
-
                                 else:
                                     counter = 0
                                     TimeTaken = 0
@@ -1666,8 +1752,6 @@ def new(request, stud, id):
                                 counter = 0
                                 TimeTaken = 0
                                 time1 = ''
-                        # ClassesCounselor = []
-                        # ScheduledReferralbyDay = []
 
                     elif(ClassesCounselorCheck == True and ScheduledReferralbyDayCheck == True and notAvailableSchedCheck == True):
                         print('8.s')
@@ -1722,9 +1806,9 @@ def new(request, stud, id):
                                     counter = 0
                                     TimeTaken = 0
                                     time1 = ''
-                                    # ScheduledReferralbyDay = []
-                                    # ClassesCounselor = []
-                                    # notAvailableSched = []
+                    ScheduledReferralbyDay = []
+                    ClassesCounselor = []
+                    notAvailableSched = []
 
                     if(time1 != '' and time2 != ''):
                         print('9')
@@ -1954,17 +2038,17 @@ def counselor_set_schedule(request, *args, **kwargs):
                 if(ReferralNotAvailableChecker == True and ClassesCounselorCheck == True and notAvailableSchedChecker == True):
                     print('1')
                     for object in ReferralNotAvailable:
-                        if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeEnd):
+                        if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                             checker = 1
                             print('1.1')
                     if(checker != 1):
                         for object1 in ClassesCounselor:
-                            if(object1.start_time >= timeStart and object1.end_time <= timeEnd or object1.start_time <= timeStart and object1.end_time >= timeEnd):
+                            if(object1.start_time <= timeStart and object1.end_time >= timeEnd or object1.start_time >= timeStart and object1.start_time < timeEnd or object1.end_time > timeStart and object1.end_time <= timeEnd or object1.start_time >= timeStart and object1.end_time <= timeEnd):
                                 checker1 = 1
                                 print('1.2')
                         if(checker1 != 1):
                             for object2 in notAvailableSched:
-                                if(object2.start_time >= timeStart and object2.end_time <= timeEnd or object2.start_time <= timeStart and object2.end_time >= timeEnd):
+                                if(object2.start_time <= timeStart and object2.end_time >= timeEnd or object2.start_time >= timeStart and object2.start_time < timeEnd or object2.end_time > timeStart and object2.end_time <= timeEnd or object2.start_time >= timeStart and object2.end_time <= timeEnd):
                                     checker2 = 1
                                     print('1.3')
                             if(checker2 != 1):
@@ -1992,11 +2076,11 @@ def counselor_set_schedule(request, *args, **kwargs):
                 if(ReferralNotAvailableChecker == True and ClassesCounselorCheck == True and notAvailableSchedChecker == False):
                     print('2')
                     for object in ReferralNotAvailable:
-                        if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeEnd):
+                        if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                             checker = 1
                     if(checker != 1):
                         for object in ClassesCounselor:
-                            if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeEnd):
+                            if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                                 checker1 = 1
                         if(checker1 != 1):
                             offer.save()
@@ -2018,11 +2102,11 @@ def counselor_set_schedule(request, *args, **kwargs):
                 if(ReferralNotAvailableChecker == True and ClassesCounselorCheck == False and notAvailableSchedChecker == True):
                     print('3')
                     for object in ReferralNotAvailable:
-                        if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeEnd):
+                        if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                             checker = 1
                     if(checker != 1):
                         for object in notAvailableSched:
-                            if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeStart):
+                            if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                                 checker1 = 1
                         if(checker1 != 1):
                             offer.save()
@@ -2045,12 +2129,14 @@ def counselor_set_schedule(request, *args, **kwargs):
                 if(ReferralNotAvailableChecker == False and ClassesCounselorCheck == True and notAvailableSchedChecker == True):
                     print('4')
                     for object in ClassesCounselor:
-                        if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeEnd):
+                        if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                             checker = 1
+                            print('4.1')
                     if(checker != 1):
                         for object in notAvailableSched:
-                            if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeStart):
+                            if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                                 checker1 = 1
+                                print('4.2')
                         if(checker1 != 1):
                             offer.save()
                             newData = SetScheduleCounselor.objects.last()
@@ -2070,7 +2156,7 @@ def counselor_set_schedule(request, *args, **kwargs):
                 if(ReferralNotAvailableChecker == False and ClassesCounselorCheck == True and notAvailableSchedChecker == False):
                     print('5,s')
                     for object in ClassesCounselor:
-                        if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeEnd):
+                        if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                             checker = 1
                             print('a', object.start_time, object.end_time)
                             print('b', checker)
@@ -2091,7 +2177,7 @@ def counselor_set_schedule(request, *args, **kwargs):
                 if(ReferralNotAvailableChecker == True and ClassesCounselorCheck == False and notAvailableSchedChecker == False):
                     print('6')
                     for object in ClassesCounselor:
-                        if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeEnd):
+                        if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                             checker = 1
                     if(checker != 1):
                         # -- save the id date and time in the database
@@ -2109,7 +2195,7 @@ def counselor_set_schedule(request, *args, **kwargs):
                 if(ReferralNotAvailableChecker == True and ClassesCounselorCheck == False and notAvailableSchedChecker == False):
                     print('7')
                     for object in notAvailableSched:
-                        if(object.start_time >= timeStart and object.end_time <= timeEnd or object.start_time <= timeStart and object.end_time >= timeStart):
+                        if(object.start_time <= timeStart and object.end_time >= timeEnd or object.start_time >= timeStart and object.start_time < timeEnd or object.end_time > timeStart and object.end_time <= timeEnd or object.start_time >= timeStart and object.end_time <= timeEnd):
                             checker = 1
                     if(checker != 1):
                         # -- save the id date and time in the database
@@ -2417,6 +2503,7 @@ def counselor_view_another_sched(request, *args, **kwargs):
                                                       start_time=object.start_time, end_time=object.end_time, room=object.room,
                                                       subject_code=object.subject_code, sem_id=object.sem_id, academic_year=object.academic_year,))
                     ClassesCounselorCheck = True
+        print("piffa", ClassesCounselor)
     else:
         ClassesCounselorCheck = False
 
@@ -2959,9 +3046,9 @@ def student_schedule(request, *args, **kwargs):
                 for object1 in object.program_designation:
                     if(degree.program_code in object1):
                         counselor = object
-
             OfferCodeCounselor = Facultyload.objects.filter(
                 employee_id=counselor.employee_id)
+
             timeArray = []
             initialtime = 0
 
@@ -3001,14 +3088,22 @@ def student_schedule(request, *args, **kwargs):
                     else:
                         ClassesCounselorCheck = False
 
+                        # get schedule set by the counselor
+                    notAvailableSched = SetScheduleCounselor.objects.filter(
+                        date=tomorrow)
+                    notAvailableSchedCheck = bool(notAvailableSched)
+                    print('not available', tomorrow, notAvailableSched)
+
                     start = datetime.strptime('8:00:00', '%H:%M:%S').time()
-                    end = datetime.strptime('17:00:00', '%H:%M:%S').time()
+                    end = datetime.strptime('17:30:00', '%H:%M:%S').time()
 
                     TimeTaken = 0
                     TimeTaken1 = 0
+                    TimeTaken2 = 0
                     counter = 0
 
-                    if (ClassesCounselorCheck == False and ScheduledReferralbyDayCheck == False):
+                    if (ClassesCounselorCheck == False and ScheduledReferralbyDayCheck == False and notAvailableSchedCheck == False):
+                        print('1')
                         startTime = datetime.strptime(
                             '8:00:00', '%H:%M:%S').time()
                         endTime = datetime.strptime(
@@ -3016,7 +3111,8 @@ def student_schedule(request, *args, **kwargs):
                         time1 = startTime
                         time2 = endTime
                         finder = 1
-                    elif(ClassesCounselorCheck == False and ScheduledReferralbyDayCheck == True):
+                    elif(ClassesCounselorCheck == False and ScheduledReferralbyDayCheck == True and notAvailableSchedCheck == False):
+                        print('2')
                         for x in range(len(timeArray)):
                             if(timeArray[x] >= start and timeArray[x] < end):
                                 for object2 in ScheduledReferralbyDay:
@@ -3036,7 +3132,8 @@ def student_schedule(request, *args, **kwargs):
                                     time1 = ''
                                     TimeTaken = 0
 
-                    elif(ClassesCounselorCheck == True and ScheduledReferralbyDayCheck == False):
+                    elif(ClassesCounselorCheck == True and ScheduledReferralbyDayCheck == False and notAvailableSchedCheck == False):
+                        print('3')
                         for x in range(len(timeArray)):
                             if(timeArray[x] >= start and timeArray[x] < end):
                                 for object2 in ClassesCounselor:
@@ -3055,12 +3152,40 @@ def student_schedule(request, *args, **kwargs):
                                 elif(TimeTaken != 0):
                                     time1 = ''
                                     TimeTaken = 0
-                    elif(ClassesCounselorCheck == True and ScheduledReferralbyDayCheck == True):
+
+                    elif(ClassesCounselorCheck == False and ScheduledReferralbyDayCheck == False and notAvailableSchedCheck == True):
+                        print('4')
                         for x in range(len(timeArray)):
                             if(timeArray[x] >= start and timeArray[x] < end):
-                                for object2 in ScheduledReferralbyDay:
+                                for object2 in notAvailableSched:
                                     if(timeArray[x+1] <= object2.end_time and timeArray[x] >= object2.start_time):
                                         TimeTaken += 1
+                                if(TimeTaken == 0 and counter == 0):
+                                    time1 = timeArray[x]
+                                    counter = 1
+                                    TimeTaken = 0
+                                elif(TimeTaken == 0 and counter == 1):
+                                    time2 = timeArray[x+1]
+                                    counter = 0
+                                    TimeTaken = 0
+                                    finder = 1
+                                    break
+                                elif(TimeTaken != 0):
+                                    time1 = ''
+                                    TimeTaken = 0
+
+                    elif(ClassesCounselorCheck == True and notAvailableSchedCheck == True and ScheduledReferralbyDayCheck == False):
+                        print('5')
+                        for x in range(len(timeArray)):
+                            if(timeArray[x] >= start and timeArray[x] < end):
+                                print('suddd')
+                                for obj in notAvailableSched:
+                                    print('timailhan', obj.date)
+                                    if(timeArray[x+1] <= obj.end_time and timeArray[x] >= obj.start_time):
+                                        TimeTaken += 1
+                                        print(
+                                            "timailhan", obj.start_time, obj.end_time)
+
                                 if(TimeTaken == 0):
                                     for object3 in ClassesCounselor:
                                         if(timeArray[x+1] <= object3.end_time and timeArray[x] >= object3.start_time):
@@ -3091,6 +3216,137 @@ def student_schedule(request, *args, **kwargs):
                                 counter = 0
                                 TimeTaken = 0
                                 time1 = ''
+
+                    elif(ClassesCounselorCheck == False and notAvailableSchedCheck == True and ScheduledReferralbyDayCheck == True):
+                        print('6')
+                        for x in range(len(timeArray)):
+                            if(timeArray[x] >= start and timeArray[x] < end):
+                                for object2 in notAvailableSched:
+                                    if(timeArray[x+1] <= object2.end_time and timeArray[x] >= object2.start_time):
+                                        TimeTaken += 1
+                                if(TimeTaken == 0):
+                                    for object3 in ScheduledReferralbyDay:
+                                        if(timeArray[x+1] <= object3.end_time and timeArray[x] >= object3.start_time):
+                                            TimeTaken1 += 1
+                                    if(TimeTaken1 == 0 and counter == 0):
+                                        time1 = timeArray[x]
+                                        counter = 1
+                                        TimeTaken = 0
+                                        TimeTaken1 = 0
+                                    elif (TimeTaken1 == 0 and counter == 1):
+                                        time2 = timeArray[x+1]
+                                        finder = 1
+                                        counter = 0
+                                        TimeTaken = 0
+                                        TimeTaken1 = 0
+                                        break
+                                    elif(TimeTaken1 != 0):
+                                        time1 = ''
+                                        TimeTaken = 0
+                                        TimeTaken1 = 0
+                                        counter = 0
+
+                                else:
+                                    counter = 0
+                                    TimeTaken = 0
+                                    time1 = ''
+                            else:
+                                counter = 0
+                                TimeTaken = 0
+                                time1 = ''
+
+                    elif(ClassesCounselorCheck == True and notAvailableSchedCheck == False and ScheduledReferralbyDayCheck == True):
+                        print('7')
+                        for x in range(len(timeArray)):
+                            if(timeArray[x] >= start and timeArray[x] < end):
+                                for object2 in ClassesCounselor:
+                                    if(timeArray[x+1] <= object2.end_time and timeArray[x] >= object2.start_time):
+                                        TimeTaken += 1
+                                        print('sud', timeArray[x], TimeTaken)
+                                if(TimeTaken == 0):
+                                    for object3 in ScheduledReferralbyDay:
+                                        if(timeArray[x+1] <= object3.end_time and timeArray[x] >= object3.start_time):
+                                            TimeTaken1 += 1
+                                    if(TimeTaken1 == 0 and counter == 0):
+                                        time1 = timeArray[x]
+                                        counter = 1
+                                        TimeTaken = 0
+                                        TimeTaken1 = 0
+                                    elif (TimeTaken1 == 0 and counter == 1):
+                                        time2 = timeArray[x+1]
+                                        finder = 1
+                                        counter = 0
+                                        TimeTaken = 0
+                                        TimeTaken1 = 0
+                                        break
+                                    elif(TimeTaken1 != 0):
+                                        time1 = ''
+                                        TimeTaken = 0
+                                        TimeTaken1 = 0
+                                        counter = 0
+                                else:
+                                    counter = 0
+                                    TimeTaken = 0
+                                    time1 = ''
+                            else:
+                                counter = 0
+                                TimeTaken = 0
+                                time1 = ''
+
+                    elif(ClassesCounselorCheck == True and ScheduledReferralbyDayCheck == True and notAvailableSchedCheck == True):
+                        print('8.s')
+                        for x in range(len(timeArray)):
+                            if(timeArray[x] >= start and timeArray[x] < end):
+                                for object2 in ScheduledReferralbyDay:
+                                    print("1", timeArray[x])
+                                    if(timeArray[x+1] <= object2.end_time and timeArray[x] >= object2.start_time):
+                                        TimeTaken += 1
+                                if(TimeTaken == 0):
+                                    for object3 in ClassesCounselor:
+                                        print("2", timeArray[x])
+                                        if(timeArray[x+1] <= object3.end_time and timeArray[x] >= object3.start_time):
+                                            TimeTaken1 += 1
+                                    if(TimeTaken1 == 0):
+                                        for object4 in notAvailableSched:
+                                            print("3", timeArray[x])
+                                            if(timeArray[x+1] <= object4.end_time and timeArray[x] >= object4.start_time):
+                                                TimeTaken2 += 1
+                                        if(TimeTaken2 == 0 and counter == 0):
+                                            print('time1:', timeArray[x])
+                                            time1 = timeArray[x]
+                                            counter = 1
+                                            TimeTaken = 0
+                                            TimeTaken1 = 0
+                                            TimeTaken2 = 0
+                                        elif(TimeTaken2 == 0 and counter == 1):
+                                            print('time2:', timeArray[x])
+                                            time2 = timeArray[x+1]
+                                            finder = 1
+                                            counter = 0
+                                            TimeTaken = 0
+                                            TimeTaken1 = 0
+                                            TimeTaken2 = 0
+                                            break
+                                        elif(TimeTaken2 != 0):
+                                            time1 = ''
+                                            TimeTaken = 0
+                                            TimeTaken1 = 0
+                                            TimeTaken2 = 0
+                                            counter = 0
+                                        else:
+                                            counter = 0
+                                            TimeTaken = 0
+                                            TimeTaken1-0
+                                            time1 = ''
+                                    else:
+                                        TimeTaken1 = 0
+                                        counter = 0
+                                        time1 = ''
+                                else:
+                                    counter = 0
+                                    TimeTaken = 0
+                                    time1 = ''
+
                     ScheduledReferralbyDay = []
                     ClassesCounselor = []
             if(time1 != '' and time2 != ''):

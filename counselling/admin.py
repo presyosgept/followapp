@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-from .models import StudentInfo, AccountsApi, Facultyload, Faculty, NotificationFeedback, Notification, TeachersReferral, SubjectOffered, Studentsload, Counselor, Calendar
+from .models import StudentInfo, FilterDate, AccountsApi, Facultyload, Faculty, NotificationFeedback, Notification, TeachersReferral, SubjectOffered, Studentsload, Counselor, Calendar
 from .models import NewTime, SetScheduleCounselor, NewDepartment, Offering, StudentSetSched, CounselorFeedback, SubjectWithSem, Semester, Subject, OfferCode, AccountCreated, SchoolOffices, DegreeProgram, AllStudent
 
 admin.site.register(NewTime)
@@ -10,7 +10,8 @@ admin.site.register(SetScheduleCounselor)
 admin.site.register(StudentInfo)
 admin.site.register(StudentSetSched)
 admin.site.register(Offering)
-admin.site.register(Calendar)
+admin.site.register(Calendar) 
+admin.site.register(FilterDate)
 admin.site.register(NewDepartment)
 
 

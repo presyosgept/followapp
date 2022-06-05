@@ -89,6 +89,8 @@ from counselling.views import(
     view_stat_by_degree_program,
     director_counselor,
     view_stat_by_counselor,
+    view_stat_by_degree_program_with_date,
+    view_stat_by_counselor_with_date,
 
     # student
     student_add_info,
@@ -280,15 +282,20 @@ urlpatterns = [
          director_offering, name="director_offering"),
     path('director/director_view_offering',
          director_view_offering, name="director_view_offering"),
-      path('director/director_degree_program',
+    path('director/director_degree_program',
          director_degree_program, name="director_degree_program"),
-path('director/view_stat_by_degree_program/<str:degree>', view_stat_by_degree_program,
+    path('director/view_stat_by_degree_program/<str:degree>', view_stat_by_degree_program,
          name="view_stat_by_degree_program"),
-         path('director/director_counselor', director_counselor,
+    path('director/director_counselor', director_counselor,
          name="director_counselor"),
-         path('director/view_stat_by_counselor/<str:id>', view_stat_by_counselor,
+    path('director/view_stat_by_counselor/<str:id>', view_stat_by_counselor,
          name="view_stat_by_counselor"),
+    path('director/view_stat_by_degree_program_with_date/<str:degree>', view_stat_by_degree_program_with_date,
+         name="view_stat_by_degree_program_with_date"),
+    path('director/view_stat_by_counselor_with_date/<str:id>', view_stat_by_counselor_with_date,
+         name="view_stat_by_counselor_with_date"),
 
-         
+
+
     path('admin/', admin.site.urls),
 ]

@@ -322,14 +322,14 @@ font-size: 18px;
               <tbody>
                  {% for obj in time %}
               <tr>
-                  <td style="font-size: 16px;" class="parent_program">{{obj.time1|safe}} - {{obj.time2|safe}}</td>
+                  <td style="font-size: 16px;" class="parent_program">{{obj.time1}} - {{obj.time2}}</td>
                   {% for object in schedForToday %}
                               {% if obj.time1|safe > object.start_time|safe or obj.time1|safe == object.start_time|safe  %}
                 {% if obj.time2|safe  < object.end_time|safe or obj.time2|safe  == object.end_time|safe  %}
                   <td style="font-size: 16px;" class="parent_program">{{object.choice}} {{object.subject_code}} {{object.offer_code}}</td>
                        {% if object.choice|stringformat:"s" == "Class" %} 
-                              {% elif object.choice|stringformat:"s" == "Counseling" %} 
-                  <td style="font-size: 16px;" class="parent_program"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>{{ object.start_time|safe }}View Information</b></a></td>
+                            {% elif object.choice|stringformat:"s" == "Counseling" %} 
+                  <td style="font-size: 16px;" class="parent_program"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>{{object.firstname}} {{object.lastname}}</b></a></td>
                       {% else %} 
                               {% endif %} 
                         {% else %} 
@@ -343,6 +343,8 @@ font-size: 18px;
               <tbody>
           </table>  
         </div>
+
+{% endblock %}
 
 
 
@@ -374,9 +376,7 @@ font-size: 18px;
 
 
 </div> -->
-    <br>
 
-{% endblock %}
 
 
 

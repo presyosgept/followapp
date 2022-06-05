@@ -1,6 +1,6 @@
 from multiselectfield import MultiSelectFormField
 from django.forms.widgets import CheckboxSelectMultiple
-from .models import SetScheduleCounselor, DegreeProgram, NewDepartment, SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering
+from .models import FilterDate, SetScheduleCounselor, DegreeProgram, NewDepartment, SchoolOffices, Calendar, StudentInfo, Counselor, CounselorFeedback, AccountCreated, TeachersReferral, AllStudent, StudentSetSched, Offering
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
@@ -34,11 +34,6 @@ class StudentInfoForm(forms.ModelForm):
                   'father_contact_number',
                   'guardian_contact_number',
                   ]
-
-
-class DateForm(forms.Form):
-    start_date = forms.DateField(widget=DateInput())
-    end_date = forms.DateField(widget=DateInput())
 
 
 class OfferingForm(forms.ModelForm):
@@ -226,6 +221,17 @@ class CalendarForm(forms.ModelForm):
         }
 
 
+class FilterDateForm(forms.ModelForm):
+    class Meta:
+        model = FilterDate
+        fields = '__all__'
+
+        widgets = {
+            'pickedStartDate': DateInput(format='%m/%d/%Y'),
+            'pickedEndDate': DateInput(format='%m/%d/%Y')
+        }
+
+
 TIME = (('--', '--'),
         ('7:00', '7:00 A.M.'), ('7:30', '7:30 A.M.'),
         ('8:00', '8:00 A.M.'), ('8:30', '8:30 A.M.'),
@@ -254,9 +260,3 @@ class SetScheduleCounselorForm(forms.ModelForm):
         widgets = {
             'date': DateInput(format='%Y-%m-%d'),
         }
-
-
-# class CounselorScheduleForm(ModelForm):
-#     class Meta:
-# 	    model = CounselorSchedule
-# 	    fields = ['schedid','time1','time2', 'service_offered', 'description']
