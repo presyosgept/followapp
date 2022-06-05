@@ -219,9 +219,13 @@ text-shadow: 1px 1px 1px #fff;
     height: 3vh;
 }
 .dataTitle{
-    margin-left: 24vw;
-        display: flex;
+    display: flex;
     flex-direction: row;
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
 }
 .data{
         width: fit-content;
@@ -237,7 +241,7 @@ text-shadow: 1px 1px 1px #fff;
 
 </style>
 <div class="fac">
-    <button type="submit" class="buttonF">List of Students Reffered in this Department wih Date {{degree.program_name}}</button>
+    <button type="submit" class="buttonF">List of  Referred Students</button>
   </div> 
         <br>
       <div class="introduction"> 
@@ -269,28 +273,32 @@ text-shadow: 1px 1px 1px #fff;
           </div>
       </div>
       </div>
+      <br>
           </div>
       </form>
 </div>
 <br> <br>
-
           <div class="dataTitle">
                  <div style="margin-top: 1vh;"><i><h3>There are </h3></i></div>
                  <div class="data">
                     <b>{{stat}}</b>
                  </div>
                   <div style="margin-top: 1vh;">
-                      <i><h3>referred <b>Students</b> in this Program </h3></i>
+                      <i><h3>referred <b>Students</b> in</h3></i>
                   </div>
+                     <div class="data">
+                    <b>{{degree.program_name}}</b>
+                 </div>
                   <div style="margin-top: 1vh; margin-left: 1vh;"><i><h3>from</h3></i></div>
                                  <div class="data">
                     <b>{{start}}</b>
                  </div>
                   <div style="margin-top: 1vh;"><i><h3>to</h3></i></div>
-                                                  <div class="data">
+                      <div class="data">
                     <b>{{end}}</b>
                  </div>
           </div>
+          <br> <br>
 <div class="table-wrapper">
   <table class="fl-table">
       <thead>

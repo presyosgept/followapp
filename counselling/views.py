@@ -694,10 +694,14 @@ def director_fillinForm(request, pk):
                                 program_not_to_assign.append(object1)
                                 flag = 1
             if(flag == 0):
-                form.save()
-                program_not_to_assign = []
-                messages.info(
-                    request, 'Successfully Assigned The Counselor')
+                if program is None:
+                    messages.info(
+                        request, 'Please Assigned')
+                else:
+                    form.save()
+                    program_not_to_assign = []
+                    messages.info(
+                        request, 'Successfully Assigned The Counselor')
             else:
                 concatenatedStringofPrograms = ""
                 for object in program_not_to_assign:
@@ -1338,8 +1342,14 @@ def new(request, stud, id):
     degree = DegreeProgram.objects.get(
         program_id=studentReferred.degree_program_id)
     if request.method == "POST":
+        # print('problem here')
+        # if request.POST['reasons'] and request.POST['behavior_problem']:
+        #     print('chuy')
+        # else:
+        #     print('hello')
         reasons = request.POST['reasons']
         behavior = request.POST['behavior_problem']
+        print('abuabuabaubaua', behavior)
         form = TeachersReferralForm(request.POST, instance=studentReferred, initial={
                                     'subject_referred': subject_referred})
         if form.is_valid():
@@ -2633,6 +2643,7 @@ def counselor_detail_schedule_counseling(request, start, end, date):
 @login_required(login_url='login')
 def counselor_view_detail_referred_students(request, id):
     global counselorNotif
+    print('id sa wolrd', id)
     user = request.session.get('username')
     notification = Notification.objects.get(id=id)
     notification.is_read_counselor = True

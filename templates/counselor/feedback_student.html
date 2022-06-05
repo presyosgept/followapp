@@ -8,7 +8,8 @@
    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 95%;
-  min-height: 500px;
+  height: 100vh;
+  /* min-height: fit-content; */
   border-radius: 5px;
 
 margin: auto;
@@ -143,7 +144,23 @@ margin-bottom:15px;
     cursor: pointer;
     outline: none;
     }
-
+.nameOfStudent{
+  display: row;
+  flex-direction: row;
+  background-color: red;
+  border: 2px solid;
+  margin: 9px;
+}
+.infoStud{
+  display: flex; flex-direction: row;
+}
+#id_feedback{
+  font-size: 22px;
+}
+#id_remarks
+{
+  font-size: 22px;
+}
   </style>
   
 
@@ -151,11 +168,7 @@ margin-bottom:15px;
 <br>   
 
 <div class="card1">
-  
-  <form action="#" class="cleanForm" method="POST">
 
-
-    
 <br>
 <div>
        {% for message in messages %}
@@ -163,29 +176,30 @@ margin-bottom:15px;
      {% endfor %}
 </div>
      <br> <br> 
-        <div class="column">
-          <div class="row">     
-            <p class="pText"><b class="bText">Date Referred: &nbsp;</b> {{info.created_at}}</p> 
-            <p class="pText"><b class="bText" >Name of Student Referred: &nbsp;</b> {{student.lastname}}, {{student.firstname}}</p> 
-            
-          &nbsp;    &nbsp;
+     <div style="margin-left: 12vw;">
+            <div class="infoStud">
+                  <p class="pText"><b class="bText">Date Referred: &nbsp;</b> {{info.created_at}}</p> 
+            </div>
+            <div class="infoStud">
+               <p  class="pText"><b class="bText">Name of Student Referred: &nbsp;</b> {{student.lastname}}, {{student.firstname}}</p> 
+            </div>
+                    &nbsp;    &nbsp;
             <form  method="POST" action="" class="form-field" > 
     
               {% csrf_token %}
-             <i><h4  class="bText" >Actions Taken/Strategies taken by the Counselor:</h4> </i>
+              <div className="flex-direction: column;">
+             <div class="infoStud"> <i><h4  class="bText" >Actions Taken/Strategies taken by the Counselor:</h4> </i></div>
              {{object.feedback}}
-             <i><h4  class="bText" >Input Remarks here:</h4> </i>
+              <div class="infoStud"> <i><h4  class="bText" >Input Remarks here:</h4> </i></div>
              {{object.remarks}}
-             <p class="pText"><b class="bText">Prepared by: &nbsp;</b> {{info2.firstname}} {{info2.lastname}}</p>
+                           <div class="infoStud"> <i><h4  class="bText" >Prepared by: &nbsp;</b> {{info2.firstname}} {{info2.lastname}}</h4> </i></div>
+              </div>
             <br> 
             <button class="button" style="font-weight: bold; color: #454545;">Submit</button>
             <br> <br>
             </form>
+     </div>
 
-          </div>
-          </div>
-        
-    </form>
 
 </div>
 <br>
