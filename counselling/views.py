@@ -1,4 +1,5 @@
 
+from twilio.rest import Client
 from django.http import HttpResponse
 from json import encoder
 from typing import Counter
@@ -241,18 +242,25 @@ def register(request):
         qs_acc = AccountCreated.objects.all()
 
         if username == 'followapp':
-            connection = get_connection(use_tls=True,
-                                        host='smtp.gmail.com',
-                                        port=587,
-                                        username='followapp2021@gmail.com',
-                                        password='hellocapstone2')
-            EmailMessage(
-                "Verification Code",
-                "This is your verification code: " + code,
-                'followapp2021@gmail.com',
-                [
-                    email,
-                ], connection=connection).send()
+            # connection = get_connection(use_tls=True,
+            #                             host='smtp.gmail.com',
+            #                             port=587,
+            #                             username='followapp2021@gmail.com',
+            #                             password='hellocapstone2')
+            # EmailMessage(
+            #     "Verification Code",
+            #     "This is your verification code: " + code,
+            #     'followapp2021@gmail.com',
+            #     [
+            #         email,
+            #     ], connection=connection).send()
+            account_sid = 'AC47090e11c4e65aba8e1ce9f75e7522c5'
+            auth_token = '6c32dfe45d85cf15ff48522a28b6a1f8'
+            client = Client(account_sid, auth_token)
+            body = 'This is your VERIFICATION CODE FOR FOLLOWAPP: ' + code
+            message = client.messages.create(to=email,
+                                             from_='+15166045607',
+                                             body=body)
             value = AccountCreated(
                 id_number=username, email=email, password=code)
             value.save()
@@ -272,18 +280,25 @@ def register(request):
                 if username == user.employee_id:
                     flag = 1
             if flag == 1:
-                connection = get_connection(use_tls=True,
-                                            host='smtp.gmail.com',
-                                            port=587,
-                                            username='followapp2021@gmail.com',
-                                            password='hellocapstone2')
-                EmailMessage(
-                    "Verification Code",
-                    "This is your verification code: " + code,
-                    'followapp2021@gmail.com',
-                    [
-                        email,
-                    ], connection=connection).send()
+                # connection = get_connection(use_tls=True,
+                #                             host='smtp.gmail.com',
+                #                             port=587,
+                #                             username='followapp2021@gmail.com',
+                #                             password='hellocapstone2')
+                # EmailMessage(
+                #     "Verification Code",
+                #     "This is your verification code: " + code,
+                #     'followapp2021@gmail.com',
+                #     [
+                #         email,
+                #     ], connection=connection).send()
+                account_sid = 'AC47090e11c4e65aba8e1ce9f75e7522c5'
+                auth_token = '6c32dfe45d85cf15ff48522a28b6a1f8'
+                client = Client(account_sid, auth_token)
+                body = 'This is your VERIFICATION CODE FOR FOLLOWAPP: ' + code
+                message = client.messages.create(to=email,
+                                                 from_='+15166045607',
+                                                 body=body)
                 value = AccountCreated(
                     id_number=username, email=email, password=code)
                 value.save()
@@ -489,7 +504,7 @@ def view_stat_by_counselor(request, id):
     director_name = Faculty.objects.get(employee_id=user)
     stat_details = TeachersReferral.objects.filter(counselor=id)
     stat = stat_details.count()
-    return render(request, "director/view_stat_by_counselor.html", {'filterDate': filterDate, 'counselor':id, 'couns':counselorName, "object": director_name, 'stat_details': stat_details, 'stat': stat})
+    return render(request, "director/view_stat_by_counselor.html", {'filterDate': filterDate, 'counselor': id, 'couns': counselorName, "object": director_name, 'stat_details': stat_details, 'stat': stat})
 
 
 @login_required(login_url='login')
@@ -521,7 +536,7 @@ def view_stat_by_counselor_with_date(request, id):
                                                reasons=obj.reasons, behavior_problem=obj.behavior_problem, date=obj.date,
                                                feedback=obj.feedback))
     stat = len(detail)
-    return render(request, "director/view_stat_by_counselor_with_date.html", {'filterDate': filterDate, 'start': filterStartDate, 'end': filterEndData, 'counselor':id, 'couns': counselorName, "object": director_name, 'stat_details': detail, 'stat': stat})
+    return render(request, "director/view_stat_by_counselor_with_date.html", {'filterDate': filterDate, 'start': filterStartDate, 'end': filterEndData, 'counselor': id, 'couns': counselorName, "object": director_name, 'stat_details': detail, 'stat': stat})
 
 
 @login_required(login_url='login')
@@ -548,12 +563,14 @@ def view_stat_by_degree_program(request, degree):
     user = request.session.get('username')
     director_name = Faculty.objects.get(employee_id=user)
     stat_details = TeachersReferral.objects.filter(degree_program=degree)
+    degreeProgram = DegreeProgram.objects.get(program_code=degree)
     stat = stat_details.count()
-    return render(request, "director/view_stat_by_degree_program.html", {"offer": filterDate, "degree": degree, "object": director_name, "stat_details": stat_details, 'stat': stat})
+    return render(request, "director/view_stat_by_degree_program.html", {"offer": filterDate, "degree": degreeProgram, "object": director_name, "stat_details": stat_details, 'stat': stat})
 
 
 @login_required(login_url='login')
 def view_stat_by_degree_program_with_date(request, degree):
+    print('degree', degree)
     global filterStartDate
     global filterEndData
     filterDate = FilterDateForm()
@@ -580,7 +597,8 @@ def view_stat_by_degree_program_with_date(request, degree):
                                                reasons=obj.reasons, behavior_problem=obj.behavior_problem, date=obj.date,
                                                feedback=obj.feedback))
     stat = len(detail)
-    return render(request, "director/view_stat_by_degree_program_with_date.html", {"offer": filterDate, 'start': filterStartDate, 'end': filterEndData, "degree": degree, "object": director_name, "stat_details": detail, 'stat': stat})
+    degreeProgram = DegreeProgram.objects.get(program_code=degree)
+    return render(request, "director/view_stat_by_degree_program_with_date.html", {"offer": filterDate, 'start': filterStartDate, 'end': filterEndData, "degree": degreeProgram, "object": director_name, "stat_details": detail, 'stat': stat})
 
 
 @login_required(login_url='login')
@@ -633,142 +651,6 @@ def director_view_offering(request):
                                           subject_code=b.subject_code, sem_id=b.sem_id, academic_year=b.academic_year))
 
     return render(request, "director/viewoffering.html", {"object": director_name, "forms": offering})
-
-
-@login_required(login_url='login')
-def view_stats(request, *args, **kwargs):
-    offer = CalendarForm()
-    if request.method == "POST":
-        offer = CalendarForm(request.POST)
-        if offer.is_valid():
-            offer.save()
-
-    user = request.session.get('username')
-    director_name = Faculty.objects.get(employee_id=user)
-    couns = Counselor.objects.all()
-    today = date.today()
-    day = today.strftime("%Y-%m-%d")
-    year = today.strftime("%Y")
-    month = today.strftime("%Y-%m")
-    textMon = today.strftime('%B')
-    textDay = today.strftime("%d")
-    referals = TeachersReferral.objects.all()
-    stat_month = 0
-    stat_day = 0
-    stat_year = 0
-    for stud in referals:
-        getmonth = stud.date.strftime("%Y-%m")
-        getday = stud.date.strftime("%Y-%m-%d")
-        getyear = stud.date.strftime("%Y")
-        if month == getmonth:
-            stat_month += 1
-        if day == getday:
-            stat_day += 1
-        if year == getyear:
-            stat_year += 1
-
-    return render(request, "director/view_stats.html", {"textYear": year, "textDay": textDay, "textMonth": textMon, "offer": offer, "couns": couns, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
-
-
-@login_required(login_url='login')
-def view_another_stats(request, *args, **kwargs):
-    offer = CalendarForm()
-    if request.method == "POST":
-        offer = CalendarForm(request.POST)
-        if offer.is_valid():
-            offer.save()
-    newDate = Calendar.objects.last()
-    today = newDate.pickedDate
-    day = today.strftime("%Y-%m-%d")
-    year = today.strftime("%Y")
-    month = today.strftime("%Y-%m")
-    textMon = today.strftime('%B')
-    textDay = today.strftime("%d")
-    user = request.session.get('username')
-    director_name = Faculty.objects.get(employee_id=user)
-    couns = Counselor.objects.all()
-    referals = TeachersReferral.objects.all()
-    stat_month = 0
-    stat_day = 0
-    stat_year = 0
-    for stud in referals:
-        getmonth = stud.date.strftime("%Y-%m")
-        getday = stud.date.strftime("%Y-%m-%d")
-        getyear = stud.date.strftime("%Y")
-        if month == getmonth:
-            stat_month += 1
-        if day == getday:
-            stat_day += 1
-        if year == getyear:
-            stat_year += 1
-    return render(request, "director/view_another_stats.html", {"textYear": year, "textDay": textDay, "textMonth": textMon, "offer": offer, "couns": couns, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
-
-
-@login_required(login_url='login')
-def view_another_stat_specific_counselor(request, id):
-    offer = CalendarForm()
-    if request.method == "POST":
-        offer = CalendarForm(request.POST)
-        if offer.is_valid():
-            offer.save()
-    newDate = Calendar.objects.last()
-    today = newDate.pickedDate
-    day = today.strftime("%Y-%m-%d")
-    year = today.strftime("%Y")
-    month = today.strftime("%Y-%m")
-    textMon = today.strftime('%B')
-    textDay = today.strftime("%d")
-    user = request.session.get('username')
-    director_name = Faculty.objects.get(employee_id=user)
-    couns = Counselor.objects.get(employee_id=id)
-    referals = TeachersReferral.objects.filter(counselor=id, date=today)
-    stat_month = 0
-    stat_day = 0
-    stat_year = 0
-    for stud in referals:
-        getmonth = stud.date.strftime("%Y-%m")
-        getday = stud.date.strftime("%Y-%m-%d")
-        getyear = stud.date.strftime("%Y")
-        if month == getmonth:
-            stat_month += 1
-        if day == getday:
-            stat_day += 1
-        if year == getyear:
-            stat_year += 1
-    return render(request, "director/view_stat_specific_counselor.html", {"textYear": year, "textDay": textDay, "textMonth": textMon, "offer": offer, "id": id, "couns": couns, "referals": referals, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
-
-
-@login_required(login_url='login')
-def view_stat_specific_counselor(request, id):
-    offer = CalendarForm()
-    if request.method == "POST":
-        offer = CalendarForm(request.POST)
-        if offer.is_valid():
-            offer.save()
-    user = request.session.get('username')
-    director_name = Faculty.objects.get(employee_id=user)
-    couns = Counselor.objects.get(employee_id=id)
-    today = date.today()
-    day = today.strftime("%Y-%m-%d")
-    year = today.strftime("%Y")
-    textMon = today.strftime('%B')
-    textDay = today.strftime("%d")
-    month = today.strftime("%Y-%m")
-    referals = TeachersReferral.objects.filter(counselor=id)
-    stat_month = 0
-    stat_day = 0
-    stat_year = 0
-    for stud in referals:
-        getmonth = stud.date.strftime("%Y-%m")
-        getday = stud.date.strftime("%Y-%m-%d")
-        getyear = stud.date.strftime("%Y")
-        if month == getmonth:
-            stat_month += 1
-        if day == getday:
-            stat_day += 1
-        if year == getyear:
-            stat_year += 1
-    return render(request, "director/view_another_stat_specific_counselor.html", {"textYear": year, "textDay": textDay, "textMonth": textMon, "offer": offer, "id": id, "couns": couns, "referals": referals, "object": director_name, "stat_month": stat_month, "stat_day": stat_day, "stat_year": stat_year})
 
 
 @login_required(login_url='login')
@@ -1429,7 +1311,8 @@ def teacher_home_view(request, *args, **kwargs):
                                              room=object.room, subject_code=object.subject_code,
                                              sem_id=object.sem_id, academic_year=object.academic_year))
     count = 0
-    numberOfNotif = NotificationFeedback.objects.filter(to_user=user)
+    numberOfNotif = NotificationFeedback.objects.filter(
+        to_user=user).order_by('created_at')
     for check in numberOfNotif:
         if check.is_read == False:
             count = count + 1
@@ -1922,7 +1805,7 @@ def notifications_teacher(request):
             return render(request, "teacher/counselor.html", {})
 
     counselorNotif = NotificationFeedback.objects.filter(
-        to_user=user, notification_type="feedback_teacher")
+        to_user=user, notification_type="feedback_teacher").order_by('created_at')
     user_name = Faculty.objects.get(employee_id=user)
     return render(request, 'teacher/notification.html', {"notifications": counselorNotif, "form": user_name})
 
@@ -1959,7 +1842,8 @@ def counselor_home_view(request, *args, **kwargs):
     count = 0
     user = request.session.get('username')
     counselor_name = Faculty.objects.get(employee_id=user)
-    numberOfNotif = Notification.objects.filter(to_user=user)
+    numberOfNotif = Notification.objects.filter(
+        to_user=user).order_by('created_at')
     for check in numberOfNotif:
         if check.is_read_counselor == False:
             count = count + 1
@@ -1973,7 +1857,8 @@ def counselor_set_schedule(request, *args, **kwargs):
     count = 0
     user = request.session.get('username')
     counselor_name = Faculty.objects.get(employee_id=user)
-    numberOfNotif = Notification.objects.filter(to_user=user)
+    numberOfNotif = Notification.objects.filter(
+        to_user=user).order_by('created_at')
 
     for check in numberOfNotif:
         if check.is_read_counselor == False:
@@ -2926,7 +2811,8 @@ def notifications(request):
         elif notification.notification_type == Notification.MANUAL_REFERRAL:
             return render(request, "counselor/counselor.html", {})
 
-    counselorNotif = Notification.objects.filter(to_user=user)
+    counselorNotif = Notification.objects.filter(
+        to_user=user).order_by('created_at')
     counselor_name = Faculty.objects.get(employee_id=user)
     return render(request, 'counselor/notification.html', {"notifications": counselorNotif, "form": counselor_name})
 # counselor
@@ -2975,7 +2861,8 @@ def student_home_view(request, *args, **kwargs):
     global studentNotif
     count = 0
     user = request.session.get('username')
-    numberOfNotif = Notification.objects.filter(extra_id=user)
+    numberOfNotif = Notification.objects.filter(
+        extra_id=user).order_by('created_at')
     for check in numberOfNotif:
         if check.is_read_student == False:
             count = count + 1
@@ -3694,7 +3581,7 @@ def notifications_student(request):
             return render(request, "student/student_home.html", {})
         elif notification.notification_type == Notification.MANUAL_REFERRAL:
             return render(request, "student/student_home", {})
-    notif = Notification.objects.filter(extra_id=user)
+    notif = Notification.objects.filter(extra_id=user).order_by('created_at')
     student_name = AllStudent.objects.get(studnumber=user)
     return render(request, 'student/notification.html', {"notifications": notif, "form": student_name})
 

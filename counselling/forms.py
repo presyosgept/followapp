@@ -72,7 +72,7 @@ class VerificationForm(forms.Form):
 
 class AccountCreatedForm(forms.Form):
     id_number = forms.CharField()
-    email = forms.EmailField()
+    email = forms.CharField()
     password = forms.CharField()
 
 

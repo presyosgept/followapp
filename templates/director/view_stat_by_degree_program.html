@@ -241,7 +241,7 @@ text-shadow: 1px 1px 1px #fff;
   </div> 
   <br>
       <div class="introduction"> 
- <form method="POST" action="{% url 'view_stat_by_degree_program_with_date' degree %}">
+ <form method="POST" action="{% url 'view_stat_by_degree_program_with_date' degree.program_code %}">
           {% csrf_token %}
           <div class="statistic_date">
                     <div class="center_title">
@@ -279,7 +279,7 @@ text-shadow: 1px 1px 1px #fff;
                     <b>{{stat}}</b>
                  </div>
                   <div style="margin-top: 1vh;">
-                      <i><h3>referred &nbsp; Students &nbsp; in this &nbsp; Program kuhaa ang program</h3></i>
+                      <i><h3>referred &nbsp; Students &nbsp; in this &nbsp; {{degree.program_name}}</h3></i>
                   </div>
           </div>
           

@@ -224,7 +224,7 @@ outline: none;
 <br> <br>
 <table id="customers">
      
-{% for notification in notifications %}
+{% for notification in notifications reversed %}
 
     {% if notification.notification_type == 'automatic_referral' %}
     <a href="#">

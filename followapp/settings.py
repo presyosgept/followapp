@@ -27,6 +27,15 @@ SECRET_KEY = '7*nv+#e#^$qoa4gpu(w(*_9$fx*k8(_gv$l757q9d3@#r4y2so'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+TWILIO_ACCOUNT_SID = "AC47090e11c4e65aba8e1ce9f75e7522c5"
+TWILIO_AUTH_TOKEN = "6c32dfe45d85cf15ff48522a28b6a1f8"
+TWILIO_NUMBER = "+15166045607"
+SMS_BROADCAST_TO_NUMBERS = [
+    "",  # use the format +19735551234
+    "",
+    "",
+]
 # ALLOWED_HOSTS = ['followapp-server.herokuapp.com','127.0.0.1']
 
 # Application definition
