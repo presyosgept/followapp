@@ -12,6 +12,10 @@ from functools import partial
 DateInput = partial(forms.DateInput, {'class': 'datepicker'})
 
 
+class SearchForm(forms.Form):
+    search = forms.CharField()
+
+
 class StudentInfoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

@@ -1,100 +1,89 @@
-{% extends "counselor/counselor_home.html" %}
-
-{% block title %} 
-Schedule
-{% endblock %} 
-
-{% block content %} 
-
-<style>
+{% extends "counselor/counselor_home.html" %} {% block title %} Schedule {% endblock %} {% block content %} <style>
   tr {
     border-top: 1px solid #C1C3D1;
     border-bottom: 1px solid #C1C3D1;
-    color:#504A4B;
-    font-size:16px;
-    font-weight:normal;
+    color: #504A4B;
+    font-size: 16px;
+    font-weight: normal;
     text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
-  
   }
-   
+
   tr:hover td {
-    background:whitesmoke;
-    color:#4863A0;
+    background: whitesmoke;
+    color: #4863A0;
     border-top: 1px solid #4863A0;
   }
-   
+
   tr:first-child {
-    border-top:none;
+    border-top: none;
   }
-  
+
   tr:last-child {
-    border-bottom:none;
+    border-bottom: none;
   }
-   
+
   tr:nth-child(odd) td {
     background: #ffff;
   }
-   
+
   tr:nth-child(odd):hover td {
-    background:#C1C3D1;
+    background: #C1C3D1;
   }
-  
+
   tr:last-child td:first-child {
-    border-bottom-left-radius:3px;
+    border-bottom-left-radius: 3px;
   }
-   
+
   tr:last-child td:last-child {
-    border-bottom-right-radius:3px;
+    border-bottom-right-radius: 3px;
   }
-   
+
   td {
-    background:#FFFFFF;
+    background: #FFFFFF;
     padding: 10px;
-    text-align:left;
-    vertical-align:middle;
-    font-weight:300;
-    font-size:18px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: 300;
+    font-size: 18px;
     text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
     border-right: 1px solid #C1C3D1;
-   
   }
-  
+
   td:last-child {
     border-right: 0px;
   }
-  
+
   th.text-left {
     text-align: left;
   }
-  
+
   th.text-center {
     text-align: center;
   }
-  
+
   th.text-right {
     text-align: right;
   }
-  
+
   td.text-left {
     text-align: center;
   }
-  
+
   td.text-center {
     text-align: center;
   }
-  
+
   td.text-right {
     text-align: right;
   }
-  .facDay{
-    
+
+  .facDay {
     display: flex;
     align-items: left;
     justify-content: left;
-    
-    }
-    
-    .buttonDay {
+  }
+
+  .buttonDay {
     width: 320px;
     height: 55px;
     font-family: 'Roboto', sans-serif;
@@ -111,39 +100,41 @@ Schedule
     cursor: pointer;
     outline: none;
     margin-left: 10px;
-    }
-    .fac{
+  }
+
+  .fac {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
   }
-  
+
   .buttonF {
     position: fixed;
-  width: 100%;
-  min-width: 1320px;
-  height: 60px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 15px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 600;
-  color: #fff;
-  background-color: #d8c090;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
+    width: 100%;
+    min-width: 1320px;
+    height: 60px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #d8c090;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
   }
-  #id_pickedDate{
+
+  #id_pickedDate {
     width: 250px;
     height: 35px;
     color: #3A3B3C;
   }
-  
+
   .button {
     margin: 0 auto;
     width: 96px;
@@ -161,199 +152,188 @@ Schedule
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
-    }
-  
-    .button:hover {
+  }
+
+  .button:hover {
     background-color: #95B9C7;
     box-shadow: 0px 15px 20px #C9C0BB;
     color: #fff;
   }
-  
+
   /* Table Styles */
-  
-  .table-wrapper{
-      margin: 10px 70px 70px;
-      box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+  .table-wrapper {
+    margin: 10px 70px 70px;
+    box-shadow: 0px 35px 50px rgba(0, 0, 0, 0.2);
   }
-  
+
   .fl-table {
-      border-radius: 5px;
-      font-size: 12px;
-      font-weight: normal;
-      border: none;
-      border-collapse: collapse;
-      width: 100%;
-      max-width: 100%;
-      white-space: nowrap;
-      background-color: white;
-      overflow-y: scroll;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+    overflow-y: scroll;
   }
-  
-  .fl-table td, .fl-table th {
-      text-align: center;
-      padding: 8px;
+
+  .fl-table td,
+  .fl-table th {
+    text-align: center;
+    padding: 8px;
   }
-  
+
   .fl-table td {
-      border-right: 1px solid #f8f8f8;
-      font-size: 12px;
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
   }
-    /* //pang linya collor */
-  
+
+  /* //pang linya collor */
   .fl-table thead th {
-      color: #ffffff;
-      background: #98b4ac;
+    color: #ffffff;
+    background: #98b4ac;
   }
-  
+
   .fl-table thead th:nth-child(odd) {
-      color: #ffffff;
-      background: #98b4ac;
+    color: #ffffff;
+    background: #98b4ac;
   }
-  
+
   .fl-table tr:nth-child(even) {
-      background: #F8F8F8;
+    background: #F8F8F8;
   }
-  
+
   /* Responsive */
-  
   @media (max-width: 767px) {
-      .fl-table {
-          display: block;
-          width: 100%;
-      }
-      .table-wrapper:before{
-          content: "Scroll horizontally >";
-          display: block;
-          text-align: right;
-          font-size: 11px;
-          color: white;
-          padding: 0 0 10px;
-      }
-      .fl-table thead, .fl-table tbody, .fl-table thead th {
-          display: block;
-      }
-      .fl-table thead th:last-child{
-          border-bottom: none;
-      }
-      .fl-table thead {
-          float: left;
-      }
-      .fl-table tbody {
-          width: auto;
-          position: relative;
-          overflow-x: auto;
-      }
-      .fl-table td, .fl-table th {
-          padding: 20px .625em .625em .625em;
-          height: 60px;
-          vertical-align: middle;
-          box-sizing: border-box;
-          overflow-x: hidden;
-          overflow-y: auto;
-          width: 120px;
-          font-size: 13px;
-          text-overflow: ellipsis;
-      }
-      .fl-table thead th {
-          text-align: left;
-          border-bottom: 1px solid #f7f7f9;
-      }
-      .fl-table tbody tr {
-          display: table-cell;
-      }
-      .fl-table tbody tr:nth-child(odd) {
-          background: none;
-      }
-      .fl-table tr:nth-child(even) {
-          background: transparent;
-      }
-      .fl-table tr td:nth-child(odd) {
-          background: #F8F8F8;
-          border-right: 1px solid #E6E4E4;
-      }
-      .fl-table tr td:nth-child(even) {
-          border-right: 1px solid #E6E4E4;
-      }
-      .fl-table tbody td {
-          display: block;
-          text-align: center;
-      }
+    .fl-table {
+      display: block;
+      width: 100%;
+    }
+
+    .table-wrapper:before {
+      content: "Scroll horizontally >";
+      display: block;
+      text-align: right;
+      font-size: 11px;
+      color: white;
+      padding: 0 0 10px;
+    }
+
+    .fl-table thead,
+    .fl-table tbody,
+    .fl-table thead th {
+      display: block;
+    }
+
+    .fl-table thead th:last-child {
+      border-bottom: none;
+    }
+
+    .fl-table thead {
+      float: left;
+    }
+
+    .fl-table tbody {
+      width: auto;
+      position: relative;
+      overflow-x: auto;
+    }
+
+    .fl-table td,
+    .fl-table th {
+      padding: 20px .625em .625em .625em;
+      height: 60px;
+      vertical-align: middle;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 120px;
+      font-size: 13px;
+      text-overflow: ellipsis;
+    }
+
+    .fl-table thead th {
+      text-align: left;
+      border-bottom: 1px solid #f7f7f9;
+    }
+
+    .fl-table tbody tr {
+      display: table-cell;
+    }
+
+    .fl-table tbody tr:nth-child(odd) {
+      background: none;
+    }
+
+    .fl-table tr:nth-child(even) {
+      background: transparent;
+    }
+
+    .fl-table tr td:nth-child(odd) {
+      background: #F8F8F8;
+      border-right: 1px solid #E6E4E4;
+    }
+
+    .fl-table tr td:nth-child(even) {
+      border-right: 1px solid #E6E4E4;
+    }
+
+    .fl-table tbody td {
+      display: block;
+      text-align: center;
+    }
   }
-  
+
   .center {
+    text-align: center;
+  }
 
-text-align: center;
-}
-
-.center_title {
-
-text-align: center;
-margin-right: 20px;
-font-size: 18px;
-}
-
-  
-    </style>
-
+  .center_title {
+    text-align: center;
+    margin-right: 20px;
+    font-size: 16px;
+  }
+</style>
 <div class="fac">
-  <button type="submit" class="buttonF">{{today}},  {{day_name}}</button>
-</div> 
+  <button type="submit" class="buttonF">{{today}}, {{day_name}}</button>
+</div>
 <br>
-        <form method="POST" action="{% url 'counselor_view_another_sched' %}">
-          {% csrf_token %}
-      <div class="center_title">
-        <p><i><h4>To view a Schedule, select the date below.</h4></i></p>
-      </div>
-      <div class="center">
-        {{ offer.pickedDate }} <button type="submit" class="button">Submit</button>
-              </div>
-      </form>
-       <br> 
-
-                 <div class="table-wrapper">
-          <table class="fl-table">
-              <thead>
-              <tr>
-                <th class="table_head">Schedule Time</th>
-                <th class="table_head">Activities</th>
-                <th class="table_head">Details</th>
-              </tr>
-              </thead>
-              <tbody>
-                 {% for obj in time %}
-              <tr>
-                  <td style="font-size: 16px;" class="parent_program">{{obj.time1}} - {{obj.time2}}</td>
-                  {% for object in schedForToday %}
-                              {% if obj.time1|safe > object.start_time|safe or obj.time1|safe == object.start_time|safe  %}
-                {% if obj.time2|safe  < object.end_time|safe or obj.time2|safe  == object.end_time|safe  %}
-                  <td style="font-size: 16px;" class="parent_program">{{object.choice}} {{object.subject_code}} {{object.offer_code}}</td>
-                       {% if object.choice|stringformat:"s" == "Class" %} 
-                            {% elif object.choice|stringformat:"s" == "Counseling" %} 
-                  <td style="font-size: 16px;" class="parent_program"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>{{object.firstname}} {{object.lastname}}</b></a></td>
-                      {% else %} 
-                              {% endif %} 
-                        {% else %} 
-                {% endif %} 
-             {% endif %} 
-
-       {% endfor %}
-
-  {% endfor %}
-              </tr>
-              <tbody>
-          </table>  
-        </div>
-
-{% endblock %}
-
-
-
-           <!-- LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST -->
-<!-- <div class="table-wrapper">
-  <br><br>
-
-
-</table> 
+<form method="POST" action="{% url 'counselor_view_another_sched' %}"> {% csrf_token %} <div class="center_title">
+    <p>
+      <i>
+              <p style="font-size: 19px;"><b>To view a Schedule of Counseling, select the date below.</b></p>
+      </i>
+    </p>
+  </div>
+  <div class="center">
+    {{ offer.pickedDate }}
+    <button type="submit" class="button">Submit</button>
+  </div>
+</form>
+<br>
+<div class="table-wrapper">
+  <table class="fl-table">
+    <thead>
+      <tr>
+        <th class="table_head">Schedule Time</th>
+        <th class="table_head">Activities</th>
+        <th class="table_head">Details</th>
+      </tr>
+    </thead>
+    <tbody> {% for obj in time %} <tr>
+        <td style="font-size: 16px;" class="parent_program">{{obj.time1}} - {{obj.time2}}</td> {% for object in schedForToday %} {% if obj.time1|safe > object.start_time|safe or obj.time1|safe == object.start_time|safe  %} {% if obj.time2|safe  < object.end_time|safe or obj.time2|safe  == object.end_time|safe  %} <td style="font-size: 16px;" class="parent_program">{{object.choice}} {{object.subject_code}} {{object.offer_code}}</td> {% if object.choice|stringformat:"s" == "Class" %} {% elif object.choice|stringformat:"s" == "Counseling" %} <td style="font-size: 16px;" class="parent_program">
+          <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}">
+            <b>{{object.firstname}} {{object.lastname}}</b>
+          </a>
+        </td> {% else %} {% endif %} {% else %} {% endif %} {% endif %} {% endfor %} {% endfor %}
+      </tr>
+    <tbody>
+  </table>
+</div> {% endblock %}
+<!-- LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST LATEST -->
+<!-- <div class="table-wrapper"><br><br></table> 
   {% for obj in time %}
      td  display time {{obj.time1|safe}} - {{obj.time2|safe}} <br>
        {% for object in schedForToday %}
@@ -362,7 +342,7 @@ font-size: 18px;
                      &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;equaaal {{object.choice}} {{object.subject_code}} - {{object.offer_code}} {{object.start_time|safe}} -- {{object.end_time|safe}} <br>
                               {% if object.choice|stringformat:"s" == "Class" %} 
                               {% elif object.choice|stringformat:"s" == "Counseling" %} 
-                                &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;td <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br>
+                                &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;td <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a><br>
                               {% else %} 
                               {% endif %} 
                         {% else %} 
@@ -372,30 +352,13 @@ font-size: 18px;
        {%endfor %}
 
   {%endfor %}
-  <br><br><br>
-
-
-</div> -->
-
-
-
-
+  <br><br><br></div> -->
 <!--      
-  <table class="fl-table">
-    <thead>
-    <tr>
-        <th>Time</th>
-        <th>Action</th>
-        <th>Information</th>
-    </tr>
-    </thead>
+  <table class="fl-table"><thead><tr><th>Time</th><th>Action</th><th>Information</th></tr></thead>
     {% for obj in time %}
     
           
-    <tbody>
-        <tr>
-            
-            <td style="font-size: 16.5px;">{{obj.time1|safe}} - {{obj.time2|safe}} </td>
+    <tbody><tr><td style="font-size: 16.5px;">{{obj.time1|safe}} - {{obj.time2|safe}} </td>
             {% for object in schedForToday %}
                  {% if obj.time1|safe > object.start_time|safe or obj.time1|safe == object.start_time|safe  and obj.time2|safe  < object.end_time|safe or obj.time2|safe  == object.end_time|safe  %}
                <td style="font-size: 16.5px;">{{object.choice}} {{object.subject_code}} - {{object.offer_code}} </td>
@@ -417,7 +380,8 @@ font-size: 18px;
 
 
 
-<!-- 
+
+				<!-- 
 
   first version
 
@@ -429,7 +393,7 @@ font-size: 18px;
             equaaal {{object.choice}} {{object.subject_code}} - {{object.offer_code}} <br>
                   {% if object.choice|stringformat:"s" == "Class" %} 
                   {% elif object.choice|stringformat:"s" == "Counseling" %} 
-                      <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br>
+                      <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a><br>
                   {% else %} 
                   {% endif %} 
             {% else %} 
@@ -453,7 +417,7 @@ UPDATEDDDDDDDDDDDDDDDDDDDDDDDDDD version 1
            td equaaal {{object.choice}} {{object.subject_code}} - {{object.offer_code}} {{object.start_time|safe}} -- {{object.end_time|safe}} <br>
                   {% if object.choice|stringformat:"s" == "Class" %} 
                   {% elif object.choice|stringformat:"s" == "Counseling" %} 
-                     td <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br>
+                     td <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a><br>
                   {% else %} 
                   {% endif %} 
             {% else %} 
@@ -474,7 +438,7 @@ UPDATEDDDDDDDDDDDDDDDDDDDDDDDDDD version 1
            td equaaal {{object.choice}} {{object.subject_code}} - {{object.offer_code}} {{object.start_time|safe}} -- {{object.end_time|safe}} <br>
                   {% if object.choice|stringformat:"s" == "Class" %} 
                   {% elif object.choice|stringformat:"s" == "Counseling" %} 
-                     td <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br>
+                     td <a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a><br>
                   {% else %} 
                   {% endif %} 
             {% else %} 
@@ -484,5 +448,3 @@ UPDATEDDDDDDDDDDDDDDDDDDDDDDDDDD version 1
        {%endfor %}
 
   {%endfor %} -->
-
-

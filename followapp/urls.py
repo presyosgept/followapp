@@ -44,6 +44,7 @@ from counselling.views import(
     view_enrolled_students_via_degree,
     view_enrolled_students,
     upload_time,
+    view_faculty,
 
     # teacher
     teacher_home_view,
@@ -72,6 +73,7 @@ from counselling.views import(
     counselor_view_detail_feedback,
     counselor_view_another_feedback,
     counselor_set_schedule,
+    counselor_search_view_feedback,
 
 
     # director
@@ -99,6 +101,7 @@ from counselling.views import(
     student_view_another_sched,
     student_history,
     student_edit_profile_view,
+    student_call,
 
     # api
     CounselorList,
@@ -182,6 +185,10 @@ urlpatterns = [
          name="view_enrolled_students_via_degree"),
     path('admin/view_enrolled_students/<str:id>',
          view_enrolled_students, name="view_enrolled_students"),
+    path('admin/view_faculty',
+         view_faculty, name="view_faculty"),
+
+
 
 
     # teacher
@@ -236,6 +243,10 @@ urlpatterns = [
          counselor_view_another_feedback, name='counselor_view_another_feedback'),
     path('counselor/counselor_set_schedule',
          counselor_set_schedule, name='counselor_set_schedule'),
+    path('counselor/counselor_search_view_feedback', counselor_search_view_feedback,
+         name="counselor_search_view_feedback"),
+
+
 
 
     # student
@@ -255,6 +266,8 @@ urlpatterns = [
     path('student/student_history', student_history, name="student_history"),
     path('student/student_edit_profile_view',
          student_edit_profile_view, name="student_edit_profile_view"),
+    path('student/student_call',
+         student_call, name="student_call"),
 
 
 

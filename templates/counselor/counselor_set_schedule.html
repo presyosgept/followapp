@@ -1,121 +1,118 @@
-{% extends "counselor/counselor_home.html" %}
-
-{% block title %} 
-Schedule
-{% endblock %} 
-
-{% block content %} 
-
-<style>
-.offering{
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  width: 50vw;
-  height: 50vh;
-  border-radius: 5px;
-  background-color: #98b4ac;
-  float: center;
-  margin: auto;
-   line-height: 40px; 
-}
-#id_semester{
-  width: 150px;
-}
-#id_school_year{
-  width: 200px;
-}
-.column{
- width:250px;
- float:center;
- margin-left: 10px;
- padding: 10px;   
- text-align: left;
-}
-.row{
- width: 450px;
- float:center;
- text-align: left;
-}
-.column1{
-
-  margin: 112px;
-
-}
-.row1{
-
-  margin: 112px;
-
-}
-
-/* BUTTONS */
-.wrap {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-}
-
-.button {
-  width: 10vw;
-  height: 32px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 12.5px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 500;
-  color: #000;
-  background-color: #fff;
-  border: none;
-  border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-
+{% extends "counselor/counselor_home.html" %} {% block title %} Schedule {% endblock %} {% block content %} <style>
+  .offering {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 50vw;
+    height: 50vh;
+    border-radius: 5px;
+    background-color: #98b4ac;
+    float: center;
+    margin: auto;
+    line-height: 40px;
   }
 
-.button:hover {
-  background-color: #95B9C7;
-  box-shadow: 0px 15px 20px #C9C0BB;
-  color: #fff;
-  transform: translateY(-7px);
-}
-.bText{
-  color: #fff;
-}
-.fac{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.buttonF {
-  position: fixed;
-
-width: 100%;
-min-width: 1320px;
-height: 60px;
-font-family: 'Roboto', sans-serif;
-font-size: 15px;
-text-transform: uppercase;
-letter-spacing: 2.5px;
-font-weight: 600;
-color: #fff;
-background-color: #d8c090;
-border: none;
-border-radius: 8px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease 0s;
-cursor: pointer;
-outline: none;
+  #id_semester {
+    width: 150px;
   }
-.pText{
-  font-size: 22px;
-}
-.bText{}
-    .message {
+
+  #id_school_year {
+    width: 200px;
+  }
+
+  .column {
+    width: 250px;
+    float: center;
+    margin-left: 10px;
+    padding: 10px;
+    text-align: left;
+  }
+
+  .row {
+    width: 450px;
+    float: center;
+    text-align: left;
+  }
+
+  .column1 {
+    margin: 112px;
+  }
+
+  .row1 {
+    margin: 112px;
+  }
+
+  /* BUTTONS */
+  .wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .button {
+    width: 10vw;
+    height: 32px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .button:hover {
+    background-color: #95B9C7;
+    box-shadow: 0px 15px 20px #C9C0BB;
+    color: #fff;
+    transform: translateY(-7px);
+  }
+
+  .bText {
+    color: #fff;
+  }
+
+  .fac {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .buttonF {
+    position: fixed;
+    width: 100%;
+    min-width: 1320px;
+    height: 60px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #d8c090;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .pText {
+    font-size: 22px;
+  }
+
+  .bText {}
+
+  .message {
     margin: 0 auto;
     width: 300px;
     height: 45px;
@@ -132,158 +129,132 @@ outline: none;
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
-    }
-#id_start_time{
-  width: 18vw;
-  height: 3vh;
-  font-size: 15px;
-}
-#id_end_time{
-  width: 18vw;
-  height: 3vh;
-  font-size: 15px;
-}
-#id_date{
-  width: 18vw;
-  height: 3vh;
-  font-size: 15px;
-}
-.parent_input{
-  display: flex;
-  flex-direction: row;
-  margin-left: 4rem;
-}
-.start_time{
-  display: flex;
-  flex-direction: column;
-}
-.end_time{
-  display: flex;
-  flex-direction: column;
-}
-.introduction{
-  font-size: 19px;
-}
-.parent_date{
-  display: flex;
-  flex-direction: row;
-  /* margin-left: 4rem; */
-  margin-left: 12rem;
-}
-.form_date{
-  display: flex;
-  flex-direction: column;
-}
-  </style>
+  }
 
+  #id_start_time {
+    width: 18vw;
+    height: 3vh;
+    font-size: 15px;
+  }
 
+  #id_end_time {
+    width: 18vw;
+    height: 3vh;
+    font-size: 15px;
+  }
+
+  #id_date {
+    width: 18vw;
+    height: 3vh;
+    font-size: 15px;
+  }
+
+  .parent_input {
+    display: flex;
+    flex-direction: row;
+    margin-left: 4rem;
+  }
+
+  .start_time {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .end_time {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .introduction {
+    font-size: 19px;
+  }
+
+  .parent_date {
+    display: flex;
+    flex-direction: row;
+    /* margin-left: 4rem; */
+    margin-left: 12rem;
+  }
+
+  .form_date {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
 <div class="fac">
-
-  <button type="submit" class="buttonF"><b>Set a Schedule</b></button>
-</div> 
-<br> <br>
-<div style="text-align: center">
-       {% for message in messages %}
-     <button type="submit" class="message"><p><b>{{message}} !</b></p></button>
-     {% endfor %}
+  <button type="submit" class="buttonF">
+    <b>Set a Schedule</b>
+  </button>
 </div>
 <br>
-<div class="introduction"> 
-  <i><h3>To set a Schedule, select the date and time below.</h3></i>
+<br>
+<div style="text-align: center"> {% for message in messages %} <button type="submit" class="message">
+    <p>
+      <b>{{message}} !</b>
+    </p>
+  </button> {% endfor %} </div>
+<br>
+<div class="introduction">
+  <i>
+    <h3>To set a Schedule, select the date and time below.</h3>
+  </i>
 </div>
-<br> <br>
+<br>
+<br>
 <div class="offering">
-  <form method="POST" action="">
-    {% csrf_token %}
-
-
-<div class="parent_input">
-<div class="start_time">
-        <p class="pText"><b class="bText">Start Time: &nbsp;</b> {{ offer.start_time }}</p>
-        
-</div>
-<div class="end_time">
-    <p class="pText"><b class="bText">End Time: &nbsp;</b>{{ offer.end_time }}</p>
-</div>
-</div>
-<br>
-<div class="parent_date">
-<div class="form_date">
-   <p class="pText"><b class="bText">Select Date:</b> {{ offer.date }}</p>
-</div>
-</div>
-<br> <br>
-<div class="submit_button">
-        <div class="wrap">
-          <button type="submit" class="button"><b>Submit</b></button>
-        </div>
-</div>
-
-<!-- <div class="parent_input">
-      <div class="select_time">
-
-        <p class="pText"><b class="bText">Start Time: &nbsp;</b> {{ offer.start_time }}</p>
-        <p class="pText"><b class="bText">End Time: &nbsp;</b>{{ offer.end_time }}</p>
-
+  <form method="POST" action=""> {% csrf_token %} <div class="parent_input">
+      <div class="start_time">
+        <p class="pText">
+          <b class="bText">Start Time: &nbsp;</b> {{ offer.start_time }}
+        </p>
       </div>
-          <div class="date_input">
-  
-        <p class="pText"><b class="bText">&nbsp;</b> {{ offer.date }}</p>
+      <div class="end_time">
+        <p class="pText">
+          <b class="bText">End Time: &nbsp;</b>{{ offer.end_time }}
+        </p>
       </div>
+    </div>
+    <br>
+    <div class="parent_date">
+      <div class="form_date">
+        <p class="pText">
+          <b class="bText">Select Date:</b> {{ offer.date }}
+        </p>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="submit_button">
+      <div class="wrap">
+        <button type="submit" class="button">
+          <b>Submit</b>
+        </button>
+      </div>
+    </div>
+    <!-- <div class="parent_input"><div class="select_time"><p class="pText"><b class="bText">Start Time: &nbsp;</b> {{ offer.start_time }}</p><p class="pText"><b class="bText">End Time: &nbsp;</b>{{ offer.end_time }}</p></div><div class="date_input"><p class="pText"><b class="bText">&nbsp;</b> {{ offer.date }}</p></div></div><br><br><br><div class="submit_button"><div class="wrap"><button type="submit" class="button"><b>Submit</b></button></div></div> -->
+  </form>
 </div>
-
-<br> <br> <br>
-<div class="submit_button">
-        <div class="wrap">
-          <button type="submit" class="button"><b>Submit</b></button>
-        </div>
-</div> -->
-
-
-</form>
-
-
-  
-                  
-  </div>
-
-<!-- <div class="table-wrapper">
-   
-  <table class="fl-table">
-    <thead>
-    <tr>
-        <th>Time</th>
-        <th>Action</th>
-        <th>Subject Code</th>
-        <th>Information</th>
-    </tr>
-    </thead>
+<!-- <div class="table-wrapper"><table class="fl-table"><thead><tr><th>Time</th><th>Action</th><th>Subject Code</th><th>Information</th></tr></thead>
     {% for obj in time %}
-    <tbody>
-        <tr>
+    <tbody><tr>
             {% if forloop.counter0|divisibleby:2 %}
             <td style="font-size: 16px;">{{obj}}
                 {% endif %}
             </td>
             {% if forloop.counter0|divisibleby:2 == 0 %}
-            <td>  </td>
+            <td></td>
             {% endif %} 
             {% for object in schedForToday %}
             {% if obj|stringformat:"s" == object.start_time|stringformat:"s" %}
-            <td style="font-size: 16px;">{{object.choice}}</td>
-            <td style="font-size: 16px;">{{object.subject_code}} - {{object.offer_code}}</td> 
+            <td style="font-size: 16px;">{{object.choice}}</td><td style="font-size: 16px;">{{object.subject_code}} - {{object.offer_code}}</td> 
             {% if object.choice|stringformat:"s" == "Class" %} 
         {% else %} 
-  <td data-label="Info" style="font-size: 15px;"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a> <br></td>
+  <td data-label="Info" style="font-size: 15px;"><a style="color: #504A4B" href="{% url 'counselor_detail_schedule_counseling' object.start_time object.end_time object.date %}"><b>View More Information</b></a><br></td>
   
   {% endif %} 
-        </tr>
-    <tbody>
+        </tr><tbody>
         {% endif %} 
         {%endfor %}
         {%endfor %}
-</table>
-</div> -->
-    <br>
-
-{% endblock %}
+</table></div> -->
+<br> {% endblock %}
