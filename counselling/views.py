@@ -258,7 +258,7 @@ def register(request):
                 #         email,
                 #     ], connection=connection).send()
                 account_sid = 'AC47090e11c4e65aba8e1ce9f75e7522c5'
-                auth_token = '97d74b94779a9736761356d5eef49bc3'
+                auth_token = '1d108074e7bb90d0a19f652f140969ad'
                 client = Client(account_sid, auth_token)
                 body = 'This is your VERIFICATION CODE FOR FOLLOWAPP: ' + code
                 message = client.messages.create(
@@ -296,7 +296,7 @@ def register(request):
                     #         email,
                     #     ], connection=connection).send()
                     account_sid = 'AC47090e11c4e65aba8e1ce9f75e7522c5'
-                    auth_token = '97d74b94779a9736761356d5eef49bc3'
+                    auth_token = '1d108074e7bb90d0a19f652f140969ad'
                     client = Client(account_sid, auth_token)
                     body = 'This is your VERIFICATION CODE FOR FOLLOWAPP: ' + code
                     message = client.messages.create(
@@ -753,10 +753,12 @@ def director_choose_program(request):
 def admin_home_view(request, *args, **kwargs):
     return render(request, "admin/admin_home.html", {})
 
+
 @login_required(login_url='login')
 def view_faculty(request):
     faculty = Faculty.objects.all()
     return render(request, "admin/view_faculty.html", {"faculty": faculty})
+
 
 @login_required(login_url='login')
 def view_enrolled_students_via_degree(request):
@@ -2722,7 +2724,7 @@ def counselor_feedback_student(request, id):
             form1.save()
             feedback = form1['feedback'].value()
             feedback_id = feedback_id + 1
-            messages.info(request, 'Successfully Feedback')
+            messages.info(request, 'Success!')
             t = TeachersReferral.objects.get(id=id)
             t.status = "done"
             t.save()
@@ -2767,7 +2769,7 @@ def counselor_feedback(request, id):
                 create_feedback(student.employeeid,
                                 'feedback_teacher', user, feedback_id, id)
 
-            messages.info(request, 'Successfully Feedback')
+            messages.info(request, 'Success!')
             # teacherNotif = teacherNotif + 1
             t = TeachersReferral.objects.get(id=id)
             t.status = "done"
