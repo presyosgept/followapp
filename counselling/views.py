@@ -258,7 +258,7 @@ def register(request):
                 #         email,
                 #     ], connection=connection).send()
                 account_sid = 'AC47090e11c4e65aba8e1ce9f75e7522c5'
-                auth_token = '1d108074e7bb90d0a19f652f140969ad'
+                auth_token = 'c2bea526026f45859efe73f62f35b2cb'
                 client = Client(account_sid, auth_token)
                 body = 'This is your VERIFICATION CODE FOR FOLLOWAPP: ' + code
                 message = client.messages.create(
@@ -296,7 +296,7 @@ def register(request):
                     #         email,
                     #     ], connection=connection).send()
                     account_sid = 'AC47090e11c4e65aba8e1ce9f75e7522c5'
-                    auth_token = '1d108074e7bb90d0a19f652f140969ad'
+                    auth_token = 'c2bea526026f45859efe73f62f35b2cb'
                     client = Client(account_sid, auth_token)
                     body = 'This is your VERIFICATION CODE FOR FOLLOWAPP: ' + code
                     message = client.messages.create(
